@@ -1,0 +1,4 @@
+base functionality (from presentation):
+− Browse and watch lectures
+− Access transcripts, translations, and summaries
+− Interact with VR avatar for existing LLM-based dialogue system for question answering

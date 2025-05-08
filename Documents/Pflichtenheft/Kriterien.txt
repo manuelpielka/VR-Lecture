@@ -1,0 +1,15 @@
+Muss-Kriterien:
+-VR Umgebung
+-Lecture browsing
+-Lectures anschauen (anhalten, vorspulen etc.)
+-Transcripts, Translations, Summaries (Textdokumente) lesen
+-Dialog System anbindung für Fragenbeantwortung (mit VR Avatar)
+-
+
+Wunsch-Kriterien:
+-Unterschiedliche Umgebungen
+-Multitasking (mehrere Lectures, bzw Textdokumente gleichzeitig anschauen und anordnen, größer/kleiner machen)
+-Audio Ausgabe für Dialog System
+-Untertitel für Lectures?
+-Funktion um im Programm Notizen zu schreiben? (wahrscheinlich unangenehm mit den Controllern)
+-Sessions speichern und wieder abrufen können

@@ -12,4 +12,5 @@ Wunsch-Kriterien:
 -Audio Ausgabe für Dialog System
 -Untertitel für Lectures?
 -Funktion um im Programm Notizen zu schreiben? (wahrscheinlich unangenehm mit den Controllern)
--Sessions speichern und wieder abrufen können
+-Sessions speichern, wieder abrufen und evtl teilen können
+-Sessions mit mehreren Personen

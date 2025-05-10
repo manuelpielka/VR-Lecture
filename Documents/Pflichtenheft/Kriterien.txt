@@ -10,14 +10,14 @@ Mandatory Requirements:
 -M1: Virtual Reality Environment
 The system must run in a VR environment.
 
--M2:Lecture Browsing and Playback
+-M2: Lecture Browsing and Playback
 Users must be able to browse available lectures.
 Lectures must be watchable with basic controls (pause, skip, etc.).
 
--M3:Transcript, Translation, and Summary Access
+-M3: Transcript, Translation, and Summary Access
 Users must be able to read transcripts, translations, and summaries in text format.
 
--M4:LLM-based Dialogue System Integration
+-M4: LLM-based Dialogue System Integration
 Users must be able to interact with a VR avatar.
 The avatar must be connected to an LLM-based system capable of answering questions.
 
@@ -30,6 +30,11 @@ Wunsch-Kriterien:
 -Funktion um im Programm Notizen zu schreiben? (wahrscheinlich unangenehm mit den Controllern)
 -Sessions speichern, wieder abrufen und evtl teilen können
 -Sessions mit mehreren Personen
+-Gestensteuerung der Wiedergabe (z.B. "Pause“, "Play“ mit speziellen Handgesten)
+-Markierungen oder Lesezeichen in Untertiteln/Transkription setzen
+-Einstellbare Untertitelgröße
+-Kommentare zur Vorlesung hinzufügen (mit Zeitangabe, aber ohne Wiedergabeverknüpfung)
+-"Weiter ansehen“ Funktion (Wiedergabe an letzter Position fortsetzen)
 
 ---english version---
 Optional Requirements:
@@ -38,11 +43,30 @@ Optional Requirements:
 Support for different virtual environments or backgrounds for viewing lectures.
 
 
--K2:Multitasking Capabilities
+-K2: Multitasking Capabilities
 Allow users to open and arrange multiple lectures or documents at once, including resizing windows.
 
 -K3: Audio Output for Dialogue System
 ?
 
--K4: 
+-K4: Taking notes inside the VR app
+Allow users to take notes while using VR.
+
+-K5: Multi-user Sessions
+Enable multiple users to join the same VR session for collaborative exploration or learning.
+
+-K6: Gesture Control of Playback
+Users are able to control playback using specific hand gestures in the VR environment.
+
+-K9: Highlight or Bookmark in Subtitles or Transcripts
+Allow users to highlight important parts of subtitles or transcripts during playback. Bookmarked points should be linked to the video timeline.
+
+-K10: Adjustable Subtitle Size
+Allow users to increase or decrease the size of subtitles for better readability in VR.
+
+-K11: Add Comments under the Lecture
+Users can leave static comments while or after watching the video. The system records the time the comment was made, but comments are not linked to playback. 
+
+-K12: Continue Watching Feature
+ The system remembers where the user left off in a lecture. When the user returns, it asks whether to resume playback from that point.
 

@@ -4,7 +4,23 @@ Muss-Kriterien:
 -Lectures anschauen (anhalten, vorspulen etc.)
 -Transcripts, Translations, Summaries (Textdokumente) lesen
 -Dialog System anbindung für Fragenbeantwortung (mit VR Avatar)
--
+
+---english version---
+Mandatory Requirements:
+-M1: Virtual Reality Environment
+The system must run in a VR environment.
+
+-M2:Lecture Browsing and Playback
+Users must be able to browse available lectures.
+Lectures must be watchable with basic controls (pause, skip, etc.).
+
+-M3:Transcript, Translation, and Summary Access
+Users must be able to read transcripts, translations, and summaries in text format.
+
+-M4:LLM-based Dialogue System Integration
+Users must be able to interact with a VR avatar.
+The avatar must be connected to an LLM-based system capable of answering questions.
+
 
 Wunsch-Kriterien:
 -Unterschiedliche Umgebungen
@@ -14,3 +30,19 @@ Wunsch-Kriterien:
 -Funktion um im Programm Notizen zu schreiben? (wahrscheinlich unangenehm mit den Controllern)
 -Sessions speichern, wieder abrufen und evtl teilen können
 -Sessions mit mehreren Personen
+
+---english version---
+Optional Requirements:
+
+-K1: Multiple VR Environments
+Support for different virtual environments or backgrounds for viewing lectures.
+
+
+-K2:Multitasking Capabilities
+Allow users to open and arrange multiple lectures or documents at once, including resizing windows.
+
+-K3: Audio Output for Dialogue System
+?
+
+-K4: 
+

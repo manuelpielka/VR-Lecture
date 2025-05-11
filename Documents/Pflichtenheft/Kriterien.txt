@@ -30,7 +30,6 @@ Wunsch-Kriterien:
 -Funktion um im Programm Notizen zu schreiben? (wahrscheinlich unangenehm mit den Controllern)
 -Sessions speichern, wieder abrufen und evtl teilen können
 -Sessions mit mehreren Personen
--Gestensteuerung der Wiedergabe (z.B. "Pause“, "Play“ mit speziellen Handgesten)
 -Markierungen oder Lesezeichen in Untertiteln/Transkription setzen
 -Einstellbare Untertitelgröße
 -Kommentare zur Vorlesung hinzufügen (mit Zeitangabe, aber ohne Wiedergabeverknüpfung)
@@ -52,21 +51,21 @@ Allow users to open and arrange multiple lectures or documents at once, includin
 -K4: Taking notes inside the VR app
 Allow users to take notes while using VR.
 
--K5: Multi-user Sessions
+-K5: Save and Reload Sessions
+Users can save their session state and reload it later. Optionally, they can export the session as a file and share it with others.
+
+-K6: Multi-user Sessions
 Enable multiple users to join the same VR session for collaborative exploration or learning.
 
--K6: Gesture Control of Playback
-Users are able to control playback using specific hand gestures in the VR environment.
-
--K9: Highlight or Bookmark in Subtitles or Transcripts
+-K7: Highlight or Bookmark in Subtitles or Transcripts
 Allow users to highlight important parts of subtitles or transcripts during playback. Bookmarked points should be linked to the video timeline.
 
--K10: Adjustable Subtitle Size
+-K8: Adjustable Subtitle Size
 Allow users to increase or decrease the size of subtitles for better readability in VR.
 
--K11: Add Comments under the Lecture
+-K9: Add Comments under the Lecture
 Users can leave static comments while or after watching the video. The system records the time the comment was made, but comments are not linked to playback. 
 
--K12: Continue Watching Feature
+-K10: Continue Watching Feature
  The system remembers where the user left off in a lecture. When the user returns, it asks whether to resume playback from that point.
 

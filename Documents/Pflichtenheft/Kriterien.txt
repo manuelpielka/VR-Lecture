@@ -35,6 +35,8 @@ Wunsch-Kriterien:
 -"Weiter ansehen“ Funktion (Wiedergabe an letzter Position fortsetzen)
 -Abspielgeschwindigkeit anpassen (1.25x, 1.5x, 1.75x, 2x, ...)
 -Kleines "Tutorial" wie Steuerung funktioniert?
+-Feedback- und Bewertungssystem
+-Dunkelmodus / Umgebungslicht-Anpassung
 
 ---english version---
 Optional Requirements:
@@ -75,3 +77,9 @@ Users can adjust the playback speed of lecture videos
 
 -K12: Control tutorial
 Show the user how the basic controls work (Movement, opening menus, moving windows...) if they have not used VR before
+
+-K13: Communication system
+Users should be able to rate, comment on, or report issues with lectures.
+
+-K14: Automatic mode switch
+Automatic dark/light mode switch depending on ambient lighting.

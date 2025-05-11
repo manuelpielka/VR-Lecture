@@ -1,9 +1,9 @@
 Muss-Kriterien:
 -VR Umgebung
 -Lecture browsing
--Lectures anschauen (anhalten, vorspulen etc.)
+-Lectures anschauen (anhalten, vorspulen, untertitel, etc.)
 -Transcripts, Translations, Summaries (Textdokumente) lesen
--Dialog System anbindung für Fragenbeantwortung (mit VR Avatar)
+-Dialog System anbindung für Fragenbeantwortung (mit VR Avatar) (STT + TTS?)
 
 ---english version---
 Mandatory Requirements:
@@ -12,7 +12,7 @@ The system must run in a VR environment.
 
 -M2: Lecture Browsing and Playback
 Users must be able to browse available lectures.
-Lectures must be watchable with basic controls (pause, skip, etc.).
+Lectures must be watchable with basic controls (pause, skip, subtitles, etc.).
 
 -M3: Transcript, Translation, and Summary Access
 Users must be able to read transcripts, translations, and summaries in text format.
@@ -26,7 +26,6 @@ Wunsch-Kriterien:
 -Unterschiedliche Umgebungen
 -Multitasking (mehrere Lectures, bzw Textdokumente gleichzeitig anschauen und anordnen, größer/kleiner machen)
 -Audio Ausgabe für Dialog System
--Untertitel für Lectures?
 -Funktion um im Programm Notizen zu schreiben? (wahrscheinlich unangenehm mit den Controllern)
 -Sessions speichern, wieder abrufen und evtl teilen können
 -Sessions mit mehreren Personen
@@ -34,6 +33,8 @@ Wunsch-Kriterien:
 -Einstellbare Untertitelgröße
 -Kommentare zur Vorlesung hinzufügen (mit Zeitangabe, aber ohne Wiedergabeverknüpfung)
 -"Weiter ansehen“ Funktion (Wiedergabe an letzter Position fortsetzen)
+-Abspielgeschwindigkeit anpassen (1.25x, 1.5x, 1.75x, 2x, ...)
+-Kleines "Tutorial" wie Steuerung funktioniert?
 
 ---english version---
 Optional Requirements:
@@ -69,3 +70,8 @@ Users can leave static comments while or after watching the video. The system re
 -K10: Continue Watching Feature
  The system remembers where the user left off in a lecture. When the user returns, it asks whether to resume playback from that point.
 
+-K11: Playback speed
+Users can adjust the playback speed of lecture videos
+
+-K12: Control tutorial
+Show the user how the basic controls work (Movement, opening menus, moving windows...) if they have not used VR before

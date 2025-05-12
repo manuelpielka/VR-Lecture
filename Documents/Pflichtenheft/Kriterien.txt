@@ -1,9 +1,9 @@
 Muss-Kriterien:
 -VR Umgebung
--Lecture browsing
--Lectures anschauen (anhalten, vorspulen, untertitel, etc.)
--Transcripts, Translations, Summaries (Textdokumente) lesen
--Dialog System anbindung für Fragenbeantwortung (mit VR Avatar) (STT + TTS?)
+-M1: Lecture browsing
+-M2: Lectures anschauen (anhalten, vorspulen, untertitel, etc.)
+-M3: Transcripts, Translations, Summaries (Textdokumente) lesen
+-M4: Dialog System anbindung für Fragenbeantwortung (mit VR Avatar) (STT + TTS?)
 
 ---english version---
 Mandatory Requirements:
@@ -23,21 +23,16 @@ The avatar must be connected to an LLM-based system capable of answering questio
 
 
 Wunsch-Kriterien:
--Unterschiedliche Umgebungen
--Multitasking (mehrere Lectures, bzw Textdokumente gleichzeitig anschauen und anordnen, größer/kleiner machen)
--Audio Ausgabe für Dialog System
--Funktion um im Programm Notizen zu schreiben? (wahrscheinlich unangenehm mit den Controllern)
--Sessions speichern, wieder abrufen und evtl teilen können
--Sessions mit mehreren Personen
--Markierungen oder Lesezeichen in Untertiteln/Transkription setzen
--Einstellbare Untertitelgröße
--Kommentare zur Vorlesung hinzufügen (mit Zeitangabe, aber ohne Wiedergabeverknüpfung)
--"Weiter ansehen“ Funktion (Wiedergabe an letzter Position fortsetzen)
--Abspielgeschwindigkeit anpassen (1.25x, 1.5x, 1.75x, 2x, ...)
--Kleines "Tutorial" wie Steuerung funktioniert?
--Feedback- und Bewertungssystem
--Dunkelmodus / Umgebungslicht-Anpassung
--Spracherkennungswort (wie "Alexa"), um jederzeit mit der LLM sprechen zu können
+-K1: Unterschiedliche Umgebungen
+-K2: Multitasking (mehrere Lectures, bzw Textdokumente gleichzeitig anschauen und anordnen, größer/kleiner machen)
+-K3: Funktion um im Programm Notizen zu schreiben? (wahrscheinlich unangenehm mit den Controllern)
+-K4: Einstellbare Untertitelgröße
+-K5: Kommentare zur Vorlesung hinzufügen (mit Zeitangabe, aber ohne Wiedergabeverknüpfung)
+-K6: "Weiter ansehen“ Funktion (Wiedergabe an letzter Position fortsetzen)
+-K7: Abspielgeschwindigkeit anpassen (1.25x, 1.5x, 1.75x, 2x, ...)
+-K8: Kleines "Tutorial" wie Steuerung funktioniert?
+-K9: Dark-/Light-Mode wird automatisch an das Umgebungslicht angepasst
+-K10: Dunkelmodus / Umgebungslicht-Anpassung
 
 ---english version---
 Optional Requirements:
@@ -48,47 +43,26 @@ Support for different virtual environments or backgrounds for viewing lectures.
 -K2: Multitasking Capabilities
 Allow users to open and arrange multiple lectures or documents at once, including resizing windows. Picture in Picture mode
 
--K3: Text to Speech for Dialogue System
-Users can turn on text to speech for the output of the LLM Dialogue System
-
--K4: Taking notes inside the VR app
+-K3: Taking notes inside the VR app
 Allow users to take notes while using VR.
 
--K5: Save and Reload Sessions
-Users can save their session state and reload it later. Optionally, they can export the session as a file and share it with others.
-
--K6: Multi-user Sessions
-Enable multiple users to join the same VR session for collaborative exploration or learning.
-
--K7: Highlight or Bookmark in Subtitles or Transcripts
-Allow users to highlight important parts of subtitles or transcripts during playback. Bookmarked points should be linked to the video timeline.
-
--K8: Adjustable Subtitle Size
+-K4: Adjustable Subtitle Size
 Allow users to increase or decrease the size of subtitles for better readability in VR.
 
--K9: Add Comments under the Lecture
+-K5: Add Comments under the Lecture
 Users can leave static comments while or after watching the video. The system records the time the comment was made, but comments are not linked to playback. 
 
--K10: Continue Watching Feature
- The system remembers where the user left off in a lecture. When the user returns, it asks whether to resume playback from that point.
+-K6: Continue Watching Feature
+The system remembers where the user left off in a lecture. When the user returns, it asks whether to resume playback from that point.
 
--K11: Playback speed
+-K7: Playback speed
 Users can adjust the playback speed of lecture videos
 
--K12: Control tutorial
+-K8: Control tutorial
 Show the user how the basic controls work (Movement, opening menus, moving windows...) if they have not used VR before
 
--K13: Communication system
-Users should be able to rate, comment on, or report issues with lectures.
-
--K14: Automatic mode switch
+-K9: Automatic mode switch
 Automatic dark/light mode switch depending on ambient lighting.
 
--K15: Speech word recognition for LLM
-Users can say a special word (like how it works with "Alexa") in order to talk to the LLM at any time
-
--K16: Offline mode
+-K10: Offline mode
 Allow the user to be able to download the content and transcripts so that it can be viewed offline.
-
--K17: New lectures notification / tab
-Users get notifications (or shown in a specific tab) when new lectures in the user's enrolled modules are released.

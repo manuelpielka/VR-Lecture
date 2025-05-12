@@ -45,12 +45,11 @@ Optional Requirements:
 -K1: Multiple VR Environments
 Support for different virtual environments or backgrounds for viewing lectures.
 
-
 -K2: Multitasking Capabilities
 Allow users to open and arrange multiple lectures or documents at once, including resizing windows.
 
--K3: Audio Output for Dialogue System
-?
+-K3: Text to Speech for Dialogue System
+Users can turn on text to speech for the output of the LLM Dialogue System
 
 -K4: Taking notes inside the VR app
 Allow users to take notes while using VR.

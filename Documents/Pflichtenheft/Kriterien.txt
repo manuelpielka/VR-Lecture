@@ -46,7 +46,7 @@ Optional Requirements:
 Support for different virtual environments or backgrounds for viewing lectures.
 
 -K2: Multitasking Capabilities
-Allow users to open and arrange multiple lectures or documents at once, including resizing windows.
+Allow users to open and arrange multiple lectures or documents at once, including resizing windows. Picture in Picture mode
 
 -K3: Text to Speech for Dialogue System
 Users can turn on text to speech for the output of the LLM Dialogue System
@@ -86,3 +86,9 @@ Automatic dark/light mode switch depending on ambient lighting.
 
 -K15: Speech word recognition for LLM
 Users can say a special word (like how it works with "Alexa") in order to talk to the LLM at any time
+
+-K16: Offline mode
+Allow the user to be able to download the content and transcripts so that it can be viewed offline.
+
+-K17: New lectures notification / tab
+Users get notifications (or shown in a specific tab) when new lectures in the user's enrolled modules are released.

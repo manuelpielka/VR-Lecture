@@ -37,6 +37,7 @@ Wunsch-Kriterien:
 -Kleines "Tutorial" wie Steuerung funktioniert?
 -Feedback- und Bewertungssystem
 -Dunkelmodus / Umgebungslicht-Anpassung
+-Spracherkennungswort (wie "Alexa"), um jederzeit mit der LLM sprechen zu können
 
 ---english version---
 Optional Requirements:
@@ -83,3 +84,6 @@ Users should be able to rate, comment on, or report issues with lectures.
 
 -K14: Automatic mode switch
 Automatic dark/light mode switch depending on ambient lighting.
+
+-K15: Speech word recognition for LLM
+Users can say a special word (like how it works with "Alexa") in order to talk to the LLM at any time

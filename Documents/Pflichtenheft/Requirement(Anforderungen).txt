@@ -19,8 +19,11 @@ It should display how far in the lecture the user is using a bar.
 The UI needs to have an option for displaying text documents related to a lecture, such as the full transcript, translations and summaries.
 
 -F5: Virtual Avatar for the Dialogue System	Implements: M4
+The system must include a virtual avatar that visually represents the AI dialogue system within the VR environment. The avatar must move its mouth in sync with generated speech.
 
 -F6: Text Display for the Dialogue System	Implements: M4
+The UI must display both user questions and avatar responses as on-screen text to support the dialogue system. 
+This may appear as subtitles or in a dialogue box within the VR environment.
 
 -F7: Switching Environments			Implements: K1
 

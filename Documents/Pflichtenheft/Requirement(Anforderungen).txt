@@ -1,0 +1,10 @@
+Requirement(Anforderungen)
+
+Functional requirements: (Funktionale Anforderungen)
+
+
+
+Non-Functional requirements: (Nicht-funktionale Anforderungen)
+
+
+

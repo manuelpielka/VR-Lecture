@@ -27,7 +27,7 @@ The UI must display both user questions and avatar responses as on-screen text t
 This may appear as subtitles or in a dialogue box within the VR environment.
 
 -F7: Switching Environments			Implements: K1
-?
+The program must be able to load different 3D environments in order to switch between them by picking one in the settings. 
 
 -F8: Subtitle Size Adjustment Interface 	Implements: K4
 The UI must provide a settings interface that allows users to increase or decrease the subtitle size to improve readability in the VR environment.
@@ -63,6 +63,13 @@ The mode change should occur without requiring manual user input.
 -F16: Offline Mode				Implements: K10
 The system must allow users to download video content and associated transcripts so that lectures can be accessed without an internet connection.
 
+-F17: Multitasking				Implements: K2
+The user must be able to open multiple UI windows at once, move them around in 3D and resize them.
+These windows include: F2, F3, F4, F6, F9
+
+-F18: Taking notes				Implements: K3
+The UI must provide a window to take notes (with a seperate keyboard?) while watching lectures and save them.
+
 
 
 Non-Functional requirements: (Nicht-funktionale Anforderungen)
@@ -70,3 +77,5 @@ Non-Functional requirements: (Nicht-funktionale Anforderungen)
 -NF1: Multiple VR Environments			Implements: K1
 Support for different virtual environments or backgrounds for viewing lectures.
 
+-NF2: 3D model of the virtual avatar				Implements: M4
+The project must include a 3D model of a virtual avatar that represents the LLM for the dialogue system.

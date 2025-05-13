@@ -19,22 +19,47 @@ It should display how far in the lecture the user is using a bar.
 The UI needs to have an option for displaying text documents related to a lecture, such as the full transcript, translations and summaries.
 
 -F5: Virtual Avatar for the Dialogue System	Implements: M4
-The system must include a virtual avatar that visually represents the AI dialogue system within the VR environment. The avatar must move its mouth in sync with generated speech.
+The system must include a virtual avatar that visually represents the AI dialogue system within the VR environment. 
+The avatar must move its mouth in sync with generated speech.
 
 -F6: Text Display for the Dialogue System	Implements: M4
 The UI must display both user questions and avatar responses as on-screen text to support the dialogue system. 
 This may appear as subtitles or in a dialogue box within the VR environment.
 
 -F7: Switching Environments			Implements: K1
+?
 
--F8: Subtitle Size Adjustment Interface	Implements: K4
+-F8: Subtitle Size Adjustment Interface 	Implements: K4
 The UI must provide a settings interface that allows users to increase or decrease the subtitle size to improve readability in the VR environment.
 
--F9: Continue Watching Feature		        Implements: K6
+-F9: Commenting Interface                       Implements: K5
+The UI must allow users to submit static comments during or after lecture playback. 
+The comment interface should be presented as a side panel or a toggleable window. 
+Each comment must be stored along with the timestamp of when it was submitted, but comments do not need to be linked to playback time.
+
+F10: Comment Deletion                           Implements: K5
+The UI must allow users to delete their own comments. 
+Deleted comments must be removed from the visible interface.
+
+-F11: Comment Replies                           Implements: K5
+The system must allow users to reply to existing comments. 
+Replies should be visually grouped under the original comment to maintain discussion clarity.
+
+-F12: Continue Watching Feature		        Implements: K6
 The system must remember the user's last watched position in a lecture and, upon return, the UI must prompt the user whether to resume playback from that point.
 
--F10: Offline Mode				Implements: K10
-Allow the user to download the video content as well the transcripts so that it can be viewed offline.
+-F13: Playback Speed Control                    Implements: K7
+The UI must provide a setting that allows users to adjust the playback speed of lecture videos. 
+The system must support playing videos at different speeds, such as slower or faster than the default.
+
+-F14:                                           Implements: K8
+
+-F15: Automatic Display Mode Switch             Implements: K9
+The system must automatically switch between dark mode and light mode based on ambient lighting conditions detected by the user's device or headset. 
+The mode change should occur without requiring manual user input.
+
+-F16: Offline Mode				Implements: K10
+The system must allow users to download video content and associated transcripts so that lectures can be accessed without an internet connection.
 
 
 Non-Functional requirements: (Nicht-funktionale Anforderungen)

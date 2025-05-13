@@ -27,19 +27,18 @@ This may appear as subtitles or in a dialogue box within the VR environment.
 
 -F7: Switching Environments			Implements: K1
 
--F:
-
--F:
-
--FXX: Subtitle Size Adjustment Interface	Implements: K4
+-F8: Subtitle Size Adjustment Interface	Implements: K4
 The UI must provide a settings interface that allows users to increase or decrease the subtitle size to improve readability in the VR environment.
 
--FXX:
-
--FXX: Continue Watching Feature		        Implements: K6
+-F9: Continue Watching Feature		        Implements: K6
 The system must remember the user's last watched position in a lecture and, upon return, the UI must prompt the user whether to resume playback from that point.
+
+-F10: Offline Mode				Implements: K10
+Allow the user to download the video content as well the transcripts so that it can be viewed offline.
+
 
 Non-Functional requirements: (Nicht-funktionale Anforderungen)
 
-
+-NF1: Multiple VR Environments			Implements: K1
+Support for different virtual environments or backgrounds for viewing lectures.
 

@@ -65,4 +65,4 @@ Show the user how the basic controls work (Movement, opening menus, moving windo
 Automatic dark/light mode switch depending on ambient lighting.
 
 -K10: Offline mode
-Allow the user to be able to download the content and transcripts so that it can be viewed offline.
+Allow the user to download the video content as well the transcripts so that it can be viewed offline.

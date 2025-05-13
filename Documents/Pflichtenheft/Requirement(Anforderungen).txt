@@ -52,7 +52,9 @@ The system must remember the user's last watched position in a lecture and, upon
 The UI must provide a setting that allows users to adjust the playback speed of lecture videos. 
 The system must support playing videos at different speeds, such as slower or faster than the default.
 
--F14:                                           Implements: K8
+-F14: Content Interaction Tutorial           Implements: K8
+The system must provide a tutorial for first-time users that guides them through the core content interaction features. 
+The tutorial must demonstrate how to browse and play lecture videos using playback controls (pause, skip, subtitles), how to access text-based materials such as transcripts, translations, and summaries, and how to interact with the virtual avatar to ask questions related to the lecture. 
 
 -F15: Automatic Display Mode Switch             Implements: K9
 The system must automatically switch between dark mode and light mode based on ambient lighting conditions detected by the user's device or headset. 
@@ -60,6 +62,7 @@ The mode change should occur without requiring manual user input.
 
 -F16: Offline Mode				Implements: K10
 The system must allow users to download video content and associated transcripts so that lectures can be accessed without an internet connection.
+
 
 
 Non-Functional requirements: (Nicht-funktionale Anforderungen)

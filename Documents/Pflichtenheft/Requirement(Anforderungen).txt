@@ -2,7 +2,27 @@ Requirement(Anforderungen)
 
 Functional requirements: (Funktionale Anforderungen)
 
+-F1: Movement in the VR Environment		Implements: M1
+The user must be able to move around in the VR environment using their natural body movements.
+Additionally they must be able to move longer distances that would not be walkable by teleportation.
 
+-F1: Browsing Interface				Implements: M2
+The UI needs to have an interface for browsing lectures.
+This interface needs to include a search bar and controls for browsing through the folder architecture.
+
+-F2: Lecture Player				Implements: M2
+The UI needs to have an option for playing lectures.
+This lecture player must include basic controls for pausing, skipping ahead and going back as well as enabling and disabling subtitles.
+It should display how far in the lecture the user is using a bar.
+
+-F3: Text Document Display			Implements: M3
+The UI needs to have an option for displaying text documents related to a lecture, such as the full transcript, translations and summaries.
+
+-F4: Virtual Avatar for the Dialogue System	Implements: M4
+
+-F5: Text Display for the Dialogue System	Implements: M4
+
+-F6: Switching Environments			Implements: K1
 
 Non-Functional requirements: (Nicht-funktionale Anforderungen)
 

@@ -89,7 +89,7 @@ These windows include: F2, F3, F4, F6, F9
 The UI must provide a window to take notes while watching lectures and save them.
 
 --------------------------------------------------------------------------------------------------------------------------------------
--F19: Favorites				Implements: M2/K6?
+-F19: Favorites				        Implements: M2/K6?
 The system shall allow users to mark lectures as favourites and provide a way to access the list of favourites from the main menu.
 
 

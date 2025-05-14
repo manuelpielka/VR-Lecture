@@ -1,102 +1,130 @@
 Requirement(Anforderungen)
 
+=====================================================================================================================================
 Functional requirements: (Funktionale Anforderungen)
-
+=====================================================================================================================================
 -F1: Movement in the VR Environment		Implements: M1
 The user must be able to move around in the VR environment using their natural body movements.
 Additionally they must be able to move longer distances that would not be walkable by teleportation.
 
+-------------------------------------------------------------------------------------------------------------------------------------
 -F2: Browsing Interface				Implements: M2
 The UI needs to have an interface for browsing lectures.
 This interface needs to include a search bar and controls for browsing through the folder architecture.
 
+-------------------------------------------------------------------------------------------------------------------------------------
 -F3: Lecture Player				Implements: M2
 The UI needs to have an option for playing lectures.
 This lecture player must include basic controls for pausing, skipping ahead and going back as well as enabling and disabling subtitles.
 It should display how far in the lecture the user is using a bar.
 
+-------------------------------------------------------------------------------------------------------------------------------------
 -F4: Text Document Display			Implements: M3
 The UI needs to have an option for displaying text documents related to a lecture, such as the full transcript, translations and summaries.
 
+-------------------------------------------------------------------------------------------------------------------------------------
 -F5: Virtual Avatar for the Dialogue System	Implements: M4
 The system must include a virtual avatar that visually represents the AI dialogue system within the VR environment. 
 The avatar must move its mouth in sync with generated speech.
 
+-------------------------------------------------------------------------------------------------------------------------------------
 -F6: Text Display for the Dialogue System	Implements: M4
 The UI must display both user questions and avatar responses as on-screen text to support the dialogue system. 
 This may appear as subtitles or in a dialogue box within the VR environment.
 
+-------------------------------------------------------------------------------------------------------------------------------------
 -F7: Switching Environments			Implements: K1
 The program must be able to load different 3D environments in order to switch between them by picking one in the settings. 
 
+-------------------------------------------------------------------------------------------------------------------------------------
 -F8: Subtitle Size Adjustment Interface 	Implements: K4
 The UI must provide a settings interface that allows users to increase or decrease the subtitle size to improve readability in the VR environment.
 
+-------------------------------------------------------------------------------------------------------------------------------------
 -F9: Commenting Interface                       Implements: K5
 The UI must allow users to submit static comments during or after lecture playback. 
-The comment interface should be presented as a side panel or a toggleable window. 
+The comment interface should be presented as a side panel or a toggle-able window. 
 Each comment must be stored along with the timestamp of when it was submitted, but comments do not need to be linked to playback time.
 
+-------------------------------------------------------------------------------------------------------------------------------------
 F10: Comment Deletion                           Implements: K5
 The UI must allow users to delete their own comments. 
 Deleted comments must be removed from the visible interface.
 
+-------------------------------------------------------------------------------------------------------------------------------------
 -F11: Comment Replies                           Implements: K5
 The system must allow users to reply to existing comments. 
 Replies should be visually grouped under the original comment to maintain discussion clarity.
 
+-------------------------------------------------------------------------------------------------------------------------------------
 -F12: Continue Watching Feature		        Implements: K6
 The system must remember the user's last watched position in a lecture and, upon return, the UI must prompt the user whether to resume playback from that point.
 
+-------------------------------------------------------------------------------------------------------------------------------------
 -F13: Playback Speed Control                    Implements: K7
 The UI must provide a setting that allows users to adjust the playback speed of lecture videos. 
 The system must support playing videos at different speeds, such as slower or faster than the default.
 
+-------------------------------------------------------------------------------------------------------------------------------------
 -F14: Content Interaction Tutorial           Implements: K8
 The system must provide a tutorial for first-time users that guides them through the core content interaction features. 
 The tutorial must demonstrate how to browse and play lecture videos using playback controls (pause, skip, subtitles), how to access text-based materials such as transcripts, translations, and summaries, and how to interact with the virtual avatar to ask questions related to the lecture. 
 
+-------------------------------------------------------------------------------------------------------------------------------------
 -F15: Automatic Display Mode Switch             Implements: K9
 The system must automatically switch between dark mode and light mode based on ambient lighting conditions detected by the user's device or headset. 
 The mode change should occur without requiring manual user input.
 
+--------------------------------------------------------------------------------------------------------------------------------------
 -F16: Offline Mode				Implements: K10
 The system must allow users to download video content and associated transcripts so that lectures can be accessed without an internet connection.
 
+--------------------------------------------------------------------------------------------------------------------------------------
 -F17: Multitasking				Implements: K2
 The user must be able to open multiple UI windows at once, move them around in 3D and resize them.
 These windows include: F2, F3, F4, F6, F9
 
+--------------------------------------------------------------------------------------------------------------------------------------
 -F18: Taking notes				Implements: K3
-The UI must provide a window to take notes (with a seperate keyboard?) while watching lectures and save them.
+The UI must provide a window to take notes while watching lectures and save them.
 
+--------------------------------------------------------------------------------------------------------------------------------------
 -F19: Favorites				Implements: M2/K6?
-The system shall allow users to mark lectures as favorites and provide a way to access the list of favorites from the main menu.
+The system shall allow users to mark lectures as favourites and provide a way to access the list of favourites from the main menu.
 
+--------------------------------------------------------------------------------------------------------------------------------------
 -F20: Content Search Function				Implements: M2
 The system shall provide a content search feature that allows users to locate lectures based on keywords, titles, or metadata such as topic or speaker name.
 
+--------------------------------------------------------------------------------------------------------------------------------------
 -F21: Language Switching				Implements: M3
 The user should be able to switch between available languages.
 
 
+======================================================================================================================================
 Non-Functional requirements: (Nicht-funktionale Anforderungen)
+======================================================================================================================================
 
 -NF1: Multiple VR Environments			Implements: K1
 Support for different virtual environments or backgrounds for viewing lectures.
 
+--------------------------------------------------------------------------------------------------------------------------------------
 -NF2: 3D model of the virtual avatar				Implements: M4
 The project must include a 3D model of a virtual avatar that represents the LLM for the dialogue system.
 
+--------------------------------------------------------------------------------------------------------------------------------------
 -NF3: Multilingual User Interface
 The UI should support at least English and German.
 Supports accessibility and usability for international users. 
 
+--------------------------------------------------------------------------------------------------------------------------------------
 -NF4: Error Messaging
 If content fails to load or playback is interrupted, the system shall display clear and helpful error messages instead of terminating the session.
 
+--------------------------------------------------------------------------------------------------------------------------------------
 -NF5: Offline Robustness
 All core features marked for offline use must work without requiring an internet connection once content is downloaded.
 
+--------------------------------------------------------------------------------------------------------------------------------------
 -NF6: Security & Privacy
 The system shall not collect or transmit personal data unless explicitly permitted by the user.

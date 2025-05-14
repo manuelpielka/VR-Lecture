@@ -8,16 +8,24 @@ Muss-Kriterien:
 ---english version---
 Mandatory Requirements:
 -M1: Virtual Reality Environment
+Implemented by: F1
+
 The system must run in a VR environment.
 
 -M2: Lecture Browsing and Playback
+Implemented by: F2 F3
+
 Users must be able to browse available lectures.
 Lectures must be watchable with basic controls (pause, skip, subtitles, etc.).
 
 -M3: Transcript, Translation, and Summary Access
+Implemented by: F4
+
 Users must be able to read transcripts, translations, and summaries in text format.
 
 -M4: LLM-based Dialogue System Integration
+Implemented by: F4
+
 Users must be able to interact with a VR avatar.
 The avatar must be connected to an LLM-based system capable of answering questions.
 

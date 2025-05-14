@@ -66,7 +66,7 @@ The UI must provide a setting that allows users to adjust the playback speed of 
 The system must support playing videos at different speeds, such as slower or faster than the default.
 
 -------------------------------------------------------------------------------------------------------------------------------------
--F14: Content Interaction Tutorial           Implements: K8
+-F14: Content Interaction Tutorial              Implements: K8
 The system must provide a tutorial for first-time users that guides them through the core content interaction features. 
 The tutorial must demonstrate how to browse and play lecture videos using playback controls (pause, skip, subtitles), how to access text-based materials such as transcripts, translations, and summaries, and how to interact with the virtual avatar to ask questions related to the lecture. 
 

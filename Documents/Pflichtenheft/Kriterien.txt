@@ -49,7 +49,7 @@ Wunsch-Kriterien:
 Optional Requirements:
 
 -K1: Multiple VR Environments
-Implemented by: F
+Implemented by: F7
 
 Support for different virtual environments or backgrounds for viewing lectures.
 

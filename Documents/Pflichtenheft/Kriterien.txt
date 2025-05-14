@@ -66,3 +66,19 @@ Automatic dark/light mode switch depending on ambient lighting.
 
 -K10: Offline mode
 Allow the user to download the video content as well the transcripts so that it can be viewed offline.
+
+
+Abgrenzung-Kriterien:
+-Keine Unterstützung für Nicht-VR-Modi (Web/Desktop/Mobil)
+-Kein Benutzerkonto oder Rollensystem
+
+---english version---
+Excluded Requirements:
+
+-A1: No Non-VR Modes (Web/Desktop/Mobile)
+The system targets VR headsets only. No web, desktop, or mobile version will be developed.
+
+-A2: No User Registration or Role Management
+No account system, login process, or role-based permissions will be implemented.
+Although the system does not include a user account module, personalized features are still supported.(Local personalization)
+These features rely on local storage and are not synchronized across devices or user sessions.(no Cloud/social features)

@@ -92,14 +92,6 @@ The UI must provide a window to take notes while watching lectures and save them
 -F19: Favorites				Implements: M2/K6?
 The system shall allow users to mark lectures as favourites and provide a way to access the list of favourites from the main menu.
 
---------------------------------------------------------------------------------------------------------------------------------------
--F20: Content Search Function				Implements: M2
-The system shall provide a content search feature that allows users to locate lectures based on keywords, titles, or metadata such as topic or speaker name.
-
---------------------------------------------------------------------------------------------------------------------------------------
--F21: Language Switching				Implements: M3
-The user should be able to switch between available languages.
-
 
 ======================================================================================================================================
 Non-Functional requirements: (Nicht-funktionale Anforderungen)

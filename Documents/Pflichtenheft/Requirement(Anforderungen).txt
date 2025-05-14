@@ -87,3 +87,16 @@ Support for different virtual environments or backgrounds for viewing lectures.
 
 -NF2: 3D model of the virtual avatar				Implements: M4
 The project must include a 3D model of a virtual avatar that represents the LLM for the dialogue system.
+
+-NF3: Multilingual User Interface
+The UI should support at least English and German.
+Supports accessibility and usability for international users. 
+
+-NF4: Error Messaging
+If content fails to load or playback is interrupted, the system shall display clear and helpful error messages instead of terminating the session.
+
+-NF5: Offline Robustness
+All core features marked for offline use must work without requiring an internet connection once content is downloaded.
+
+-NF6: Security & Privacy
+The system shall not collect or transmit personal data unless explicitly permitted by the user.

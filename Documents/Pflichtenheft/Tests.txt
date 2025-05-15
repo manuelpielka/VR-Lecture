@@ -21,9 +21,12 @@ Action: The user lets go of the teleport button
 Reaction: The VR-Headset display fades to black, then starts displaying the environment from the position that was previously outlined
 
 -------------------------------------------------------------------------------------------------------------------------------------
--T3 Lecture Browsing and Playback
+-T3 Lecture Browsing
 Tests: M2, F2, F3
 
 State: The user has the software running and is wearing their VR-headset and controllers
-Action: The user presses the browse button in the GUI
-Reaction: The lecture browsing interface opens
+Action: The user presses the browse button in the GUI and interacts with the interface
+Reaction: The lecture browsing interface allows them to browse through the available lectures and select them as well as play them
+
+-------------------------------------------------------------------------------------------------------------------------------------
+

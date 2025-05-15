@@ -111,22 +111,22 @@ The UI must provide a window to take notes while watching lectures and save them
 Non-Functional requirements: (Nicht-funktionale Anforderungen)
 ======================================================================================================================================
 
--NF1: Multiple VR Environments
+-N1: Multiple VR Environments
 Support for different virtual environments or backgrounds for viewing lectures.
 
 --------------------------------------------------------------------------------------------------------------------------------------
--NF2: Multilingual User Interface
+-N2: Multilingual User Interface
 The UI should support at least English and German.
 Supports accessibility and usability for international users. 
 
 --------------------------------------------------------------------------------------------------------------------------------------
--NF3: Error Messaging
+-N3: Error Messaging
 If content fails to load or playback is interrupted, the system shall display clear and helpful error messages instead of terminating the session.
 
 --------------------------------------------------------------------------------------------------------------------------------------
--NF4: Offline Robustness
+-N4: Offline Robustness
 All core features marked for offline use must work without requiring an internet connection once content is downloaded.
 
 --------------------------------------------------------------------------------------------------------------------------------------
--NF5: Security & Privacy
+-N5: Security & Privacy
 The system shall not collect or transmit personal data unless explicitly permitted by the user.

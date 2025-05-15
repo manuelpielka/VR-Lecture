@@ -1,0 +1,10 @@
+Tests
+
+=====================================================================================================================================
+-T1 Body Movement
+Tests: M1, F1
+State: The user has the software running and is wearing their VR-headset and controllers
+Action: The user moves the controllers in their hands
+Reaction: The virtual representation of the users controllers move to the location they are holding them
+
+-------------------------------------------------------------------------------------------------------------------------------------

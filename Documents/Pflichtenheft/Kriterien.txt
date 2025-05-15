@@ -101,16 +101,15 @@ Allow the user to download the video content as well the transcripts so that it 
 =====================================================================================================================================
 Abgrenzung-Kriterien:
 =====================================================================================================================================
--A1: Keine Unterstützung für Nicht-VR-Modi (Web/Desktop/Mobil)
--A2: Kein Benutzerkonto oder Rollensystem
+-E1: Keine Unterstützung für Nicht-VR-Modi (Web/Desktop/Mobil)
+-E2: Kein Benutzerkonto oder Rollensystem
 
 ---------------------english version---------------------
 Excluded Requirements:
 
--A1: No Non-VR Modes (Web/Desktop/Mobile)
-The system targets VR headsets only. No web, desktop, or mobile version will be developed.
+-E1: VR Mode Only
+The system only targets VR headsets. No web, desktop, or mobile version will be developed.
 
--A2: No User Registration or Role Management
+-E2: No User Registration or Role Management
 No account system, login process, or role-based permissions will be implemented.
-Although the system does not include a user account module, personalized features are still supported.(Local personalization)
-These features rely on local storage and are not synchronized across devices or user sessions.(no Cloud/social features)
+Although the system does not include a user account module, personalized features are still supported - based on local storage, not synchronized across devices or user sessions. No cloud or social features are planned.

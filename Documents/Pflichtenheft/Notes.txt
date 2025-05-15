@@ -5,9 +5,11 @@ Grundfunktionalität (aus der Präsentation):
 
 
 Struktur:
-	-Einleitung?
+	-Einleitung
+	-Produkteinsatz
 	-Umgebung
 	-Kriterien
 	-Anforderungen
 	-Tests
+	-Systemmodelle
 	-GUI Design

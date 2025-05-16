@@ -51,41 +51,41 @@ The adjustment should be accessible within the video or general settings menu an
 Changes should be reflected immediately in the VR view and persist throughout the session.
 
 -------------------------------------------------------------------------------------------------------------------------------------
--F12: Continue Watching Feature		        
-Tested by:                                      Implemented by: K6
+-F9: Continue Watching Feature		        
+Tested by:                                      Implemented by: K5
 The system must remember the user's last watched position in a lecture and, upon return, the UI must prompt the user whether to resume playback from that point.
 
 -------------------------------------------------------------------------------------------------------------------------------------
--F13: Playback Speed Control                    
-Tested by:                                      Implemented by: K7
+-F10: Playback Speed Control                    
+Tested by:                                      Implemented by: K6
 The UI must provide a setting that allows users to adjust the playback speed of lecture videos. 
 The system must support playing videos at different speeds, such as slower or faster than the default.
 
 -------------------------------------------------------------------------------------------------------------------------------------
--F14: Content Interaction Tutorial              
-Tested by:                                      Implemented by: K8
+-F11: Content Interaction Tutorial              
+Tested by:                                      Implemented by: K7
 The system must provide a tutorial for first-time users that guides them through the core content interaction features. 
 The tutorial must demonstrate how to browse and play lecture videos using playback controls (pause, skip, subtitles), how to access text-based materials such as transcripts, translations, and summaries, and how to interact with the virtual avatar to ask questions related to the lecture. 
 
 -------------------------------------------------------------------------------------------------------------------------------------
--F15: Automatic Display Mode Switch             
-Tested by:                                      Implemented by: K9
+-F12: Automatic Display Mode Switch             
+Tested by:                                      Implemented by: K8
 The system must automatically switch between dark mode and light mode based on ambient lighting conditions detected by the user's device or headset. 
 The mode change should occur without requiring manual user input.
 
 --------------------------------------------------------------------------------------------------------------------------------------
--F16: Offline Mode				
-Tested by:                                      Implemented by: K10
+-F13: Offline Mode				
+Tested by:                                      Implemented by: K9
 The system must allow users to download video content and associated transcripts so that lectures can be accessed without an internet connection.
 
 --------------------------------------------------------------------------------------------------------------------------------------
--F17: Multitasking				
+-F14: Multitasking				
 Tested by:                                      Implemented by: K2
 The user must be able to open multiple UI windows at once, move them around in 3D and resize them.
 These windows include: F2, F3, F4, F6, F9
 
 --------------------------------------------------------------------------------------------------------------------------------------
--F18: Taking notes				
+-F15: Taking notes				
 Tested by:                                      Implemented by: K3
 The UI must provide a window to take notes while watching lectures and save them locally. 
 Notes can include time stamps referencing specific lecture moments. Users must be able to edit and delete their notes at any time.
@@ -96,22 +96,18 @@ In addition, users should be able to create general notes that are not linked to
 Non-Functional requirements: (Nicht-funktionale Anforderungen)
 ======================================================================================================================================
 
--N1: Multiple VR Environments
-Support for different virtual environments or backgrounds for viewing lectures.
-
---------------------------------------------------------------------------------------------------------------------------------------
--N2: Multilingual User Interface
+-N1: Multilingual User Interface
 The UI should support at least English and German.
 Supports accessibility and usability for international users. 
 
 --------------------------------------------------------------------------------------------------------------------------------------
--N3: Error Messaging
+-N2: Error Messaging
 If content fails to load or playback is interrupted, the system shall display clear and helpful error messages instead of terminating the session.
 
 --------------------------------------------------------------------------------------------------------------------------------------
--N4: Offline Robustness
+-N3: Offline Robustness
 All core features marked for offline use must work without requiring an internet connection once content is downloaded.
 
 --------------------------------------------------------------------------------------------------------------------------------------
--N5: Security & Privacy
+-N4: Security & Privacy
 The system shall not collect or transmit personal data unless explicitly permitted by the user.

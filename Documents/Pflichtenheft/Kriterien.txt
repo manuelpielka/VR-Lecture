@@ -68,32 +68,27 @@ Implemented by: F8
 
 Allow users to increase or decrease the size of subtitles for better readability in VR.
 
--K5: Add Comments under the Lecture
-Implemented by: F9 F10 F11
-
-Users can leave static comments while or after watching the video. The system records the time the comment was made, but comments are not linked to playback. 
-
--K6: Continue Watching Feature
+-K5: Continue Watching Feature
 Implemented by: F12
 
 The system remembers where the user left off in a lecture. When the user returns, it asks whether to resume playback from that point.
 
--K7: Playback speed
+-K6: Playback speed
 Implemented by: F13
 
 Users can adjust the playback speed of lecture videos
 
--K8: Control tutorial
+-K7: Control tutorial
 Implemented by: F14
 
 Show the user how the basic controls work (Movement, opening menus, moving windows...) if they have not used VR before
 
--K9: Automatic mode switch
+-K8: Automatic mode switch
 Implemented by: F15
 
 Automatic dark/light mode switch depending on ambient lighting.
 
--K10: Offline mode
+-K9: Offline mode
 Implemented by: F16
 
 Allow the user to download the video content as well the transcripts so that it can be viewed offline.

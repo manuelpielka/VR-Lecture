@@ -47,7 +47,7 @@ The program must be able to load different 3D environments in order to switch be
 -F8: Subtitle Size Adjustment Interface 	
 Tested by:                                      Implemented by: K4
 The UI must provide a settings interface that allows users to increase or decrease the subtitle size to improve readability in the VR environment.
-The adjustment should be accessible within the video or general settings menu and offer at least three size options (e.g., small, medium, large). 
+The adjustment should be accessible within the video or general settings menu and allow users to increase or decrease the subtitle size by using '+' and '-' buttons. 
 Changes should be reflected immediately in the VR view and persist throughout the session.
 
 -------------------------------------------------------------------------------------------------------------------------------------

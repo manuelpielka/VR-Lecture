@@ -91,6 +91,13 @@ The UI must provide a window to take notes while watching lectures and save them
 Notes can include time stamps referencing specific lecture moments. Users must be able to edit and delete their notes at any time.
 In addition, users should be able to create general notes that are not linked to a specific lecture.
 
+--------------------------------------------------------------------------------------------------------------------------------------
+-F16: Main Menu
+Tested by:					Implements: K2
+By pressing the menu button on either of the controllers, a menu should open above the hand on wich the button was pressed.
+This menu should be navigable using the control sticks and A button and should include the options: Browse Lectures, Notes, Settings.
+Pressing the a button with one of these selected should open a new window of the correlating type.
+Pressing the menu button again on either controller should close this menu.
 
 ======================================================================================================================================
 Non-Functional requirements: (Nicht-funktionale Anforderungen)

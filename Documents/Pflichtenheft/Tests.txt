@@ -163,10 +163,4 @@ Reaction: The Avatar answers the question and the response appears in a dialogue
 
 
 -------------------------------------------------------------------------------------------------------------------------------------
-T7 Taking notes
-Tests: 15
-
-State:
-Action:
-Reaction:
 

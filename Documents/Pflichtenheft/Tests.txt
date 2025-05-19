@@ -297,10 +297,27 @@ Action: User writes notes while watching the video
 Reaction: Both actions function independently and smoothly
 
 -------------------------------------------------------------------------------------------------------------------------------------
--T16
+-T16.1 Open Main Menu with Controller Button
+Tests: F16
 
+State: User is in the VR environment with no menu open
+Action: User presses the menu button on either controller
+Reaction: A main menu appears above the hand that triggered it, with navigation options
+
+-------------------------------------------------------------------
+-T16,2 Open Corresponding Feature Windows from Menu
+Tests: F16
+
+State: A function is selected in the menu
+Action: User presses the button to confirm
+Reaction: The corresponding window opens
 
 -------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
 -T? Selecting Language
 Tests: M3, F STILL NEEDS TO BE MADE!!! 
 

@@ -21,12 +21,19 @@ Action: The user lets go of the teleport button
 Reaction: The VR-Headset display fades to black, then starts displaying the environment from the position that was previously outlined
 
 -------------------------------------------------------------------------------------------------------------------------------------
--T3 Lecture Browsing
-Tests: M2, F2, F3
+-T3 Opening A Lecture Browsing Window
+Tests: M2, F2, K2, F16
 
-State: The user has the software running and is wearing their VR-headset and controllers
-Action: The user presses the browse button in the GUI and interacts with the interface
-Reaction: The lecture browsing interface allows them to browse through the available lectures and select them as well as play them
+State: The user has the main menu open
+Action: The user presses the browse button in the main menu
+Reaction: A lecture browsing interface window appears in the direction the user is looking
 
 -------------------------------------------------------------------------------------------------------------------------------------
+-T4 Lecture Browsing Interface
+Tests: M2, F2, F3
+
+State: The user has an open browsing interface window
+Action: The user points at a folder in the windows representation of the folder architecture and pulls the trigger on the hand they are pointing at it with
+Reaction: The browsing interface navigates into the folder and shows the subfolders and lectures in this folder
+
 

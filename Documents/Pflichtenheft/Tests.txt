@@ -93,12 +93,14 @@ Reaction: The lecture continues playing at the selected speed
 
 -------------------------------------------------------------------------------------------------------------------------------------
 T3.4 Selecting Language
-Tests: M3, F STILL NEEDS TO BE MADE!!!
+Tests: M3, F STILL NEEDS TO BE MADE!!! 
 
 State: The user has an open lecture player window
 Action: The user opens the setting submenu on the lecture player and selects a different language from the ones available
 Reaction: The subtitle language changes to the one selected
 
+
+T3.5 
 -------------------------------------------------------------------------------------------------------------------------------------
 T4 Full Transcript Access
 Tests: M3, F4

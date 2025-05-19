@@ -245,17 +245,67 @@ Action: User selects a lecture from the “Downloads” section
 Reaction: The system plays the video and displays text documents without needing internet
 
 -------------------------------------------------------------------------------------------------------------------------------------
-T3.4 Selecting Language
+-T14.1 Open Multiple UI Windows Concurrently
+Tests: F14
+
+State: User is in the main or feature interface
+Action: User opens F2 (browser), F3 (player), and F4 (text viewer) in sequence
+Reaction: All windows appear simultaneously in the VR space without obstructing each other
+
+-------------------------------------------------------------------
+-T14.2 Move and Resize Browser Window
+Tests: F2, K2, F14
+
+State: The browser window is open
+Action: The user resizes or moves the window using controller gestures
+Reaction: The interface updates responsively to the new size/position
+
+-------------------------------------------------------------------------------------------------------------------------------------
+-T15.1 Add Time-Linked Note
+Tests: F15
+
+State: Video is playing at a specific timestamp
+Action: User clicks “Take Notes” 
+Reaction: A note panel appears allowing the user to type while the lecture continues. The note is saved with the timestamp and can be clicked to return to that moment
+
+-------------------------------------------------------------------
+-T15.2 Edit and Delete Notes
+Tests: F15
+
+State: User has saved several notes
+Action: User chooses to edit a note
+Reaction: The selected note is modified
+
+State: User has saved several notes
+Action: User chooses to delete a note
+Reaction: The selected note is removed
+
+-------------------------------------------------------------------
+-T15.3 Local Save and Offline Access
+Tests: F15, F13
+
+State: User is offline
+Action: User adds or accesses notes
+Reaction: Notes are available offline and changes are saved locally
+
+-------------------------------------------------------------------
+-T15.4 Use Note-Taking Alongside Other Windows
+Tests: F15, F14
+
+State: Note-taking and lecture playback windows are open simultaneously
+Action: User writes notes while watching the video
+Reaction: Both actions function independently and smoothly
+
+-------------------------------------------------------------------------------------------------------------------------------------
+-T16
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+-T? Selecting Language
 Tests: M3, F STILL NEEDS TO BE MADE!!! 
 
 State: The user has an open lecture player window
 Action: The user opens the setting submenu on the lecture player and selects a different language from the ones available
 Reaction: The subtitle language changes to the one selected
 
--------------------------------------------------------------------------------------------------------------------------------------
--T14 Move and Resize Browser Window
-Tests: F2, K2, F14
 
-State: The browser window is open
-Action: The user resizes or moves the window using controller gestures
-Reaction: The interface updates responsively to the new size/position

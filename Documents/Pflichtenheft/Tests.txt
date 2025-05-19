@@ -2,15 +2,15 @@ Tests
 
 =====================================================================================================================================
 -T1.1 Body Movement
-Tests: M1, F1
+Tests: F1
 
 State: The user has the software running and is wearing their VR-headset and controllers
 Action: The user moves the controllers in their hands and their head
 Reaction: The virtual representation of the users controllers and the camera position move accordingly
 
--------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------
 -T1.2 Teleportation Movement
-Tests: M1, F1
+Tests: F1
 
 State: The user has the software running and is wearing their VR-headset and controllers
 Action: The user presses and holds the button associated with the teleportation functionality
@@ -22,55 +22,39 @@ Reaction: The VR-Headset display fades to black, then starts displaying the envi
 
 -------------------------------------------------------------------------------------------------------------------------------------
 -T2.1 Opening A Lecture Browsing Window
-Tests: M2, F2, K2, F16
+Tests: F2, K2, F16
 
 State: The user has the main menu open
 Action: The user presses the browse button in the main menu
 Reaction: A lecture browsing interface window appears in the direction the user is looking
 
--------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------
 -T2.2 Lecture Browsing Interface
-Tests: M2, F2
+Tests: F2
 
 State: The user has an open browsing interface window
 Action: The user selects a folder using their controller
 Reaction: The browsing interface navigates into the folder and shows the subfolders and lectures in this folder
 
+-------------------------------------------------------------------
+-T2.3 Search for Lecture
+Tests: F2
+
+State: The lecture browser is open
+Action: The user types a keyword in the search bar
+Reaction: The list updates to show lectures matching the keyword
+
 -------------------------------------------------------------------------------------------------------------------------------------
--T2.3 Playing A Lecture
-Tests: M2, F3
+-T3.1 Playing A Lecture
+Tests: F3
 
 State: The user has an open browsing interface window in a folder with an available lecture
 Action: The user selects a lecture
 Reaction: The window changes to a lecture player for the corresponding lecture
 
--------------------------------------------------------------------------------------------------------------------------------------
--T2.4 Downloading A Lecture
-Tests: K9, F13
-
-State: The user has an open browsing interface window in a folder with available lectures
-Action: The user presses the download button, then selects a lecture
-Reaction: The lecture starts downloading and once done, will be available for viewing offline
-
--------------------------------------------------------------------------------------------------------------------------------------
--T2.5 Resume Playback
-Tests: M2, F9
-
-State: The user exited the system during a lecture
-Action: The user opens the same lecture again
-Reaction: The system shows a prompt asking if the user wants to resume from the last watched timestamp
-
--------------------------------------------------------------------------------------------------------------------------------------
--T2.6 Subtitle Size Change 
-Tests: M2, K4, F8
-
-State: Subtitles are turned on
-Action: The user changes subtitle size using “+” or “–” buttons in settings
-Reaction: Subtitle size change should reflect immediately in the video
-
--------------------------------------------------------------------------------------------------------------------------------------
--T3.1 Basic Lecture Player Controls
-Tests: M2, F3
+-------------------------------------------------------------------
+-T3.2 Basic Lecture Player Controls
+Tests: F3
 
 State: The user has an open lecture player window and the lecture is paused
 Action: The user presses the pause/play button 
@@ -84,27 +68,152 @@ State: The user has an open lecture player window
 Action: The user selects any point on the play bar
 Reation: The lecture skips/reverses to the selected point in the lecture
 
-State: The user has an open lecture player window
+State: The user has an open lecture player window without subtitle
 Action: The user presses the subtitles button
-Reaction: Subtitles are now show for this lecture player window
+Reaction: Subtitles are now shown for this lecture player window
 
+State: The user has an open lecture player window with subtitle
+Action: The user presses the subtitles button
+Reaction: Subtitles are now hidden for this lecture player window
+
+State: The video player is open
+Action: No action required
+Reaction: A timeline bar displays current playback position and total duration
 
 -------------------------------------------------------------------------------------------------------------------------------------
-T3.2 Continue Watching Feature
+-T4.1 Full Transcript Access
+Tests: F4
+
+State: The user has an open lecture player window
+Action: The user presses the transcript button
+Reaction: A text document window displaying the transcript opens next to the lecture player window in the currently selected language
+
+-------------------------------------------------------------------
+-T4.2 Switch Between Languages
+Tests: F4
+
+State: The user is currently viewing the transcript content
+Action: The user selects “English” or “Deutsch” from the language dropdown menu
+Reaction: The transcript immediately switches to the selected language version
+
+-------------------------------------------------------------------
+-T4.3 View Summary
+Tests: F4
+
+State: The user is inside the transcript viewer
+Action: The user clicks the “View Summary” tab
+Reaction: The viewer displays a short, condensed summary of the lecture
+
+-------------------------------------------------------------------------------------------------------------------------------------
+-T5 Activating the Avatar
+Tests: F5
+
+State: The user has opened the main menu
+Action: The user activates the Avatar by pressing the Avatar button
+Reaction: The Avatar appears in the VR environment and says "Hi, how can I help you?" in a dialogue box. 
+
+-------------------------------------------------------------------------------------------------------------------------------------
+-T6 Displaying user questions and Avatar responses
+Tests: F6
+
+State: The Avatar has been activated
+Action: The user types a question in a dialogue box and presses the send button
+Reaction: The Avatar answers the question and the response appears in a dialogue box
+
+-------------------------------------------------------------------------------------------------------------------------------------
+-T7.1 Open Environment Settings Menu
+Tests: F7
+
+State: User is in the main or settings menu
+Action: User selects the “Switch Environment” option
+Reaction: A list of available virtual environments is shown
+
+-------------------------------------------------------------------
+-T7.2 Switch to a Different Environment
+Tests: F7
+
+State: Environment selection menu is open
+Action: User selects a new environment from the list
+Reaction: The current VR scene changes to the selected environment, preserving or resetting the user’s position
+
+-------------------------------------------------------------------------------------------------------------------------------------
+-T8.1 Open Font Size Settings
+Tests: F8
+
+State: User is in the video playback screen 
+Action: User selects the “Settings” option
+Reaction: A settings panel appears showing the current font size and '+' / '−' buttons
+
+-------------------------------------------------------------------
+-T8.2 Increasing the Font Size
+Tests: F8
+
+State: The user has turned the subtitle of the lecture on and has clicked the settings button 
+Action: The user increases the font size by pressing '+' button
+Reaction: The font size increases immediately
+
+-------------------------------------------------------------------
+-T8.3 Decreasing the Font Size
+Tests: F8
+
+State: The user has turned the subtitle of the lecture on and has clicked the settings button 
+Action: The user decreases the font size by pressing '-' button
+Reaction: The font size decreases immediately
+
+-------------------------------------------------------------------
+-T8.4 Decreasing the Font Size
+Tests: F8
+
+State: User adjusts the font size and exits to main menu
+Action: User opens and watches a different lecture
+Reaction: The subtitle font size remains as previously set throughout the session
+
+-------------------------------------------------------------------------------------------------------------------------------------
+-T9 Continue Watching Feature
 Tests: K5, F9
 
 State: The user opened a lecture which had previousley been watched and is prompted whether they want to continue watching
 Action: The selects "Yes"
 Reaction: The lecture player skips to the time in the lecture where it had last been watched
 
+State: The user opened a lecture which had previousley been watched and is prompted whether they want to continue watching
+Action: The selects "No"
+Reaction: Playback starts from 00:00 without using saved progress
 
--------------------------------------------------------------------------------------------------------------------------------------
-T3.3 Playback Speed
+------------------------------------------------------------------------------------------------------------------------------------
+-T10 Playback Speed
 Tests: K6, F10
 
 State: The user has an open lecture player window and the lecture is playing
 Action: The user opens the settings submenu on the lecture player and selects a higher playback speed
 Reaction: The lecture continues playing at the selected speed
+
+State: The user has an open lecture player window and the lecture is playing
+Action: The user opens the settings submenu on the lecture player and selects a lower playback speed
+Reaction: The lecture continues playing at the selected speed
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+-T13 Downloading A Lecture
+Tests: K9, F13
+
+State: The user has an open browsing interface window in a folder with available lectures
+Action: The user presses the download button, then selects a lecture
+Reaction: The lecture starts downloading and once done, will be available for viewing offline
+
+
 
 
 -------------------------------------------------------------------------------------------------------------------------------------
@@ -116,51 +225,16 @@ Action: The user opens the setting submenu on the lecture player and selects a d
 Reaction: The subtitle language changes to the one selected
 
 
--------------------------------------------------------------------------------------------------------------------------------------
-T4 Full Transcript Access
-Tests: M3, F4
-
-State: The user has an open lecture player window
-Action: The user presses the transcript button
-Reaction: A text document window displaying the transcript opens next to the lecture player window in the currently selected language
-
-
--------------------------------------------------------------------------------------------------------------------------------------
-T5 Adjusting the font size                            Tests: F8
-T5.1 Increasing the Font Size
-Tests: F8
-
-State: The user has turned the subtitle of the lecture on and has clicked the settings button 
-Action: The user increases the font size by pressing '+' button
-Reaction: The font size increases immediately
-
--------------------------------------------------------------------
-T5.2 Decreasing the Font Size
-Tests: F8
-
-State: The user has turned the subtitle of the lecture on and has clicked the settings button 
-Action: The user decreases the font size by pressing '-' button
-Reaction: The font size decreases immediately
-
-
--------------------------------------------------------------------------------------------------------------------------------------
-T6 Interact with the Avatar                           Tests: F5, F6
-
-T6.1 Activating the Avatar
-Tests: F5
-
-State: The user has opened the main menu
-Action: The user activates the Avatar by pressing the Avatar button
-Reaction: The Avatar appears in the VR environment and says "Hi, how can I help you?" in a dialogue box. 
-
--------------------------------------------------------------------
-T6.2 Displaying user questions and Avatar responses
-Tests: F6
-
-State: The Avatar has been activated
-Action: The user types a question in a dialogue box and presses the send button
-Reaction: The Avatar answers the question and the response appears in a dialogue box
 
 
 -------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+-T14 Move and Resize Browser Window
+Tests: F2, K2, F14
+
+State: The browser window is open
+Action: The user resizes or moves the window using controller gestures
+Reaction: The interface updates responsively to the new size/position

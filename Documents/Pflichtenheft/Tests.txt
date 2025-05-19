@@ -100,7 +100,6 @@ Action: The user opens the setting submenu on the lecture player and selects a d
 Reaction: The subtitle language changes to the one selected
 
 
-T3.5 
 -------------------------------------------------------------------------------------------------------------------------------------
 T4 Full Transcript Access
 Tests: M3, F4
@@ -111,9 +110,27 @@ Reaction: A text document window displaying the transcript opens next to the lec
 
 
 -------------------------------------------------------------------------------------------------------------------------------------
-T5 Interact with the Avatar                           Tests: F5, F6
+T5 Adjusting the font size                            Tests: F8
+T5.1 Increasing the Font Size
+Tests: F8
 
-T5.1 Activating the Avatar
+State: The user has turned the subtitle of the lecture on and has clicked the settings button 
+Action: The user increases the font size by pressing '+' button
+Reaction: The font size increases immediately
+
+-------------------------------------------------------------------
+T5.2 Decreasing the Font Size
+Tests: F8
+
+State: The user has turned the subtitle of the lecture on and has clicked the settings button 
+Action: The user decreases the font size by pressing '-' button
+Reaction: The font size decreases immediately
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+T6 Interact with the Avatar                           Tests: F5, F6
+
+T6.1 Activating the Avatar
 Tests: F5
 
 State: The user has opened the main menu
@@ -121,15 +138,16 @@ Action: The user activates the Avatar by pressing the Avatar button
 Reaction: The Avatar appears in the VR environment and says "Hi, how can I help you?" in a dialogue box. 
 
 -------------------------------------------------------------------
-T5.2 DIsplay 
+T6.2 Displaying user questions and Avatar responses
 Tests: F6
 
 State: The Avatar has been activated
 Action: The user types a question in a dialogue box and presses the send button
 Reaction: The Avatar answers the question and the response appears in a dialogue box
 
+
 -------------------------------------------------------------------------------------------------------------------------------------
-T6  
+T  
 Tests: 
 
 State:

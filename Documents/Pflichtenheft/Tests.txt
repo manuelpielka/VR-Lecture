@@ -216,20 +216,33 @@ State: Avatar is shown during or after lecture playback
 Action: User is instructed to ask a question in a dialogue box
 Reaction: Avatar responds in the dialogue box, tutorial marks step as complete
 
+-------------------------------------------------------------------------------------------------------------------------------------
+-T12 Auto Switch Mode
+Tests: F12
+
+State: System time is between local sunrise and sunset
+Action: User is actively using the application
+Reaction: The UI automatically loads in light mode without requiring user input
+
+State: System time is past local sunset
+Action: User is actively using the application
+Reaction: The UI automatically loads in dark mode without requiring user input
 
 -------------------------------------------------------------------------------------------------------------------------------------
--T12 
-
-
-
-
--------------------------------------------------------------------------------------------------------------------------------------
--T13 Downloading A Lecture
+-T13.1 Downloading A Lecture
 Tests: K9, F13
 
 State: The user has an open browsing interface window in a folder with available lectures
 Action: The user presses the download button, then selects a lecture
 Reaction: The lecture starts downloading and once done, will be available for viewing offline
+
+-------------------------------------------------------------------
+-T13.2 Access Downloaded Content Without Internet
+Tests: F13
+
+State: User is offline
+Action: User selects a lecture from the “Downloads” section
+Reaction: The system plays the video and displays text documents without needing internet
 
 -------------------------------------------------------------------------------------------------------------------------------------
 T3.4 Selecting Language

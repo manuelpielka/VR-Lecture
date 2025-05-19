@@ -86,7 +86,7 @@ Show the user how the basic controls work (Movement, opening menus, moving windo
 -K8: Automatic mode switch
 Implemented by: F12
 
-Automatic dark/light mode switch depending on ambient lighting.
+Automatic dark/light mode switch depending on the user's local sunrise and sunset times.
 
 -K9: Offline mode
 Implemented by: F13

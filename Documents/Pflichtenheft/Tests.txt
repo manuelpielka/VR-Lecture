@@ -193,28 +193,43 @@ Action: The user opens the settings submenu on the lecture player and selects a 
 Reaction: The lecture continues playing at the selected speed
 
 -------------------------------------------------------------------------------------------------------------------------------------
+-T11.1 Trigger Tutorial for First-Time User
+Tests: F11
 
+State: The user opens the application for the first time
+Action: The system loads the main interface
+Reaction: A tutorial sequence is triggered, guiding the user
+
+-------------------------------------------------------------------
+-T11.2 Tutorial Step
+Tests: F11
+
+State: User is in the first tutorial stage
+Action: User follows instructions to open the lecture browser and select a video
+Reaction: Player opens, and the system highlights playback controls (play, pause, skip)
+
+State: Lecture is playing
+Action: User is prompted to open the text view panel
+Reaction: Transcript, translation, and summary are displayed; system verifies user opens each section
+
+State: Avatar is shown during or after lecture playback
+Action: User is instructed to ask a question in a dialogue box
+Reaction: Avatar responds in the dialogue box, tutorial marks step as complete
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+-T12 
 
 
 
 
 -------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
--------------------------------------------------------------------------------------------------------------------------------------
-
 -T13 Downloading A Lecture
 Tests: K9, F13
 
 State: The user has an open browsing interface window in a folder with available lectures
 Action: The user presses the download button, then selects a lecture
 Reaction: The lecture starts downloading and once done, will be available for viewing offline
-
-
-
 
 -------------------------------------------------------------------------------------------------------------------------------------
 T3.4 Selecting Language
@@ -224,14 +239,7 @@ State: The user has an open lecture player window
 Action: The user opens the setting submenu on the lecture player and selects a different language from the ones available
 Reaction: The subtitle language changes to the one selected
 
-
-
-
 -------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
 -T14 Move and Resize Browser Window
 Tests: F2, K2, F14
 

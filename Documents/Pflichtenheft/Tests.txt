@@ -1,7 +1,7 @@
 Tests
 
 =====================================================================================================================================
--T1 Body Movement
+-T1.1 Body Movement
 Tests: M1, F1
 
 State: The user has the software running and is wearing their VR-headset and controllers
@@ -9,7 +9,7 @@ Action: The user moves the controllers in their hands and their head
 Reaction: The virtual representation of the users controllers and the camera position move accordingly
 
 -------------------------------------------------------------------------------------------------------------------------------------
--T2 Teleportation Movement
+-T1.2 Teleportation Movement
 Tests: M1, F1
 
 State: The user has the software running and is wearing their VR-headset and controllers
@@ -21,7 +21,7 @@ Action: The user lets go of the teleport button
 Reaction: The VR-Headset display fades to black, then starts displaying the environment from the position that was previously outlined
 
 -------------------------------------------------------------------------------------------------------------------------------------
--T3 Opening A Lecture Browsing Window
+-T2.1 Opening A Lecture Browsing Window
 Tests: M2, F2, K2, F16
 
 State: The user has the main menu open
@@ -29,11 +29,22 @@ Action: The user presses the browse button in the main menu
 Reaction: A lecture browsing interface window appears in the direction the user is looking
 
 -------------------------------------------------------------------------------------------------------------------------------------
--T4 Lecture Browsing Interface
-Tests: M2, F2, F3
+-T2.2 Lecture Browsing Interface
+Tests: M2, F2
 
 State: The user has an open browsing interface window
-Action: The user points at a folder in the windows representation of the folder architecture and pulls the trigger on the hand they are pointing at it with
+Action: The user selects a folder using their controller
 Reaction: The browsing interface navigates into the folder and shows the subfolders and lectures in this folder
 
+-------------------------------------------------------------------------------------------------------------------------------------
+-T2.3 Selecting A Lecture
+Tests: M2, F3
+
+State: The user has an open browsing interface window in a folder with an available lecture
+Action: The user selects a lecture
+Reaction: The window changes to a lecture player for the corresponding lecture
+
+-------------------------------------------------------------------------------------------------------------------------------------
+-T3.1 Basic Lecture Player Controls
+Tests: 
 

@@ -37,12 +37,20 @@ Action: The user selects a folder using their controller
 Reaction: The browsing interface navigates into the folder and shows the subfolders and lectures in this folder
 
 -------------------------------------------------------------------------------------------------------------------------------------
--T2.3 Selecting A Lecture
+-T2.3 Playing A Lecture
 Tests: M2, F3
 
 State: The user has an open browsing interface window in a folder with an available lecture
 Action: The user selects a lecture
 Reaction: The window changes to a lecture player for the corresponding lecture
+
+-------------------------------------------------------------------------------------------------------------------------------------
+-T2.4 Downloading A Lecture
+Tests: K9, F13
+
+State: The user has an open browsing interface window in a folder with available lectures
+Action: The user presses the download button, then selects a lecture
+Reaction: The lecture starts downloading and once done, will be available for viewing offline
 
 -------------------------------------------------------------------------------------------------------------------------------------
 -T3.1 Basic Lecture Player Controls
@@ -79,10 +87,22 @@ T3.3 Playback Speed
 Tests: K6, F10
 
 State: The user has an open lecture player window and the lecture is playing
-Action: the user opens the settings submenu on the lecture player and selects a higher playback speed
+Action: The user opens the settings submenu on the lecture player and selects a higher playback speed
 Reaction: The lecture continues playing at the selected speed
 
 
 -------------------------------------------------------------------------------------------------------------------------------------
-T4 Full Transcript, Translation and Summary Access
+T3.4 Selecting Language
+Tests: M3, F STILL NEEDS TO BE MADE!!!
+
+State: The user has an open lecture player window
+Action: The user opens the setting submenu on the lecture player and selects a different language from the ones available
+Reaction: The subtitle language changes to the one selected
+
+-------------------------------------------------------------------------------------------------------------------------------------
+T4 Full Transcript Access
 Tests: M3, F4
+
+State: The user has an open lecture player window
+Action: The user presses the transcript button
+Reaction: A text document window displaying the transcript opens next to the lecture player window in the currently selected language

@@ -43,12 +43,9 @@ Tested by:                                      Implemented by: K1
 The program must be able to load different 3D environments in order to switch between them by picking one in the settings. 
 
 -------------------------------------------------------------------------------------------------------------------------------------
--F8: Subtitle Size Adjustment Interface 	
+-F8: Font Size Adjustment Interface 	
 Tested by:                                      Implemented by: K4
-The UI must provide a settings interface that allows users to increase or decrease the subtitle size to improve readability in the VR environment.
-The adjustment should be accessible within the video or general settings menu and allow users to increase or decrease the subtitle size by using '+' and '-' buttons. 
-Changes should be reflected immediately in the VR view and persist throughout the session.
-
+The UI must provide a settings interface that allows users to increase or decrease the font size to improve readability in the VR environment. The adjustment should be accessible within the video or general settings menu and allow users to increase or decrease the font size by using '+' and '-' buttons. Changes should be reflected immediately in the VR view and persist throughout the session.
 -------------------------------------------------------------------------------------------------------------------------------------
 -F9: Continue Watching Feature		        
 Tested by:                                      Implemented by: K5

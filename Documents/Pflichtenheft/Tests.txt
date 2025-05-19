@@ -77,3 +77,12 @@ Reaction: The lecture player skips to the time in the lecture where it had last 
 -------------------------------------------------------------------------------------------------------------------------------------
 T3.3 Playback Speed
 Tests: K6, F10
+
+State: The user has an open lecture player window and the lecture is playing
+Action: the user opens the settings submenu on the lecture player and selects a higher playback speed
+Reaction: The lecture continues playing at the selected speed
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+T4 Full Transcript, Translation and Summary Access
+Tests: M3, F4

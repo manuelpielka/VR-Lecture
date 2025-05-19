@@ -106,3 +106,16 @@ Tests: M3, F4
 State: The user has an open lecture player window
 Action: The user presses the transcript button
 Reaction: A text document window displaying the transcript opens next to the lecture player window in the currently selected language
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+T5 Activating the Avatar
+Tests: F5
+
+State: The user opened the main menu
+Action: The user activates the Avatar by pressing the Avatar button
+Reaction: A Avatar appears in the VR environment and says "Hi, how can I help you?" in a dialogue box. 
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+T6

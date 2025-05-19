@@ -104,7 +104,6 @@ Non-Functional requirements: (Nicht-funktionale Anforderungen)
 
 -N1: Multilingual User Interface
 The UI should support at least English and German.
-Supports accessibility and usability for international users. 
 
 --------------------------------------------------------------------------------------------------------------------------------------
 -N2: Error Messaging
@@ -116,4 +115,4 @@ All core features marked for offline use must work without requiring an internet
 
 --------------------------------------------------------------------------------------------------------------------------------------
 -N4: Security & Privacy
-The system shall not collect or transmit personal data unless explicitly permitted by the user.
+All user-generated data should remain stored locally.

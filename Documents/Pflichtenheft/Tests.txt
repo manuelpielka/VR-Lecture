@@ -109,13 +109,28 @@ Reaction: A text document window displaying the transcript opens next to the lec
 
 
 -------------------------------------------------------------------------------------------------------------------------------------
-T5 Activating the Avatar
+T5 Interact with the Avatar                           Tests: F5, F6
+
+T5.1 Activating the Avatar
 Tests: F5
 
-State: The user opened the main menu
+State: The user has opened the main menu
 Action: The user activates the Avatar by pressing the Avatar button
-Reaction: A Avatar appears in the VR environment and says "Hi, how can I help you?" in a dialogue box. 
+Reaction: The Avatar appears in the VR environment and says "Hi, how can I help you?" in a dialogue box. 
 
+-------------------------------------------------------------------
+T5.2 DIsplay 
+Tests: F6
+
+State: The Avatar has been activated
+Action: The user types a question in a dialogue box and presses the send button
+Reaction: The Avatar answers the question and the response appears in a dialogue box
 
 -------------------------------------------------------------------------------------------------------------------------------------
-T6
+T6  
+Tests: 
+
+State:
+Action:
+Reaction:
+

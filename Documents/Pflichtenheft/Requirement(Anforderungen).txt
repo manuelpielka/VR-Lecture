@@ -30,7 +30,6 @@ The UI needs to have an option for displaying text documents related to a lectur
 -F5: Virtual Avatar for the Dialogue System	
 Tested by:                                      Implemented by: M4
 The system must include a virtual avatar that visually represents the AI dialogue system within the VR environment. 
-The avatar must move its mouth in sync with generated speech.
 
 -------------------------------------------------------------------------------------------------------------------------------------
 -F6: Text Display for the Dialogue System	

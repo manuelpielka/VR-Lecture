@@ -53,6 +53,22 @@ Action: The user presses the download button, then selects a lecture
 Reaction: The lecture starts downloading and once done, will be available for viewing offline
 
 -------------------------------------------------------------------------------------------------------------------------------------
+-T2.5 Resume Playback
+Tests: M2, F9
+
+State: The user exited the system during a lecture
+Action: The user opens the same lecture again
+Reaction: The system shows a prompt asking if the user wants to resume from the last watched timestamp
+
+-------------------------------------------------------------------------------------------------------------------------------------
+-T2.6 Subtitle Size Change 
+Tests: M2, K4, F8
+
+State: Subtitles are turned on
+Action: The user changes subtitle size using “+” or “–” buttons in settings
+Reaction: Subtitle size change should reflect immediately in the video
+
+-------------------------------------------------------------------------------------------------------------------------------------
 -T3.1 Basic Lecture Player Controls
 Tests: M2, F3
 

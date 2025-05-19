@@ -46,5 +46,34 @@ Reaction: The window changes to a lecture player for the corresponding lecture
 
 -------------------------------------------------------------------------------------------------------------------------------------
 -T3.1 Basic Lecture Player Controls
-Tests: 
+Tests: M2, F3
 
+State: The user has an open lecture player window and the lecture is paused
+Action: The user presses the pause/play button 
+Reaction: The lecture starts playing
+
+State: The user has an open lecture player window and the lecture is playing
+Action: The user presses the pause/play button 
+Reaction: The lecture pauses
+
+State: The user has an open lecture player window
+Action: The user selects any point on the play bar
+Reation: The lecture skips/reverses to the selected point in the lecture
+
+State: The user has an open lecture player window
+Action: The user presses the subtitles button
+Reaction: Subtitles are now show for this lecture player window
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+T3.2 Continue Watching Feature
+Tests: K5, F9
+
+State: The user opened a lecture which had previousley been watched and is prompted whether they want to continue watching
+Action: The selects "Yes"
+Reaction: The lecture player skips to the time in the lecture where it had last been watched
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+T3.3 Playback Speed
+Tests: K6, F10

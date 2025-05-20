@@ -234,7 +234,7 @@ State: The user has an open lecture player window
 Action: The user presses the transcript button
 Reaction: A text document window displaying the transcript opens next to the lecture player window in the currently selected language
 
--------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------
 -T4.2 Switch Between Languages
 Tests: F4, N1
 
@@ -242,7 +242,7 @@ State: The user is currently viewing the transcript content
 Action: The user selects “English” or “Deutsch” from the language dropdown menu
 Reaction: The transcript immediately switches to the selected language version
 
--------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------
 -T4.3 View Summary
 Tests: F4
 
@@ -251,19 +251,10 @@ Action: The user clicks the “View Summary” tab
 Reaction: The viewer displays a short, condensed summary of the lecture
 
 
-
-
-
-
-
-
-
-
-
-
-
--------------------------------------------------------------------------------------------------------------------------------------
--T5 Activating the Avatar
+=====================================================================================================================================
+Virtual Assistant and AI Interaction
+=====================================================================================================================================
+-T5.1 Activating the Avatar
 Tests: F5
 
 State: The user has opened the main menu
@@ -271,7 +262,7 @@ Action: The user activates the Avatar by pressing the Avatar button
 Reaction: The Avatar appears in the VR environment and says "Hi, how can I help you?" in a dialogue box. 
 
 -------------------------------------------------------------------------------------------------------------------------------------
--T6 Displaying user questions and Avatar responses
+-T5.2 Displaying user questions and Avatar responses
 Tests: F6
 
 State: The Avatar has been activated
@@ -279,20 +270,10 @@ Action: The user types a question in a dialogue box and presses the send button
 Reaction: The Avatar answers the question and the response appears in a dialogue box
 
 
-
-
-
-
-
-
-
-
-
-
-
-
--------------------------------------------------------------------------------------------------------------------------------------
--T8.1 Open Font Size Settings
+=====================================================================================================================================
+Visual Settings Configuration
+=====================================================================================================================================
+-T6.1.1 Open Font Size Settings
 Tests: F8
 
 State: User is in the video playback screen 
@@ -300,7 +281,7 @@ Action: User selects the “Settings” option
 Reaction: A settings panel appears showing the current font size and '+' / '−' buttons
 
 -------------------------------------------------------------------
--T8.2 Increasing the Font Size
+-T6.1.2 Increasing the Font Size
 Tests: F8
 
 State: The user has turned the subtitle of the lecture on and has clicked the settings button 
@@ -308,7 +289,7 @@ Action: The user increases the font size by pressing '+' button
 Reaction: The font size increases immediately
 
 -------------------------------------------------------------------
--T8.3 Decreasing the Font Size
+-T6.1.3 Decreasing the Font Size
 Tests: F8
 
 State: The user has turned the subtitle of the lecture on and has clicked the settings button 
@@ -316,7 +297,7 @@ Action: The user decreases the font size by pressing '-' button
 Reaction: The font size decreases immediately
 
 -------------------------------------------------------------------
--T8.4 Decreasing the Font Size
+-T6.1.4 Font Size Persistence Across Lectures
 Tests: F8
 
 State: User adjusts the font size and exits to main menu
@@ -324,66 +305,53 @@ Action: User opens and watches a different lecture
 Reaction: The subtitle font size remains as previously set throughout the session
 
 -------------------------------------------------------------------------------------------------------------------------------------
--T12 Auto Switch Mode
+-T6.2.1 Auto Switch Mode
 Tests: F12
 
 State: System time is between local sunrise and sunset
 Action: User is actively using the application
 Reaction: The UI automatically loads in light mode without requiring user input
 
+-------------------------------------------------------------------
+-T6.2.2 Auto Switch Mode
+Tests: F12
+
 State: System time is past local sunset
 Action: User is actively using the application
 Reaction: The UI automatically loads in dark mode without requiring user input
 
 
-
-
-
-
-
-
-
-
-
--------------------------------------------------------------------------------------------------------------------------------------
--T13.1 Downloading A Lecture
-Tests: K9, F13
+=====================================================================================================================================
+Download and Offline Mode Functionality
+=====================================================================================================================================
+-T7.1 Downloading A Lecture
+Tests: K9, F13, N4
 
 State: The user has an open browsing interface window in a folder with available lectures
 Action: The user presses the download button, then selects a lecture
 Reaction: The lecture starts downloading and once done, will be available for viewing offline
 
--------------------------------------------------------------------
--T13.2 Access Downloaded Content Without Internet
-Tests: F13
+-------------------------------------------------------------------------------------------------------------------------------------
+-T7.2 Access Downloaded Content Without Internet
+Tests: F13, N3
 
 State: User is offline
 Action: User selects a lecture from the “Downloads” section
 Reaction: The system plays the video and displays text documents without needing internet
 
--------------------------------------------------------------------
--T15.3 Local Save and Offline Access
-Tests: F15, F13
+-------------------------------------------------------------------------------------------------------------------------------------
+-T7.3 Local Save and Offline Access
+Tests: F15, N3, N4
 
 State: User is offline
 Action: User adds or accesses notes
 Reaction: Notes are available offline and changes are saved locally
 
 
-
-
-
-
-
-
-
-
-
-
-
-
--------------------------------------------------------------------------------------------------------------------------------------
--T15.1 Add Time-Linked Note
+=====================================================================================================================================
+Note-Taking Functionality
+=====================================================================================================================================
+-T8.1.1 Add Time-Linked Note
 Tests: F15
 
 State: Video is playing at a specific timestamp
@@ -391,35 +359,28 @@ Action: User clicks “Take Notes”
 Reaction: A note panel appears allowing the user to type while the lecture continues. The note is saved with the timestamp and can be clicked to return to that moment
 
 -------------------------------------------------------------------
--T15.2 Edit and Delete Notes
+-T8.1.2 Edit an Existing Note
 Tests: F15
 
 State: User has saved several notes
 Action: User chooses to edit a note
 Reaction: The selected note is modified
 
+-------------------------------------------------------------------------------------------------------------------------------------
+-T8.2 Delete a Saved Note
+Tests: F15
+
 State: User has saved several notes
 Action: User chooses to delete a note
 Reaction: The selected note is removed
--------------------------------------------------------------------
--T15.4 Use Note-Taking Alongside Other Windows
+
+-------------------------------------------------------------------------------------------------------------------------------------
+-T8.3 Use Note-Taking Alongside Other Windows
 Tests: F15, F14
 
 State: Note-taking and lecture playback windows are open simultaneously
 Action: User writes notes while watching the video
 Reaction: Both actions function independently and smoothly
-
-
-
--------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
 
 
 -T? Selecting Language

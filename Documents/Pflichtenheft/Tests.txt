@@ -1,7 +1,7 @@
 Tests
 
 =====================================================================================================================================
-VR Interaction and Movement
+Module 1: VR Interaction and Movement
 =====================================================================================================================================
 -T1.1 Body Movement
 Tests: F1
@@ -60,7 +60,7 @@ Reaction: The corresponding window opens
 
 
 =====================================================================================================================================
-Lecture Browsing and Search Functionality
+Module 2: Lecture Browsing and Search Functionality
 =====================================================================================================================================
 -T2.1 Opening A Lecture Browsing Window
 Tests: F2, K2, F16
@@ -103,7 +103,7 @@ Reaction: The interface updates responsively to the new size/position
 
 
 =====================================================================================================================================
-Lecture Playback and Control
+Module 3: Lecture Playback and Control
 =====================================================================================================================================
 -T3.1 Playing A Lecture
 Tests: F3
@@ -225,7 +225,7 @@ Reaction: Avatar responds in the dialogue box, tutorial marks step as complete
 
 
 =====================================================================================================================================
-Text Document and Language Features
+Module 4: Text Document and Language Features
 =====================================================================================================================================
 -T4.1 Full Transcript Access
 Tests: F4, N1
@@ -252,7 +252,7 @@ Reaction: The viewer displays a short, condensed summary of the lecture
 
 
 =====================================================================================================================================
-Virtual Assistant and AI Interaction
+Module 5: Virtual Assistant and AI Interaction
 =====================================================================================================================================
 -T5.1 Activating the Avatar
 Tests: F5
@@ -271,7 +271,7 @@ Reaction: The Avatar answers the question and the response appears in a dialogue
 
 
 =====================================================================================================================================
-Visual Settings Configuration
+Module 6: Visual Settings Configuration
 =====================================================================================================================================
 -T6.1.1 Open Font Size Settings
 Tests: F8
@@ -322,7 +322,7 @@ Reaction: The UI automatically loads in dark mode without requiring user input
 
 
 =====================================================================================================================================
-Download and Offline Mode Functionality
+Module 7: Download and Offline Mode Functionality
 =====================================================================================================================================
 -T7.1 Downloading A Lecture
 Tests: K9, F13, N4
@@ -349,7 +349,7 @@ Reaction: Notes are available offline and changes are saved locally
 
 
 =====================================================================================================================================
-Note-Taking Functionality
+Module 8: Note-Taking Functionality
 =====================================================================================================================================
 -T8.1.1 Add Time-Linked Note
 Tests: F15
@@ -383,11 +383,11 @@ Action: User writes notes while watching the video
 Reaction: Both actions function independently and smoothly
 
 
+
+???
 -T? Selecting Language
 Tests: M3, F STILL NEEDS TO BE MADE!!! 
 
 State: The user has an open lecture player window
 Action: The user opens the setting submenu on the lecture player and selects a different language from the ones available
 Reaction: The subtitle language changes to the one selected
-
-

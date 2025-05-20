@@ -99,8 +99,6 @@ Abgrenzung-Kriterien:
 -E1: Keine Unterstützung für Nicht-VR-Modi (Web/Desktop/Mobil)
 -E2: Kein Benutzerkonto oder Rollensystem
 -E3: Keine Upload-Funktion
--E4: Keine Sprachsteuerung oder Spracherkennung
-
 ---------------------english version---------------------
 Excluded Requirements:
 
@@ -113,6 +111,3 @@ Although the system does not include a user account module, personalized feature
 
 -E3: No Lecture Upload Functionality
 The system only accesses the existing KIT Lecture Translator database. It does not allow users to upload, record, or edit videos.
-
--E4: No Voice Input or Speech Recognition
-Interaction with the AI assistant is limited to text input. Voice commands or speech dialogue are not supported.

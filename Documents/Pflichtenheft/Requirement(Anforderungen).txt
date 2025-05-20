@@ -85,7 +85,7 @@ These windows include: F2, F3, F4, F6, F9
 Tested by:                                      Implemented by: K3
 The UI must provide a window to take notes while watching lectures and save them locally. 
 Notes can include time stamps referencing specific lecture moments. Users must be able to edit and delete their notes at any time.
-In addition, users should be able to create general notes that are not linked to a specific lecture.
+In addition, users should be able to create general notes that are not linked to a specific lecture.?
 
 --------------------------------------------------------------------------------------------------------------------------------------
 -F16: Main Menu
@@ -104,12 +104,20 @@ The UI should support at least English and German.
 
 --------------------------------------------------------------------------------------------------------------------------------------
 -N2: Error Messaging
-If content fails to load or playback is interrupted, the system shall display clear and helpful error messages instead of terminating the session.
+If any lecture content, subtitle file, or environment asset fails to load, 
+the system shall display error message indicating the reason within 5 seconds and provide the user with at least one recovery option (e.g., retry, return to menu), without terminating the application.
 
 --------------------------------------------------------------------------------------------------------------------------------------
 -N3: Offline Robustness
-All core features marked for offline use must work without requiring an internet connection once content is downloaded.
+All features tagged for offline support (e.g., lecture playback, transcript viewing, note-taking) shall be fully functional when the device has no internet access, as long as the corresponding resources have been downloaded.
 
 --------------------------------------------------------------------------------------------------------------------------------------
 -N4: Security & Privacy
-All user-generated data should remain stored locally.
+All user-generated content, including notes, playback position, and preferences, shall be stored solely on the local device. 
+No data is to be transmitted to external servers or cloud services. 
+Users can review and delete their data from the system at any time.
+
+--------------------------------------------------------------------------------------------------------------------------------------
+-N5: Extensibility
+The system architecture shall be extensible so that additional features—such as user accounts, cross-platform support, or voice input—can be added later without major redesign. 
+These extensions are not part of the current implementation scope.

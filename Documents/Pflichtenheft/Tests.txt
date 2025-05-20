@@ -11,7 +11,7 @@ Action: The user moves the controllers in their hands and their head
 Reaction: The virtual representation of the users controllers and the camera position move accordingly
 
 -------------------------------------------------------------------------------------------------------------------------------------
--T1.2a Start Teleportation
+-T1.2.1 Start Teleportation
 Tests: F1
 
 State: The user has the software running and is wearing their VR-headset and controllers
@@ -19,7 +19,7 @@ Action: The user presses and holds the button associated with the teleportation 
 Reaction: An outline appears where the user is pointing their controller, showing where they would teleport to
 
 -------------------------------------------------------------------
--T1.2b Teleport Execution
+-T1.2.2 Teleport Execution
 Tests: F1
 
 State: The user is holding the teleport button
@@ -27,7 +27,7 @@ Action: The user lets go of the teleport button
 Reaction: The VR-Headset display fades to black, then starts displaying the environment from the position that was previously outlined
 
 -------------------------------------------------------------------------------------------------------------------------------------
--T1.3a Open Environment Settings Menu
+-T1.3.1 Open Environment Settings Menu
 Tests: F7
 
 State: User is in the main or settings menu
@@ -35,7 +35,7 @@ Action: User selects the “Switch Environment” option
 Reaction: A list of available virtual environments is shown
 
 -------------------------------------------------------------------
--T1.3b Switch to a Different Environment
+-T1.3.2 Switch to a Different Environment
 Tests: F7
 
 State: Environment selection menu is open
@@ -43,7 +43,7 @@ Action: User selects a new environment from the list
 Reaction: The current VR scene changes to the selected environment, preserving or resetting the user’s position
 
 -------------------------------------------------------------------------------------------------------------------------------------
--T1.4a Open Main Menu with Controller Button
+-T1.4.1 Open Main Menu with Controller Button
 Tests: F16
 
 State: User is in the VR environment with no menu open
@@ -51,7 +51,7 @@ Action: User presses the menu button on either controller
 Reaction: A main menu appears above the hand that triggered it, with navigation options
 
 -------------------------------------------------------------------
--T1.4b Open Corresponding Feature Windows from Menu
+-T1.4.2 Open Corresponding Feature Windows from Menu
 Tests: F16
 
 State: A function is selected in the menu
@@ -70,7 +70,7 @@ Action: The user presses the browse button in the main menu
 Reaction: A lecture browsing interface window appears in the direction the user is looking
 
 -------------------------------------------------------------------------------------------------------------------------------------
--T2.2a Lecture Browsing Interface
+-T2.2.1 Lecture Browsing Interface
 Tests: F2
 
 State: The user has an open browsing interface window
@@ -78,7 +78,7 @@ Action: The user selects a folder using their controller
 Reaction: The browsing interface navigates into the folder and shows the subfolders and lectures in this folder
 
 -------------------------------------------------------------------
--T2.2b Search for Lecture
+-T2.2.2 Search for Lecture
 Tests: F2
 
 State: The lecture browser is open
@@ -86,7 +86,7 @@ Action: The user types a keyword in the search bar
 Reaction: The list updates to show lectures matching the keyword
 
 -------------------------------------------------------------------------------------------------------------------------------------
--T3.1 Open Multiple UI Windows Concurrently
+-T2.3 Open Multiple UI Windows Concurrently
 Tests: F14
 
 State: User is in the main or feature interface
@@ -94,7 +94,7 @@ Action: User opens F2 (browser), F3 (player), and F4 (text viewer) in sequence
 Reaction: All windows appear simultaneously in the VR space without obstructing each other
 
 -------------------------------------------------------------------------------------------------------------------------------------
--T3.2 Move and Resize Browser Window
+-T2.4 Move and Resize Browser Window
 Tests: F2, K2, F14
 
 State: The browser window is open
@@ -102,25 +102,9 @@ Action: The user resizes or moves the window using controller gestures
 Reaction: The interface updates responsively to the new size/position
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--------------------------------------------------------------------------------------------------------------------------------------
+=====================================================================================================================================
+Lecture Playback and Control
+=====================================================================================================================================
 -T3.1 Playing A Lecture
 Tests: F3
 
@@ -128,60 +112,87 @@ State: The user has an open browsing interface window in a folder with an availa
 Action: The user selects a lecture
 Reaction: The window changes to a lecture player for the corresponding lecture
 
--------------------------------------------------------------------
--T3.2 Basic Lecture Player Controls
+-------------------------------------------------------------------------------------------------------------------------------------
+-T3.2.1 Basic Lecture Player Controls
 Tests: F3
 
 State: The user has an open lecture player window and the lecture is paused
 Action: The user presses the pause/play button 
 Reaction: The lecture starts playing
 
+-------------------------------------------------------------------
+-T3.2.2 Pause Lecture
+Tests: F3
+
 State: The user has an open lecture player window and the lecture is playing
 Action: The user presses the pause/play button 
 Reaction: The lecture pauses
+
+-------------------------------------------------------------------
+-T3.2.3 Seek in Timeline
+Tests: F3
 
 State: The user has an open lecture player window
 Action: The user selects any point on the play bar
 Reation: The lecture skips/reverses to the selected point in the lecture
 
-State: The user has an open lecture player window without subtitle
+-------------------------------------------------------------------
+-T3.2.4 Enable Subtitles
+Tests: F3
+
+State: The user has an open lecture player window and the subtitles are currently off
 Action: The user presses the subtitles button
 Reaction: Subtitles are now shown for this lecture player window
 
-State: The user has an open lecture player window with subtitle
+-------------------------------------------------------------------
+-T3.2.5 Disable Subtitles
+Tests: F3
+
+State: The user has an open lecture player window and the subtitles are currently on
 Action: The user presses the subtitles button
 Reaction: Subtitles are now hidden for this lecture player window
+
+-------------------------------------------------------------------
+-T3.2.6 Display Timeline Progress
+Tests: F3
 
 State: The video player is open
 Action: No action required
 Reaction: A timeline bar displays current playback position and total duration
 
--------------------------------------------------------------------
--T9 Continue Watching Feature
-Tests: K5, F9
+-------------------------------------------------------------------------------------------------------------------------------------
+-T3.3.1: Continue Watching Feature
+Tests: F3, K5, F9
 
 State: The user opened a lecture which had previousley been watched and is prompted whether they want to continue watching
 Action: The selects "Yes"
 Reaction: The lecture player skips to the time in the lecture where it had last been watched
 
+-------------------------------------------------------------------
+-T3.3.2: Restart from Beginning
+Tests: F3, F9
+
 State: The user opened a lecture which had previousley been watched and is prompted whether they want to continue watching
 Action: The selects "No"
 Reaction: Playback starts from 00:00 without using saved progress
 
--------------------------------------------------------------------
--T10 Playback Speed
+-------------------------------------------------------------------------------------------------------------------------------------
+-T3.4.1 Increase Playback Speed
 Tests: K6, F10
 
 State: The user has an open lecture player window and the lecture is playing
 Action: The user opens the settings submenu on the lecture player and selects a higher playback speed
 Reaction: The lecture continues playing at the selected speed
 
+-------------------------------------------------------------------
+-T3.4.2 Decrease Playback Speed
+Tests: F10
 State: The user has an open lecture player window and the lecture is playing
 Action: The user opens the settings submenu on the lecture player and selects a lower playback speed
 Reaction: The lecture continues playing at the selected speed
 
--------------------------------------------------------------------
--T11.1 Trigger Tutorial for First-Time User
+-------------------------------------------------------------------------------------------------------------------------------------
+-T3.5.1 Trigger Tutorial for First-Time User
 Tests: F11
 
 State: The user opens the application for the first time
@@ -189,47 +200,35 @@ Action: The system loads the main interface
 Reaction: A tutorial sequence is triggered, guiding the user
 
 -------------------------------------------------------------------
--T11.2 Tutorial Step
+-T3.5.2 Tutorial - Open Lectures
 Tests: F11
 
 State: User is in the first tutorial stage
 Action: User follows instructions to open the lecture browser and select a video
 Reaction: Player opens, and the system highlights playback controls (play, pause, skip)
 
+-------------------------------------------------------------------
+-T3.5.3 Tutorial - Open Transcript
+Tests: F11, F4
+
 State: Lecture is playing
 Action: User is prompted to open the text view panel
 Reaction: Transcript, translation, and summary are displayed; system verifies user opens each section
+
+-------------------------------------------------------------------
+-T3.5.4 Tutorial - Ask Avatar
+Tests: F11, F5, F6
 
 State: Avatar is shown during or after lecture playback
 Action: User is instructed to ask a question in a dialogue box
 Reaction: Avatar responds in the dialogue box, tutorial marks step as complete
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--------------------------------------------------------------------------------------------------------------------------------------
+=====================================================================================================================================
+Text Document and Language Features
+=====================================================================================================================================
 -T4.1 Full Transcript Access
-Tests: F4
+Tests: F4, N1
 
 State: The user has an open lecture player window
 Action: The user presses the transcript button
@@ -237,7 +236,7 @@ Reaction: A text document window displaying the transcript opens next to the lec
 
 -------------------------------------------------------------------
 -T4.2 Switch Between Languages
-Tests: F4
+Tests: F4, N1
 
 State: The user is currently viewing the transcript content
 Action: The user selects “English” or “Deutsch” from the language dropdown menu

@@ -165,7 +165,7 @@ Reaction: A timeline bar displays current playback position and total duration
 Tests: F3, K5, F9
 
 State: The user opened a lecture which had previousley been watched and is prompted whether they want to continue watching
-Action: The selects "Yes"
+Action: The user selects "Yes"
 Reaction: The lecture player skips to the time in the lecture where it had last been watched
 
 -------------------------------------------------------------------
@@ -173,7 +173,7 @@ Reaction: The lecture player skips to the time in the lecture where it had last 
 Tests: F3, F9
 
 State: The user opened a lecture which had previousley been watched and is prompted whether they want to continue watching
-Action: The selects "No"
+Action: The user selects "No"
 Reaction: Playback starts from 00:00 without using saved progress
 
 -------------------------------------------------------------------------------------------------------------------------------------

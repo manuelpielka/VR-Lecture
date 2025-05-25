@@ -1,23 +1,26 @@
 https://docs.unity3d.com/ScriptReference/ -> Zum nachlesen
 
-UnityEngine.CoreModule.MonoBehaviour
-    -Unity.XR.CoreUtils.XROrigin (VR player)
-    -UnityEngine.XR.Interaction.Toolkit.Inputs.InputActionManager
-    -UnityEngine.XR.Interaction.Toolkit.Inputs.XRInputModalityManager
-UnityEngine.CoreModule.Camera
+UnityEngine.CoreModule.Object
+    -UnityEngine.CoreModule.Component
+        -UnityEngine.CoreModule.Behaviour
+            -UnityEngine.CoreModule.MonoBehaviour
+                -Unity.XR.CoreUtils.XROrigin (VR player)
+                -UnityEngine.XR.Interaction.Toolkit.Inputs.InputActionManager
+                -UnityEngine.XR.Interaction.Toolkit.Inputs.XRInputModalityManager
+            -UnityEngine.CoreModule.Camera
+            -UnityEngine.AudioModule.AudioListener (3D Audio Output)
+            -UnityEngine.VideoModule.VideoPlayer (for playing Lectures)
+            -UnityEngine.UIModule.Canvas (for UI)
+        -UnityEngine.CoreModule.Transform (Position, Rotation,... of object)
+            -UnityEngine.CoreModule.RectTransform (UI Transform)
+        -UnityEngine.CoreModule.Rigidbody ?
+        -UnityEngine.UIModule.CanvasRenderer
+    -UnityEngine.CoreModule.GameObject
+
 UnityEngine.CoreModule.PlayerPrefs ? (Könnte man zur Speicherung von Einstellungen benutzen)
-UnityEngine.CoreModule.GameObject
+
 UnityEngine.CoreModule.SceneManager (Um andere Environments zu laden)
 UnityEngine.CoreModule.Vector3 (3D Vektor)
 UnityEngine.CoreModule.Quaternion (Rotation)
-UnityEngine.CoreModule.Transform (Position, Rotation,... of object)
-UnityEngine.CoreModule.Rigidbody ?
-UnityEngine.CoreModule.RectTransform (UI Transform)
 
-UnityEngine.AudioModule.AudioListener (3D Audio Output)
 UnityEngine.AudioModule.Microphone (Microphone Input)
-
-UnityEngine.VideoModule.VideoPlayer (for playing Lectures)
-
-UnityEngine.UIModule.Canvas (for UI)
-UnityEngine.UIModule.CanvasRenderer

@@ -24,3 +24,61 @@ UnityEngine.CoreModule.Vector3 (3D Vektor)
 UnityEngine.CoreModule.Quaternion (Rotation)
 
 UnityEngine.AudioModule.Microphone (Microphone Input)
+
+UnityEngine.UIElements.Toggle ? (UI Toggle)
+UnityEngine.UIElements.Button ? (UI Button)
+UnityEngine.UIElements.Slider ? (UI Slider)
+TMPro.TMP_Dropdown ? (UI Dropdown)
+TMPro.TextMeshProUGUI ? (UI text field)
+
+
+
+Window : MonoBehaviour
+ +Close(): void
+ +Move(Vector3 newPosition): void
+ +Resize(Vector2 newSize): void
+
+MainMenu : Window
+ +OpenLectureBrowser(): void
+ +OpenNoteWindow(): void
+ +OpenSettingsWindow(): void
+
+LectureBrowser : Window
+ +SelectLecture(Lecture lecture): void
+ +DownloadLecture(Lecture lecture): void
+ +ChangeCurrentPath(Path newPath): void
+ -LoadLectures(Path path): void
+ ~onlineMode: bool
+
+LecturePlayer : Window
+ +Pause(): void
+ +SkipForward(): void
+ +SkipBackward(): void
+ +VideoSliderChanged(float value): void
+ +AiBtnPressed(): void
+ +TranscriptBtnPressed(): void
+ +NotesBtnPressed(): void
+ +SettingBtnPressed(): void
+ +ContinueWatchingYesBtnPressed(): void
+ +ContinueWatchingNoBtnPressed(): void
+ +SubtitlesToggeled(bool value): void
+ +SubtitleSizePlusBtnPressed(): void
+ +SubtitleSizeMinusBtnPressed(): void
+ +PlaybackSpeedSelected(string selectedOption): void
+ +LanguageSelected(string selectedOption): void
+
+SettingsWindow : Window
+ +ApplySettings(): void
+ +SaveSettings(): void
+ +LoadSettings(): void
+ +EnvironmentSelected(string selectedOption): void
+ +LanguageSelected(string selectedOption): void
+ +DarkModeToggled(bool value): void
+ +AutoSwitchModeToggled(bool value): void
+ ~currentSettings: Settings
+
+enum Settings
+ - string environment
+ - string language
+ - bool darkMode
+ - bool autoSwitchMode

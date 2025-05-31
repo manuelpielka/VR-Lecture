@@ -13,7 +13,7 @@ UnityEngine.CoreModule.Object
             -UnityEngine.UIModule.Canvas (for UI)
         -UnityEngine.CoreModule.Transform (Position, Rotation,... of object)
             -UnityEngine.CoreModule.RectTransform (UI Transform)
-        -UnityEngine.CoreModule.Rigidbody ?
+        -UnityEngine.CoreModule.Rigidbody
         -UnityEngine.UIModule.CanvasRenderer
     -UnityEngine.CoreModule.GameObject
 
@@ -25,60 +25,130 @@ UnityEngine.CoreModule.Quaternion (Rotation)
 
 UnityEngine.AudioModule.Microphone (Microphone Input)
 
-UnityEngine.UIElements.Toggle ? (UI Toggle)
-UnityEngine.UIElements.Button ? (UI Button)
-UnityEngine.UIElements.Slider ? (UI Slider)
-TMPro.TMP_Dropdown ? (UI Dropdown)
-TMPro.TextMeshProUGUI ? (UI text field)
+UnityEngine.UIElements.Toggle
+UnityEngine.UIElements.Button
+UnityEngine.UIElements.Slider
+UnityEngine.UIElements.TextField
+TMPro.TMP_Dropdown
+TMPro.TextMeshProUGUI
 
+
+WindowManager : MonoBehaviour -> Manages where new Windows should pop up, so they dont overlap
+ +OpenWindow(GameObject windowPrefab): void -> Instantiates new GameObject and sets its Position
+
+ -openedWindows: List<Window>
 
 
 Window : MonoBehaviour
- +Close(): void
+ -Close(): void
  +Move(Vector3 newPosition): void
  +Resize(Vector2 newSize): void
 
-MainMenu : Window
- +OpenLectureBrowser(): void
- +OpenNoteWindow(): void
- +OpenSettingsWindow(): void
+ -darkMode: bool
 
-LectureBrowser : Window
- +SelectLecture(Lecture lecture): void
- +DownloadLecture(Lecture lecture): void
- +ChangeCurrentPath(Path newPath): void
+MainMenuWindow : Window
+ -OpenLectureBrowser(): void
+ -OpenNoteWindow(): void
+ -OpenSettingsWindow(): void
+
+LectureBrowserWindow : Window
+ -SelectLecture(Lecture lecture): void
+ -DownloadLecture(Lecture lecture): void
+ -ChangeCurrentPath(Path newPath): void
  -LoadLectures(Path path): void
- ~onlineMode: bool
+ -SearchTextInputEnded(string value): void
 
-LecturePlayer : Window
- +Pause(): void
- +SkipForward(): void
- +SkipBackward(): void
- +VideoSliderChanged(float value): void
- +AiBtnPressed(): void
- +TranscriptBtnPressed(): void
- +NotesBtnPressed(): void
- +SettingBtnPressed(): void
- +ContinueWatchingYesBtnPressed(): void
- +ContinueWatchingNoBtnPressed(): void
- +SubtitlesToggeled(bool value): void
- +SubtitleSizePlusBtnPressed(): void
- +SubtitleSizeMinusBtnPressed(): void
- +PlaybackSpeedSelected(string selectedOption): void
- +LanguageSelected(string selectedOption): void
+ -onlineMode: bool
+
+LecturePlayerWindow : Window
+ -Pause(): void
+ -SkipForward(): void
+ -SkipBackward(): void
+ -VideoSliderChanged(float value): void
+ -AiBtnPressed(): void
+ -TranscriptBtnPressed(): void
+ -NotesBtnPressed(): void
+ -SettingBtnPressed(): void
+ -ContinueWatchingYesBtnPressed(): void
+ -ContinueWatchingNoBtnPressed(): void
+ -SubtitlesToggeled(bool value): void
+ -SubtitleSizePlusBtnPressed(): void
+ -SubtitleSizeMinusBtnPressed(): void
+ -PlaybackSpeedSelected(string selectedOption): void
+ -LanguageSelected(string selectedOption): void
+
+ -videoProgressTextBox: TextMeshProUGUI
+ -videoSlider: Slider
+ -subtitleToggle: Toggle
+ -subtitleSizeTextBox: TextMeshProUGUI
+ -playBackSpeedDropdown: Dropdown
+ -languageDropdown: Dropdown
+
+Note : MonoBehaviour
+ -titleTextBox: TMPro.TextMeshProUGUI
+ -noteTextBox: TMPro.TextMeshProUGUI
+
+NoteWindow : Window
+ -EditNote(Note note): void
+ -ApplyNoteEdit(Note note, string newTitle, string newText): void
+ (-DiscardNoteEdit(): void)
+ -DeleteNote(Note note): void
+ -CreateNote(): void
+ -LoadNotes(): void
+ -SaveNotes(): void
+  
+ -notes: Note[]
+ -notePrefab: GameObject -> for creating a new note
+ -noteParent: Transform -> when creating a new note, this is the parent object
+
+NewNoteWindow : Window
+ -Apply(): void
+ -Discard(): void
+
+ -titleTextBox: TextMeshProUGUI
+ -noteTextBox: TextMeshProUGUI
+
+LectureNoteWindow : NoteWindow
+ -TimeStampClicked(Note note): void
+
+ -lectureName: string
+
+NewLectureNoteWindow : NewNoteWindow
+ -CurrentTimeStampAsTitleToggled(bool newValue): void
+
+ -lectureName: string
+
+TranscriptWindow : Window
+ -ViewSummary(): void
+ -LanguageSelected(string selectedOption): void
+
+ -textBox: TextMeshProUGUI
+ -lectureName: string
 
 SettingsWindow : Window
- +ApplySettings(): void
- +SaveSettings(): void
- +LoadSettings(): void
- +EnvironmentSelected(string selectedOption): void
- +LanguageSelected(string selectedOption): void
- +DarkModeToggled(bool value): void
- +AutoSwitchModeToggled(bool value): void
- ~currentSettings: Settings
+ -ApplySettings(): void
+ -SaveSettings(): void
+ -LoadSettings(): void
+ -EnvironmentSelected(string selectedOption): void
+ -LanguageSelected(string selectedOption): void
+ -DarkModeToggled(bool value): void
+ -AutoSwitchModeToggled(bool value): void
+
+ -currentSettings: Settings
+ -environmentDropdown: Dropdown
+ -languageDropdown: Dropdown
+ -darkModeToggle: Toggle
+ -autoSwitchModeToggle: Toggle
 
 enum Settings
- - string environment
- - string language
- - bool darkMode
- - bool autoSwitchMode
+ - environment: string
+ - language: string
+ - darkMode: bool
+ - autoSwitchMode: bool
+
+DialogueSystemWindow : Window
+ -MicrophoneBtnPressed(): void
+ -TextInputEnded(string text): void
+
+ -userTextBox: TextMeshProUGUI
+ -aiTextBox: TextMeshProUGUI

@@ -7,6 +7,18 @@ UnityEngine.CoreModule.Object
                 -Unity.XR.CoreUtils.XROrigin (VR player)
                 -UnityEngine.XR.Interaction.Toolkit.Inputs.InputActionManager
                 -UnityEngine.XR.Interaction.Toolkit.Inputs.XRInputModalityManager
+                -GUI.Window
+                    -GUI.MainMenuWindow
+                    -GUI.LectureBrowserWindow
+                    -GUI.LecturePlayerWindow
+                    -GUI.NoteWindow
+                        -GUI.LectureNoteWindow
+                    -GUI.CreateNoteWindow
+                        -GUI.CreateLectureNoteWindow
+                    -GUI.TranscriptWindow
+                    -GUI.SettingsWindow (+ enum Settings)
+                    -GUI.DialogueSystemWindow
+                -GUI.Note
             -UnityEngine.CoreModule.Camera
             -UnityEngine.AudioModule.AudioListener (3D Audio Output)
             -UnityEngine.VideoModule.VideoPlayer (for playing Lectures)

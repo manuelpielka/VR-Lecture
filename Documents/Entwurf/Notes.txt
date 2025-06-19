@@ -25,19 +25,14 @@ UnityEngine.CoreModule.Quaternion (Rotation)
 
 UnityEngine.AudioModule.Microphone (Microphone Input)
 
+----- GUI
+
 UnityEngine.UIElements.Toggle
 UnityEngine.UIElements.Button
 UnityEngine.UIElements.Slider
-UnityEngine.UIElements.TextField
+UnityEngine.UIElements.InputField
 TMPro.TMP_Dropdown
 TMPro.TextMeshProUGUI
-
-
-WindowManager : MonoBehaviour -> Manages where new Windows should pop up, so they dont overlap
- +OpenWindow(GameObject windowPrefab): void -> Instantiates new GameObject and sets its Position
-
- -openedWindows: List<Window>
-
 
 Window : MonoBehaviour
  -Close(): void
@@ -97,11 +92,11 @@ NoteWindow : Window
  -LoadNotes(): void
  -SaveNotes(): void
   
- -notes: Note[]
+ -notes: List<Note>
  -notePrefab: GameObject -> for creating a new note
  -noteParent: Transform -> when creating a new note, this is the parent object
 
-NewNoteWindow : Window
+CreateNoteWindow : Window
  -Apply(): void
  -Discard(): void
 
@@ -113,7 +108,7 @@ LectureNoteWindow : NoteWindow
 
  -lectureName: string
 
-NewLectureNoteWindow : NewNoteWindow
+CreateLectureNoteWindow : CreateNoteWindow
  -CurrentTimeStampAsTitleToggled(bool newValue): void
 
  -lectureName: string
@@ -152,3 +147,83 @@ DialogueSystemWindow : Window
 
  -userTextBox: TextMeshProUGUI
  -aiTextBox: TextMeshProUGUI
+
+---------------- UnityEngine.CoreModule:
+
+UnityEngine.CoreModule.Object
+ +hideFlags HideFlags
+ +name: string
+
+ +GetInstanceID(): int
+ +ToString(): string
+ +Destroy(): void
+ +Instantiate(Object original): Object
+
+UnityEngine.CoreModule.Component: UnityEngine.CoreModule.Object
+ +gameObject: GameObject
+ +tag: string
+ +transform: Transform
+
+ +GetComponent(): T
+
+UnityEngine.CoreModule.Behaviour: UnityEngine.CoreModule.Component
+ +enabled: bool
+ +isActiveAndEnabled
+
+UnityEngine.CoreModule.MonoBehaviour: UnityEngine.CoreModule.Behaviour
+ 
+ +Awake(): void
+ +FixedUpdate(): void
+ +OnDisable(): void
+ +OnEnable(): void
+ +Start(): void
+ +Update(): void
+
+UnityEngine.CoreModule.Camera: UnityEngine.CoreModule.Behaviour
+ +main: Camera
+
+UnityEngine.CoreModule.Transform: UnityEngine.CoreModule.Component
+ +localScale: Vector3
+ +position: Vector3
+ +rotation: Quaternion
+
+ +Rotate(Vector3 eulers): void
+ +SetParent(Transform p): void
+ +Translate(Vector3 translation): void
+
+UnityEngine.CoreModule.RectTransform: UnityEngine.CoreModule.Transform
+ +anchoredPosition: Vector2
+ +pivot: Vector2
+
+UnityEngine.CoreModule.Rigidbody: UnityEngine.CoreModule.Component
+ 
+UnityEngine.CoreModule.GameObject: UnityEngine.CoreModule.Object
+ +activeSelf: bool
+ +tag: string
+ +transform: Transform
+
+ +GameObject()
+ +CompareTag(string tag): bool
+ +GetComponent(): T
+ +SetActive(bool value): void
+
+UnityEngine.CoreModule.SceneManager
+ 
+ +LoadScene(string sceneName): void
+
+UnityEngine.CoreModule.Vector3
+ +x: float
+ +y: float
+ +z: float
+
+ +Set(float newX, float newY, float newZ): void
+
+UnityEngine.CoreModule.Vector2
+ +x: float
+ +y: float
+
+ +Set(float newX, float newY): void
+
+UnityEngine.CoreModule.Quaternion
+ +eulerAngles: Vector3
+ +normalized: Quaternion

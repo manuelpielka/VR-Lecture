@@ -1,0 +1,193 @@
+GUI
+-GUIManager // Central controller for managing all GUI windows in the VR environment
+-MainMenuWindow // Controls the main menu UI and user selection
+-LectureBrowserWindow // Displays the list of lectures for browsing
+-LecturePlayerWindow // Handles UI and playback controls (resume feature, playback speed, subtitle size)
+-NoteWindow // Display and interact with notes in the VR UI
+-LectureNoteWindow // Displays a list of notes associated with the current lecture or user session
+-CreateNoteWindow // UI window for creating or editing notes inside the VR application
+-TranscriptWindow // Displays transcript, translation and summary in a window
+-SettingsWindow // Manages the user interface for application settings within the VR environment
+-DialogueSystemWindow // Handles UI input/output for dialogue system
+
+
+
+
+LectureModule
+-Lecture // Represents a lecture with metadata and content reference
+-LectureManager // Handles lecture list loading and playback logic
+-TranscriptManager // Handles transcript data loading and formatting
+-DownloadManager // Manages download of lectures for offline use
+-SubtitleManager // Manages subtitle display settings and language options for lectures
+
+
+
+
+
+
+NoteModule
+-Note // Note entity with title and content
+-NoteManager // Manages note creation, editing, and storage
+
+
+
+
+
+
+
+DialogueModule
+-VirtualAvatar // Represents and animates the AI avatar in the VR space
+-DialogueController // Manages dialogue with AI system (text input/output)
+-VoiceInputManager // Converts microphone input into text for LLM processing
+
+
+
+
+
+SettingsModule
+-DisplayModeController // Automatically switches between dark/light modes based on time
+-PlaybackSettingsManager // Stores and loads user playback preferences such as speed and last watched time
+-SettingsManager // Manages application-wide configurable settings
+-Settings(enum) // Represents the available configurable settings 
+
+
+
+
+
+EnvironmentModule
+-EnvironmentManager // Manages switching between different VR environments
+-VRPlayerController // Handles VR player movement and interaction in 3D environment
+-VRInteractionManager // Manages all object interactions in VR
+-EnvironmentConfig // Stores configuration for a single virtual environment
+
+
+
+
+
+UtilityModule
+-TutorialManager // Provides tutorial guidance for first-time users
+-OfflineManager // Handles video and transcript downloading and offline access
+-WindowManager // Manages all UI windows and enables moving/resizing them in 3D
+-InputActionHandler // Handles input from controllers (e.g. button presses)
+-UserPreferencesManager // Manages persistent user preferences (playback speed, subtitle font size, last watched lecture position, display mode (dark/light))
+
+
+AudioManager???? we do not have
+Manages all system-wide audio functionalities including playback control,
+volume adjustment, mute toggling, and playing sound effects or background music
+
+
+
+
+
+
+
+
+
+
+
+
+VREnvironmentManager
+AppController
+VRInputHandler
+
+LectureBrowser
+LecturePlayer
+SubtitleManager
+PlaybackSettings
+
+TranscriptViewer
+Transcript
+Summary
+DocumentFetcher
+
+VRAvatar
+DialogueSession
+DialogueTextDisplay
+LLMConnector
+
+EnvironmentManager
+Environment
+WindowManager
+VRWindow
+WindowLayoutController
+
+NoteWindow
+NoteRepository
+
+PlaybackSettings
+FontSizeAdjuster
+ContinueWatcher
+
+TutorialOverlay
+TutorialManager
+
+ThemeSwitcher
+TimeUtil
+
+OfflineManager
+LectureCache
+
+VoiceInputHandler
+SpeechToTextService
+
+VRMovementController
+TeleportationHandler
+UserInputMapper
+
+LectureBrowser
+SearchBarController
+LectureListView
+
+LecturePlayer
+SubtitleManager
+PlaybackBar
+PlaybackSettings
+
+TranscriptViewer
+Transcript, Summary
+DocumentFetcher
+
+VRAvatar
+DialogueSession
+DialogueTextDisplay
+LLMConnector
+
+DialogueTextDisplay
+
+EnvironmentManager
+Environment
+
+FontSizeAdjuster
+SettingsMenu
+
+ContinueWatcher
+PlaybackSettings
+
+PlaybackSettings
+PlaybackController
+
+TutorialManager
+TutorialOverlay
+
+ThemeSwitcher
+TimeUtil
+
+OfflineManager
+DownloadHandler
+LectureCache
+
+WindowManager
+VRWindow
+WindowLayoutController
+
+NoteWindow
+NoteRepository
+NoteEditor
+
+MainMenuController
+MenuButtonHandler
+MenuOption
+
+VoiceInputHandler
+SpeechToTextService

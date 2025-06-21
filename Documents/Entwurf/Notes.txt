@@ -154,11 +154,13 @@ enum Settings
  - autoSwitchMode: bool
 
 DialogueSystemWindow : Window
- -MicrophoneBtnPressed(): void
- -TextInputEnded(string text): void
+ -MicrophoneBtnPressed(): void // Calls the function in the VoiceInputManager
+ -TextInputEnded(string text): void // sets the userTextBox to the inputted string and sets the aiTextBox to an empty string
+ +DisplayLLMAnswer(string answer): void // Sets the aiTextBox to the inputted string
 
  -userTextBox: TextMeshProUGUI
  -aiTextBox: TextMeshProUGUI
+ -voiceInputManager: VoiceInputManager
 
 ---------------- UnityEngine.CoreModule:
 
@@ -180,7 +182,7 @@ UnityEngine.CoreModule.Component: UnityEngine.CoreModule.Object
 
 UnityEngine.CoreModule.Behaviour: UnityEngine.CoreModule.Component
  +enabled: bool
- +isActiveAndEnabled
+ +isActiveAndEnabled: bool
 
 UnityEngine.CoreModule.MonoBehaviour: UnityEngine.CoreModule.Behaviour
  
@@ -239,3 +241,27 @@ UnityEngine.CoreModule.Vector2
 UnityEngine.CoreModule.Quaternion
  +eulerAngles: Vector3
  +normalized: Quaternion
+
+
+----- DialogueModule
+
+VirtualAvatar // Represents and animates the AI avatar in the VR space
+ +EnableAvatar(): void // enables the GameObject and plays the fade in animations
+ +DisableAvatar(): void // plays the fade out animation and then disables the GameObject
+ +PlayTalkingAnimation(): void
+
+ -animator: Animator // To control animations (Idle, talking, fade in/out?)
+ -virtualAvatarGO: GameObject // For enabling and disabling the avatar
+ +instance: VirtualAvatar // Singleton to access the functions
+
+DialogueController // Manages dialogue with AI system (text input/output)
+ +SendPrompt(string prompt): void // Sends the LLM the prompt
+ +ReceiveAnswer(string answer): void // Receives the answer of the LLM and sends it to the UI
+
+ -dialogueUI: DialogueSystemWindow // Reference to the dialogue Window UI
+ -virtualAvatar: VirtualAvatar
+
+VoiceInputManager // Converts microphone input into text for LLM processing using whisper
+ +ToggleVoiceRecording(): void // Starts/Stops recording and sends the text to the DialogueController
+
+ -dialogueController: DialogueController

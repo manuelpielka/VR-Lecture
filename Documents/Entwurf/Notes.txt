@@ -283,7 +283,7 @@ Note // Note entity with title and content
   +SetTimeStamp(time: float): void //Sets the time when the note was created (in seconds) during the lecture playback.
 
 NoteManager // Manages note creation, editing, and storage
-  -Notes: List<Note> //Stores all the notes
+  -Notes: List<Note> //A list of all created notes and is used for viewing, editing, saving and deleting.
   +NoteManager() //Constructor of NoteManager
   +GetAllNotes(): List<Note> //Gets the list of created notes.
   +AddNote(note: Note): void //Adds the new note and stores the note to the list of notes.

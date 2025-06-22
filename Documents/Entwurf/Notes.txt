@@ -274,7 +274,8 @@ Note // Note entity with title and content
   -content: string //The content of the note
   -timeStamp: float //The time stamp (in seconds) of the lecture when the note was created. Used to jump back to the exact moment during playback
   +Note() //Default constructor for deserialization of Unity instantiation (Unity or JSON)
-  +Note(title: string, content: string, timestamp: float) //Constructor of class Note
+  +Note(title: string, content: string) //Constructor for general notes not linked any lecture.
+  +Note(title: string, content: string, timestamp: float) //Constructor for notes linked to a specific time in the lecture.
   +GetTitle(): string //Gets the title of the note
   +GetContent(): string //Gets the content of the note
   +GetTimeStamp(): float //Gets the time stamp (in seconds) when the note was created.

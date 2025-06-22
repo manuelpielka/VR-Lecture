@@ -293,3 +293,9 @@ NoteManager // Manages note creation, editing, and storage
   +SaveNote(): void //Saves all notes locally in a JSON file for offline use.
   +LoadNote(): void //Loads saved notes from the local file for offline use.
 
+NoteUtils // Utility class currently for time format conversion. Designed for future extensibility.
+  -NoteUtils() //Private constructor to prevent instantiation of this utility class. 
+  +ConvertSecondsToTimeString(seconds: float): string //Converts a time stamp in seconds to a readable time (in string) for GUI display (e.g., “00:01:25”). 
+  +ConvertTimeStringToSeconds(time: string): float //Converts a readable time (in string) to seconds for internal use.
+
+

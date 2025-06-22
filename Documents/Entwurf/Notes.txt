@@ -288,7 +288,7 @@ NoteManager // Manages note creation, editing, and storage
   +GetAllNotes(): List<Note> //Gets the list of created notes.
   +AddNote(note: Note): void //Adds the new note and stores the note to the list of notes.
   +DeleteNote(note: Note): void //Deletes the created note and deletes the note from the list of notes.
-  +EditNote(note: Note, newTitle: string, newContent: string): void //Edits the created note.
-  +SaveNote(): void //Saves all notes locally in a JSON file 
-  +LoadNote(): void //Loads saved notes from the local file
+  +EditNote(note: Note, newTitle: string, newContent: string): void //Edits the given note by updating its title and/or content.
+  +SaveNote(): void //Saves all notes locally in a JSON file for offline use.
+  +LoadNote(): void //Loads saved notes from the local file for offline use.
 

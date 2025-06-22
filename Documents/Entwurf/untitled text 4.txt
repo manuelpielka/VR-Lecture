@@ -28,6 +28,7 @@ LectureModule
 NoteModule
 -Note // Note entity with title and content
 -NoteManager // Manages note creation, editing, and storage
+-NoteUtils // Utility class currently for time format conversion. Designed for future extensibility. 
 
 
 

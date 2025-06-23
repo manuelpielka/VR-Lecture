@@ -303,14 +303,13 @@ NoteUtils // Utility class currently for time format conversion. Designed for fu
 ----- EnvironmentModule
 
 EnvironmentConfig // Stores configuration for a single virtual environment
-  -name: string // The name of the VR environment, shown in the environment selection menu.
+  -sceneId: string // The scene ID used to retrieve the localized name for display.
   -scenePath: string // The path to the corresponding Unity scene. (used for SceneManager.LoadScene() ) 
   -ambientSound: AudioClip //Optional background sound of the environment to enhance immersion.
-  -environmentDescription: string //A short description of the environment, shown in the GUI to help users understand the content.
-  +EnvironmentConfig(name: string, scenePath: string, description: string, ambientSound: AudioClip) // Constructor for initializing all environment properties.
-  +GetName(): string //Gets the name of the VR environment.
+  +EnvironmentConfig(sceneId: string, scenePath: string, ambientSound: AudioClip) // Constructor for initializing all environment properties. Ambient sound is optional. 
+  <<Note>> ambientSound is optional (default: null)
+  +GetSceneId (): string //Gets the scene ID of the VR environment.
   +GetScenePath(): string //Gets the scene path of the Unity scene corresponding to this environment.
-  +GetDescription(): string //Gets the description of the VR environment shown in the GUI.
   +GetAmbientSound(): AudioClip //Gets the ambient sound assigned to this environment (if available).
 
 EnvironmentManager // Manages switching between different VR environments

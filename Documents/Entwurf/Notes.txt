@@ -52,6 +52,7 @@ Window : MonoBehaviour
  +Resize(Vector2 newSize): void
 
  -darkMode: bool
+ -prefab: GameObject
 
 MainMenuWindow : Window
  -OpenLectureBrowser(): void
@@ -85,26 +86,26 @@ LecturePlayerWindow : Window
  -LanguageSelected(string selectedOption): void
 
  -videoProgressTextBox: TextMeshProUGUI
- -videoSlider: Slider
+ -videoSlider: MinMaxSlider
  -subtitleToggle: Toggle
  -subtitleSizeTextBox: TextMeshProUGUI
- -playBackSpeedDropdown: Dropdown
- -languageDropdown: Dropdown
+ -playBackSpeedDropdown: TMP_Dropdown
+ -languageDropdown: TMP_Dropdown
 
-Note : MonoBehaviour
+NoteGUI : MonoBehaviour
  -titleTextBox: TMPro.TextMeshProUGUI
  -noteTextBox: TMPro.TextMeshProUGUI
 
 NoteWindow : Window
- -EditNote(Note note): void
- -ApplyNoteEdit(Note note, string newTitle, string newText): void
+ -EditNote(NoteGUI note): void
+ -ApplyNoteEdit(NoteGUI note, string newTitle, string newText): void
  (-DiscardNoteEdit(): void)
- -DeleteNote(Note note): void
+ -DeleteNote(NoteGUI note): void
  -CreateNote(): void
  -LoadNotes(): void
  -SaveNotes(): void
   
- -notes: List<Note>
+ -notes: List<NoteGUI>
  -notePrefab: GameObject -> for creating a new note
  -noteParent: Transform -> when creating a new note, this is the parent object
 
@@ -116,7 +117,7 @@ CreateNoteWindow : Window
  -noteTextBox: TextMeshProUGUI
 
 LectureNoteWindow : NoteWindow
- -TimeStampClicked(Note note): void
+ -TimeStampClicked(NoteGUI note): void
 
  -lectureName: string
 
@@ -142,8 +143,8 @@ SettingsWindow : Window
  -AutoSwitchModeToggled(bool value): void
 
  -currentSettings: Settings
- -environmentDropdown: Dropdown
- -languageDropdown: Dropdown
+ -environmentDropdown: TMP_Dropdown
+ -languageDropdown: TMP_Dropdown
  -darkModeToggle: Toggle
  -autoSwitchModeToggle: Toggle
 

@@ -14,11 +14,15 @@ GUI
 
 
 LectureModule
--Lecture // Represents a lecture with metadata and content reference
--LectureManager // Handles lecture list loading and playback logic
--TranscriptManager // Handles transcript data loading and formatting
--DownloadManager // Manages download of lectures for offline use
--SubtitleManager // Manages subtitle display settings and language options for lectures
+	PlaybackModule
+	-Lecture // Represents a lecture with metadata and content reference
+	-PlaybackManager // Handles playback logic
+	-TranscriptManager // Handles transcript data loading and formatting
+	-DownloadManager // Manages download or streaming of lectures
+	-SubtitleManager // Manages subtitle display settings and language options for lectures
+
+	BrowsingModule
+	
 
 
 

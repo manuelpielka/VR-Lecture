@@ -1,0 +1,72 @@
+
+classDiagram
+direction TB
+	namespace PlaybackModule {
+        class Lecture {
+	        -videoSource : String
+	        -lastPlayTime : int
+	        -transcriptSource :  String
+	        -transcriptLanguages : List~String~
+	        -name : String
+            -downloaded : bool
+            +getVideoSource() String
+            +getTranscriptSource() String
+            +getTranscriptLanguages() List~String~
+            +isDownloaded() bool
+        }
+        class PlaybackManager {
+            -lecture : Lecture
+	        -videoPlayer : VideoPlayer
+
+	        +play() void
+	        +pause() void
+	        +moveTo() void
+	        +setPlaybackSpeed() void
+            +getCurrentTime() int
+            +getVideoLength() int
+        }
+        class DownloadManager {
+	        +download(String) Lecture
+	        +stream(String) Lecture
+        }
+        class SubtitleManager {
+            -lecture : Lecture
+	        -currentLanguage : String
+	        -size : int
+            -playbackManager : PlaybackManager
+	        +getCurrentLanguage() String
+	        +getAvailabelLanguages() List~String~
+	        +setLanguage(String) void
+	        +setSize(int) void
+        }
+        class TranscriptManager {
+            -lecture : Lecture
+	        -Text : TextMeshProUGUI
+	        +setLanguage(String) void
+	        +setFontSize(int) void
+        }
+	}
+	namespace UnityEngine.Video {
+        class VideoPlayer {
+        }
+	}
+	namespace TMPro {
+        class TextMeshProUGUI {
+        }
+	}
+    namespace UnityEngine.Core {
+        class MonoBehaviour {
+        }
+    }
+
+	<<static>> DownloadManager
+	note "The Managers get instantiated via Prefab"
+    TranscriptManager ..> Lecture
+    SubtitleManager ..> Lecture
+    PlaybackManager ..> Lecture
+    DownloadManager ..> Lecture
+    PlaybackManager ..> VideoPlayer
+    TranscriptManager ..> TextMeshProUGUI
+    MonoBehaviour <|-- PlaybackManager
+    MonoBehaviour <|-- TranscriptManager
+    MonoBehaviour <|-- SubtitleManager

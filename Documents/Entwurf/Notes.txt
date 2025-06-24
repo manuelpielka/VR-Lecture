@@ -315,14 +315,14 @@ EnvironmentConfig // Stores configuration for a single virtual environment
   +GetScenePath(): string //Gets the scene path of the Unity scene corresponding to this environment.
 
 EnvironmentManager // Manages switching between different VR environments
--environments: List<EnvironmentConfig>
--currentEnvironment: EnvironmentConfig
-+EnvironmentManager() //Default constructor of EnvironmentManager
-+GetAllEnvironments(): List<EnvironmentConfig>
-+GetCurrentEnvironment(): EnvironmentConfig
-+GetEnvironment(sceneId: string): EnvironmentConfig
-+LoadEnvironment(sceneId: string): void
-+SwitchEnvironment(config: EnvironmentConfig): void
+  -environments: List<EnvironmentConfig> //A list of all available VR environment configurations.
+  -currentEnvironment: EnvironmentConfig //The currently active environment configuration.
+  +EnvironmentManager() //Default constructor of EnvironmentManager
+  +GetAllEnvironments(): List<EnvironmentConfig>
+  +GetCurrentEnvironment(): EnvironmentConfig
+  +GetEnvironment(sceneId: string): EnvironmentConfig
+  +LoadEnvironment(sceneId: string): void // Loads the environment configuration using the given scene ID and initiates the switch to that environment.
+  +SwitchEnvironment(config: EnvironmentConfig): void //Switches to the specified environment by loading its scene and applying its configuration.
 
 VRInteractionManager // Manages all object interactions in VR
 

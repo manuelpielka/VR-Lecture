@@ -84,6 +84,7 @@ LecturePlayerWindow : Window
  -SubtitleSizeMinusBtnPressed(): void
  -PlaybackSpeedSelected(string selectedOption): void
  -LanguageSelected(string selectedOption): void
+ +SetSubtitleText(string text): void
 
  -videoProgressTextBox: TextMeshProUGUI
  -videoSlider: MinMaxSlider
@@ -91,6 +92,7 @@ LecturePlayerWindow : Window
  -subtitleSizeTextBox: TextMeshProUGUI
  -playBackSpeedDropdown: TMP_Dropdown
  -languageDropdown: TMP_Dropdown
+ -subtitleTextBox: TextMeshProUGUI
 
 NoteGUI : MonoBehaviour
  -titleTextBox: TMPro.TextMeshProUGUI

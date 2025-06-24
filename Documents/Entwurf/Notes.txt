@@ -318,11 +318,11 @@ EnvironmentManager // Manages switching between different VR environments
   -environments: List<EnvironmentConfig> //A list of all available VR environment configurations.
   -currentEnvironment: EnvironmentConfig //The currently active environment configuration.
   +EnvironmentManager() //Default constructor of EnvironmentManager
+  +LoadEnvironment(sceneId: string): void // Loads the environment configuration using the given scene ID and initiates the switch to that environment.
+  +SwitchEnvironment(config: EnvironmentConfig): void //Switches to the specified environment by loading its scene and applying its configuration.
   +GetAllEnvironments(): List<EnvironmentConfig>
   +GetCurrentEnvironment(): EnvironmentConfig
   +GetEnvironment(sceneId: string): EnvironmentConfig
-  +LoadEnvironment(sceneId: string): void // Loads the environment configuration using the given scene ID and initiates the switch to that environment.
-  +SwitchEnvironment(config: EnvironmentConfig): void //Switches to the specified environment by loading its scene and applying its configuration.
 
 VRInteractionManager // Manages all object interactions in VR
 

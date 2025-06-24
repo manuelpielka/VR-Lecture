@@ -158,10 +158,13 @@ DialogueSystemWindow : Window
  -MicrophoneBtnPressed(): void // Calls the function in the VoiceInputManager
  -TextInputEnded(string text): void // sets the userTextBox to the inputted string and sets the aiTextBox to an empty string
  +DisplayLLMAnswer(string answer): void // Sets the aiTextBox to the inputted string
+ +DisplayMicText(string prompt): void
 
  -userTextBox: TextMeshProUGUI
  -aiTextBox: TextMeshProUGUI
  -voiceInputManager: VoiceInputManager
+ -dialogueController: DialogueController
+ -virtualAvatar: VirtualAvatar
 
 ---------------- UnityEngine.CoreModule:
 
@@ -266,6 +269,7 @@ VoiceInputManager // Converts microphone input into text for LLM processing usin
  +ToggleVoiceRecording(): void // Starts/Stops recording and sends the text to the DialogueController
 
  -dialogueController: DialogueController
+ -dialogueUI: DialogueSystemWindow
 
 
 ----- NoteModule

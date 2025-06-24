@@ -39,10 +39,10 @@ UnityEngine.AudioModule.Microphone (Microphone Input)
 
 ----- GUI
 
-UnityEngine.UIElements.Toggle
-UnityEngine.UIElements.Button
-UnityEngine.UIElements.Slider
-UnityEngine.UIElements.InputField
+UnityEngine.UI.Toggle
+UnityEngine.UI.Button
+UnityEngine.UI.Slider
+UnityEngine.UI.InputField
 TMPro.TMP_Dropdown
 TMPro.TextMeshProUGUI
 
@@ -256,7 +256,6 @@ VirtualAvatar // Represents and animates the AI avatar in the VR space
 
  -animator: Animator // To control animations (Idle, talking, fade in/out?)
  -virtualAvatarGO: GameObject // For enabling and disabling the avatar
- +instance: VirtualAvatar // Singleton to access the functions
 
 DialogueController // Manages dialogue with AI system (text input/output)
  +SendPrompt(string prompt): void // Sends the LLM the prompt

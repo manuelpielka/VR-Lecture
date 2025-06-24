@@ -290,7 +290,7 @@ Note // Note entity with title and content
 
 NoteManager // Manages note creation, editing, and storage
   -Notes: List<Note> //A list of all created notes and is used for viewing, editing, saving and deleting.
-  +NoteManager() //Constructor of NoteManager
+  +NoteManager() //Default onstructor of NoteManager
   +GetAllNotes(): List<Note> //Gets the list of created notes.
   +AddNote(note: Note): void //Adds the new note and stores the note to the list of notes.
   +DeleteNote(note: Note): void //Deletes the created note and deletes the note from the list of notes.
@@ -308,15 +308,20 @@ NoteUtils // Utility class currently for time format conversion. Designed for fu
 
 EnvironmentConfig // Stores configuration for a single virtual environment
   -sceneId: string // The scene ID used to retrieve the localized name for display.
-  -scenePath: string // The path to the corresponding Unity scene. (used for SceneManager.LoadScene() ) 
-  -ambientSound: AudioClip //Optional background sound of the environment to enhance immersion.
-  +EnvironmentConfig(sceneId: string, scenePath: string, ambientSound: AudioClip) // Constructor for initializing all environment properties. Ambient sound is optional. 
-  <<Note>> ambientSound is optional (default: null)
+  -scenePath: string // The path to the corresponding Unity scene. (used for SceneManager.LoadScene() )
+  +EnvironmentConfig(sceneId: string, scenePath: string) // Constructor for initializing all environment properties.
   +GetSceneId (): string //Gets the scene ID of the VR environment.
   +GetScenePath(): string //Gets the scene path of the Unity scene corresponding to this environment.
-  +GetAmbientSound(): AudioClip //Gets the ambient sound assigned to this environment (if available).
 
 EnvironmentManager // Manages switching between different VR environments
+-environments: List<EnvironmentConfig>
+-currentEnvironment: EnvironmentConfig
++EnvironmentManager() //Default constructor of EnvironmentManager
++GetAllEnvironments(): List<EnvironmentConfig>
++GetCurrentEnvironment(): EnvironmentConfig
++GetEnvironment(sceneId: string): EnvironmentConfig
++LoadEnvironment(sceneId: string): void
++SwitchEnvironment(config: EnvironmentConfig): void
 
 VRInteractionManager // Manages all object interactions in VR
 

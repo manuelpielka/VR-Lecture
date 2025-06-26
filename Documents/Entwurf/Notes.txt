@@ -19,6 +19,9 @@ UnityEngine.CoreModule.Object
                     -GUI.SettingsWindow (+ enum Settings)
                     -GUI.DialogueSystemWindow
                 -GUI.Note
+                -EnvironmentModule.EnvironmentManager
+                -EnvironmentModule.VRInteractionManager
+                -EnvironmentModule.VRUserController
             -UnityEngine.CoreModule.Camera
             -UnityEngine.AudioModule.AudioListener (3D Audio Output)
             -UnityEngine.VideoModule.VideoPlayer (for playing Lectures)

@@ -1,15 +1,24 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class WindowManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private List<Window> activeWindows = new();
+    private Dictionary<string, GameObject> windowPrefabs = new Dictionary<string, GameObject>();
+
+    private WindowKeys windowKeys;
+
+    public Window CreateWindow(string prefabKey)
     {
-        
+        return;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OpenWindow(string prefabKey)
+    {
+
+    }
+    
+    public void CloseWindow(Window window)
     {
         
     }

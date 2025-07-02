@@ -2,14 +2,24 @@ using UnityEngine;
 
 public class Window : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    private bool darkMode = false;
+    private GameObject prefab;
+    private WindowManager windowManager;
+
+    private TutorialManager tutorialManager;
+
+    private void Close()
+    {
+       
+    }
+
+    public void Move(UnityEngine.Vector3 newPosition)
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Resize(UnityEngine.Vector2 newSize)
     {
         
     }

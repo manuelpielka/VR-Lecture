@@ -5,26 +5,25 @@ using UnityEngine;
 /// </summary>
 public class Window : MonoBehaviour
 {
-    
+
     /// <summary>
     /// Indicates whether or not the dark mode is currently active.
     /// </summary>
-    private bool darkMode = false;
-
+    public bool DarkMode { get; set; }
     /// <summary>
     /// The prefab of this window that gets instantiated when a new window is opened.
     /// </summary>
-    private GameObject prefab;
+    public GameObject Prefab { get; set; }
 
     /// <summary>
     /// Reference to the window manager to open and close Window objects.
     /// </summary>
-    private WindowManager windowManager;
+    public WindowManager WindowManager { get; set; }
 
     /// <summary>
     /// Reference to the tutorial manager to start the tutorial.
     /// </summary>
-    private TutorialManager tutorialManager;
+    public TutorialManager TutorialManager { get; set; }
 
 
 
@@ -33,12 +32,12 @@ public class Window : MonoBehaviour
     /// </summary>
     private void Close()
     {
-        if (windowManager == null)
+        if (WindowManager == null)
         {
             return;
         }
         Destroy(gameObject);
-        windowManager.CloseWindow(this);
+        WindowManager.CloseWindow(this);
     }
 
 
@@ -65,5 +64,4 @@ public class Window : MonoBehaviour
 
         rectTransform.sizeDelta = newSize;
     }
-
 }

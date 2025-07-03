@@ -18,9 +18,4 @@ public interface ITutorialStep
     /// </summary>
     public void EndStep();
 
-    /// <summary>
-    /// Method declaration for checking if the tutorial step is complete.
-    /// </summary>
-    /// <returns>Returns if the step is already completed. </returns>
-    public bool GetIsComplete();
 }

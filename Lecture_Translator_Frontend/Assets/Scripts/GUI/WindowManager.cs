@@ -22,12 +22,6 @@ public class WindowManager : MonoBehaviour
     private Dictionary<string, GameObject> windowPrefabs = new Dictionary<string, GameObject>();
 
 
-    /// <summary>
-    /// Reference to the WindowKeys class for accessing keys for specific lectures.
-    /// </summary>
-    private WindowKeys windowKeys;
-
-
     void Awake()
     {
         LoadWindowPrefabs();
@@ -36,7 +30,7 @@ public class WindowManager : MonoBehaviour
 
     private void LoadWindowPrefabs()
     {
-        List<string> keys = windowKeys.AllKeys;
+        List<string> keys = WindowKeys.AllKeys;
 
         for (int i = 0; i < keys.Count && i < windowPrefabsList.Count; i++)
         {

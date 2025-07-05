@@ -36,8 +36,10 @@ public class Window : MonoBehaviour
         {
             return;
         }
-        Destroy(gameObject);
+
         WindowManager.CloseWindow(this);
+        Destroy(gameObject);
+        
     }
 
 

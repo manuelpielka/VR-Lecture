@@ -325,6 +325,7 @@ GameObject:
   m_Component:
   - component: {fileID: 919114762}
   - component: {fileID: 919114761}
+  - component: {fileID: 919114763}
   m_Layer: 0
   m_Name: VirtualAvatar
   m_TagString: Untagged
@@ -361,6 +362,19 @@ Transform:
   - {fileID: 632215843}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &919114763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919114760}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54880f403505902418d45c78e1a8604f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  virtualAvatar: {fileID: 919114761}
 --- !u!1 &1656147265
 GameObject:
   m_ObjectHideFlags: 0

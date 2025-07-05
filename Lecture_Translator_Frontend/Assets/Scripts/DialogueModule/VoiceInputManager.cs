@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -26,6 +27,46 @@ public class VoiceInputManager : MonoBehaviour
     private AudioSource audioSource;
 
     /// <summary>
+    /// The sample rate of the microphone recording.
+    /// </summary>
+    private const int sampleRate = 16000;
+
+    /// <summary>
+    /// The size of the microphone's buffer in seconds.
+    /// </summary>
+    private const int bufferSize = 10;
+
+    /// <summary>
+    /// Is the microphone currently recording?
+    /// </summary>
+    private bool isRecording = false;
+
+    /// <summary>
+    /// The chunk size of the recorded audio.
+    /// </summary>
+    private const int chunkSize = 1600; // 100ms at 16kHz
+
+    /// <summary>
+    /// The last sample position of the audio chunk.
+    /// </summary>
+    private int lastSamplePosition = 0;
+
+    /// <summary>
+    /// The byte buffer of the audio chunks.
+    /// </summary>
+    private float[] audioBuffer = new float[chunkSize];
+
+    /// <summary>
+    /// The amount of time recorded.
+    /// </summary>
+    private float time = 0f;
+
+    /// <summary>
+    /// The polling rate of the audio stream.
+    /// </summary>
+    private float pollingRate = 0.05f;
+
+    /// <summary>
     /// The start method called by unity.
     /// </summary>
     private void Start()
@@ -49,16 +90,71 @@ public class VoiceInputManager : MonoBehaviour
     {
         if (micDevice == null) Debug.LogError("No microphone detected. Cannot record audio!");
 
-        if (!Microphone.IsRecording(micDevice))
+        if (!isRecording)
         {
+            dialogueController.SendStart();
+
             // Start recording
-            audioSource.clip = Microphone.Start(micDevice, false, 10, 44100);
+            audioSource.clip = Microphone.Start(micDevice, true, bufferSize, sampleRate);
+
+            isRecording = true;
+
+            StartCoroutine(StreamMicrophone());
         }
         else
         {
             // End recording
             Microphone.End(micDevice);
-            dialogueController.SendPrompt(audioSource.clip);
+
+            isRecording = false;
+
+            dialogueController.SendEnd();
         }
+    }
+
+    /// <summary>
+    /// This method records audio chunks, converts them to the correct format and sends them to the DialogueController.
+    /// </summary>
+    IEnumerator StreamMicrophone()
+    {
+        time = 0f;
+
+        while (isRecording)
+        {
+            int currentPosition = Microphone.GetPosition(micDevice);
+            int samplesAvailable = currentPosition - lastSamplePosition;
+            if (samplesAvailable < 0) samplesAvailable += audioSource.clip.samples;
+
+            if (samplesAvailable >= chunkSize)
+            {
+                audioSource.clip.GetData(audioBuffer, lastSamplePosition);
+                lastSamplePosition = (lastSamplePosition + chunkSize) % audioSource.clip.samples;
+
+                byte[] pcmChunk = FloatToPCM16(audioBuffer);
+
+                float startTime = time; // TODO: does this even work?
+                float endTime = startTime + (pcmChunk.Length / (2 * sampleRate));
+                time = endTime;
+
+                dialogueController.StreamAudio(pcmChunk, startTime, endTime);
+            }
+
+            yield return new WaitForSeconds(pollingRate);
+        }
+    }
+
+    /// <summary>
+    /// This method converts a recorded audio chunk from a float array to a PCM16 formatted byte array.
+    /// </summary>
+    byte[] FloatToPCM16(float[] floatBuffer)
+    {
+        byte[] pcm = new byte[floatBuffer.Length * 2];
+        for (int i = 0; i < floatBuffer.Length; i++)
+        {
+            short val = (short)Mathf.Clamp(floatBuffer[i] * 32767, -32768, 32767);
+            pcm[i * 2] = (byte)(val & 0xff);
+            pcm[i * 2 + 1] = (byte)((val >> 8) & 0xff);
+        }
+        return pcm;
     }
 }

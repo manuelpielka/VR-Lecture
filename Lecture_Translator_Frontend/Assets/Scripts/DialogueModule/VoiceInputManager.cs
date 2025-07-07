@@ -146,6 +146,7 @@ public class VoiceInputManager : MonoBehaviour
     /// <summary>
     /// This method converts a recorded audio chunk from a float array to a PCM16 formatted byte array.
     /// </summary>
+    /// <param name="floatBuffer">The recorded audio chunk as a float array.</param>
     byte[] FloatToPCM16(float[] floatBuffer)
     {
         byte[] pcm = new byte[floatBuffer.Length * 2];

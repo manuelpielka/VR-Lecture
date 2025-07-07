@@ -42,6 +42,7 @@ public class DialogueController : MonoBehaviour
     /// <summary>
     /// This method is used to send the connected LLM a prompt via text.
     /// </summary>
+    /// <param name="prompt">The prompt to send to the LLM.</param>
     public void SendPrompt(string prompt)
     {
         string json = "{ \"bot\": \"bot\"}";
@@ -66,6 +67,9 @@ public class DialogueController : MonoBehaviour
     /// <summary>
     /// This method is used to send the connected LLM a prompt via audio.
     /// </summary>
+    /// <param name="pcmChunk">The recorded audio chunk to send.</param>
+    /// <param name="start">The start time of the recorded audio chunk.</param>
+    /// <param name="end">The end time of the recorded audio chunk.</param>
     public void StreamAudio(byte[] pcmChunk, float start, float end)
     {
         string base64String = Convert.ToBase64String(pcmChunk);
@@ -82,6 +86,8 @@ public class DialogueController : MonoBehaviour
     /// <summary>
     /// Sends a post request to the api server.
     /// </summary>
+    /// <param name="url">The url of the api server.</param>
+    /// <param name="json">The json data to send in the request.</param>
     IEnumerator PostRequest(string url, string json)
     {
         UnityWebRequest request = new UnityWebRequest(url, "POST");
@@ -99,6 +105,7 @@ public class DialogueController : MonoBehaviour
     /// <summary>
     /// This method is called when the api answers the post request
     /// </summary>
+    /// <param name="answer">The answer sent by the api.</param>
     public void ReceiveAnswer(string answer)
     {
         if (sessionId == "")

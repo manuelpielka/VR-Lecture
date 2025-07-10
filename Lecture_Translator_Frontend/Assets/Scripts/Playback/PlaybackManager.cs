@@ -35,25 +35,23 @@ public class PlaybackManager : MonoBehaviour
     {
         videoPlayer.Pause();
     }
-    public void MoveTo()
+    public void MoveTo(double time)
     {
-        //WIP
+        videoPlayer.time = time;
     }
 
-    public void SetPlaybackSpeed()
+    public void SetPlaybackSpeed(float factor)
     {
-        //WIP
+        videoPlayer.playbackSpeed = factor;
     }
 
-    public int GetCurrentTime()
+    public double GetCurrentTime()
     {
-        //WIP
-        return 0;
+        return videoPlayer.time;
     }
 
-    public int GetVideoLength()
+    public double GetVideoLength()
     {
-        //WIP
-        return 0;
+        return videoPlayer.length;
     }
 }

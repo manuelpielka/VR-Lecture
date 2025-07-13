@@ -1,4 +1,6 @@
 using UnityEngine;
+using TMPro; 
+using UnityEngine.UI;
 
 /// <summary>
 /// A class that handles automatic and manual switching between light and dark display modes
@@ -21,7 +23,7 @@ public class DisplayModeController : MonoBehaviour
     /// </summary>
     public DisplayModeController()
     {
-        isDarkModeEnabled = true;
+        isDarkModeEnabled = false;
         autoAdjust = true;
         UpdateMode();
     }
@@ -57,9 +59,39 @@ public class DisplayModeController : MonoBehaviour
         if (autoAdjust)
         {
             int hour = System.DateTime.Now.Hour;
-            isDarkModeEnabled = (hour >= 18 || hour < 6); // Dark mode from 6pm to 6am
+            isDarkModeEnabled = (hour >= 18 || hour < 6); // Dark mode from 6pm to 6am magic number
             ApplyMode();
         }
+    }
+    
+    /// <summary>
+    /// Manually triggers a mode refresh based on current time.
+    /// Useful for UI buttons to apply current time-based theme.
+    /// </summary>
+    public void RefreshMode()
+    {
+        UpdateMode();
+    }
+
+    /// <summary>
+    /// Enables or disables automatic mode adjustment based on system time.
+    /// </summary>
+    /// <param name="enabled">True to enable auto adjust; false to disable.</param>
+    public void SetAutoAdjust(bool enabled)
+    {
+        autoAdjust = enabled;
+        if (autoAdjust)
+        {
+            UpdateMode();
+        }
+    }
+
+    /// <summary>
+    /// Returns true if automatic adjustment is enabled; otherwise false.
+    /// </summary>
+    public bool IsAutoAdjustEnabled()
+    {
+        return autoAdjust;
     }
 
     /// <summary>
@@ -68,19 +100,40 @@ public class DisplayModeController : MonoBehaviour
     /// </summary>
     private void ApplyMode()
     {
+        if (Camera.main != null)
+        {
+            Camera.main.backgroundColor = isDarkModeEnabled ? Color.black : Color.white;
+        }
+
+
+        TextMeshProUGUI[] allTextElements = Object.FindObjectsByType<TextMeshProUGUI>(FindObjectsSortMode.None);
+        Color newTextColor = isDarkModeEnabled ? Color.white : Color.black;
+
+        foreach (TextMeshProUGUI textElement in allTextElements)
+        {
+            textElement.color = newTextColor;
+        }
+
+        Text[] legacyTexts = Object.FindObjectsByType<Text>(FindObjectsSortMode.None);
+        foreach (Text t in legacyTexts)
+        {
+            t.color = newTextColor;
+        }
+
+
         // TODO
-        Debug.Log("Display mode applied: " + (isDarkModeEnabled ? "Dark" : "Light"));
+        // Debug.Log("Display mode applied: " + (isDarkModeEnabled ? "Dark" : "Light"));
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        ApplyMode();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        RefreshMode();
     }
 }

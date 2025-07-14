@@ -2,8 +2,8 @@ using UnityEngine;
 
 /// <summary>
 /// A class that manages the user's playback preferences such as speed,
-/// subtitle font size, and last-watched position.
-/// Used to persist and restore session settings for lectures.
+/// subtitle font size.
+/// This class does not store session-specific data like last watched lecture/time.
 /// </summary>
 public class PlaybackSettingsManager : MonoBehaviour
 {
@@ -13,24 +13,14 @@ public class PlaybackSettingsManager : MonoBehaviour
     // Font size for subtitle display, adjustable for accessibility
     private int subtitleFontSize;
 
-    // Timestamp (in seconds) of where the user last left off in the lecture
-    private float lastWatchedTime;
-
-    // ID of the last watched lecture (used to resume playback)
-    private string lastLectureId;
-
     /// <summary>
-    /// Initializes a new instance of the <see cref="PlaybackSettingsManager"/> class 
-    /// with default values for playback speed, subtitle font size, last watched time, and lecture ID.
+    /// Initializes default playback settings on first use or fallback.
     /// </summary>
-    public PlaybackSettingsManager()
+    private void Awake()
     {
-        // Default values 
-        // TODO: magic numbers!!!!!!!!!!!
-        playbackSpeed = 1.0f;
-        subtitleFontSize = 16;
-        lastWatchedTime = 0.0f;
-        lastLectureId = "";
+        // Load saved preferences or fallback to default
+        playbackSpeed = UserPreferencesManager.LoadPlaybackSpeed();  // default = 1.0
+        subtitleFontSize = UserPreferencesManager.LoadSubtitleFontSize(); // default = 16
     }
 
     /// <summary>
@@ -67,57 +57,5 @@ public class PlaybackSettingsManager : MonoBehaviour
     public void SetSubtitleFontSize(int subtitleFontSize)
     {
         this.subtitleFontSize = subtitleFontSize;
-    }
-    
-    /// <summary>
-    /// Gets the timestamp of the last watched position in the lecture.
-    /// </summary>
-    /// <returns>A float representing the time (in seconds) where the user left off.</returns>
-    public float GetLastWatchedTime()
-    {
-        return lastWatchedTime;
-    }
-
-    /// <summary>
-    /// Sets a new timestamp for the last watched position in the lecture.
-    /// </summary>
-    /// <param name="time">The time in seconds where the user left off.</param>
-    public void SetLastWatchedTime(float time)
-    {
-        lastWatchedTime = time;
-    }
-
-    /// <summary>
-    /// Gets the ID of the last watched lecture.
-    /// </summary>
-    /// <returns>A string containing the lecture ID.</returns>
-    public string GetLastLectureId()
-    {
-        return lastLectureId;
-    }
-
-    /// <summary>
-    /// Sets the ID of the last watched lecture.
-    /// </summary>
-    /// <param name="lectureId">A string representing the unique lecture ID.</param>
-    public void SetLastLectureId(string lectureId)
-    {
-        lastLectureId = lectureId;
-    }
-
-
-
-
-    // TODOOOOOOO!!!!!
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

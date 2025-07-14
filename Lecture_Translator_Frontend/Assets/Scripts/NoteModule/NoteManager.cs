@@ -63,12 +63,14 @@ public class NoteManager
 
         // Delete the corresponding JSON file (if it exists)
         string path = Path.Combine(Application.persistentDataPath, "notes", $"{note.Title}.json");
+        Debug.Log($"Trying to delete file at: {path}");
 
         try
         {
             if (File.Exists(path))
             {
                 File.Delete(path);
+                Debug.Log($"File deleted: {path}");
             }
             else
             {
@@ -124,11 +126,13 @@ public class NoteManager
         if (!Directory.Exists(folder))
         {
             Directory.CreateDirectory(folder);
+            Debug.LogWarning($"The note '{note.Title}' is not found in the note folder.");
         }
 
         // Create the file path using the title of the note as the file name.
         string path = Path.Combine(folder, $"{note.Title}.json");
         string json = JsonUtility.ToJson(note, true);
+        Debug.Log($"JSON content being saved: {json}");
 
         try
         {

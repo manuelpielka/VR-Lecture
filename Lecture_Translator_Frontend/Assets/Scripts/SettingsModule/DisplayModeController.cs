@@ -18,14 +18,32 @@ public class DisplayModeController : MonoBehaviour
     /// </summary>
     private bool autoAdjust;
 
-    /// <summary>
-    /// Constructor that initializes default values for the display mode controller.
-    /// </summary>
-    public DisplayModeController()
+    private float refreshTimer = 0f;
+    private float refreshInterval = 60f; // Refresh every 60 seconds
+
+    void Awake()
     {
+        // Initialize default values
         isDarkModeEnabled = false;
         autoAdjust = true;
+    }
+
+    void Start()
+    {
         UpdateMode();
+    }
+
+    void Update()
+    {
+        if (autoAdjust)
+        {
+            refreshTimer += Time.deltaTime;
+            if (refreshTimer >= refreshInterval)
+            {
+                refreshTimer = 0f;
+                RefreshMode();
+            }
+        }
     }
 
     /// <summary>
@@ -46,6 +64,15 @@ public class DisplayModeController : MonoBehaviour
         if (!autoAdjust)
         {
             isDarkModeEnabled = enabled;
+            ApplyMode();
+        }
+    }
+
+    public void ToggleMode()
+    {
+        if (!autoAdjust)
+        {
+            isDarkModeEnabled = !isDarkModeEnabled;
             ApplyMode();
         }
     }
@@ -123,17 +150,5 @@ public class DisplayModeController : MonoBehaviour
 
         // TODO
         // Debug.Log("Display mode applied: " + (isDarkModeEnabled ? "Dark" : "Light"));
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        ApplyMode();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        RefreshMode();
     }
 }

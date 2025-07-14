@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 /// <summary>
 /// A class that handles automatic and manual switching between light and dark display modes
-/// based on the system time.
+/// based on the system time and user preferences.
 /// </summary>
 public class DisplayModeController : MonoBehaviour
 {
@@ -18,22 +18,34 @@ public class DisplayModeController : MonoBehaviour
     /// </summary>
     private bool autoAdjust;
 
+    // Timer used to refresh the mode periodically in auto mode
     private float refreshTimer = 0f;
+
+    // How often to check system time in seconds (e.g., every 60 seconds)
     private float refreshInterval = 60f; // Refresh every 60 seconds
 
-    void Awake()
+    /// <summary>
+    /// Called before Start(). Loads saved preferences for mode and auto adjust.
+    /// </summary>
+    private void Awake()
     {
-        // Load saved user preferences
+        // Load user preferences from storage
         isDarkModeEnabled = UserPreferencesManager.LoadDarkMode();
         autoAdjust = UserPreferencesManager.LoadAutoAdjust();
     }
 
-    void Start()
+    /// <summary>
+    /// Called on the first frame. Applies initial mode based on loaded preferences.
+    /// </summary>
+    private void Start()
     {
-        UpdateMode();
+        UpdateMode(); // Will internally call ApplyMode()
     }
 
-    void Update()
+    /// <summary>
+    /// Called every frame. If auto adjust is on, refresh display mode every minute.
+    /// </summary>
+    private void Update()
     {
         if (autoAdjust)
         {
@@ -57,6 +69,7 @@ public class DisplayModeController : MonoBehaviour
     /// <summary>
     /// Enables or disables dark mode manually.
     /// Only effective when autoAdjust is false.
+    /// Also saves the user's preference.
     /// </summary>
     /// <param name="enabled">True to enable dark mode, false for light mode.</param>
     public void SetDarkMode(bool enabled)
@@ -69,6 +82,9 @@ public class DisplayModeController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Toggles dark mode manually. Only works when autoAdjust is false.
+    /// </summary>
     public void ToggleMode()
     {
         if (!autoAdjust)
@@ -91,11 +107,14 @@ public class DisplayModeController : MonoBehaviour
             isDarkModeEnabled = (hour >= 18 || hour < 6); // Dark mode from 6pm to 6am magic number
             ApplyMode();
         }
+        else
+        {
+            ApplyMode(); // Apply manually saved preference
+        }
     }
     
     /// <summary>
-    /// Manually triggers a mode refresh based on current time.
-    /// Useful for UI buttons to apply current time-based theme.
+    /// Manually triggers a mode refresh (used by UI buttons if needed).
     /// </summary>
     public void RefreshMode()
     {
@@ -112,7 +131,7 @@ public class DisplayModeController : MonoBehaviour
         UserPreferencesManager.SaveAutoAdjust(enabled);
         if (autoAdjust)
         {
-            UpdateMode();
+            UpdateMode(); // Immediately update based on current time
         }
     }
 
@@ -125,17 +144,17 @@ public class DisplayModeController : MonoBehaviour
     }
 
     /// <summary>
-    /// Applies the current display mode setting to the system or application.
-    /// (Stub for actual implementation, e.g., switching UI themes)
+    /// Applies the current display mode visually (background and text colors).
     /// </summary>
     private void ApplyMode()
     {
+        // Set camera background color
         if (Camera.main != null)
         {
             Camera.main.backgroundColor = isDarkModeEnabled ? Color.black : Color.white;
         }
 
-
+        // Update all TMP texts
         TextMeshProUGUI[] allTextElements = Object.FindObjectsByType<TextMeshProUGUI>(FindObjectsSortMode.None);
         Color newTextColor = isDarkModeEnabled ? Color.white : Color.black;
 
@@ -144,14 +163,14 @@ public class DisplayModeController : MonoBehaviour
             textElement.color = newTextColor;
         }
 
+        // Also update legacy UnityEngine.UI.Text if any
         Text[] legacyTexts = Object.FindObjectsByType<Text>(FindObjectsSortMode.None);
         foreach (Text t in legacyTexts)
         {
             t.color = newTextColor;
         }
 
-
-        // TODO
-        // Debug.Log("Display mode applied: " + (isDarkModeEnabled ? "Dark" : "Light"));
+        // Optional: Debug log
+        // Debug.Log($"Display mode applied: {(isDarkModeEnabled ? "Dark" : "Light")}");
     }
 }

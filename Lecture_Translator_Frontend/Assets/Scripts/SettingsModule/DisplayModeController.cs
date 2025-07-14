@@ -23,9 +23,9 @@ public class DisplayModeController : MonoBehaviour
 
     void Awake()
     {
-        // Initialize default values
-        isDarkModeEnabled = false;
-        autoAdjust = true;
+        // Load saved user preferences
+        isDarkModeEnabled = UserPreferencesManager.LoadDarkMode();
+        autoAdjust = UserPreferencesManager.LoadAutoAdjust();
     }
 
     void Start()
@@ -65,6 +65,7 @@ public class DisplayModeController : MonoBehaviour
         {
             isDarkModeEnabled = enabled;
             ApplyMode();
+            UserPreferencesManager.SaveDarkMode(enabled);
         }
     }
 
@@ -74,6 +75,7 @@ public class DisplayModeController : MonoBehaviour
         {
             isDarkModeEnabled = !isDarkModeEnabled;
             ApplyMode();
+            UserPreferencesManager.SaveDarkMode(isDarkModeEnabled);
         }
     }
 
@@ -107,6 +109,7 @@ public class DisplayModeController : MonoBehaviour
     public void SetAutoAdjust(bool enabled)
     {
         autoAdjust = enabled;
+        UserPreferencesManager.SaveAutoAdjust(enabled);
         if (autoAdjust)
         {
             UpdateMode();

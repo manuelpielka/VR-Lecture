@@ -28,24 +28,18 @@ public class NoteTests
         });
     }
 
-    [Test]
-    public void CreatetNote_WithInvalidTitle()
-    {
-        string[] invalidTitles = {
-            "TitleWith Space",
-            "TitleWith/Slash",
-            "TitleWith\\Backslash",
-            "TitleWIth@Symbol",
-            "TitleWith.Dot"
-        };
+    [TestCase("TitleWith Space")]
+    [TestCase("TitleWith/Slash")]
+    [TestCase("TitleWith\\Backslash")]
+    [TestCase("TitleWIth@Symbol")]
+    [TestCase("TitleWith.Dot")]
 
-        foreach (var title in invalidTitles)
+    public void CreateNote_WithInvalidTitle_Throws(string invalidTitle)
+    {
+        Assert.Throws<ArgumentException>(() =>
         {
-            Assert.Throws<ArgumentException>(() =>
-            {
-                var note = new Note(title, "Content");
-            }, $"Title '{title}' is invalid.");
-        }
+            new Note(invalidTitle, "Content");
+        });
     }
 
 }

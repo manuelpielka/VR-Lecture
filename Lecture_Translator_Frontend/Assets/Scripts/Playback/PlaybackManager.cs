@@ -4,10 +4,14 @@ using UnityEngine.Video;
 public class PlaybackManager : MonoBehaviour
 {
     private Lecture lecture;
-    public VideoPlayer videoPlayer;
+    [SerializeField] private VideoPlayer videoPlayer;
 
     void Start()
     {
+        //TEMP
+        LectureDownloader.DownloadMetaData("");
+
+        /*
         videoPlayer.url = lecture.GetVideoSource();
 
         if (lecture.IsDownloaded())
@@ -18,6 +22,7 @@ public class PlaybackManager : MonoBehaviour
         {
             videoPlayer.source = VideoSource.VideoClip;
         }
+        */
 
     }
 

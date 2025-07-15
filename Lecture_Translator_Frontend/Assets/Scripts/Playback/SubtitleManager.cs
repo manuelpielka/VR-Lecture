@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class SubtitleManager : MonoBehaviour
 {
-    public PlaybackManager playbackManager;
-    public TranscriptManager transcriptManager;
+    [SerializeField] private PlaybackManager playbackManager;
+    [SerializeField] private TranscriptManager transcriptManager;
 
     //doesn't exist yet
     //LecturePlayerWindow lecturePlayerWindow;

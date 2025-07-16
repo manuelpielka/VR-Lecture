@@ -179,4 +179,39 @@ public class NoteManager
         }
     }
 
+    /// <summary>
+    /// Loads all saved notes from the local files.
+    /// </summary>
+    /// <returns>A list of <c>Note</c> objects loaded from local storage.</returns>
+    /// If the notes folder does not exist or no valid files are found, returns an empty list.
+    public List<Note> LoadAllNotes()
+    {
+        List<Note> allNotes = new List<Note>();
+        string folder = Path.Combine(Application.persistentDataPath, "notes");
+
+        if (!Directory.Exists(folder))
+        {
+            return allNotes;
+        }
+
+        foreach (var file in Directory.GetFiles(folder, "*.json"))
+        {
+            try
+            {
+                string json = File.ReadAllText(file);
+                Note note = JsonUtility.FromJson<Note>(json);
+                if (note != null)
+                {
+                    allNotes.Add(note);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"Failed to load note from {file}: {ex.Message}");
+            }
+
+        }
+        return allNotes;
+    }
+
 }

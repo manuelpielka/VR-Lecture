@@ -6,8 +6,8 @@ public class Lecture
     private string videoSource;
     private string transcriptSource;
     private List<string> transcriptLanguages;
-    private int lastPlayTime;
-    private bool downloaded;
+    private float lastPlayTime = 0;
+    private bool downloaded = false;
 
     public Lecture(string name, string videoSource, string transcriptSource, List<string> transcriptLanguages)
     {
@@ -41,7 +41,7 @@ public class Lecture
     {
         return transcriptLanguages;
     }
-    public int GetLastPlayTime()
+    public float GetLastPlayTime()
     {
         return lastPlayTime;
     }

@@ -1,15 +1,39 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class TranscriptManager : MonoBehaviour
 {
     private Lecture lecture;
-    private Dictionary<string, Transcript> transcripts;
+    private Dictionary<string, Transcript> transcripts = new Dictionary<string, Transcript>();
 
-    public void AssignLecture(Lecture lecture)
+    public async void AssignLecture(Lecture lecture)
     {
         this.lecture = lecture;
-        //logic for downloading and parsing transcripts goes here
+
+        if (!lecture.IsDownloaded())
+        {
+            Dictionary<string, Task<string>> DownloadTaskList = new Dictionary<string, Task<string>>();
+            
+            //Download in pararllel to minimize wait times
+            foreach (string langauge in lecture.GetTranscriptLanguages())
+            {
+                DownloadTaskList.Add(langauge, LectureDownloader.DownloadVTT(lecture, langauge));
+            }
+
+            //Process responses
+            foreach (string language in DownloadTaskList.Keys)
+            {
+                string transcriptRaw = await DownloadTaskList[language];
+                Transcript transcript = new Transcript(transcriptRaw);
+                transcripts.Add(language, transcript);
+            }
+        }
+        else
+        {
+            //needs to be implemented
+        }
+
     }
 
     public Transcript GetTranscript(string language)

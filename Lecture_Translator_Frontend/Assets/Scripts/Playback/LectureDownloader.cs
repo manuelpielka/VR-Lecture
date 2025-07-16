@@ -16,7 +16,7 @@ public static class LectureDownloader
     private const string MEDIA = "media";
     private const string META = "meta";
     private const string THUMBNAIL = "thumb";
-    private const string SUBTITLES = "vtt";
+    private const string VTT = "vtt";
     private const string SEPERATOR = "%252F";
 
     public static async Task<Lecture> DownloadMetaData(string path)
@@ -53,6 +53,13 @@ public static class LectureDownloader
         Lecture lecture = new Lecture(name, videoSource, transcriptSource, languages);
 
         return lecture;
+    }
+
+    public static Task<string> DownloadVTT(Lecture lecture, string language)
+    {
+        string source = lecture.GetTranscriptSource();
+        string jsonBody = $"\"{{\\\"directory\\\":\\\"{source}\\\",\\\"language\\\":\\\"{language}\\\"}}\"";
+        return PostRequest(SERVER_URL + VTT, jsonBody);
     }
 
     public static void DownloadLecture(Lecture lecture)

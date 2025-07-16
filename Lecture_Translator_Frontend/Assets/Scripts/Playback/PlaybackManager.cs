@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Video;
 
@@ -8,10 +9,6 @@ public class PlaybackManager : MonoBehaviour
 
     void Start()
     {
-        //TEMP
-        //LectureDownloader.DownloadMetaData("Other/EMNLP2023/BenutzungLectureTranslator");
-
-        /*
         videoPlayer.url = lecture.GetVideoSource();
 
         if (lecture.IsDownloaded())
@@ -22,8 +19,6 @@ public class PlaybackManager : MonoBehaviour
         {
             videoPlayer.source = VideoSource.VideoClip;
         }
-        */
-
     }
 
     public void AssignLecture(Lecture lecture)

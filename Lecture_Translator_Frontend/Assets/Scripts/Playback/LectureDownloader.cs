@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Text.Json;
 using System;
 
 public static class LectureDownloader

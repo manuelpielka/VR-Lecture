@@ -13,7 +13,7 @@ public class SubtitleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        string currentLine = transcriptManager.GetTranscript(currentLanguage).getLine((int)playbackManager.GetCurrentTime());
+        string currentLine = transcriptManager.GetTranscript(currentLanguage).getLine((float)playbackManager.GetCurrentTime());
         //lecturePlayerWindow
     }
 

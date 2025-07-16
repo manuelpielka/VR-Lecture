@@ -39,13 +39,10 @@ public static class LectureDownloader
         string transcriptSource = path;
 
         string metaDataRaw = await metaDataTask;
-        Debug.Log(metaDataRaw);
         MetaDataResponse metaDataResponse = JsonUtility.FromJson<MetaDataResponse>(metaDataRaw);
-        Debug.Log("Success");
         string name = metaDataResponse.title;
 
         string langaugesRaw = await languagesTask;
-        Debug.Log(langaugesRaw);
         //Before: ["Multilingual", "German", "Dutch", "Italian", "Portuguese", "Spanish", "French", "English", "English Summary"]
         langaugesRaw = langaugesRaw.Replace("[", "");
         langaugesRaw = langaugesRaw.Replace("]", "");

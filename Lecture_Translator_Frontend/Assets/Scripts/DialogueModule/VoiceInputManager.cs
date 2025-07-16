@@ -14,7 +14,7 @@ public class VoiceInputManager : MonoBehaviour
     /// <summary>
     /// Reference to the DialogueSystemWindow to send the voice recorded text to in order to display it in the GUI.
     /// </summary>
-    //private DialogueSystemWindow dialogueUI;
+    private GUI.DialogueSystemWindow dialogueUI;
 
     /// <summary>
     /// The name of the microphone device that is used to record audio.

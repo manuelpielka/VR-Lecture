@@ -12,17 +12,19 @@ public class DialogueController : MonoBehaviour
     /// <summary>
     /// Reference to the DialogueSystemWindow class to display the LLM’s response.
     /// </summary>
-    //private DialogueSystemWindow dialogueUI;
+    private GUI.DialogueSystemWindow dialogueUI;
 
     /// <summary>
     /// Reference to the VirtualAvatar class to play the talking animation when receiving a response from the LLM.
     /// </summary>
-    [SerializeField] private VirtualAvatar virtualAvatar;
+    private VirtualAvatar virtualAvatar;
 
     /// <summary>
     /// The api url of the lecture translator's api
     /// </summary>
-    private string apiUrl = "/ltapi/start_dialog";
+    private string apiUrl = "/webapi/start_dialog";
+
+    private string appendUrl = "/webapi/append";
 
     private const string mainUrl = "https://lecture-translator.kit.edu";
     private const string devUrl = "https://lt2srv-backup.iar.kit.edu";
@@ -30,13 +32,26 @@ public class DialogueController : MonoBehaviour
     private string sessionId = "";
     private string streamId = "";
 
-    private const string token = "";
+    private string token = Environment.GetEnvironmentVariable("MY_API_TOKEN");
 
     void Start()
     {
+        virtualAvatar = VirtualAvatar.instance;
+
         string json = "{ \"bot\": \"bot\"}";
 
-        StartCoroutine(PostRequest(devUrl + apiUrl, json));
+        StartCoroutine(PostRequest("https://lt2srv-backup.iar.kit.edu/webapi/start_dialog", json));
+
+        StartCoroutine(Wait(5f));
+    }
+
+    IEnumerator Wait(float secs)
+    {
+        yield return new WaitForSeconds(secs); 
+        
+        SendPrompt("This is a Test.");
+
+        SendEnd();
     }
 
     /// <summary>
@@ -45,23 +60,23 @@ public class DialogueController : MonoBehaviour
     /// <param name="prompt">The prompt to send to the LLM.</param>
     public void SendPrompt(string prompt)
     {
-        string json = "{ \"bot\": \"bot\"}";
+        string json = "{ \"bot\": \"bot\"}, { \"bot_stream\": \"" + prompt + "\"}";
 
-        StartCoroutine(PostRequest(sessionId + "/" + streamId + mainUrl + "/append", json));
+        StartCoroutine(PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json));
     }
 
     public void SendStart()
     {
         string json = "{ \"controll\": \"START\"}, { \"bot\": \"bot\"}";
 
-        StartCoroutine(PostRequest(sessionId + "/" + streamId + mainUrl + "/append", json));
+        StartCoroutine(PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json));
     }
 
     public void SendEnd()
     {
         string json = "{ \"controll\": \"END\"}";
 
-        StartCoroutine(PostRequest(sessionId + "/" + streamId + mainUrl + "/append", json));
+        StartCoroutine(PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json));
     }
 
     /// <summary>
@@ -80,7 +95,7 @@ public class DialogueController : MonoBehaviour
 
         string json = "{\"b64_enc_pcm_s16le\": \"" + utf8String + "\", \"start\": " + start + ",\"end\":" + end + "}"; // TODO: check formatting (LTConnection.java -> normalJsonStringToLtJsonString()
 
-        StartCoroutine(PostRequest(sessionId + "/" + streamId + mainUrl + "/append", json));
+        StartCoroutine(PostRequest(sessionId + "/" + streamId + devUrl + appendUrl, json));
     }
 
     /// <summary>
@@ -96,6 +111,8 @@ public class DialogueController : MonoBehaviour
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
         request.SetRequestHeader("Cookie", "_forward_auth=" + token);
+
+        print("Sending request to: " + url);
 
         yield return request.SendWebRequest();
 
@@ -117,6 +134,6 @@ public class DialogueController : MonoBehaviour
 
         virtualAvatar.PlayTalkingAnimation();
         Debug.Log("RESPONSE FROM LT_API: " + answer);
-        //dialogueUI.DisplayLLMAnswer(answer);
+        dialogueUI.DisplayLLMAnswer(answer);
     }
 }

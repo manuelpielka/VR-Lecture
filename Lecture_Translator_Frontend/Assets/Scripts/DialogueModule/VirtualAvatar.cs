@@ -5,6 +5,15 @@ using UnityEngine;
 /// </summary>
 public class VirtualAvatar : MonoBehaviour
 {
+    #region Singleton
+    public static VirtualAvatar instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+    #endregion
+
     /// <summary>
     /// Reference to the animator of the Virtual Avatar to control it’s animations.
     /// </summary>

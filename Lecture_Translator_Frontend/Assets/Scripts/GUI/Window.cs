@@ -30,7 +30,7 @@ public class Window : MonoBehaviour
     /// <summary>
     /// Closes this window by destroying the GameObject and calling the CloseWindow method in the window manager.
     /// </summary>
-    private void Close()
+    public void Close()
     {
         if (WindowManager == null)
         {

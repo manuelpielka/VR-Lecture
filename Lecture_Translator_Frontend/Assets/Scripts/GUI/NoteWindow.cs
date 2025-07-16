@@ -34,7 +34,7 @@ public class NoteWindow : Window
     /// <param name="note"></param>
     private void EditNote(NoteGUI note)
     {
-
+        
     }
 
     /// <summary>

@@ -14,7 +14,6 @@ public class Lecture
         this.name = name;
         this.videoSource = videoSource;
         this.transcriptSource = transcriptSource;
-        //not sure about when to get these, might become a setter as well and be removed from constructor
         this.transcriptLanguages = transcriptLanguages;
     }
 

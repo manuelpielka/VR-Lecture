@@ -1,10 +1,10 @@
-using System;
-using System.Collections;
 using System.Text;
-using System.Net.Http;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Text.Json;
+using System;
 
 public static class LectureDownloader
 {
@@ -17,18 +17,45 @@ public static class LectureDownloader
     private const string META = "meta";
     private const string THUMBNAIL = "thumb";
     private const string SUBTITLES = "vtt";
-
-
-    private static string sessionId = "";
-    private static string streamId = "";
-    private static string token = "";
+    private const string SEPERATOR = "%252F";
 
     public static async Task<Lecture> DownloadMetaData(string path)
     {
-        string jsonBody = "\"{\\\"directory\\\":\\\".\\\",\\\"groups\\\":[\\\"admin\\\",\\\"kitemployee\\\",\\\"kitall\\\"]}\"";
-        string answer = await PostRequest(SERVER_URL + READ_DIRECTORY, jsonBody);
-        Debug.Log(answer);
-        return null;
+        //for READ_DIRECTORY
+        //string jsonBody = "\"{\\\"directory\\\":\\\"Other\\\",\\\"groups\\\":[\\\"admin\\\",\\\"kitemployee\\\",\\\"kitall\\\"]}\"";
+
+        //for META, LANGUAGES, THUMBNAIL
+        //string jsonBody = "\"{\\\"directory\\\":\\\"Other/offline_test\\\"}\"";
+
+        //for SUBTITLES
+        //string jsonBody = "\"{\\\"directory\\\":\\\"Other/offline_test\\\",\\\"language\\\":\\\"English\\\"}\"";
+
+        string jsonBody = $"\"{{\\\"directory\\\":\\\"{path}\\\"}}\"";
+
+        Task<string> metaDataTask = PostRequest(SERVER_URL + META, jsonBody);
+        Task<string> languagesTask = PostRequest(SERVER_URL + LANGUAGES, jsonBody);
+
+        string videoSource = "https://lecture-translator.kit.edu/archivemedia/" + path.Replace("/", SEPERATOR);
+        string transcriptSource = path;
+
+        string metaDataRaw = await metaDataTask;
+        Debug.Log(metaDataRaw);
+        MetaDataResponse metaDataResponse = JsonUtility.FromJson<MetaDataResponse>(metaDataRaw);
+        Debug.Log("Success");
+        string name = metaDataResponse.title;
+
+        string langaugesRaw = await languagesTask;
+        Debug.Log(langaugesRaw);
+        //Before: ["Multilingual", "German", "Dutch", "Italian", "Portuguese", "Spanish", "French", "English", "English Summary"]
+        langaugesRaw = langaugesRaw.Replace("[", "");
+        langaugesRaw = langaugesRaw.Replace("]", "");
+        langaugesRaw = langaugesRaw.Replace("\"", "");
+        //After: Multilingual, German, Dutch, Italian, Portuguese, Spanish, French, English, English Summary
+
+        List<string> languages = new List<string>(langaugesRaw.Split(", "));
+        Lecture lecture = new Lecture(name, videoSource, transcriptSource, languages);
+
+        return lecture;
     }
 
     public static void DownloadLecture(Lecture lecture)
@@ -41,7 +68,7 @@ public static class LectureDownloader
     /// </summary>
     /// <param name="url">The url of the api server.</param>
     /// <param name="json">The json data to send in the request.</param>
-    static async Task<string> PostRequest(string url, string json)
+    private static async Task<string> PostRequest(string url, string json)
     {
         UnityWebRequest request = new UnityWebRequest(url, "POST");
         byte[] byteJson = new UTF8Encoding().GetBytes(json);
@@ -53,5 +80,14 @@ public static class LectureDownloader
         return request.downloadHandler.text;
 
     }
-    
+
 }
+
+//classes for Json deserialization
+[Serializable]
+class MetaDataResponse
+{
+    public string title;
+    public string presenter; 
+}
+

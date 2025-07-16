@@ -9,7 +9,7 @@ public class PlaybackManager : MonoBehaviour
     void Start()
     {
         //TEMP
-        LectureDownloader.DownloadMetaData("");
+        //LectureDownloader.DownloadMetaData("Other/EMNLP2023/BenutzungLectureTranslator");
 
         /*
         videoPlayer.url = lecture.GetVideoSource();

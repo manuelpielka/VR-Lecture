@@ -13,6 +13,7 @@ public class LecturePlayerWindow : Window
     [SerializeField] private TMP_Dropdown playBackSpeedDropdown;
     [SerializeField] private TMP_Dropdown languageDropdown;
     [SerializeField] private TextMeshProUGUI subtitleTextBox;
+    [SerializeField] private GameObject settingsPanel;
     [SerializeField] private TranscriptManager transcriptManager;
     [SerializeField] private SubtitleManager subtitleManager;
     [SerializeField] private PlaybackManager playbackManager;
@@ -128,7 +129,14 @@ public class LecturePlayerWindow : Window
 
     public void SettingBtnPressed()
     {
-        //not yet implemented
+        if (settingsPanel.activeSelf)
+        {
+            settingsPanel.SetActive(false);
+        }
+        else
+        {
+            settingsPanel.SetActive(true);
+        }
     }
 
     [SerializeField]

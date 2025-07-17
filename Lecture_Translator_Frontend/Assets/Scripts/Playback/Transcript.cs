@@ -49,17 +49,16 @@ public class Transcript
     public string getLine(float time)
     {
         //loop over all end timestamps (keys) and determine the one closest to the current time
-        float currentKey = 0;
-        float currentDelta = Mathf.Infinity;
+        float targetKey = 0;
         foreach (float key in subtitleLines.Keys)
         {
             float delta = key - time;
-            if (delta > currentDelta && delta >= 0)
+            if (delta >= 0)
             {
-                currentKey = key;
-                currentDelta = delta;
+                targetKey = key;
+                break;
             }
         }
-        return subtitleLines[currentKey];
+        return subtitleLines[targetKey];
     }
 }

@@ -7,11 +7,13 @@ public class PlaybackManager : MonoBehaviour
     private Lecture lecture;
     [SerializeField] private VideoPlayer videoPlayer;
 
-    void Start()
+    public void AssignLecture(Lecture lecture)
     {
+        this.lecture = lecture;
+
         videoPlayer.url = lecture.GetVideoSource();
 
-        if (lecture.IsDownloaded())
+        if (!lecture.IsDownloaded())
         {
             videoPlayer.source = VideoSource.Url;
         }
@@ -19,11 +21,6 @@ public class PlaybackManager : MonoBehaviour
         {
             videoPlayer.source = VideoSource.VideoClip;
         }
-    }
-
-    public void AssignLecture(Lecture lecture)
-    {
-        this.lecture = lecture;
     }
 
     public void Play()

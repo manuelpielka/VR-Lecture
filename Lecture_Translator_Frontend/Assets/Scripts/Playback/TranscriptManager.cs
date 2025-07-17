@@ -14,11 +14,11 @@ public class TranscriptManager : MonoBehaviour
         if (!lecture.IsDownloaded())
         {
             Dictionary<string, Task<string>> DownloadTaskList = new Dictionary<string, Task<string>>();
-            
+
             //Download in pararllel to minimize wait times
-            foreach (string langauge in lecture.GetTranscriptLanguages())
+            foreach (string language in lecture.GetTranscriptLanguages())
             {
-                DownloadTaskList.Add(langauge, LectureDownloader.DownloadVTT(lecture, langauge));
+                DownloadTaskList.Add(language, LectureDownloader.DownloadVTT(lecture, language));
             }
 
             //Process responses
@@ -31,7 +31,7 @@ public class TranscriptManager : MonoBehaviour
         }
         else
         {
-            //needs to be implemented
+            //TODO: needs to be implemented
         }
 
     }

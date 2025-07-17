@@ -264,11 +264,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1264599032}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 03bebd75b85abbd48bb4e11394bae565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hierachy: 
 --- !u!4 &1264599034
 Transform:
   m_ObjectHideFlags: 0
@@ -624,6 +625,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2359624083167389020, guid: 2f5afd7e2d5362b41b4825ba873f4295, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3023386278883914975, guid: 2f5afd7e2d5362b41b4825ba873f4295, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

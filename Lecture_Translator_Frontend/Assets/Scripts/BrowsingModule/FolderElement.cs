@@ -31,5 +31,13 @@ namespace BrowsingModule
         {
             return contents;
         }
+
+        /// <summary>
+        /// Adds a generic element to the contents list.
+        /// </summary>
+        public void AddContents(GenericElement element)
+        {
+            contents.Add(element);
+        }
     }
 }

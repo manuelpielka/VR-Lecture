@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.XR.Interaction.Toolkit;
+
 
 public class VRInteractionManager : MonoBehaviour
 {
     // A list of input components (e.g., VR hand controllers).
-    private List<XRBaseInteractor> Interactors;
+    private List<UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInteractor> Interactors;
 
     // A list of interactable objects in the scene (e.g., UI buttons or the avatar).
-    private List<XRBaseInteractable> Interactables;
+    private List<UnityEngine.XR.Interaction.Toolkit.Interactables.XRBaseInteractable> Interactables;
 
     // The selected object currently being interacted with (e.g., the button being pressed or the object being grabbed).
     private GameObject SelectObject;

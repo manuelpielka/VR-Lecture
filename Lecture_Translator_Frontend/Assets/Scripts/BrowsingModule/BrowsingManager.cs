@@ -22,9 +22,13 @@ namespace BrowsingModule
 
         public string hierachy = "";
 
+        private const string rootPath = "/";
+
+        [SerializeField] private GUI.LectureBrowserWindow lectureBrowserWindow;
+
         private void OnEnable()
         {
-            root = new FolderElement("/", "root", new List<GenericElement>());
+            root = new FolderElement(rootPath, "root", new List<GenericElement>());
             UpdateFolders();
         }
 
@@ -32,14 +36,16 @@ namespace BrowsingModule
         /// Updates the current folder structure and MetaData and stores it on local drive if internet is availalble.
         /// Reads folder structure from local drive otherwise.
         /// </summary>
-        public void UpdateFolders()
+        public async void UpdateFolders()
         {
             // TODO: implement
-            string dir = "/";
-            GetDir(dir, root);
+            string dir = rootPath;
+            await GetDir(dir, root);
+
+            lectureBrowserWindow.ChangeCurrentPath(rootPath);
         }
 
-        private async void GetDir(string dir, FolderElement parent)
+        private async Task GetDir(string dir, FolderElement parent)
         {
             string jsonBody = $"\"{{\\\"directory\\\":\\\"{dir}\\\",\\\"groups\\\":[\\\"admin\\\",\\\"kitemployee\\\",\\\"kitall\\\"]}}\"";
             Task<string> requestTask = PostRequest(archiveAPI + "/ltarchive/ls", jsonBody);
@@ -48,17 +54,41 @@ namespace BrowsingModule
             print(result);
 
             List<string> itemnames = GetFolderNames(result);
+            itemnames.Sort();
 
             foreach (var item in itemnames)
             {
-                if (item == " Back") continue;
+                FolderElement newElement;
 
-                hierachy += "v " + item + "\n";
-                print(item);
-                FolderElement newElement = new FolderElement(dir, item, new List<GenericElement>());
+                if (item == " Back")
+                {
+                    string path = dir;
+                    int lastSlash = path.LastIndexOf('/'); // Remove the last slash and everything afterwards so the path is the parent path
+
+                    if (lastSlash >= 0)
+                    {
+                        path = path.Substring(0, lastSlash);
+                    }
+
+                    newElement = new FolderElement(path, item, new List<GenericElement>());
+                    parent.AddContents(newElement);
+                    continue;
+                }
+                newElement = new FolderElement(dir + "/" + item, item, new List<GenericElement>());
+                
                 parent.AddContents(newElement);
 
                 GetDir(dir + "/" + item, newElement);
+            }
+
+            List<string> sessionnames = GetSessionNames(result);
+            sessionnames.Sort();
+
+            foreach (var session in sessionnames)
+            {
+                LectureElement newSessionElement = new LectureElement(dir + "/" + session, session, null); //TODO: get lecture metadata
+
+                parent.AddContents(newSessionElement);
             }
         }
 
@@ -70,7 +100,7 @@ namespace BrowsingModule
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
 
-            print("Sending request to: " + url);
+            //print("Sending request to: " + url);
 
             await request.SendWebRequest();
 
@@ -92,9 +122,25 @@ namespace BrowsingModule
                 {
                     result.Add(first);
                 }
+            }
+
+            return result;
+        }
+
+        private List<string> GetSessionNames(string json)
+        {
+            var result = new List<string>();
+
+            var matches = Regex.Matches(json, @"\[\s*""([^""]+)""\s*,\s*""([^""]+)""");
+
+            foreach (Match match in matches)
+            {
+                string first = match.Groups[1].Value;
+                string second = match.Groups[2].Value;
+
                 if (second == "session")
                 {
-
+                    result.Add(first);
                 }
             }
 

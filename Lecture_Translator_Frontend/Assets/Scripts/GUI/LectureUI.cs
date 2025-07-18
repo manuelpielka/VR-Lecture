@@ -17,7 +17,7 @@ namespace GUI
         /// <summary>
         /// Reference to the lecture browser window to call methods.
         /// </summary>
-        //private LectureBrowserWindow lectureBrowserUI;
+        private LectureBrowserWindow lectureBrowserUI;
 
         /// <summary>
         /// The textbox for the title of the lecture.
@@ -40,7 +40,7 @@ namespace GUI
         /// </summary>
         public void OnClick()
         {
-            //lectureBrowserUI.SelectLecture(lecture);
+            lectureBrowserUI.SelectLecture(lecture);
         }
 
         /// <summary>
@@ -48,18 +48,26 @@ namespace GUI
         /// </summary>
         public void OnDownloadClick()
         {
-            //lectureBrowserUI.DownloadLecture(lecture);
+            lectureBrowserUI.DownloadLecture(lecture);
         }
 
         /// <summary>
         /// Sets the values of this object in one method.
         /// </summary>
-        public void SetValues(string title, Sprite thumbnail, string date, string length, Lecture _lecture)
+        /// <param name="title"> The title of the lecture. </param>
+        /// <param name="thumbnail"> The thumbnail of the lecture. </param>
+        /// <param name="date"> The date of the lecture. </param>
+        /// <param name="length"> The length of the lecture. </param>
+        /// <param name="_lecture"> The lecture element of the lecture. </param>
+        /// <param name="_lectureBrowserUI"> The reference of the lecture browser window. </param>
+        public void SetValues(string title, Sprite thumbnail, string date, string length, Lecture _lecture, LectureBrowserWindow _lectureBrowserUI)
         {
             titleTextBox.text = title;
             thumbnailDisplay.sprite = thumbnail;
             dateTextBox.text = date + " - " + length;
             lecture = _lecture;
+            lectureBrowserUI = _lectureBrowserUI;
         }
+
     }
 }

@@ -7,11 +7,11 @@ namespace BrowsingModule
     /// </summary>
     public class LectureElement : GenericElement
     {
-        /*
+        
         /// <summary>
         /// The Lecture associated with this element.
         /// </summary>
-        private Lecture lecture; TODO: implement
+        private Lecture lecture;
 
         /// <summary>
         /// Constructor for creating a LectureElement.
@@ -28,8 +28,8 @@ namespace BrowsingModule
         /// </summary>
         public Lecture GetLecture()
         {
-
-        }*/
+            return lecture;
+        }
 
     }
 }

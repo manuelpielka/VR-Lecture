@@ -213,7 +213,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 241073819620772144}
         m_TargetAssemblyTypeName: GUI.LectureUI, Assembly-CSharp
         m_MethodName: OnDownloadClick
         m_Mode: 1
@@ -345,7 +345,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 241073819620772144}
         m_TargetAssemblyTypeName: GUI.LectureUI, Assembly-CSharp
         m_MethodName: OnClick
         m_Mode: 1

@@ -25,7 +25,10 @@ public class Window : MonoBehaviour
     /// </summary>
     public TutorialManager TutorialManager { get; set; }
 
-
+    private void Start()
+    {
+        WindowManager = WindowManager.instance;
+    }
 
     /// <summary>
     /// Closes this window by destroying the GameObject and calling the CloseWindow method in the window manager.

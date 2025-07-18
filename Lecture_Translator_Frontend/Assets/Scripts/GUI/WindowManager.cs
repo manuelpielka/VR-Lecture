@@ -1,19 +1,23 @@
 using UnityEngine;
 using System.Collections.Generic;
-
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// This class controls all Window object’s prefabs and currently opened Window objects after instantiating them.
 /// </summary>
 public class WindowManager : MonoBehaviour
 {
+    public static WindowManager instance;
+
     /// <summary>
     /// A list of all the currently open windows displayed in the 3D environment.
     /// </summary>
     private List<Window> activeWindows = new();
 
 
-    private List<GameObject> windowPrefabsList = new(); //Populated in unity editor. Must have same order as in WindowKeys!!
+    [SerializeField] private List<GameObject> windowPrefabsList; //Populated in unity editor. Must have same order as in WindowKeys!!
+
+    [SerializeField] private InputActionReference openMainMenu;
 
 
     /// <summary>
@@ -24,7 +28,25 @@ public class WindowManager : MonoBehaviour
 
     void Awake()
     {
+        instance = this;
         LoadWindowPrefabs();
+    }
+
+    void OnEnable()
+    {
+        openMainMenu.action.performed += OpenMainMenu;
+        openMainMenu.action.Enable();
+    }
+
+    void OnDisable()
+    {
+        openMainMenu.action.performed -= OpenMainMenu;
+        openMainMenu.action.Disable();
+    }
+
+    private void OpenMainMenu(InputAction.CallbackContext context)
+    {
+        OpenWindow(WindowKeys.MainMenuKey);
     }
 
 
@@ -97,13 +119,15 @@ public class WindowManager : MonoBehaviour
     /// Calls CreateWindow() with the given windowKey to instantiate a new Window object from prefab and add it to the list of active windows.
     /// </summary>
     /// <param name="windowKey">The key for the associated prefab.</param>
-    public void OpenWindow(string windowKey)
+    /// <returns>The window after opening it.</returns>
+    public Window OpenWindow(string windowKey)
     {
         Window window = CreateWindow(windowKey);
         if (window != null)
         {
             activeWindows.Add(window);
         }
+        return window;
     }
 
 

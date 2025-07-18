@@ -34,7 +34,7 @@ namespace GUI
         /// </summary>
         [SerializeField] private TextMeshProUGUI aiTextBox;
 
-        private void OnEnable()
+        private void Start()
         {
             virtualAvatar = VirtualAvatar.instance;
             virtualAvatar.EnableAvatar();

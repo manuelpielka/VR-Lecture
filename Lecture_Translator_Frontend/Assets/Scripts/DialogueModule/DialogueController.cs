@@ -130,7 +130,7 @@ public class DialogueController : MonoBehaviour
             string[] ids = answer.Split(" ");
             sessionId = ids[0];
             streamId = ids[1];
-            streamIdText = ids[2];
+            streamIdText = ids[3];
         }
 
         virtualAvatar.PlayTalkingAnimation();

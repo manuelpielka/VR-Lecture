@@ -20,19 +20,6 @@ public class VirtualAvatar : MonoBehaviour
     [SerializeField] private Animator animator;
 
     /// <summary>
-    /// Reference to the GameObject of the Virtual Avatar to enable and disable it.
-    /// </summary>
-    private GameObject virtualAvatarGO;
-
-    /// <summary>
-    /// The start method called by unity.
-    /// </summary>
-    private void Start()
-    {
-        virtualAvatarGO = animator.gameObject;
-    }
-
-    /// <summary>
     /// Enables the virtualAvatarGO GameObject.
     /// </summary>
     public void EnableAvatar()
@@ -40,7 +27,7 @@ public class VirtualAvatar : MonoBehaviour
         // Play Fade in animation?
         //animator.SetTrigger("FadeIn");
 
-        virtualAvatarGO.SetActive(true);
+        animator.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -51,7 +38,7 @@ public class VirtualAvatar : MonoBehaviour
         // Play Fade out animation?
         //animator.SetTrigger("FadeOut");
 
-        virtualAvatarGO.SetActive(false);
+        animator.gameObject.SetActive(false);
     }
 
     /// <summary>

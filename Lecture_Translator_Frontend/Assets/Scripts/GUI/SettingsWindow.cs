@@ -15,7 +15,7 @@ public class SettingsWindow : Window
     public SettingsManager settingsManager;
 
     private readonly float[] playbackSpeeds = { 1.0f, 1.25f, 1.5f, 1.75f, 2.0f };
-    private readonly int[] subtitleSizes = { 12, 14, 16, 18, 20 };
+    private readonly int[] subtitleSizes = { 16, 18, 20, 22, 24 };
 
     void Start()
     {

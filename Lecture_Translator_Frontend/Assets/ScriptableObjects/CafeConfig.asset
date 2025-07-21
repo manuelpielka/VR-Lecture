@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SceneId: Cafe
   DisplayName: Coffee Shop
-  BackgroudPrefab: {fileID: 6646360794367685550, guid: d1a7939fae81c49dabd32dfd8d12d072, type: 3}
+  BackgroundPrefab: {fileID: 6646360794367685550, guid: d1a7939fae81c49dabd32dfd8d12d072, type: 3}

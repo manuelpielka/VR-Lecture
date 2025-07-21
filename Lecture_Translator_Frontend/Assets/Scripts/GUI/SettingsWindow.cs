@@ -5,12 +5,15 @@ using TMPro;
 public class SettingsWindow : Window
 {
     public TMP_Dropdown playbackSpeedDropdown;
+    public Toggle subtitleToggle;
     public TMP_Dropdown subtitleSizeDropdown;
-    public Toggle autoAdjustToggle;
+    public Toggle modeAutoSwitchToggle;
     public Toggle darkModeToggle;
+    public TMP_Dropdown backgroundDropdown;
+    public TMP_Dropdown languageDropdown;
+
     public SettingsManager settingsManager;
 
-    // magic numbers??
     private readonly float[] playbackSpeeds = { 1.0f, 1.25f, 1.5f, 1.75f, 2.0f };
     private readonly int[] subtitleSizes = { 12, 14, 16, 18, 20 };
 
@@ -49,13 +52,39 @@ public class SettingsWindow : Window
         bool isAutoAdjust = settingsManager.GetComponent<DisplayModeController>().IsAutoAdjustEnabled();
         bool isDark = settingsManager.GetComponent<DisplayModeController>().IsDarkModeEnabled();
 
-        autoAdjustToggle.isOn = isAutoAdjust;
+        modeAutoSwitchToggle.isOn = isAutoAdjust;
         darkModeToggle.isOn = isDark;
         darkModeToggle.interactable = !isAutoAdjust;
     }
 
     private void BindListeners()
     {
+        playbackSpeedDropdown.onValueChanged.AddListener(OnPlaybackSpeedChanged);
+        subtitleSizeDropdown.onValueChanged.AddListener(OnSubtitleSizeChanged);
+        modeAutoSwitchToggle.onValueChanged.AddListener(OnAutoAdjustToggled);
+        darkModeToggle.onValueChanged.AddListener(OnDarkModeToggled);
+    }
 
+    private void OnPlaybackSpeedChanged(int index)
+    {
+        float selectedSpeed = playbackSpeeds[index];
+        settingsManager.SetPlaybackSpeed(selectedSpeed);
+    }
+
+    private void OnSubtitleSizeChanged(int index)
+    {
+        int selectedSize = subtitleSizes[index];
+        settingsManager.SetSubtitleFontSize(selectedSize);
+    }
+
+    private void OnAutoAdjustToggled(bool isOn)
+    {
+        settingsManager.SetAutoAdjust(isOn);
+        darkModeToggle.interactable = !isOn;
+    }
+
+    private void OnDarkModeToggled(bool isOn)
+    {
+        settingsManager.SetDarkMode(isOn);
     }
 }

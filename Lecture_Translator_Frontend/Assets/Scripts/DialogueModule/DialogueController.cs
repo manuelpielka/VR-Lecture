@@ -1,6 +1,10 @@
 using System;
 using System.Collections;
+using System.IO;
+using System.Net;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -35,38 +39,109 @@ public class DialogueController : MonoBehaviour
 
     private string token = Environment.GetEnvironmentVariable("MY_API_TOKEN");
 
-    void Start()
+    private CancellationToken ct;
+    private string sseUrl = "";
+
+    private Coroutine sseCoroutine;
+    private bool sseRunning = false;
+
+    async void Start()
     {
         virtualAvatar = VirtualAvatar.instance;
 
+        
+
         string json = $"\"{{\\\"bot\\\":\\\"bot\\\"}}\"";
 
-        StartCoroutine(PostRequest(devUrl + apiUrl, json));
+        string answer = await PostRequest(devUrl + apiUrl, json);
+
+        ReceiveAnswer(answer);
+
+        
+    }
+
+    private async Task ConnectToSSE()
+    {
+        string sseUrl = devUrl + "/webapi/stream?channel=" + sessionId;
+        sseRunning = true;
+        try
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(sseUrl);
+            request.Accept = "text/event-stream";
+
+            print("SSE STARTED!");
+
+            using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                
+                while (!reader.EndOfStream && !ct.IsCancellationRequested)
+                {
+                    var line = await reader.ReadLineAsync();
+                    if (!string.IsNullOrEmpty(line) && line.StartsWith("data:"))
+                    {
+                        string data = line.Substring(5).Trim();
+                        Debug.Log("SSE Data Received: " + data);
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("SSE Error: " + ex.Message);
+        }
+        print("SSE Stopped!");
+        sseRunning = false;
     }
 
     /// <summary>
     /// This method is used to send the connected LLM a prompt via text.
     /// </summary>
     /// <param name="prompt">The prompt to send to the LLM.</param>
-    public void SendPrompt(string prompt)
+    public async void SendPrompt(string prompt)
     {
-        string json = $"\"{{\\\"text\\\":\\\"{prompt}\\\"}}\"";
+        if (!sseRunning)
+            ConnectToSSE();
 
-        StartCoroutine(PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamIdText + "/append", json));
+        await SendStart();
+
+        string json = $"\"{{\\\"seq\\\":\\\"{prompt}\\\"}}\"";
+
+        print("Sending prompt: " + prompt);
+
+        ReceiveAnswer(await PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamIdText + "/append", json));
     }
 
-    public void SendStart()
+    public async void StartSSE()
     {
-        string json = "{ \"controll\": \"START\"}, { \"bot\": \"bot\"}";
+        //if(!sseRunning)
+            //ConnectToSSE();
 
-        StartCoroutine(PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json));
+        print("Requesting Worker Information");
+
+        string json = $"\"{{\\\"controll\\\":\\\"INFORMATION\\\"}}\"";
+
+        print(await PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json));
+
+        await SendStart();
     }
 
-    public void SendEnd()
+    public async Task SendStart()
     {
+        print("Send start");
+
+        string json = $"\"{{\\\"controll\\\":\\\"START\\\"}}\"";
+
+        print("Start response: " + await PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json));
+    }
+
+    public async Task SendEnd()
+    {
+        print("Send end");
         string json = "{ \"controll\": \"END\"}";
 
-        StartCoroutine(PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json));
+        print(await PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json));
     }
 
     /// <summary>
@@ -75,8 +150,9 @@ public class DialogueController : MonoBehaviour
     /// <param name="pcmChunk">The recorded audio chunk to send.</param>
     /// <param name="start">The start time of the recorded audio chunk.</param>
     /// <param name="end">The end time of the recorded audio chunk.</param>
-    public void StreamAudio(byte[] pcmChunk, float start, float end)
+    public async void StreamAudio(byte[] pcmChunk, float start, float end)
     {
+        await SendStart();
         string base64String = Convert.ToBase64String(pcmChunk);
 
         byte[] utf8Bytes = Encoding.UTF8.GetBytes(base64String);
@@ -85,7 +161,8 @@ public class DialogueController : MonoBehaviour
 
         string json = "{\"b64_enc_pcm_s16le\": \"" + utf8String + "\", \"start\": " + start + ",\"end\":" + end + "}"; // TODO: check formatting (LTConnection.java -> normalJsonStringToLtJsonString()
 
-        StartCoroutine(PostRequest(sessionId + "/" + streamId + devUrl + appendUrl, json));
+        await PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json);
+        await SendEnd();
     }
 
     /// <summary>
@@ -93,7 +170,7 @@ public class DialogueController : MonoBehaviour
     /// </summary>
     /// <param name="url">The url of the api server.</param>
     /// <param name="json">The json data to send in the request.</param>
-    IEnumerator PostRequest(string url, string json)
+    private async Task<string> PostRequest(string url, string json)
     {
         UnityWebRequest request = new UnityWebRequest(url, "POST");
         byte[] byteJson = new UTF8Encoding().GetBytes(json);
@@ -104,9 +181,9 @@ public class DialogueController : MonoBehaviour
 
         print("Sending request to: " + url);
 
-        yield return request.SendWebRequest();
+        await request.SendWebRequest();
 
-        ReceiveAnswer(request.downloadHandler.text);
+        return request.downloadHandler.text;
     }
 
     /// <summary>

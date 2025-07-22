@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// This class is used to handle microphone input from the user through unity’s microphone system.
@@ -10,6 +11,8 @@ public class VoiceInputManager : MonoBehaviour
     /// Reference to the DialogueController to send the voice recorded text to in order to send it to the LLM.
     /// </summary>
     [SerializeField] private DialogueController dialogueController;
+
+    [SerializeField] private Image micImage;
 
     /// <summary>
     /// Reference to the DialogueSystemWindow to send the voice recorded text to in order to display it in the GUI.
@@ -92,7 +95,9 @@ public class VoiceInputManager : MonoBehaviour
 
         if (!isRecording)
         {
-            dialogueController.SendStart();
+            micImage.color = Color.red;
+
+            dialogueController.StartSSE();
 
             // Start recording
             audioSource.clip = Microphone.Start(micDevice, true, bufferSize, sampleRate);
@@ -103,6 +108,7 @@ public class VoiceInputManager : MonoBehaviour
         }
         else
         {
+            micImage.color = Color.white;
             // End recording
             Microphone.End(micDevice);
 

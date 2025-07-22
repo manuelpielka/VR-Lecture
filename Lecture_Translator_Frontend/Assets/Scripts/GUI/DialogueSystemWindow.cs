@@ -38,6 +38,7 @@ namespace GUI
         {
             virtualAvatar = VirtualAvatar.instance;
             virtualAvatar.EnableAvatar();
+            WindowManager = WindowManager.instance;
         }
 
         private void OnDestroy()
@@ -59,6 +60,7 @@ namespace GUI
         /// </summary>
         public void TextInputEnded(string text)
         {
+            if (text == "") return;
             dialogueController.SendPrompt(text);
             userTextBox.text = text;
         }

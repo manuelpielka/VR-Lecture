@@ -17,7 +17,7 @@ public class CreateNoteWindow : Window
     /// The text box of the note’s contents.
     /// </summary>
     [SerializeField]
-    protected TextMeshProUGUI ToteTextBox;
+    protected TextMeshProUGUI NoteTextBox;
 
     /// <summary>
     /// Reference to the NoteWindow in order to save a note.
@@ -40,8 +40,8 @@ public class CreateNoteWindow : Window
     /// </summary>
     public void Apply()
     {
-        string title = titleTextBox.text;
-        string content = noteTextBox.text;
+        string title = TitleTextBox.text;
+        string content = NoteTextBox.text;
 
         // If a callback is assigned to OnNoteConfirmed, invoke it with the title and content
         if (OnNoteConfirmed != null)
@@ -71,8 +71,8 @@ public class CreateNoteWindow : Window
 
         if (isEditMode && noteToEdit != null)
         {
-            titleTextBox.text = noteToEdit.Title;
-            noteTextBox.text = noteToEdit.Content;
+            TitleTextBox.text = noteToEdit.Title;
+            NoteTextBox.text = noteToEdit.Content;
         }
     }
 }

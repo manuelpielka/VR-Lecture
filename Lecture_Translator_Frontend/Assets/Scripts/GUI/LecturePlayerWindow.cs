@@ -186,7 +186,6 @@ public class LecturePlayerWindow : Window
     public void LanguageSelected()
     {
         string selectedOption = languageDropdown.options[languageDropdown.value].text;
-        Debug.Log(selectedOption);
         subtitleManager.SetLanguage(selectedOption);
     }
 

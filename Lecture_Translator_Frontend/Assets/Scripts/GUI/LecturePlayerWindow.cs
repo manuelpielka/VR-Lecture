@@ -1,14 +1,15 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class LecturePlayerWindow : Window
 {
     [SerializeField] private TextMeshProUGUI videoProgressTextBox;
     [SerializeField] private Slider videoSlider;
-    [SerializeField] private Toggle subtitleToggle;
+    [SerializeField] private SliderSelectHandler sliderSelectHandler;
     [SerializeField] private TextMeshProUGUI subtitleSizeTextBox;
     [SerializeField] private TMP_Dropdown playBackSpeedDropdown;
     [SerializeField] private TMP_Dropdown languageDropdown;
@@ -24,12 +25,21 @@ public class LecturePlayerWindow : Window
     {
         //TEMPORARY
         test();
-        
+
     }
 
     void Update()
     {
         double value = playbackManager.GetCurrentTime();
+
+
+        //update time displays
+        videoSlider.maxValue = (float)playbackManager.GetVideoLength();
+        if (!sliderSelectHandler.IsSelected)
+        {
+            videoSlider.value = (float)value;            
+        }   
+
 
         //format as string
         int hours = (int)(value / 3600);
@@ -54,9 +64,10 @@ public class LecturePlayerWindow : Window
         {
             stringSeconds = "0" + stringSeconds;
         }
-        
+
         string formattedTime = stringHours + ":" + stringMinutes + ":" + stringSeconds;
         videoProgressTextBox.text = formattedTime;
+
     }
 
     private async void test()
@@ -71,7 +82,7 @@ public class LecturePlayerWindow : Window
         transcriptManager.AssignLecture(lecture);
         playbackManager.AssignLecture(lecture);
 
-        //TODO: need to retrieve languages and assign them to the dropdown here
+        languageDropdown.AddOptions(lecture.GetTranscriptLanguages());
     }
 
     public void SetSubtitleText(string text)
@@ -107,24 +118,28 @@ public class LecturePlayerWindow : Window
         playbackManager.MoveTo(playbackManager.GetCurrentTime() - SKIP_AMOUNT);
     }
 
-    public void VideoSliderChanged(float value)
+    public void VideoSliderChanged()
     {
-        playbackManager.MoveTo(playbackManager.GetVideoLength() * value);
+        if (sliderSelectHandler.IsSelected)
+        {
+            playbackManager.MoveTo(videoSlider.value);            
+        }
+
     }
 
     public void AiBtnPressed()
     {
-        //not yet implemented
+        Window window = WindowManager.CreateWindow(WindowKeys.DialogueKey);
     }
 
     public void TranscriptBtnPressed()
     {
-        //not yet implemented
+        Window window = WindowManager.CreateWindow(WindowKeys.TranscriptKey);
     }
 
     public void NotesBtnPressed()
     {
-        //not yet implemented
+        Window window = WindowManager.CreateWindow(WindowKeys.NotesKey);
     }
 
     public void SettingBtnPressed()
@@ -139,49 +154,46 @@ public class LecturePlayerWindow : Window
         }
     }
 
-    [SerializeField]
-    private void ContinueWatchingYesBtnPressed()
+    public void ContinueWatchingYesBtnPressed()
     {
         playbackManager.MoveTo(lecture.GetLastPlayTime());
     }
 
-    private void ContinueWatchingNoBtnPressed()
+    public void ContinueWatchingNoBtnPressed()
     {
         playbackManager.MoveTo(0);
     }
 
-    private void SubtitlesToggled(bool value)
-    {
-        if (value)
-        {
-            subtitleTextBox.alpha = 255;
-        }
-        else
-        {
-            subtitleTextBox.alpha = 0;
-        }
-    }
-
-    private void SubtitleSizePlusBtnPressed()
+    public void SubtitleSizePlusBtnPressed()
     {
         subtitleTextBox.fontSize++;
         subtitleSizeTextBox.text = subtitleTextBox.fontSize.ToString();
     }
 
-    private void SubtitleSizeMinusBtnPressed()
+    public void SubtitleSizeMinusBtnPressed()
     {
         subtitleTextBox.fontSize--;
         subtitleSizeTextBox.text = subtitleTextBox.fontSize.ToString();
     }
 
-    private void PlayBackSpeedSelected(string selectedOption)
+    public void PlayBackSpeedSelected()
     {
+        string selectedOption = playBackSpeedDropdown.options[playBackSpeedDropdown.value].text;
         float value = float.Parse(selectedOption);
         playbackManager.SetPlaybackSpeed(value);
     }
 
-    private void LanguageSelected(string selectedOption)
+    public void LanguageSelected()
     {
+        string selectedOption = languageDropdown.options[languageDropdown.value].text;
+        Debug.Log(selectedOption);
         subtitleManager.SetLanguage(selectedOption);
+    }
+
+    public void CloseBtnPressed()
+    {
+        lecture.SetLastPlayTime(playbackManager.GetCurrentTime());
+        WindowManager.CloseWindow(this);
+        Destroy(gameObject);
     }
 }

@@ -15,15 +15,19 @@ public class CreateLectureNoteWindow : CreateNoteWindow
         this.currentLecture = playerWindow?.GetLecture();
         this.isEditMode = editMode;
 
-        if (!editMode && currentLecture != null)
+        if (currentLecture != null)
         {
             windowTitleText.text = $"Note for: {currentLecture.GetName()}";
+        }
+        else
+        {
+            windowTitleText.text = "Note";
         }
 
         base.Initialize(editMode, noteToEdit);
     }
 
-    protected void Apply()
+    protected new void Apply()
     {
         string title = (!isEditMode && CurrentTimeAsTitleToggle.isOn)
             ? FormatTimeAsString(lecturePlayerWindow.GetPlaybackManager().GetCurrentTime())

@@ -11,13 +11,13 @@ public class CreateNoteWindow : Window
     /// The text box of the title of the note.
     /// </summary>
     [SerializeField]
-    private TextMeshProUGUI titleTextBox;
+    protected TextMeshProUGUI titleTextBox;
 
     /// <summary>
     /// The text box of the note’s contents.
     /// </summary>
     [SerializeField]
-    private TextMeshProUGUI noteTextBox;
+    protected TextMeshProUGUI noteTextBox;
 
     /// <summary>
     /// Reference to the NoteWindow in order to save a note.
@@ -25,7 +25,7 @@ public class CreateNoteWindow : Window
     [SerializeField]
     private NoteWindow NoteWindow;
 
-    private bool isEditMode;
+    protected bool isEditMode;
 
     /// <summary>
     /// Called when the user confirms the note (by pressing the apply button).

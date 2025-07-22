@@ -42,15 +42,6 @@ public class DialogueController : MonoBehaviour
         string json = $"\"{{\\\"bot\\\":\\\"bot\\\"}}\"";
 
         StartCoroutine(PostRequest(devUrl + apiUrl, json));
-
-        StartCoroutine(Wait(5f));
-    }
-
-    IEnumerator Wait(float secs)
-    {
-        yield return new WaitForSeconds(secs); 
-        
-        SendPrompt("This is a Test.");
     }
 
     /// <summary>

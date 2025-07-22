@@ -68,8 +68,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 51b563454ce9113459649e764ae27a90, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   titleTextBox: {fileID: 4122832008852054452}
   dateTextBox: {fileID: 1023284553889990048}
-  thumbnailDisplay: {fileID: 5630607192514009024}
+  thumbnailDisplay: {fileID: 7246322436690246804}
 --- !u!1 &1952739499650688062
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,11 +126,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8033605427480621365}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 85.2, y: -0.0000019073486}
-  m_SizeDelta: {x: 19.5, y: 22.23}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -5, y: 5}
+  m_SizeDelta: {x: 19.5, y: 22.229996}
+  m_Pivot: {x: 1, y: 0}
 --- !u!222 &8613273171788728523
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -391,8 +391,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 4, y: -16.000011}
-  m_SizeDelta: {x: -8, y: 10}
+  m_AnchoredPosition: {x: -8.25, y: -16.000011}
+  m_SizeDelta: {x: -32.5, y: 10}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5064043279384937270
 CanvasRenderer:
@@ -422,7 +422,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 01.01.2020 - 00:00:00
+  m_text: 00.00.0000 - Max Mustermann
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f675742eaf9c20a4f909d78ee7a14fed, type: 2}
   m_sharedMaterial: {fileID: 4687939059374929122, guid: f675742eaf9c20a4f909d78ee7a14fed, type: 2}
@@ -527,8 +527,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2.5, y: -3}
-  m_SizeDelta: {x: -5, y: 13}
+  m_AnchoredPosition: {x: -9.75, y: -3}
+  m_SizeDelta: {x: -29.5, y: 13}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &2853248774000400504
 CanvasRenderer:
@@ -558,7 +558,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Operating Systems 0
+  m_text: Title
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f675742eaf9c20a4f909d78ee7a14fed, type: 2}
   m_sharedMaterial: {fileID: 4687939059374929122, guid: f675742eaf9c20a4f909d78ee7a14fed, type: 2}

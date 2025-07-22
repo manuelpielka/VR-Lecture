@@ -25,7 +25,7 @@ namespace GUI
         [SerializeField] private TextMeshProUGUI titleTextBox;
 
         /// <summary>
-        /// The textbox for the date and length of the lecture.
+        /// The textbox for the date and presenter of the lecture.
         /// </summary>
         [SerializeField] private TextMeshProUGUI dateTextBox;
 
@@ -57,14 +57,14 @@ namespace GUI
         /// <param name="title"> The title of the lecture. </param>
         /// <param name="thumbnail"> The thumbnail of the lecture. </param>
         /// <param name="date"> The date of the lecture. </param>
-        /// <param name="length"> The length of the lecture. </param>
+        /// <param name="presenter"> The presenter of the lecture. </param>
         /// <param name="_lecture"> The lecture element of the lecture. </param>
         /// <param name="_lectureBrowserUI"> The reference of the lecture browser window. </param>
-        public void SetValues(string title, Sprite thumbnail, string date, string length, Lecture _lecture, LectureBrowserWindow _lectureBrowserUI)
+        public void SetValues(string title, Sprite thumbnail, string date, string presenter, Lecture _lecture, LectureBrowserWindow _lectureBrowserUI)
         {
             titleTextBox.text = title;
             thumbnailDisplay.sprite = thumbnail;
-            dateTextBox.text = date + " - " + length;
+            dateTextBox.text = date + " | " + presenter;
             lecture = _lecture;
             lectureBrowserUI = _lectureBrowserUI;
         }

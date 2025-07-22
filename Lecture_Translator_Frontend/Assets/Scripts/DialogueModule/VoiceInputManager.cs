@@ -9,7 +9,7 @@ public class VoiceInputManager : MonoBehaviour
     /// <summary>
     /// Reference to the DialogueController to send the voice recorded text to in order to send it to the LLM.
     /// </summary>
-    private DialogueController dialogueController;
+    [SerializeField] private DialogueController dialogueController;
 
     /// <summary>
     /// Reference to the DialogueSystemWindow to send the voice recorded text to in order to display it in the GUI.

@@ -27,9 +27,9 @@ public class CreateLectureNoteWindow : CreateNoteWindow
     {
         string title = (!isEditMode && CurrentTimeAsTitleToggle.isOn)
             ? FormatTimeAsString(lecturePlayerWindow.GetPlaybackManager().GetCurrentTime())
-            : TitleTextBox.text;
+            : titleTextBox.text;
 
-        string content = NoteTextBox.text;
+        string content = noteTextBox.text;
 
         OnNoteConfirmed?.Invoke(title, content);
         Close();

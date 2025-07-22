@@ -11,14 +11,29 @@ public class NoteManager : MonoBehaviour
     /// A list of all created notes and is used for viewing, editing, saving and deleting.
     /// </summary>
     public List<Note> Notes { get; set; }
-    
+
     /// <summary>
-    /// This method initializes the Notes list when the NoteManager is first loaded.
+    /// Ensures only one NoteManager exists and persists across scene loads.
+    /// Initializes the Notes list only once.
     /// </summary>
     private void Awake()
     {
-        Notes = new List<Note>();
+        // Check if another NoteManager already exists in the scene
+        if (Object.FindObjectsByType<NoteManager>(FindObjectsSortMode.None).Length > 1)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        // Persist this object between scenes
+        DontDestroyOnLoad(this.gameObject);
+
+        // ✅ 避免覆蓋舊資料：只在第一次初始化時建立 Notes
+        if (Notes == null)
+        {
+            Notes = new List<Note>();
+        }
     }
+
 
     /// <summary>
     /// Adds the new note and stores the note to the list of notes.

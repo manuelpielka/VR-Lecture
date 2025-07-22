@@ -11,17 +11,18 @@ public class CreateNoteWindow : Window
     /// The text box of the title of the note.
     /// </summary>
     [SerializeField]
-    private TextMeshProUGUI TitleTextBox;
+    private TextMeshProUGUI titleTextBox;
 
     /// <summary>
     /// The text box of the note’s contents.
     /// </summary>
     [SerializeField]
-    private TextMeshProUGUI NoteTextBox;
+    private TextMeshProUGUI noteTextBox;
 
     /// <summary>
     /// Reference to the NoteWindow in order to save a note.
     /// </summary>
+    [SerializeField]
     private NoteWindow NoteWindow;
 
     private bool isEditMode;
@@ -37,10 +38,10 @@ public class CreateNoteWindow : Window
     /// <summary>
     /// Button handler for the apply button that saves the inputted title and content as a new note or as an edit to an existing note.
     /// </summary>
-    private void Apply()
+    public void Apply()
     {
-        string title = TitleTextBox.text;
-        string content = NoteTextBox.text;
+        string title = titleTextBox.text;
+        string content = noteTextBox.text;
 
         // If a callback is assigned to OnNoteConfirmed, invoke it with the title and content
         if (OnNoteConfirmed != null)
@@ -54,7 +55,7 @@ public class CreateNoteWindow : Window
     /// <summary>
     /// Button handler for the discard button that closes the window without saving changes.
     /// </summary>
-    private void Discard()
+    public void Discard()
     {
         Close();
     }
@@ -70,8 +71,8 @@ public class CreateNoteWindow : Window
 
         if (isEditMode && noteToEdit != null)
         {
-            TitleTextBox.text = noteToEdit.Title;
-            NoteTextBox.text = noteToEdit.Content;
+            titleTextBox.text = noteToEdit.Title;
+            noteTextBox.text = noteToEdit.Content;
         }
     }
 }

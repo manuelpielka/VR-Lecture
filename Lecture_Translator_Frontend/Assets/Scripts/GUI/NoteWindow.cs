@@ -23,7 +23,7 @@ public class NoteWindow : Window
     /// <summary>
     /// A reference to the NoteUtils class for utility functions.
     /// </summary>
-    private NoteUtils NoteUtils;
+    //private NoteUtils NoteUtils;
 
     /// <summary>
     /// The prefab of a note for creating new NoteGUI elements.
@@ -67,6 +67,8 @@ public class NoteWindow : Window
         {
             NoteManager.EditNote(targetNote, title, content);
             NoteManager.SaveNote(targetNote);
+
+            LoadNotes();
         };
     }
 
@@ -93,7 +95,7 @@ public class NoteWindow : Window
         GameObject windowGO = Instantiate(createNoteWindowPrefab);
         CreateNoteWindow createWindow = windowGO.GetComponent<CreateNoteWindow>();
 
-        createWindow.Prefab = createNoteWindowPrefab;
+        //createWindow.Prefab = createNoteWindowPrefab;
 
         createWindow.Initialize(false);
 
@@ -103,6 +105,8 @@ public class NoteWindow : Window
             Note newNote = new Note { Title = title, Content = content };
             NoteManager.AddNote(newNote);
             NoteManager.SaveNote(newNote);
+
+            LoadNotes();
         };
     }
 

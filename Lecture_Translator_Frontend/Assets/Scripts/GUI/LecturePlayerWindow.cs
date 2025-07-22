@@ -37,8 +37,8 @@ public class LecturePlayerWindow : Window
         videoSlider.maxValue = (float)playbackManager.GetVideoLength();
         if (!sliderSelectHandler.IsSelected)
         {
-            videoSlider.value = (float)value;            
-        }   
+            videoSlider.value = (float)value;
+        }
 
 
         //format as string
@@ -122,7 +122,7 @@ public class LecturePlayerWindow : Window
     {
         if (sliderSelectHandler.IsSelected)
         {
-            playbackManager.MoveTo(videoSlider.value);            
+            playbackManager.MoveTo(videoSlider.value);
         }
 
     }
@@ -195,4 +195,15 @@ public class LecturePlayerWindow : Window
         WindowManager.CloseWindow(this);
         Destroy(gameObject);
     }
+
+    public Lecture GetLecture()
+    {
+        return this.lecture;
+    }
+
+    public PlaybackManager GetPlaybackManager()
+    {
+        return playbackManager;
+    }
+
 }

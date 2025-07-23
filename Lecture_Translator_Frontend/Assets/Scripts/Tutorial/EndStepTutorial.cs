@@ -1,8 +1,11 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
-public class WelcomeStepTutorial : MonoBehaviour, ITutorialStep
+
+
+public class EndStepTutorial : MonoBehaviour, ITutorialStep
+
 {
     public event Action StepCompleted;
 
@@ -15,8 +18,8 @@ public class WelcomeStepTutorial : MonoBehaviour, ITutorialStep
 
 
     public void StartStep()
-    {   
-        Debug.Log("WelcomeStepTutorial started");
+    { 
+        Debug.Log("EndStep started");
 
         overlayInstance = Instantiate(OverlayPrefab);
         Debug.Log("Instantied overlay: " + overlayInstance.name);
@@ -45,8 +48,6 @@ public class WelcomeStepTutorial : MonoBehaviour, ITutorialStep
         {
             Destroy(overlayInstance);
         }
-
-
     }
 
     

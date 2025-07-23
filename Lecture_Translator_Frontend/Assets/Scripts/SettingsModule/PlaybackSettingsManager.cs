@@ -7,6 +7,9 @@ using UnityEngine;
 /// </summary>
 public class PlaybackSettingsManager : MonoBehaviour
 {
+    private LecturePlayerWindow lecturePlayerWindow;
+
+    [SerializeField] private PlaybackManager playbackManager;
     // The speed multiplier used during playback (e.g., 1.0 for normal, 1.5 for faster playback)
     private float playbackSpeed;
 
@@ -18,9 +21,17 @@ public class PlaybackSettingsManager : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        // Load saved preferences or fallback to default
-        playbackSpeed = UserPreferencesManager.LoadPlaybackSpeed();  // default = 1.0
-        subtitleFontSize = UserPreferencesManager.LoadSubtitleFontSize(); // default = 16
+        if (playbackManager == null)
+        {
+            playbackManager = FindFirstObjectByType<PlaybackManager>();
+        }
+        lecturePlayerWindow = FindFirstObjectByType<LecturePlayerWindow>();
+
+        playbackSpeed = UserPreferencesManager.LoadPlaybackSpeed();
+        subtitleFontSize = UserPreferencesManager.LoadSubtitleFontSize();
+
+        playbackManager?.SetPlaybackSpeed(playbackSpeed);
+        lecturePlayerWindow?.SetSubtitleFontSize(subtitleFontSize);
     }
 
     /// <summary>
@@ -39,6 +50,11 @@ public class PlaybackSettingsManager : MonoBehaviour
     public void SetPlaybackSpeed(float playbackSpeed)
     {
         this.playbackSpeed = playbackSpeed;
+
+        if (playbackManager != null)
+        {
+            playbackManager.SetPlaybackSpeed(playbackSpeed);
+        }
     }
 
     /// <summary>
@@ -57,5 +73,6 @@ public class PlaybackSettingsManager : MonoBehaviour
     public void SetSubtitleFontSize(int subtitleFontSize)
     {
         this.subtitleFontSize = subtitleFontSize;
+        lecturePlayerWindow?.SetSubtitleFontSize(subtitleFontSize);
     }
 }

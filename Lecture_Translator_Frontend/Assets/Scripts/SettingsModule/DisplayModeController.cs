@@ -8,6 +8,7 @@ using UnityEngine.UI;
 /// </summary>
 public class DisplayModeController : MonoBehaviour
 {
+    public static DisplayModeController Instance;
     /// <summary>
     /// Indicates whether the current display mode is dark mode (true) or light mode (false).
     /// </summary>
@@ -29,6 +30,7 @@ public class DisplayModeController : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        Instance = this;
         // Load user preferences from storage
         isDarkModeEnabled = UserPreferencesManager.LoadDarkMode();
         autoAdjust = UserPreferencesManager.LoadAutoAdjust();
@@ -129,10 +131,7 @@ public class DisplayModeController : MonoBehaviour
     {
         autoAdjust = enabled;
         UserPreferencesManager.SaveAutoAdjust(enabled);
-        if (autoAdjust)
-        {
-            UpdateMode(); // Immediately update based on current time
-        }
+        UpdateMode();
     }
 
     /// <summary>
@@ -168,6 +167,20 @@ public class DisplayModeController : MonoBehaviour
         foreach (Text t in legacyTexts)
         {
             t.color = newTextColor;
+        }
+
+        Image[] allImages = Object.FindObjectsByType<Image>(FindObjectsSortMode.None);
+        Color backgroundColor = isDarkModeEnabled ? Color.black : Color.white;
+
+        foreach (Image img in allImages)
+        {
+            img.color = backgroundColor;
+        }
+
+        Window[] allWindows = Object.FindObjectsByType<Window>(FindObjectsSortMode.None);
+        foreach (var win in allWindows)
+        {
+            win.RefreshTheme();
         }
 
         // Optional: Debug log

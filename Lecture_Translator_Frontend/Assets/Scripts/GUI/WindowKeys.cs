@@ -12,6 +12,7 @@ public static class WindowKeys
     public const string TranscriptKey = "TranscriptWindow";
     public const string DialogueKey = "DialogueWindow";
     public const string SettingsKey = "SettingsWindow";
+    public const string ContinueWatchingKey = "ContinueWatchingWindow";
     public static List<string> AllKeys { get; set; } = new List<string>
     {
         MainMenuKey,
@@ -23,6 +24,7 @@ public static class WindowKeys
         CreateLectureNoteKey,
         TranscriptKey,
         DialogueKey,
-        SettingsKey
+        SettingsKey,
+        ContinueWatchingKey
     };  
 }

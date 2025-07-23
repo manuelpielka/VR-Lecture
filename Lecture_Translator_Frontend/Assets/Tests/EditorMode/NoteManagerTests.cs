@@ -46,7 +46,7 @@ public class NoteManagerTests
         var note = new Note("DeleteMe", "Content");
         manager.AddNote(note);
         manager.SaveNote(note);
-        manager.DeleteNote(note);
+        manager.DeleteNoteByTitle(note.Title);
 
         Assert.IsFalse(manager.Notes.Contains(note));
         string path = Path.Combine(notesPath, "DeleteMe.json");

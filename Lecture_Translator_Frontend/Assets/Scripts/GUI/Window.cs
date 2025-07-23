@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// This class is the base class of all Windows. A Window is a GUI screen that can be moved around in the VR environment.
@@ -28,6 +30,8 @@ public class Window : MonoBehaviour
     private void Start()
     {
         WindowManager = WindowManager.instance;
+
+        RefreshTheme();
     }
 
     /// <summary>
@@ -68,5 +72,16 @@ public class Window : MonoBehaviour
         }
 
         rectTransform.sizeDelta = newSize;
+    }
+
+    public void RefreshTheme()
+    {
+        bool isDark = DisplayModeController.Instance?.IsDarkModeEnabled() ?? false;
+
+        foreach (var tmp in GetComponentsInChildren<TextMeshProUGUI>(true))
+            tmp.color = isDark ? Color.white : Color.black;
+
+        foreach (var img in GetComponentsInChildren<Image>(true))
+            img.color = isDark ? Color.black : Color.white;
     }
 }

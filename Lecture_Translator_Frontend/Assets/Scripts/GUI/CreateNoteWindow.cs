@@ -11,19 +11,18 @@ public class CreateNoteWindow : Window
     /// The text box of the title of the note.
     /// </summary>
     [SerializeField]
-    protected TextMeshProUGUI titleTextBox;
+    protected TMP_InputField titleTextBox;
 
     /// <summary>
     /// The text box of the note’s contents.
     /// </summary>
     [SerializeField]
-    protected TextMeshProUGUI noteTextBox;
+    protected TMP_InputField noteTextBox;
 
     /// <summary>
     /// Reference to the NoteWindow in order to save a note.
     /// </summary>
-    [SerializeField]
-    private NoteWindow NoteWindow;
+    public NoteWindow NoteWindow { get; set; }
 
     protected bool isEditMode;
 
@@ -43,11 +42,23 @@ public class CreateNoteWindow : Window
         string title = titleTextBox.text;
         string content = noteTextBox.text;
 
-        // If a callback is assigned to OnNoteConfirmed, invoke it with the title and content
-        if (OnNoteConfirmed != null)
+        if (string.IsNullOrWhiteSpace(title))
         {
-            OnNoteConfirmed.Invoke(title, content);
+            Debug.LogWarning("Note title cannot be empty!");
+            return;
         }
+
+        if (isEditMode)
+        {
+            NoteWindow.SaveEditedNote(title, title, content);
+        }
+        else
+        {
+            NoteWindow.SaveNewNote(title, content);
+        }
+
+        WindowManager.CloseWindow(this);
+        NoteWindow.LoadNotes();
 
         Close();
     }
@@ -61,18 +72,28 @@ public class CreateNoteWindow : Window
     }
 
     /// <summary>
-    /// This method initializes the CreateNoteWindow with the appropriate mode and data.
+    /// Initializes the CreateNoteWindow with the appropriate mode and resets fields if necessary.
     /// </summary>
-    /// <param name="editMode">If true, the window is in edit mode and will update an existing note; if false, it will create a new note.</param>
-    /// <param name="noteToEdit">The note to edit. This is only required when <paramref name="editMode"/> is true.</param>
-    public void Initialize(bool editMode, Note noteToEdit = null)
+    /// <param name="isEditMode">If true, window is in edit mode; otherwise, it's in create mode.</param>
+    public void Initialize(bool isEditMode)
     {
-        this.isEditMode = editMode;
+        this.isEditMode = isEditMode;
 
-        if (isEditMode && noteToEdit != null)
+        if (!isEditMode)
         {
-            titleTextBox.text = noteToEdit.Title;
-            noteTextBox.text = noteToEdit.Content;
+            titleTextBox.text = "";
+            noteTextBox.text = "";
         }
+    }
+
+    /// <summary>
+    /// Fills the title and content fields with the given values (used when editing).
+    /// </summary>
+    /// <param name="title">The title of the note.</param>
+    /// <param name="content">The content of the note.</param>
+    public void FillFields(string title, string content)
+    {
+        titleTextBox.text = title;
+        noteTextBox.text = content;
     }
 }

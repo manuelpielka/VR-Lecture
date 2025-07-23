@@ -27,7 +27,6 @@ public class NoteManager : MonoBehaviour
         // Persist this object between scenes
         DontDestroyOnLoad(this.gameObject);
 
-        // ✅ 避免覆蓋舊資料：只在第一次初始化時建立 Notes
         if (Notes == null)
         {
             Notes = new List<Note>();
@@ -53,43 +52,33 @@ public class NoteManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Deletes the created note and deletes the note from the list of notes.
+    /// Deletes a note from the list and removes its corresponding JSON file from disk.
     /// </summary>
-    /// <param name="note"></param>The deleted note.
-    public void DeleteNote(Note note)
+    /// <param name="title">The title of the note to delete.</param>
+    public void DeleteNoteByTitle(string title)
     {
-
-        if (IsNull(note, "Delete note failed: note is null.")) return;
-
-        if (!Notes.Contains(note))
+        Note noteToRemove = Notes.Find(n => n.Title == title);
+        if (noteToRemove == null)
         {
-            Debug.LogWarning("Deleted note failed: the note is not found in the list.");
+            Debug.LogWarning("Delete failed: note with title not found in Notes list.");
             return;
         }
 
-        Notes.Remove(note);
+        Notes.Remove(noteToRemove);
 
-        // Delete the corresponding JSON file (if it exists)
-        string path = Path.Combine(Application.persistentDataPath, "notes", $"{note.Title}.json");
-        Debug.Log($"Trying to delete file at: {path}");
+        // Construct full path to JSON file
+        string folder = Path.Combine(Application.persistentDataPath, "notes");
+        string path = Path.Combine(folder, $"{title}.json");
 
-        try
+        if (File.Exists(path))
         {
-            if (File.Exists(path))
-            {
-                File.Delete(path);
-                Debug.Log($"File deleted: {path}");
-            }
-            else
-            {
-                Debug.LogWarning($"Note '{note.Title}' removed from list, but file not found at {path}");
-            }
+            File.Delete(path);
+            Debug.Log($"Note file deleted: {path}");
         }
-        catch (System.Exception ex)
+        else
         {
-            Debug.LogError($"Failed to delete file for note '{note.Title}': {ex.Message}");
+            Debug.LogWarning($"Note '{title}' removed from list, but file not found at {path}");
         }
-
     }
 
     /// <summary>
@@ -226,6 +215,7 @@ public class NoteManager : MonoBehaviour
 
         if (!Directory.Exists(folder))
         {
+            Notes = allNotes;
             return allNotes;
         }
 
@@ -246,6 +236,7 @@ public class NoteManager : MonoBehaviour
             }
 
         }
+        Notes = allNotes;
         return allNotes;
     }
 
@@ -265,5 +256,4 @@ public class NoteManager : MonoBehaviour
         }
         return false;
     }
-
 }

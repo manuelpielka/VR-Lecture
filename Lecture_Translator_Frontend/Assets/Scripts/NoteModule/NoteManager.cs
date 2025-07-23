@@ -49,6 +49,7 @@ public class NoteManager : MonoBehaviour
         }
 
         Notes.Add(note);
+        Debug.Log($"Add note '{note.Title}' into the note list."); //
     }
 
     /// <summary>
@@ -79,6 +80,8 @@ public class NoteManager : MonoBehaviour
         {
             Debug.LogWarning($"Note '{title}' removed from list, but file not found at {path}");
         }
+
+        Notes = LoadAllNotes();
     }
 
     /// <summary>
@@ -94,11 +97,34 @@ public class NoteManager : MonoBehaviour
 
         if (IsNull(note, "Edit failed: note is null.")) return;
 
-        if (!Notes.Contains(note))
+        foreach (var targetNote in Notes) //
         {
-            Debug.LogWarning($"The note '{newTitle}' is not found in the list.");
+            Debug.Log($"The note '{targetNote.Title}' is in the list."); //
+        }
+
+        if (Notes.Contains(note)) //
+        {
+            Debug.Log($"The note '{note.Title}' has been found in the list."); //
+        }
+
+        Note noteInList = Notes.Find(n => n.Title == note.Title);
+
+        if (noteInList != null) //
+            Debug.Log("找到了這個 note 用 Title 比對！"); //
+        else
+            Debug.LogWarning("用 Title 找還是找不到！"); //
+
+        if (noteInList == null)
+        {
+            Debug.LogWarning($"The note '{note.Title}' is not found in the list (by title).");
             return;
         }
+
+        //if (!Notes.Contains(note))
+        //{
+        //    Debug.LogWarning($"The note '{note.Title}' is not found in the list.");
+        //    return;
+        //}
 
         // Check if newTitle already exists in another note
         foreach (var existingNote in Notes)
@@ -132,8 +158,12 @@ public class NoteManager : MonoBehaviour
 
         }
 
-        note.Title = newTitle;
-        note.Content = newContent;
+        //note.Title = newTitle;
+        //note.Content = newContent;
+        noteInList.Title = newTitle;
+        noteInList.Content = newContent;
+        
+        SaveNote(noteInList);
     }
 
     /// <summary>
@@ -150,7 +180,7 @@ public class NoteManager : MonoBehaviour
         if (!Directory.Exists(folder))
         {
             Directory.CreateDirectory(folder);
-            Debug.LogWarning($"The note '{note.Title}' is not found in the note folder.");
+            Debug.Log($"The note '{note.Title}' is not found in the note folder.");
         }
 
         // Create the file path using the title of the note as the file name.

@@ -37,16 +37,14 @@ public class NoteWindow : Window
     [SerializeField] private Transform notesContainer;
 
 
-
-
     /// <summary>
     /// Button handler for the edit button of a specific note that opens the CreateNoteWindow to be able to edit the note.
     /// </summary>
     /// <param name="noteUI ">The noteUI element to edit</param>
     public void EditNote(NoteGUI noteUI)
     {
-        string title = noteUI.titleTextBox.text;
-        Note targetNote = noteManager.LoadNote(title);
+        string originalTitle = noteUI.titleTextBox.text;
+        Note targetNote = noteManager.LoadNote(originalTitle);
         if (NoteUtils.IsNull(targetNote, "Edit failed: target note is null.")) return;
 
         Window window = WindowManager.OpenWindow(WindowKeys.CreateNoteKey);
@@ -56,6 +54,7 @@ public class NoteWindow : Window
             createWindow.NoteWindow = this;
             createWindow.Initialize(true);
             createWindow.FillFields(targetNote.Title, targetNote.Content);
+            createWindow.SetOriginalTitle(targetNote.Title);
         }
 
     }
@@ -156,6 +155,11 @@ public class NoteWindow : Window
     public void SaveNewNote(string title, string content)
     {
         Note newNote = new Note(title, content);
+        Debug.Log($"The new note has been created: '{newNote.Title}'."); //
+
+        noteManager.AddNote(newNote);
+        Debug.Log($"The new created note has been added into the note list: '{newNote.Title}'."); //
+
         noteManager.SaveNote(newNote);
     }
 
@@ -167,12 +171,18 @@ public class NoteWindow : Window
     /// <param name="newContent">The updated content.</param>
     public void SaveEditedNote(string originalTitle, string newTitle, string newContent)
     {
-        Note existingNote = noteManager.LoadNote(originalTitle);
-        if (NoteUtils.IsNull(existingNote, "Save failed: note is null.")) return;
+        //Note editedNoteToSave = noteManager.LoadNote(originalTitle);
+        Note editedNoteToSave = noteManager.Notes.Find(n => n.Title == originalTitle);
+        if (NoteUtils.IsNull(editedNoteToSave, "Save failed: note is null.")) return;
 
-        existingNote.Title = newTitle;
-        existingNote.Content = newContent;
-        noteManager.SaveNote(existingNote);
+        Debug.Log($"Found the note to edit: '{editedNoteToSave.Title}'."); //
+
+        //editedNoteToSave.Title = newTitle;
+        //editedNoteToSave.Content = newContent;
+        //noteManager.SaveNote(editedNoteToSave);
+        noteManager.EditNote(editedNoteToSave, newTitle, newContent);
+        
+        Debug.Log($"The new title of the note to edit is '{newTitle}'."); //
     }
 
     /// <summary>

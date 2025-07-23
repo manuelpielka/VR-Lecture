@@ -26,6 +26,8 @@ public class CreateNoteWindow : Window
 
     protected bool isEditMode;
 
+    private string originalTitle;
+
     /// <summary>
     /// Called when the user confirms the note (by pressing the apply button).
     /// Passes the title and content of the note.
@@ -50,14 +52,17 @@ public class CreateNoteWindow : Window
 
         if (isEditMode)
         {
-            NoteWindow.SaveEditedNote(title, title, content);
+            Debug.Log($"The original title of the note is '{originalTitle}'."); //
+            Debug.Log($"The new title of the note is '{title}'."); //
+            NoteWindow.SaveEditedNote(originalTitle, title, content);
         }
         else
         {
             NoteWindow.SaveNewNote(title, content);
+            Debug.Log($"The new title of the note to save is: '{title}'."); //
+            Debug.Log($"The new content of the note to save is: '{content}'."); //
         }
 
-        WindowManager.CloseWindow(this);
         NoteWindow.LoadNotes();
 
         Close();
@@ -96,4 +101,10 @@ public class CreateNoteWindow : Window
         titleTextBox.text = title;
         noteTextBox.text = content;
     }
+
+    public void SetOriginalTitle(string title)
+    {
+        originalTitle = title;
+    }
+
 }

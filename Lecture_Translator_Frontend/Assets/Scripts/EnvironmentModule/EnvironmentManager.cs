@@ -72,7 +72,8 @@ public class EnvironmentManager : MonoBehaviour
         // If the list of environments is not empty, automatically load the first environment.
         if (Environments.Count > 0)
         {
-            LoadEnvironment(Environments[0].SceneId);
+            string savedSceneId = UserPreferencesManager.LoadBackgroundSceneId();
+            LoadEnvironment(savedSceneId);
         }
     }
 

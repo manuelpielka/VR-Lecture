@@ -5,7 +5,6 @@ using TMPro;
 public class SettingsWindow : Window
 {
     public TMP_Dropdown playbackSpeedDropdown;
-    public Toggle subtitleToggle;
     public TMP_Dropdown subtitleSizeDropdown;
     public Toggle modeAutoSwitchToggle;
     public Toggle darkModeToggle;
@@ -45,6 +44,20 @@ public class SettingsWindow : Window
         int currentSize = settingsManager.GetComponent<PlaybackSettingsManager>().GetSubtitleFontSize();
         int selectedSizeIndex = System.Array.IndexOf(subtitleSizes, currentSize);
         subtitleSizeDropdown.value = selectedSizeIndex >= 0 ? selectedSizeIndex : 2; // default = 16
+
+        backgroundDropdown.ClearOptions();
+        var envManager = FindAnyObjectByType<EnvironmentManager>();
+        if (envManager != null)
+        {
+            foreach (var env in envManager.Environments)
+            {
+                backgroundDropdown.options.Add(new TMP_Dropdown.OptionData(env.DisplayName));
+            }
+
+            string savedId = UserPreferencesManager.LoadBackgroundSceneId();
+            int index = envManager.Environments.FindIndex(e => e.SceneId == savedId);
+            backgroundDropdown.value = index >= 0 ? index : 0;
+        }
     }
 
     private void InitToggles()
@@ -63,6 +76,7 @@ public class SettingsWindow : Window
         subtitleSizeDropdown.onValueChanged.AddListener(OnSubtitleSizeChanged);
         modeAutoSwitchToggle.onValueChanged.AddListener(OnAutoAdjustToggled);
         darkModeToggle.onValueChanged.AddListener(OnDarkModeToggled);
+        backgroundDropdown.onValueChanged.AddListener(OnBackgroundChanged);
     }
 
     private void OnPlaybackSpeedChanged(int index)
@@ -81,10 +95,26 @@ public class SettingsWindow : Window
     {
         settingsManager.SetAutoAdjust(isOn);
         darkModeToggle.interactable = !isOn;
+        if (isOn)
+        {
+            DisplayModeController.Instance.RefreshMode();
+        }
+        
     }
 
     private void OnDarkModeToggled(bool isOn)
     {
         settingsManager.SetDarkMode(isOn);
+        DisplayModeController.Instance.SetDarkMode(isOn);
+    }
+
+    private void OnBackgroundChanged(int index)
+    {
+        var envManager = FindAnyObjectByType<EnvironmentManager>();
+        if (envManager == null) return;
+
+        var config = envManager.Environments[index];
+        envManager.SwitchEnvironment(config);
+        UserPreferencesManager.SaveBackgroundSceneId(config.SceneId);
     }
 }

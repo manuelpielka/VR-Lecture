@@ -12,6 +12,7 @@ public static class UserPreferencesManager
     private const string SubtitleFontSizeKey = "UserPref_SubtitleFontSize";
     private const string IsDarkModeKey = "UserPref_IsDarkMode";
     private const string AutoAdjustKey = "UserPref_AutoAdjust";
+    private const string BackgroundSceneIdKey = "UserPref_BackgroundSceneId";
 
     /// <summary>
     /// Saves the user's preferred playback speed.
@@ -19,6 +20,7 @@ public static class UserPreferencesManager
     public static void SavePlaybackSpeed(float speed)
     {
         PlayerPrefs.SetFloat(PlaybackSpeedKey, speed);
+        PlayerPrefs.Save();
     }
 
     /// <summary>
@@ -35,6 +37,7 @@ public static class UserPreferencesManager
     public static void SaveSubtitleFontSize(int size)
     {
         PlayerPrefs.SetInt(SubtitleFontSizeKey, size);
+        PlayerPrefs.Save();
     }
 
     /// <summary>
@@ -51,6 +54,7 @@ public static class UserPreferencesManager
     public static void SaveDarkMode(bool isDark)
     {
         PlayerPrefs.SetInt(IsDarkModeKey, isDark ? 1 : 0); // TODO
+        PlayerPrefs.Save();
     }
 
     /// <summary>
@@ -67,6 +71,7 @@ public static class UserPreferencesManager
     public static void SaveAutoAdjust(bool enabled)
     {
         PlayerPrefs.SetInt(AutoAdjustKey, enabled ? 1 : 0);
+        PlayerPrefs.Save();
     }
 
     /// <summary>
@@ -76,6 +81,18 @@ public static class UserPreferencesManager
     {
         return PlayerPrefs.GetInt(AutoAdjustKey, 1) == 1; // Default: auto-adjust ON
     }
+
+    public static void SaveBackgroundSceneId(string sceneId)
+    {
+        PlayerPrefs.SetString(BackgroundSceneIdKey, sceneId);
+        PlayerPrefs.Save();
+    }
+
+    public static string LoadBackgroundSceneId()
+    {
+        return PlayerPrefs.GetString(BackgroundSceneIdKey, "cafe");
+    }
+
 
     /// <summary>
     /// Applies all saved user preferences to the given playback and display controllers.

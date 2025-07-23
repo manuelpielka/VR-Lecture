@@ -6,8 +6,9 @@ using UnityEngine;
 /// </summary>
 public class SettingsManager : MonoBehaviour
 {
-   // Reference to playback settings manager
-    private PlaybackSettingsManager playbackManager;
+    [SerializeField] private EnvironmentManager environmentManager;
+    // Reference to playback settings manager
+    private PlaybackSettingsManager playbackSettingsManager;
 
     // Reference to display mode controller
     private DisplayModeController displayModeController;
@@ -18,7 +19,7 @@ public class SettingsManager : MonoBehaviour
     private void Awake()
     {
         // Find or initialize managers (can also use dependency injection or assign via Inspector)
-        playbackManager = FindFirstObjectByType<PlaybackSettingsManager>();
+        playbackSettingsManager = FindFirstObjectByType<PlaybackSettingsManager>();
         displayModeController = FindFirstObjectByType<DisplayModeController>();
 
         // Load user preferences (if any)
@@ -30,10 +31,10 @@ public class SettingsManager : MonoBehaviour
     /// </summary>
     private void LoadUserPreferences()
     {
-        if (playbackManager != null)
+        if (playbackSettingsManager != null)
         {
-            playbackManager.SetPlaybackSpeed(UserPreferencesManager.LoadPlaybackSpeed());
-            playbackManager.SetSubtitleFontSize(UserPreferencesManager.LoadSubtitleFontSize());
+            playbackSettingsManager.SetPlaybackSpeed(UserPreferencesManager.LoadPlaybackSpeed());
+            playbackSettingsManager.SetSubtitleFontSize(UserPreferencesManager.LoadSubtitleFontSize());
         }
 
         if (displayModeController != null)
@@ -48,7 +49,7 @@ public class SettingsManager : MonoBehaviour
     /// </summary>
     public void SetPlaybackSpeed(float speed)
     {
-        playbackManager?.SetPlaybackSpeed(speed);
+        playbackSettingsManager?.SetPlaybackSpeed(speed);
         UserPreferencesManager.SavePlaybackSpeed(speed);
     }
 
@@ -57,7 +58,7 @@ public class SettingsManager : MonoBehaviour
     /// </summary>
     public void SetSubtitleFontSize(int size)
     {
-        playbackManager?.SetSubtitleFontSize(size);
+        playbackSettingsManager?.SetSubtitleFontSize(size);
         UserPreferencesManager.SaveSubtitleFontSize(size);
     }
 
@@ -77,5 +78,11 @@ public class SettingsManager : MonoBehaviour
     {
         displayModeController?.SetDarkMode(enabled);
         UserPreferencesManager.SaveDarkMode(enabled);
+    }
+
+    public void SetEnvironmentById(string sceneId)
+    {
+        environmentManager?.LoadEnvironment(sceneId);
+        UserPreferencesManager.SaveBackgroundSceneId(sceneId);
     }
 }

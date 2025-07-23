@@ -35,4 +35,9 @@ public class TranscriptWindow : Window
         transcriptText.fontSize--;
         sizeText.text = transcriptText.fontSize.ToString();
     }
+
+    public void CloseBtnPressed()
+    {
+        Close();
+    }
 }

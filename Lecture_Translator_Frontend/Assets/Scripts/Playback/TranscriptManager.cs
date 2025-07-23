@@ -18,13 +18,14 @@ public class TranscriptManager : MonoBehaviour
             //Download in pararllel to minimize wait times
             foreach (string language in lecture.GetTranscriptLanguages())
             {
-                DownloadTaskList.Add(language, LectureDownloader.DownloadVTT(lecture, language));
+                DownloadTaskList.Add(language, LectureDownloader.StreamVTT(lecture, language));
             }
 
             //Process responses
             foreach (string language in DownloadTaskList.Keys)
             {
                 string transcriptRaw = await DownloadTaskList[language];
+                Debug.Log(transcriptRaw);
                 Transcript transcript = new Transcript(transcriptRaw);
                 transcripts.Add(language, transcript);
             }

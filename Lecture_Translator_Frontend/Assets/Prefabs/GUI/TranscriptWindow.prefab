@@ -499,6 +499,7 @@ GameObject:
   - component: {fileID: 6210425387122894015}
   - component: {fileID: 5240990734135877640}
   - component: {fileID: 3145927759684759479}
+  - component: {fileID: 1201796943481867853}
   m_Layer: 0
   m_Name: TranscriptWindow
   m_TagString: Untagged
@@ -816,6 +817,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7b01fe0c14d77a4491ebe59686c9a18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1201796943481867853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132509373357963783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55bcfccb939f7d34c86d56dea417e359, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transcriptText: {fileID: 1647462836860002007}
+  titleText: {fileID: 3784990236006571373}
+  sizeText: {fileID: 8079067115794311867}
+  languageDropdown: {fileID: 6181945858843804459}
+  transcriptManager: {fileID: 3145927759684759479}
 --- !u!1 &1208455485514241871
 GameObject:
   m_ObjectHideFlags: 0
@@ -1210,7 +1228,19 @@ MonoBehaviour:
     m_Options: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1201796943481867853}
+        m_TargetAssemblyTypeName: TranscriptWindow, Assembly-CSharp
+        m_MethodName: LanguageSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
 --- !u!1 &2999532297239503647
 GameObject:
@@ -1504,7 +1534,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1073398954949477757}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1201796943481867853}
+        m_TargetAssemblyTypeName: TranscriptWindow, Assembly-CSharp
+        m_MethodName: SizeMinusBtnPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3809537568728639565
 GameObject:
   m_ObjectHideFlags: 0
@@ -2096,7 +2138,7 @@ GameObject:
   - component: {fileID: 5832459265466484289}
   - component: {fileID: 1647462836860002007}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Transcript Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2467,7 +2509,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 126525304490515902}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1201796943481867853}
+        m_TargetAssemblyTypeName: TranscriptWindow, Assembly-CSharp
+        m_MethodName: SizePlusBtnPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6637273310860274409
 GameObject:
   m_ObjectHideFlags: 0
@@ -3432,7 +3486,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3387185455761770134}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1201796943481867853}
+        m_TargetAssemblyTypeName: TranscriptWindow, Assembly-CSharp
+        m_MethodName: CloseBtnPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8169515326335253169
 GameObject:
   m_ObjectHideFlags: 0

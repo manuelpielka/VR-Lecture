@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
+using System.IO;
 
 public static class LectureDownloader
 {
@@ -18,6 +19,8 @@ public static class LectureDownloader
     private const string VTT = "vtt";
     private const string SEPERATOR = "%252F";
 
+    private const string DATA_DIRECTORY = "./Data/";
+
     public static async Task<Lecture> DownloadMetaData(string path)
     {
         //for READ_DIRECTORY
@@ -28,6 +31,8 @@ public static class LectureDownloader
 
         //for SUBTITLES
         //string jsonBody = "\"{\\\"directory\\\":\\\"Other/offline_test\\\",\\\"language\\\":\\\"English\\\"}\"";
+
+        //seems that transcripts are stored as a messages.json file
 
         string jsonBody = $"\"{{\\\"directory\\\":\\\"{path}\\\"}}\"";
 
@@ -54,16 +59,24 @@ public static class LectureDownloader
         return lecture;
     }
 
-    public static Task<string> DownloadVTT(Lecture lecture, string language)
+    public static Task<string> StreamVTT(Lecture lecture, string language)
     {
         string source = lecture.GetTranscriptSource();
         string jsonBody = $"\"{{\\\"directory\\\":\\\"{source}\\\",\\\"language\\\":\\\"{language}\\\"}}\"";
         return PostRequest(SERVER_URL + VTT, jsonBody);
     }
 
-    public static void DownloadLecture(Lecture lecture)
+    public static void DownloadVTT(Lecture lecture)
     {
-        //needs to be implmented
+        //not yet implemented
+    }
+
+    public static async Task<string> DownloadLecture(Lecture lecture)
+    {
+        Debug.Log(DATA_DIRECTORY + lecture.GetTranscriptSource());
+        string targetPath = DATA_DIRECTORY + lecture.GetTranscriptSource() + ".mp4";
+        await PostRequestFile(lecture.GetVideoSource(), "", targetPath);
+        return targetPath;
     }
 
 
@@ -80,8 +93,34 @@ public static class LectureDownloader
         request.SetRequestHeader("Content-Type", "application/json");
         await request.SendWebRequest();
 
+
         return request.downloadHandler.text;
 
+    }
+
+    private static async Task PostRequestFile(string url, string json, string targetPath)
+    {
+        Debug.Log(Application.dataPath);
+        Debug.Log(Path.GetFullPath("."));
+        UnityWebRequest request = new UnityWebRequest(url, "POST");
+        byte[] byteJson = new UTF8Encoding().GetBytes(json);
+        request.uploadHandler = new UploadHandlerRaw(byteJson);
+        request.downloadHandler = new DownloadHandlerFile(targetPath);
+        //TODO: Fetch the Token!!!
+        request.SetRequestHeader("Cookie", "_forward_auth=ACc-mvsPDcCk14a8hxZSR7Gneas513l0cJLCqiM8js8=|1753884610|ulvqv@student.kit.edu");
+        await request.SendWebRequest();
+        
+
+
+        
+        //Log the headers
+        /*
+        Dictionary<string, string> headers = request.GetResponseHeaders();
+        foreach (string headercode in headers.Keys)
+        {
+            Debug.Log(headercode + ": " + headers[headercode]);
+        }
+        */
     }
 
 }

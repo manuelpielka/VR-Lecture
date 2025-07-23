@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
@@ -24,7 +25,7 @@ public class LecturePlayerWindow : Window
     void Start()
     {
         //TEMPORARY
-        test();
+        //test();
 
     }
 
@@ -195,8 +196,14 @@ public class LecturePlayerWindow : Window
         float currentTime = (float)playbackManager.GetCurrentTime();
 
         SessionStateManager.SaveSessionState(lecture, currentTime);
-        WindowManager.CloseWindow(this);
-        Destroy(gameObject);
+
+        //delete downloaded file if "streaming"
+        if (!lecture.IsDownloaded())
+        {
+            File.Delete(playbackManager.VideoPlayer.url);
+        }
+
+        Close();
     }
 
     public Lecture GetLecture()

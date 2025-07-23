@@ -5753,7 +5753,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfe95942bebf9f1449ea7624384a56c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoPlayer: {fileID: 4337936159717798655}
+  VideoPlayer: {fileID: 4337936159717798655}
 --- !u!114 &6972802277027693207
 MonoBehaviour:
   m_ObjectHideFlags: 0

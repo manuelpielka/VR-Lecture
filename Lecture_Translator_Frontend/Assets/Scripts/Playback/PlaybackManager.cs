@@ -1,53 +1,53 @@
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Video;
 
 public class PlaybackManager : MonoBehaviour
 {
     private Lecture lecture;
-    [SerializeField] private VideoPlayer videoPlayer;
+    public VideoPlayer VideoPlayer;
 
-    public void AssignLecture(Lecture lecture)
+    public async Task AssignLecture(Lecture lecture)
     {
         this.lecture = lecture;
 
-        videoPlayer.url = lecture.GetVideoSource();
-
         if (!lecture.IsDownloaded())
         {
-            videoPlayer.source = VideoSource.Url;
+            Task<string> download = LectureDownloader.DownloadLecture(lecture);
+            VideoPlayer.url = await download;
         }
         else
         {
-            videoPlayer.source = VideoSource.VideoClip;
+            VideoPlayer.url = lecture.GetVideoSource();
         }
     }
 
     public void Play()
     {
-        videoPlayer.Play();
+        VideoPlayer.Play();
     }
 
     public void Pause()
     {
-        videoPlayer.Pause();
+        VideoPlayer.Pause();
     }
     public void MoveTo(double time)
     {
-        videoPlayer.time = time;
+        VideoPlayer.time = time;
     }
 
     public void SetPlaybackSpeed(float factor)
     {
-        videoPlayer.playbackSpeed = factor;
+        VideoPlayer.playbackSpeed = factor;
     }
 
     public double GetCurrentTime()
     {
-        return videoPlayer.time;
+        return VideoPlayer.time;
     }
 
     public double GetVideoLength()
     {
-        return videoPlayer.length;
+        return VideoPlayer.length;
     }
 }

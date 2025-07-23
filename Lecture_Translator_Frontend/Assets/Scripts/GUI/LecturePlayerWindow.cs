@@ -192,6 +192,9 @@ public class LecturePlayerWindow : Window
     public void CloseBtnPressed()
     {
         lecture.SetLastPlayTime(playbackManager.GetCurrentTime());
+        float currentTime = (float)playbackManager.GetCurrentTime();
+
+        SessionStateManager.SaveSessionState(lecture, currentTime);
         WindowManager.CloseWindow(this);
         Destroy(gameObject);
     }

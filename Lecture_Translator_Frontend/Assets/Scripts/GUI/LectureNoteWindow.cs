@@ -23,7 +23,7 @@ namespace GUI
 
         public void TimeStampClicked(NoteGUI note)
         {
-            string timestampString = note.TitleTextBox.text;
+            string timestampString = note.titleTextBox.text;
 
             TimeSpan timeSpan = TimeSpan.Parse(timestampString);
 

@@ -24,7 +24,7 @@ public class CreateLectureNoteWindow : CreateNoteWindow
             windowTitleText.text = "Note";
         }
 
-        base.Initialize(editMode, noteToEdit);
+        //base.Initialize(editMode, noteToEdit);
     }
 
     protected new void Apply()

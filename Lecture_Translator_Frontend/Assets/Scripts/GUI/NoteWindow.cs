@@ -3,7 +3,6 @@ using UnityEngine;
 
 using GUI;
 using System.Reflection;
-using UnityEditor.Rendering;
 using UnityEngine.UI;
 /// <summary>
 /// Class <c>NoteWindow</c> is used to display all general notes and is opened through the Main- MenuWindow. 

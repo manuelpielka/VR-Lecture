@@ -9,6 +9,9 @@ using UnityEngine.UI;
 
 namespace GUI
 {
+    /// <summary>
+    /// The meta data of a lecture from the api.
+    /// </summary>
     [System.Serializable]
     public class JsonMetaData
     {
@@ -17,32 +20,74 @@ namespace GUI
         public string eventDate;
     }
 
+    /// <summary>
+    /// This Window handles browsing through lectures.
+    /// </summary>
     public class LectureBrowserWindow : Window
     {
+        /// <summary>
+        /// Whether or not the browser is in online mode.
+        /// </summary>
         public bool onlineMode = true;
 
+        /// <summary>
+        /// The path currently opened.
+        /// </summary>
         private string currentPath;
 
+        /// <summary>
+        /// The gameobject of the path currently opened.
+        /// </summary>
         private GameObject currentPathGO;
 
+        /// <summary>
+        /// The path to the root folder.
+        /// </summary>
         private const string rootPath = "/";
 
+        /// <summary>
+        /// The textbox where the current path is displayed.
+        /// </summary>
         [SerializeField] private TextMeshProUGUI pathTextBox;
 
+        /// <summary>
+        /// The textbox where the hierarchy of the current folder is displayed.
+        /// </summary>
         [SerializeField] private TextMeshProUGUI hierarchyTextBox;
 
+        /// <summary>
+        /// The prefab of a LectureUI element.
+        /// </summary>
         [SerializeField] private GameObject lectureUIPrefab;
 
+        /// <summary>
+        /// The prefab of a FolderUI element.
+        /// </summary>
         [SerializeField] private GameObject folderUIPrefab;
 
+        /// <summary>
+        /// The prefab of a parent object used for creating the folder structure.
+        /// </summary>
         [SerializeField] private GameObject parentPrefab;
 
+        /// <summary>
+        /// The transform of the UIs parent object to instanstiate the ui objects in.
+        /// </summary>
         [SerializeField] private Transform uiParent;
 
+        /// <summary>
+        /// The transform of the search features parent object to intanstiate the ui objects in.
+        /// </summary>
         [SerializeField] private Transform searchParent;
 
+        /// <summary>
+        /// Reference to the BrowsingManager.
+        /// </summary>
         [SerializeField] private BrowsingManager browsingManager;
 
+        /// <summary>
+        /// Reference to the ScrollRect component to change between folders.
+        /// </summary>
         [SerializeField] private ScrollRect scrollRect;
 
         /// <summary>
@@ -50,7 +95,14 @@ namespace GUI
         /// </summary>
         private string archiveAPI = "https://lecture-translator.kit.edu/ltarchive/";
 
+        /// <summary>
+        /// Name of the api link to get the metadata of a lecture from.
+        /// </summary>
         private const string META = "meta";
+
+        /// <summary>
+        /// Name of the api link to get the thumbnail of a lecture from.
+        /// </summary>
         private const string THUMBNAIL = "thumb";
 
 

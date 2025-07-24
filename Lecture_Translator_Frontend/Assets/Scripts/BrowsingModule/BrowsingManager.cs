@@ -34,9 +34,14 @@ namespace BrowsingModule
         /// </summary>
         [SerializeField] private GUI.LectureBrowserWindow lectureBrowserWindow;
 
-
+        /// <summary>
+        /// The local directory where downloaded lectures are stored.
+        /// </summary>
         private const string DATA_DIRECTORY = "./Data/";
 
+        /// <summary>
+        /// The amount of time for a request to timeout to trigger offline mode.
+        /// </summary>
         private const int requestTimeout = 1;
 
         /// <summary>
@@ -121,6 +126,11 @@ namespace BrowsingModule
             }
         }
 
+        /// <summary>
+        /// Creates the folder structure of the offline stored lectures.
+        /// </summary>
+        /// <param name="dir"> The directory to search through. </param>
+        /// <param name="parent"> The parent FolderElement to add the subfolders and files to. </param>
         private void GetDirOffline(string dir, FolderElement parent)
         {
             //print(dir);

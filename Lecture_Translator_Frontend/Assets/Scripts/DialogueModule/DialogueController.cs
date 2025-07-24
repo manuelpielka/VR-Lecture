@@ -19,25 +19,58 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     [SerializeField] private GUI.DialogueSystemWindow dialogueUI;
 
     /// <summary>
-    /// The api url of the lecture translator's api
+    /// The api url of the lecture translator's api.
     /// </summary>
     private string apiUrl = "/webapi/start_dialog";
 
+    /// <summary>
+    /// The main url of the lecture translator.
+    /// </summary>
     private const string mainUrl = "https://lecture-translator.kit.edu";
+
+    /// <summary>
+    /// The dev url of the lecture translator.
+    /// </summary>
     private const string devUrl = "https://lt2srv-backup.iar.kit.edu";
 
+    /// <summary>
+    /// The string that represents a "/" in the lecture translator.
+    /// </summary>
     private const string SEPERATOR = "%252F";
 
+    /// <summary>
+    /// The session id of the current session of the lecture translator.
+    /// </summary>
     private string sessionId = "";
+
+    /// <summary>
+    /// The stream id of the current session for audio streaming to the lecture translator.
+    /// </summary>
     private string streamId = "";
+
+    /// <summary>
+    /// The stream id of the current session for text streaming to the lecture translator.
+    /// </summary>
     private string streamIdText = "";
 
+    /// <summary>
+    /// The token to access the api.
+    /// </summary>
     private string token = "";
 
+    /// <summary>
+    /// The sse client that handles receiving data from the lecture translator.
+    /// </summary>
     private SSEClient sseClient;
 
+    /// <summary>
+    /// The content directory of the current lecture. Sent to the api for llm context.
+    /// </summary>
     private string contentDirectory = "";
 
+    /// <summary>
+    /// The Start method called by unity.
+    /// </summary>
     async void Start()
     {
         string json = $"\"{{\\\"bot\\\":\\\"bot\\\"}}\"";
@@ -58,6 +91,9 @@ public class DialogueController : MonoBehaviour, ISSEHandler
         sseClient.InitSse();
     }
 
+    /// <summary>
+    /// The OnDestroy method called by unity once this GameObject is destroyed.
+    /// </summary>
     private void OnDestroy()
     {
         sseClient.Disconnect();
@@ -66,18 +102,27 @@ public class DialogueController : MonoBehaviour, ISSEHandler
         SendEnd(streamIdText);
     }
 
+    /// <summary>
+    /// Event received when the sse connection is opened.
+    /// </summary>
     public async void OnSSEConnectionOpened()
     {
         Debug.Log("SSE Connection Opened");
         dialogueUI.loading = false;
     }
 
+    /// <summary>
+    /// Event received when the sse connection is closed.
+    /// </summary>
     public void OnSSEConnectionClosed()
     {
         Debug.Log("SSE Connection Closed");
         dialogueUI.loading = true;
     }
 
+    /// <summary>
+    /// Event received when the sse connection receives a message from the api.
+    /// </summary>
     public void OnSSEEventReceived(string eventName, string data)
     {
         Debug.Log($"Event Received: {eventName} => {data}");
@@ -85,6 +130,9 @@ public class DialogueController : MonoBehaviour, ISSEHandler
         dialogueUI.llmAnswer = data;
     }
 
+    /// <summary>
+    /// Event received when the sse connection has an error.
+    /// </summary>
     public void OnSSEError(Exception ex)
     {
         Debug.LogError("SSE Error: " + ex.Message);
@@ -103,6 +151,9 @@ public class DialogueController : MonoBehaviour, ISSEHandler
         print(await PostRequest(mainUrl + "/webapi/" + sessionId + "/" + streamIdText + "/append", json));
     }
 
+    /// <summary>
+    /// Starts the audio stream by requesting worker information.
+    /// </summary>
     public async void StartAudioStream()
     {
         print("Requesting Worker Information");
@@ -112,6 +163,11 @@ public class DialogueController : MonoBehaviour, ISSEHandler
         print(await PostRequest(mainUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json));
     }
 
+    /// <summary>
+    /// Sends the start signal to the api with the content directory as context.
+    /// </summary>
+    /// <param name="stream"> Which stream id to send the signal to. </param>
+    /// <returns> An awaitable task. </returns>
     public async Task SendStart(string stream)
     {
         print("Send start");
@@ -121,6 +177,11 @@ public class DialogueController : MonoBehaviour, ISSEHandler
         await PostRequest(mainUrl + "/webapi/" + sessionId + "/" + stream + "/append", json);
     }
 
+    /// <summary>
+    /// Sends the end signal to the api.
+    /// </summary>
+    /// <param name="stream"> Which stream id to send the signal to. </param>
+    /// <returns> An awaitable task. </returns>
     public async Task SendEnd(string stream)
     {
         print("Send end");
@@ -170,6 +231,10 @@ public class DialogueController : MonoBehaviour, ISSEHandler
         return request.downloadHandler.text;
     }
 
+    /// <summary>
+    /// Sets the content directory in the correct format.
+    /// </summary>
+    /// <param name="dir"> The directory of the current lecture. </param>
     public void SetContentDirectory(string dir)
     {
         contentDirectory = "/logs/archive/" + dir.Replace("/", SEPERATOR);

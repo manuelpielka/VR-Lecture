@@ -3,6 +3,9 @@ using TMPro;
 
 namespace GUI
 {
+    /// <summary>
+    /// This is the json format the LLM response is sent in.
+    /// </summary>
     [System.Serializable]
     public class JsonLLMResponse
     {
@@ -47,14 +50,29 @@ namespace GUI
         /// </summary>
         [SerializeField] private TextMeshProUGUI aiTextBox;
 
+        /// <summary>
+        /// The GameObject of the loading panel.
+        /// </summary>
         [SerializeField] private GameObject loadingPanel;
 
+        /// <summary>
+        /// Whether or not the loading panel is active.
+        /// </summary>
         public bool loading = true;
 
+        /// <summary>
+        /// The llm answer gets sent here when it is received and then parsed and displayed.
+        /// </summary>
         public string llmAnswer = "";
 
+        /// <summary>
+        /// Whether or not the microphone is currently recording.
+        /// </summary>
         private bool isRecording = false;
 
+        /// <summary>
+        /// The start method called by unity.
+        /// </summary>
         private void Start()
         {
             virtualAvatar = VirtualAvatar.instance;
@@ -62,6 +80,9 @@ namespace GUI
             WindowManager = WindowManager.instance;
         }
 
+        /// <summary>
+        /// The update method called by unity every frame.
+        /// </summary>
         private void Update()
         {
             loadingPanel.SetActive(loading);
@@ -87,11 +108,18 @@ namespace GUI
             }
         }
 
+        /// <summary>
+        /// The OnDestroy method called by unity once this GameObject is destroyed.
+        /// </summary>
         private void OnDestroy()
         {
             virtualAvatar.DisableAvatar();
         }
 
+        /// <summary>
+        /// Getter for the user prompt.
+        /// </summary>
+        /// <returns> The prompt of the user currently in the text box. </returns>
         public string GetUserPrompt()
         {
             return userTextBox.text;

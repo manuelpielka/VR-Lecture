@@ -12,6 +12,9 @@ public class VoiceInputManager : MonoBehaviour
     /// </summary>
     [SerializeField] private DialogueController dialogueController;
 
+    /// <summary>
+    /// The image component of the microphone button.
+    /// </summary>
     [SerializeField] private Image micImage;
 
     /// <summary>

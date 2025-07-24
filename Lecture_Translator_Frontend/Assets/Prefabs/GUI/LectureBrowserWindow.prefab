@@ -1214,7 +1214,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &604178153472405246
 MonoBehaviour:
@@ -2395,6 +2395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2b72386b1874574abcad48008f470f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onlineMode: 1
   pathTextBox: {fileID: 9100447995869814542}
   hierarchyTextBox: {fileID: 6067602205243630195}
   lectureUIPrefab: {fileID: 244238376875556181, guid: 3f8ca68d4a4a2a54e85f45d4615bbeed, type: 3}

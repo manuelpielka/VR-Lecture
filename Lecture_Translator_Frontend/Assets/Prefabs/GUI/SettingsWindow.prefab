@@ -4205,7 +4205,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &6175827257034073793
 MonoBehaviour:
@@ -6513,12 +6513,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 143c1a14d48c04905a84d9d4be59fc5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playbackSpeedDropdown: {fileID: 4103566453782889231}
-  subtitleSizeDropdown: {fileID: 0}
+  backgroundDropdown: {fileID: 8575802990047789298}
   modeAutoSwitchToggle: {fileID: 564432768691574368}
   darkModeToggle: {fileID: 4340343426521912679}
-  backgroundDropdown: {fileID: 8575802990047789298}
   languageDropdown: {fileID: 5589973529861708498}
+  playbackSpeedDropdown: {fileID: 4103566453782889231}
   settingsManager: {fileID: 0}
 --- !u!114 &5875964665175212899
 MonoBehaviour:

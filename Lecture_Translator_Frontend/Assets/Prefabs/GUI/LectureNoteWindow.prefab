@@ -735,9 +735,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f6941a2a3d904bc38a925c3c93dbc59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NoteManager: {fileID: 0}
-  NotePrefab: {fileID: 0}
-  createNoteWindowPrefab: {fileID: 0}
+  noteManager: {fileID: 0}
+  notePrefab: {fileID: 0}
   notesContainer: {fileID: 0}
 --- !u!1 &4892933239685750971
 GameObject:
@@ -1312,7 +1311,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &7922937217886843732
 MonoBehaviour:

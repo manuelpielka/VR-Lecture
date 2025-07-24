@@ -31,12 +31,12 @@ namespace GUI
             WindowManager.OpenWindow(WindowKeys.SettingsKey);
         }
 
-        void Start()
-        {
-            if (SessionStateManager.HasPreviousSession())
-            {
-                WindowManager.CreateWindow(WindowKeys.ContinueWatchingKey);
-            }
-        }
+        //void Start()
+        //{
+            //if (SessionStateManager.HasPreviousSession())
+            //{
+                //WindowManager.CreateWindow(WindowKeys.ContinueWatchingKey);
+            //}
+        //}
     }
 }

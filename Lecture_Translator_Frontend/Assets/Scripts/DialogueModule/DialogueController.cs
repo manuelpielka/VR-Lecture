@@ -32,7 +32,7 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     private string streamId = "";
     private string streamIdText = "";
 
-    private string token = "N95quhzGh0ckOWsezzRe7Ce6fHA3CW7LODvujTCAOxE=|1753963818|uevjj@student.kit.edu";
+    private string token = "";
 
     private SSEClient sseClient;
 

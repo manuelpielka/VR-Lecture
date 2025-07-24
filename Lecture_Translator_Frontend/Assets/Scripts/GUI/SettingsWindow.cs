@@ -17,14 +17,57 @@ public class SettingsWindow : Window
 
     public SettingsManager settingsManager;
 
+    public Button resetTutorialButton;
+
     private readonly float[] playbackSpeeds = { 1.0f, 1.25f, 1.5f, 1.75f, 2.0f };
     private readonly int[] subtitleSizes = { 16, 18, 20, 22, 24 };
 
     void Start()
     {
+        Debug.Log("SettingsWindow Started");
+
+        if (settingsManager == null)
+        {
+            settingsManager = FindFirstObjectByType<SettingsManager>();
+            if (settingsManager == null)
+            {
+                Debug.LogError("SettingsManager not assigned in the scene.");
+                return;
+            }
+        }
+
         InitDropdowns();
         InitToggles();
         BindListeners();
+
+        resetTutorialButton = transform.Find("Canvas/Panel/ResetTutorialButton")?.GetComponent<Button>();
+
+        if (resetTutorialButton != null)
+        {
+            Debug.Log("Reset Tutorial Button found and listening.");
+            resetTutorialButton.onClick.AddListener(OnResetTutorialClicked);
+        }
+        else
+        {
+            Debug.LogWarning("Reset Tutorial Button not found in SettingsWindow.");
+        }    
+       
+    }
+
+    private void OnResetTutorialClicked()
+    {
+        Debug.Log("Reset Tutorial Button Clicked");
+
+        TutorialManager tutorialManager = FindFirstObjectByType<TutorialManager>();
+        if (tutorialManager != null)
+        {
+            Debug.Log("Reset Tutorial called.");
+            tutorialManager.ResetTutorial();
+        }
+        else
+        {
+            Debug.LogWarning("TutorialManager not found.");
+        }
        
     }
 

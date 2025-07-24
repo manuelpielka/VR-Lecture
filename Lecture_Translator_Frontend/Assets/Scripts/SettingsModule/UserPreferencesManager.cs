@@ -14,6 +14,8 @@ public static class UserPreferencesManager
     private const string AutoAdjustKey = "UserPref_AutoAdjust";
     private const string BackgroundSceneIdKey = "UserPref_BackgroundSceneId";
 
+    private const string TutorialcompletedKey = "UserPref_TutorialCompleted";
+
     /// <summary>
     /// Saves the user's preferred playback speed.
     /// </summary>
@@ -129,5 +131,17 @@ public static class UserPreferencesManager
         PlayerPrefs.DeleteKey(SubtitleFontSizeKey);
         PlayerPrefs.DeleteKey(IsDarkModeKey);
         PlayerPrefs.DeleteKey(AutoAdjustKey);
+        PlayerPrefs.DeleteKey(TutorialcompletedKey);
+    }
+
+    public static void SaveTutorialCompleted(bool completed)
+    {
+        PlayerPrefs.SetInt(TutorialcompletedKey, completed ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    public static bool LoadTutorialCompleted()
+    {
+        return PlayerPrefs.GetInt(TutorialcompletedKey, 0) == 1;
     }
 }

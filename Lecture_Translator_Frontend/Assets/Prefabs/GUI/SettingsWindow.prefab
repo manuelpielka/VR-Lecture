@@ -7346,12 +7346,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playbackSpeedDropdown: {fileID: 886873799440484919}
-  subtitleToggle: {fileID: 0}
   subtitleSizeDropdown: {fileID: 3272093369657954646}
   modeAutoSwitchToggle: {fileID: 564432768691574368}
   darkModeToggle: {fileID: 4340343426521912679}
   backgroundDropdown: {fileID: 8575802990047789298}
   languageDropdown: {fileID: 5589973529861708498}
+  resetTutorialButton: {fileID: 0}
   settingsManager: {fileID: 0}
 --- !u!114 &5875964665175212899
 MonoBehaviour:
@@ -7365,6 +7365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 800d549495b8f4b608d8ebacc749cc5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  environmentManager: {fileID: 0}
 --- !u!114 &5619420756387284908
 MonoBehaviour:
   m_ObjectHideFlags: 0

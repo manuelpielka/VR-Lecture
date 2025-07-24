@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class SettingsWindow : Window
 {
@@ -21,6 +22,7 @@ public class SettingsWindow : Window
         InitDropdowns();
         InitToggles();
         BindListeners();
+       
     }
 
     private void InitDropdowns()

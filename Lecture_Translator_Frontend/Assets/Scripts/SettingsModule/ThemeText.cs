@@ -1,16 +1,23 @@
+using TMPro;
 using UnityEngine;
 
-public class NewMonoBehaviourScript1 : MonoBehaviour
+public class ThemeText : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private Color lightColor = Color.white;
+    [SerializeField] private Color darkColor = Color.black;
+
+    private TextMeshProUGUI text;
+
+    void Awake()
     {
-        
+        text = GetComponent<TextMeshProUGUI>();
+        ApplyTheme();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ApplyTheme()
     {
-        
+        if (DisplayModeController.Instance == null) return;
+
+        text.color = DisplayModeController.Instance.IsDarkModeEnabled() ? darkColor : lightColor;
     }
 }

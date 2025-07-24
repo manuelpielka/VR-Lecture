@@ -19,7 +19,7 @@ namespace GUI
 
     public class LectureBrowserWindow : Window
     {
-        private bool onlineMode;
+        public bool onlineMode = true;
 
         private string currentPath;
 
@@ -146,6 +146,12 @@ namespace GUI
             LectureElement lectureElement = (LectureElement)element;
 
             LectureUI lectureUI = instance.GetComponent<LectureUI>();
+
+            if (!onlineMode)
+            {
+                lectureUI.SetValues(lectureElement.GetName(), null, "", "", lectureElement.GetLecture(), this);
+                return;
+            }
 
             string json = $"\"{{\\\"directory\\\":\\\"{element.GetPath()}\\\"}}\"";
 

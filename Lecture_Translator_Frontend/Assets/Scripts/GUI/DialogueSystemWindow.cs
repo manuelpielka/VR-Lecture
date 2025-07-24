@@ -53,6 +53,8 @@ namespace GUI
 
         public string llmAnswer = "";
 
+        private bool isRecording = false;
+
         private void Start()
         {
             virtualAvatar = VirtualAvatar.instance;
@@ -62,7 +64,7 @@ namespace GUI
 
         private void Update()
         {
-            if (!loading && loadingPanel.activeSelf) loadingPanel.SetActive(false);
+            loadingPanel.SetActive(loading);
 
             if (llmAnswer == "") return;
 
@@ -100,7 +102,9 @@ namespace GUI
         /// </summary>
         public void MicrophoneBtnPressed()
         {
+            isRecording = !isRecording;
             voiceInputManager.ToggleVoiceRecording();
+            if (!isRecording) dialogueController.SendPrompt(userTextBox.text);
         }
 
         /// <summary>

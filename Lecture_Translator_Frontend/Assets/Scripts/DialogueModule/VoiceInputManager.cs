@@ -71,6 +71,18 @@ public class VoiceInputManager : MonoBehaviour
     {
         if (Microphone.devices.Length > 0)
         {
+            foreach (var device in Microphone.devices)
+            {
+                if (device.Contains("Oculus"))
+                {
+                    micDevice = device;
+                    audioSource = GetComponent<AudioSource>();
+                    Debug.Log("Using microphone: " + micDevice);
+                }
+            }
+
+            if (micDevice != null) return;
+
             micDevice = Microphone.devices[0]; // TODO: Maybe choose device later?
             audioSource = GetComponent<AudioSource>();
             Debug.Log("Using microphone: " + micDevice);

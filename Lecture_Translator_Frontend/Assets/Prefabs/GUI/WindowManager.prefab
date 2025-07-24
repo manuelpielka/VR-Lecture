@@ -55,4 +55,5 @@ MonoBehaviour:
   - {fileID: 1132509373357963783, guid: 707ddc66980d5af4c9a025413c6fe94d, type: 3}
   - {fileID: 473593591283706632, guid: 273d281cfb7665847bfb5cb086d5cec0, type: 3}
   - {fileID: 7800330200197340035, guid: ea43cf37931154485994c0ba06d0e235, type: 3}
+  - {fileID: 556252878975229997, guid: 56692a55e9131774484ab0ff5f741acc, type: 3}
   openMainMenu: {fileID: 2046926310049878357, guid: abcb5b262e4f32b4eb9f9d857b183a37, type: 3}

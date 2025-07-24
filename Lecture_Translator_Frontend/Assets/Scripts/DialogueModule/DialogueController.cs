@@ -26,33 +26,35 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     private const string mainUrl = "https://lecture-translator.kit.edu";
     private const string devUrl = "https://lt2srv-backup.iar.kit.edu";
 
+    private const string SEPERATOR = "%252F";
+
     private string sessionId = "";
     private string streamId = "";
     private string streamIdText = "";
 
-    private string token = Environment.GetEnvironmentVariable("MY_API_TOKEN");
+    private string token = "";
 
     private SSEClient sseClient;
 
-    private string contentDirectory = "/logs/archive/%252F%252Fhome%252Fuevjj%2540student.kit.edu%252Fa";
+    private string contentDirectory = "";
 
     async void Start()
     {
         string json = $"\"{{\\\"bot\\\":\\\"bot\\\"}}\"";
 
-        string answer = await PostRequest(devUrl + apiUrl, json);
+        string answer = await PostRequest(mainUrl + apiUrl, json);
 
         string[] ids = answer.Split(" ");
         sessionId = ids[0];
         streamId = ids[1];
         streamIdText = ids[3];
-
+        print(answer);
         print(sessionId);
-        print("GRAPH: " + await PostRequest(devUrl + "/webapi/" + sessionId + "/getgraph", ""));
+        print("GRAPH: " + await PostRequest(mainUrl + "/webapi/" + sessionId + "/getgraph", ""));
 
         await SendStart(streamId);
 
-        sseClient = new SSEClient(devUrl + "/webapi/stream?channel=" + sessionId, this);
+        sseClient = new SSEClient(mainUrl + "/webapi/stream?channel=" + sessionId, this);
         sseClient.InitSse();
     }
 
@@ -73,6 +75,7 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     public void OnSSEConnectionClosed()
     {
         Debug.Log("SSE Connection Closed");
+        dialogueUI.loading = true;
     }
 
     public void OnSSEEventReceived(string eventName, string data)
@@ -97,7 +100,7 @@ public class DialogueController : MonoBehaviour, ISSEHandler
 
         print("Sending prompt: " + prompt);
 
-        print(await PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamIdText + "/append", json));
+        print(await PostRequest(mainUrl + "/webapi/" + sessionId + "/" + streamIdText + "/append", json));
     }
 
     public async void StartAudioStream()
@@ -106,7 +109,7 @@ public class DialogueController : MonoBehaviour, ISSEHandler
 
         string json = $"\"{{\\\"controll\\\":\\\"INFORMATION\\\"}}\"";
 
-        print(await PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json));
+        print(await PostRequest(mainUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json));
     }
 
     public async Task SendStart(string stream)
@@ -115,7 +118,7 @@ public class DialogueController : MonoBehaviour, ISSEHandler
 
         string json = $"\"{{\\\"controll\\\":\\\"START\\\", \\\"content_directory\\\":\\\"{contentDirectory}\\\"}}\"";
 
-        await PostRequest(devUrl + "/webapi/" + sessionId + "/" + stream + "/append", json);
+        await PostRequest(mainUrl + "/webapi/" + sessionId + "/" + stream + "/append", json);
     }
 
     public async Task SendEnd(string stream)
@@ -124,7 +127,7 @@ public class DialogueController : MonoBehaviour, ISSEHandler
 
         string json = "\"{\\\"controll\\\":\\\"END\\\"}\"";
 
-        await PostRequest(devUrl + "/webapi/" + sessionId + "/" + stream + "/append", json);
+        await PostRequest(mainUrl + "/webapi/" + sessionId + "/" + stream + "/append", json);
     }
 
     /// <summary>
@@ -143,7 +146,7 @@ public class DialogueController : MonoBehaviour, ISSEHandler
 
         string json = "\"{\\\"b64_enc_pcm_s16le\\\": \\\"" + utf8String + "\\\", \\\"start\\\": \\\"" + start.ToString() + "\\\",\\\"end\\\":\\\"" + end.ToString() + "\\\"}\"";
 
-        await PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json);
+        await PostRequest(mainUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json);
     }
 
     /// <summary>
@@ -169,6 +172,6 @@ public class DialogueController : MonoBehaviour, ISSEHandler
 
     public void SetContentDirectory(string dir)
     {
-        contentDirectory = dir;
+        contentDirectory = "/logs/archive/" + dir.Replace("/", SEPERATOR);
     }
 }

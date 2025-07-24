@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class ThemeText : MonoBehaviour
 {
-    [SerializeField] private Color lightColor = Color.white;
-    [SerializeField] private Color darkColor = Color.black;
+    [SerializeField] private Color lightModeColor = Color.black;
+    [SerializeField] private Color darkModeColor = Color.white;
 
     private TextMeshProUGUI text;
 
@@ -18,6 +18,6 @@ public class ThemeText : MonoBehaviour
     {
         if (DisplayModeController.Instance == null) return;
 
-        text.color = DisplayModeController.Instance.IsDarkModeEnabled() ? darkColor : lightColor;
+        text.color = DisplayModeController.Instance.IsDarkModeEnabled() ? darkModeColor : lightModeColor;
     }
 }

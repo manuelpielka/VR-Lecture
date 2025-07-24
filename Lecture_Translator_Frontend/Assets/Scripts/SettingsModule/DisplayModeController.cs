@@ -148,42 +148,51 @@ public class DisplayModeController : MonoBehaviour
     private void ApplyMode()
     {
         // Set camera background color
-        if (Camera.main != null)
-        {
-            Camera.main.backgroundColor = isDarkModeEnabled ? Color.black : Color.white;
-        }
+        //if (Camera.main != null)
+        //{
+        // Camera.main.backgroundColor = isDarkModeEnabled ? Color.black : Color.white;
+        //}
 
         // Update all TMP texts
-        TextMeshProUGUI[] allTextElements = Object.FindObjectsByType<TextMeshProUGUI>(FindObjectsSortMode.None);
-        Color newTextColor = isDarkModeEnabled ? Color.white : Color.black;
+        //TextMeshProUGUI[] allTextElements = Object.FindObjectsByType<TextMeshProUGUI>(FindObjectsSortMode.None);
+        //Color newTextColor = isDarkModeEnabled ? Color.white : Color.black;
 
-        foreach (TextMeshProUGUI textElement in allTextElements)
-        {
-            textElement.color = newTextColor;
-        }
+        //foreach (TextMeshProUGUI textElement in allTextElements)
+        //{
+        //textElement.color = newTextColor;
+        //}
 
         // Also update legacy UnityEngine.UI.Text if any
-        Text[] legacyTexts = Object.FindObjectsByType<Text>(FindObjectsSortMode.None);
-        foreach (Text t in legacyTexts)
-        {
-            t.color = newTextColor;
-        }
+        //Text[] legacyTexts = Object.FindObjectsByType<Text>(FindObjectsSortMode.None);
+        //foreach (Text t in legacyTexts)
+        //{
+        //t.color = newTextColor;
+        //}
 
-        Image[] allImages = Object.FindObjectsByType<Image>(FindObjectsSortMode.None);
-        Color backgroundColor = isDarkModeEnabled ? Color.black : Color.white;
+        //Image[] allImages = Object.FindObjectsByType<Image>(FindObjectsSortMode.None);
+        //Color backgroundColor = isDarkModeEnabled ? Color.black : Color.white;
 
-        foreach (Image img in allImages)
-        {
-            img.color = backgroundColor;
-        }
+        //foreach (Image img in allImages)
+        //{
+        //img.color = backgroundColor;
+        //}
 
-        Window[] allWindows = Object.FindObjectsByType<Window>(FindObjectsSortMode.None);
-        foreach (var win in allWindows)
-        {
-            win.RefreshTheme();
-        }
+        //Window[] allWindows = Object.FindObjectsByType<Window>(FindObjectsSortMode.None);
+        //foreach (var win in allWindows)
+        //{
+        //win.RefreshTheme();
+        //}
 
         // Optional: Debug log
         // Debug.Log($"Display mode applied: {(isDarkModeEnabled ? "Dark" : "Light")}");
+        foreach (var text in Object.FindObjectsByType<ThemeText>(FindObjectsSortMode.None))
+        {
+            text.ApplyTheme();
+        }
+
+        foreach (var bg in Object.FindObjectsByType<ThemeBackground>(FindObjectsSortMode.None))
+        {
+            bg.ApplyTheme();
+        }
     }
 }

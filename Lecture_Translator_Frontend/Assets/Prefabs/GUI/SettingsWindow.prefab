@@ -330,6 +330,7 @@ GameObject:
   - component: {fileID: 6221371665288088640}
   - component: {fileID: 1609543654895556108}
   - component: {fileID: 5240652591836333023}
+  - component: {fileID: 9053879116551129647}
   m_Layer: 5
   m_Name: Label
   m_TagString: Untagged
@@ -455,6 +456,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &9053879116551129647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105065675139009504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &260407201293955197
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,8 +559,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d59281ebee3d3f48a3022735079163b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightColor: {r: 0.8980392, g: 0.8980392, b: 0.8980392, a: 1}
-  darkColor: {r: 0.14117648, g: 0.14117648, b: 0.14117648, a: 1}
+  lightColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
+  darkColor: {r: 0.18431373, g: 0.18431373, b: 0.18431373, a: 1}
 --- !u!1 &312131638819355299
 GameObject:
   m_ObjectHideFlags: 0
@@ -989,8 +1004,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d59281ebee3d3f48a3022735079163b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
-  darkColor: {r: 0.18431373, g: 0.18431373, b: 0.18431373, a: 1}
+  lightColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &1583097233981869789
 GameObject:
   m_ObjectHideFlags: 0
@@ -1489,8 +1504,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d59281ebee3d3f48a3022735079163b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightColor: {r: 0.8980392, g: 0.8980392, b: 0.8980392, a: 1}
-  darkColor: {r: 0.14117648, g: 0.14117648, b: 0.14117648, a: 1}
+  lightColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
+  darkColor: {r: 0.18431373, g: 0.18431373, b: 0.18431373, a: 1}
 --- !u!1 &1991607640679018138
 GameObject:
   m_ObjectHideFlags: 0
@@ -2086,8 +2101,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -25, y: -25}
-  m_SizeDelta: {x: 25, y: 25}
+  m_AnchoredPosition: {x: -20, y: -20}
+  m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &5843861395217497678
 CanvasRenderer:
@@ -2195,8 +2210,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d59281ebee3d3f48a3022735079163b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightColor: {r: 0.8980392, g: 0.8980392, b: 0.8980392, a: 1}
-  darkColor: {r: 0.14117648, g: 0.14117648, b: 0.14117648, a: 1}
+  lightColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &2856148585761134344
 GameObject:
   m_ObjectHideFlags: 0
@@ -2439,8 +2454,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d59281ebee3d3f48a3022735079163b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
-  darkColor: {r: 0.18431373, g: 0.18431373, b: 0.18431373, a: 1}
+  lightColor: {r: 0, g: 0.5882353, b: 0.5882353, a: 1}
+  darkColor: {r: 0, g: 0.5882353, b: 0.5882353, a: 1}
 --- !u!1 &3314923667935516765
 GameObject:
   m_ObjectHideFlags: 0
@@ -3102,8 +3117,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d59281ebee3d3f48a3022735079163b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
-  darkColor: {r: 0.18431373, g: 0.18431373, b: 0.18431373, a: 1}
+  lightColor: {r: 0.83137256, g: 0.1764706, b: 0.1764706, a: 1}
+  darkColor: {r: 0.83137256, g: 0.1764706, b: 0.1764706, a: 1}
 --- !u!1 &5100224733572871728
 GameObject:
   m_ObjectHideFlags: 0
@@ -3893,8 +3908,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d59281ebee3d3f48a3022735079163b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
-  darkColor: {r: 0.18431373, g: 0.18431373, b: 0.18431373, a: 1}
+  lightColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &6285366377390784472
 GameObject:
   m_ObjectHideFlags: 0
@@ -4495,6 +4510,7 @@ GameObject:
   - component: {fileID: 8085086164570670059}
   - component: {fileID: 4717795901912127136}
   - component: {fileID: 1684369798905981492}
+  - component: {fileID: 2934367014270368145}
   m_Layer: 5
   m_Name: Label
   m_TagString: Untagged
@@ -4620,6 +4636,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2934367014270368145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7084811408185856270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &7251289247191811586
 GameObject:
   m_ObjectHideFlags: 0
@@ -5206,6 +5236,7 @@ GameObject:
   - component: {fileID: 3285223763313567019}
   - component: {fileID: 4265793933436876211}
   - component: {fileID: 2389411893722832646}
+  - component: {fileID: 9206858994949926924}
   m_Layer: 5
   m_Name: Label
   m_TagString: Untagged
@@ -5331,6 +5362,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &9206858994949926924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7976370875305622722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &8029409883794824923
 GameObject:
   m_ObjectHideFlags: 0

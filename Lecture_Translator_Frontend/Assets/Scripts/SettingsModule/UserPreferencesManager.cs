@@ -9,7 +9,7 @@ public static class UserPreferencesManager
 {
     // PlayerPrefs keys
     private const string PlaybackSpeedKey = "UserPref_PlaybackSpeed";
-    private const string SubtitleFontSizeKey = "UserPref_SubtitleFontSize";
+    //private const string SubtitleFontSizeKey = "UserPref_SubtitleFontSize";
     private const string IsDarkModeKey = "UserPref_IsDarkMode";
     private const string AutoAdjustKey = "UserPref_AutoAdjust";
     private const string BackgroundSceneIdKey = "UserPref_BackgroundSceneId";
@@ -36,19 +36,19 @@ public static class UserPreferencesManager
     /// <summary>
     /// Saves the user's subtitle font size preference.
     /// </summary>
-    public static void SaveSubtitleFontSize(int size)
-    {
-        PlayerPrefs.SetInt(SubtitleFontSizeKey, size);
-        PlayerPrefs.Save();
-    }
+    //public static void SaveSubtitleFontSize(int size)
+    //{
+        //PlayerPrefs.SetInt(SubtitleFontSizeKey, size);
+        //PlayerPrefs.Save();
+    //}
 
     /// <summary>
     /// Loads the saved subtitle font size or returns 16 by default.
     /// </summary>
-    public static int LoadSubtitleFontSize()
-    {
-        return PlayerPrefs.GetInt(SubtitleFontSizeKey, 16); // TODO
-    }
+    //public static int LoadSubtitleFontSize()
+    //{
+        //return PlayerPrefs.GetInt(SubtitleFontSizeKey, 16); // TODO
+    //}
 
     /// <summary>
     /// Saves whether the app should be in dark mode.
@@ -102,7 +102,7 @@ public static class UserPreferencesManager
     public static void ApplyAll(PlaybackSettingsManager playback, DisplayModeController display)
     {
         playback.SetPlaybackSpeed(LoadPlaybackSpeed());
-        playback.SetSubtitleFontSize(LoadSubtitleFontSize());
+        //playback.SetSubtitleFontSize(LoadSubtitleFontSize());
 
         display.SetDarkMode(LoadDarkMode());
         display.SetAutoAdjust(LoadAutoAdjust());
@@ -114,7 +114,7 @@ public static class UserPreferencesManager
     public static void SaveAll(PlaybackSettingsManager playback, DisplayModeController display)
     {
         SavePlaybackSpeed(playback.GetPlaybackSpeed());
-        SaveSubtitleFontSize(playback.GetSubtitleFontSize());
+        //SaveSubtitleFontSize(playback.GetSubtitleFontSize());
 
         SaveDarkMode(display.IsDarkModeEnabled());
         SaveAutoAdjust(display.IsAutoAdjustEnabled());
@@ -128,7 +128,7 @@ public static class UserPreferencesManager
     public static void ClearAll()
     {
         PlayerPrefs.DeleteKey(PlaybackSpeedKey);
-        PlayerPrefs.DeleteKey(SubtitleFontSizeKey);
+        //PlayerPrefs.DeleteKey(SubtitleFontSizeKey);
         PlayerPrefs.DeleteKey(IsDarkModeKey);
         PlayerPrefs.DeleteKey(AutoAdjustKey);
         PlayerPrefs.DeleteKey(TutorialcompletedKey);

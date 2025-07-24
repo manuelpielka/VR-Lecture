@@ -14,7 +14,7 @@ public class PlaybackSettingsManager : MonoBehaviour
     private float playbackSpeed;
 
     // Font size for subtitle display, adjustable for accessibility
-    private int subtitleFontSize;
+    //private int subtitleFontSize;
 
     /// <summary>
     /// Initializes default playback settings on first use or fallback.
@@ -28,10 +28,10 @@ public class PlaybackSettingsManager : MonoBehaviour
         lecturePlayerWindow = FindFirstObjectByType<LecturePlayerWindow>();
 
         playbackSpeed = UserPreferencesManager.LoadPlaybackSpeed();
-        subtitleFontSize = UserPreferencesManager.LoadSubtitleFontSize();
+        //subtitleFontSize = UserPreferencesManager.LoadSubtitleFontSize();
 
         playbackManager?.SetPlaybackSpeed(playbackSpeed);
-        lecturePlayerWindow?.SetSubtitleFontSize(subtitleFontSize);
+        //lecturePlayerWindow?.SetSubtitleFontSize(subtitleFontSize);
     }
 
     /// <summary>
@@ -61,18 +61,18 @@ public class PlaybackSettingsManager : MonoBehaviour
     /// Gets the current subtitle font size setting.
     /// </summary>
     /// <returns>An integer representing the font size used for subtitles.</returns>
-    public int GetSubtitleFontSize()
-    {
-        return subtitleFontSize;
-    }
+    //public int GetSubtitleFontSize()
+    //{
+        //return subtitleFontSize;
+    //}
 
     /// <summary>
     /// Sets a new subtitle font size value.
     /// </summary>
     /// <param name="subtitleFontSize">The desired font size for subtitle display.</param>
-    public void SetSubtitleFontSize(int subtitleFontSize)
-    {
-        this.subtitleFontSize = subtitleFontSize;
-        lecturePlayerWindow?.SetSubtitleFontSize(subtitleFontSize);
-    }
+    //public void SetSubtitleFontSize(int subtitleFontSize)
+    //{
+        //this.subtitleFontSize = subtitleFontSize;
+        //lecturePlayerWindow?.SetSubtitleFontSize(subtitleFontSize);
+    //}
 }

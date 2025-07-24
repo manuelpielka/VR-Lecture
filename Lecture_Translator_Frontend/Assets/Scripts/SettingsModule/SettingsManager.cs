@@ -34,7 +34,7 @@ public class SettingsManager : MonoBehaviour
         if (playbackSettingsManager != null)
         {
             playbackSettingsManager.SetPlaybackSpeed(UserPreferencesManager.LoadPlaybackSpeed());
-            playbackSettingsManager.SetSubtitleFontSize(UserPreferencesManager.LoadSubtitleFontSize());
+            //playbackSettingsManager.SetSubtitleFontSize(UserPreferencesManager.LoadSubtitleFontSize());
         }
 
         if (displayModeController != null)
@@ -56,11 +56,11 @@ public class SettingsManager : MonoBehaviour
     /// <summary>
     /// Sets subtitle font size and stores it immediately.
     /// </summary>
-    public void SetSubtitleFontSize(int size)
-    {
-        playbackSettingsManager?.SetSubtitleFontSize(size);
-        UserPreferencesManager.SaveSubtitleFontSize(size);
-    }
+    //public void SetSubtitleFontSize(int size)
+    //{
+        //playbackSettingsManager?.SetSubtitleFontSize(size);
+        //UserPreferencesManager.SaveSubtitleFontSize(size);
+    //}
 
     /// <summary>
     /// Enables or disables auto-adjust mode and stores it.

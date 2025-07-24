@@ -20,7 +20,14 @@ public class SettingsWindow : Window
     public Button resetTutorialButton;
 
     private readonly float[] playbackSpeeds = { 1.0f, 1.25f, 1.5f, 1.75f, 2.0f };
-    private readonly int[] subtitleSizes = { 16, 18, 20, 22, 24 };
+    //private readonly int[] subtitleSizes = { 16, 18, 20, 22, 24 };
+
+    // Temporary cached values for Apply/Discard logic
+    private bool tempAutoAdjust;
+    private bool tempDarkMode;
+    private int tempPlaybackIndex;
+    private int tempBackgroundIndex;
+
 
     void Start()
     {

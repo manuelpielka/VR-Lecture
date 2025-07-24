@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using System;
+using Vector3 = UnityEngine.Vector3;
+using Quaternion = UnityEngine.Quaternion;
 
 /// <summary>
 /// This class controls all Window object’s prefabs and currently opened Window objects after instantiating them.
@@ -98,6 +100,21 @@ public class WindowManager : MonoBehaviour
             {
                 instance.transform.SetParent(transform, false);
                 instance.SetActive(true);
+
+                Camera camera = Camera.main;
+                if (camera != null)
+                {
+                    Vector3 forward = camera.transform.forward;
+                    Vector3 position = camera.transform.position + forward * 2f;
+                    position.y -= 0.3f;
+
+                    instance.transform.position = position;
+                    instance.transform.rotation = Quaternion.LookRotation(forward);
+                }
+                else
+                {
+                    Debug.LogWarning("No main camera found. Window positing issues may occur.");
+                }
 
 
                 window.WindowManager = this;

@@ -928,6 +928,7 @@ GameObject:
   - component: {fileID: 5653978520069589948}
   - component: {fileID: 2303986266873670290}
   - component: {fileID: 419125566635315542}
+  - component: {fileID: 7215136184635370922}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1053,6 +1054,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7215136184635370922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1036721064082150918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &1388693678389232994
 GameObject:
   m_ObjectHideFlags: 0
@@ -4430,6 +4445,7 @@ GameObject:
   - component: {fileID: 6176780027580899226}
   - component: {fileID: 7447353321371669815}
   - component: {fileID: 4766496000339585546}
+  - component: {fileID: 6373566270304145473}
   m_Layer: 5
   m_Name: ResetTutorialButton
   m_TagString: Untagged
@@ -4539,6 +4555,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6373566270304145473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6674888275219952716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d59281ebee3d3f48a3022735079163b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
+  darkColor: {r: 0.18431373, g: 0.18431373, b: 0.18431373, a: 1}
 --- !u!1 &6711377267890960653
 GameObject:
   m_ObjectHideFlags: 0
@@ -7107,6 +7137,7 @@ MonoBehaviour:
   languageDropdown: {fileID: 5589973529861708498}
   playbackSpeedDropdown: {fileID: 4103566453782889231}
   settingsManager: {fileID: 0}
+  resetTutorialButton: {fileID: 0}
 --- !u!114 &5875964665175212899
 MonoBehaviour:
   m_ObjectHideFlags: 0

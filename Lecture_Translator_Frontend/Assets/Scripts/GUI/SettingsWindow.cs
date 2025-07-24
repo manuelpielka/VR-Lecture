@@ -179,6 +179,8 @@ public class SettingsWindow : Window
 
     public void OnApplyPressed()
     {
+        //Debug.Log(">>> Apply Pressed");
+
         settingsManager.SetAutoAdjust(tempAutoAdjust);
         if (!tempAutoAdjust)
         {
@@ -196,7 +198,7 @@ public class SettingsWindow : Window
         //UserPreferencesManager.SaveLanguage(supportedLanguages[tempLanguageIndex]);
 
         DisplayModeController.Instance.RefreshMode();
-        Debug.Log($"Apply: AutoAdjust={tempAutoAdjust}, Dark={tempDarkMode}, Speed={playbackSpeeds[tempPlaybackIndex]}, BG={tempBackgroundIndex}, Lang={tempLanguageIndex}");
+        //Debug.Log($"Apply: AutoAdjust={tempAutoAdjust}, Dark={tempDarkMode}, Speed={playbackSpeeds[tempPlaybackIndex]}, BG={tempBackgroundIndex}, Lang={tempLanguageIndex}");
     }
 
     public void OnDiscardPressed()

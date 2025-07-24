@@ -2593,7 +2593,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3455708516659336697}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7585162072155827366}
+        m_TargetAssemblyTypeName: SettingsWindow, Assembly-CSharp
+        m_MethodName: OnDiscardPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2796619121787897180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3256,7 +3268,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2513612052037388970}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7585162072155827366}
+        m_TargetAssemblyTypeName: SettingsWindow, Assembly-CSharp
+        m_MethodName: OnDiscardPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1865283852286215527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7137,7 +7161,7 @@ MonoBehaviour:
   languageDropdown: {fileID: 5589973529861708498}
   playbackSpeedDropdown: {fileID: 4103566453782889231}
   settingsManager: {fileID: 0}
-  resetTutorialButton: {fileID: 0}
+  resetTutorialButton: {fileID: 4766496000339585546}
 --- !u!114 &5875964665175212899
 MonoBehaviour:
   m_ObjectHideFlags: 0

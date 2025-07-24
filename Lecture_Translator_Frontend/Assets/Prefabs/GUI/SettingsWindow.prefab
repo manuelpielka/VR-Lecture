@@ -2596,7 +2596,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7585162072155827366}
         m_TargetAssemblyTypeName: SettingsWindow, Assembly-CSharp
-        m_MethodName: OnDiscardPressed
+        m_MethodName: OnApplyPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

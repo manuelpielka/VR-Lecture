@@ -85,4 +85,9 @@ public class SettingsManager : MonoBehaviour
         environmentManager?.LoadEnvironment(sceneId);
         UserPreferencesManager.SaveBackgroundSceneId(sceneId);
     }
+    public void ApplyAll()
+    {
+        UserPreferencesManager.SaveAll(playbackSettingsManager, displayModeController);
+        UserPreferencesManager.ApplyAll(playbackSettingsManager, displayModeController);
+    }
 }

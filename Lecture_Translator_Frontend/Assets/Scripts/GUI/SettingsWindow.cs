@@ -46,7 +46,7 @@ public class SettingsWindow : Window
         }
 
         InitDropdowns();
-        InitToggles();
+        LoadInitialSettings();
         BindListeners();
 
         resetTutorialButton = transform.Find("Canvas/Panel/ResetTutorialButton")?.GetComponent<Button>();
@@ -200,15 +200,15 @@ public class SettingsWindow : Window
         LoadInitialSettings();
     }
 
-    private void InitToggles()
-    {
-        bool isAutoAdjust = settingsManager.GetComponent<DisplayModeController>().IsAutoAdjustEnabled();
-        bool isDark = settingsManager.GetComponent<DisplayModeController>().IsDarkModeEnabled();
+    //private void InitToggles()
+    //{
+        //bool isAutoAdjust = settingsManager.GetComponent<DisplayModeController>().IsAutoAdjustEnabled();
+        //bool isDark = settingsManager.GetComponent<DisplayModeController>().IsDarkModeEnabled();
 
-        modeAutoSwitchToggle.isOn = isAutoAdjust;
-        darkModeToggle.isOn = isDark;
-        darkModeToggle.interactable = !isAutoAdjust;
-    }
+        //modeAutoSwitchToggle.isOn = isAutoAdjust;
+        //darkModeToggle.isOn = isDark;
+        //darkModeToggle.interactable = !isAutoAdjust;
+    //}
 
     //private void OnPlaybackSpeedChanged(int index)
     //{

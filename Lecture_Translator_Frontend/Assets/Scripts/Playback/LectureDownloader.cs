@@ -73,7 +73,6 @@ public static class LectureDownloader
 
     public static async Task<string> DownloadLecture(Lecture lecture)
     {
-        Debug.Log(DATA_DIRECTORY + lecture.GetTranscriptSource());
         string targetPath = DATA_DIRECTORY + lecture.GetTranscriptSource() + ".mp4";
         await PostRequestFile(lecture.GetVideoSource(), "", targetPath);
         return targetPath;
@@ -107,7 +106,8 @@ public static class LectureDownloader
         request.uploadHandler = new UploadHandlerRaw(byteJson);
         request.downloadHandler = new DownloadHandlerFile(targetPath);
         //TODO: Fetch the Token!!!
-        request.SetRequestHeader("Cookie", "_forward_auth=ACc-mvsPDcCk14a8hxZSR7Gneas513l0cJLCqiM8js8=|1753884610|ulvqv@student.kit.edu");
+        //request.SetRequestHeader("Cookie", "_forward_auth=");
+        Debug.Log("Downloading: " + request.downloadProgress);
         await request.SendWebRequest();
         
 

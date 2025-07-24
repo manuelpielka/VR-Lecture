@@ -63,7 +63,7 @@ namespace BrowsingModule
         /// <returns> An awaitable task, so the program knows when the method is done. </returns>
         private async Task GetDir(string dir, FolderElement parent)
         {
-            string jsonBody = $"\"{{\\\"directory\\\":\\\"{dir}\\\",\\\"groups\\\":[\\\"admin\\\",\\\"kitemployee\\\",\\\"kitall\\\"]}}\"";
+            string jsonBody = $"\"{{\\\"directory\\\":\\\"{dir}\\\",\\\"groups\\\":[\\\"admin\\\",\\\"kitemployee\\\",\\\"kitall\\\",\\\"all\\\",\\\"basic\\\",\\\"presenter\\\",\\\"collector\\\"]}}\"";
             Task<string> requestTask = PostRequest(archiveAPI + "/ltarchive/ls", jsonBody);
             string result = await requestTask;
 

@@ -5,6 +5,9 @@ namespace GUI
 {
     public class FolderUI : MonoBehaviour
     {
+        /// <summary>
+        /// The path of the folder.
+        /// </summary>
         private string path;
 
         /// <summary>

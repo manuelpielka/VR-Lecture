@@ -26,8 +26,8 @@ public class VirtualAvatar : MonoBehaviour
     {
         // Play Fade in animation?
         //animator.SetTrigger("FadeIn");
-
-        animator.gameObject.SetActive(true);
+        if (animator != null)
+            animator.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -38,7 +38,8 @@ public class VirtualAvatar : MonoBehaviour
         // Play Fade out animation?
         //animator.SetTrigger("FadeOut");
 
-        animator.gameObject.SetActive(false);
+        if (animator != null)
+            animator.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -46,6 +47,7 @@ public class VirtualAvatar : MonoBehaviour
     /// </summary>
     public void PlayTalkingAnimation()
     {
-        animator.SetTrigger("Talking");
+        if (animator != null)
+            animator.SetTrigger("Talking");
     }
 }

@@ -15,11 +15,6 @@ public class VoiceInputManager : MonoBehaviour
     [SerializeField] private Image micImage;
 
     /// <summary>
-    /// Reference to the DialogueSystemWindow to send the voice recorded text to in order to display it in the GUI.
-    /// </summary>
-    private GUI.DialogueSystemWindow dialogueUI;
-
-    /// <summary>
     /// The name of the microphone device that is used to record audio.
     /// </summary>
     private string micDevice;
@@ -97,7 +92,7 @@ public class VoiceInputManager : MonoBehaviour
         {
             micImage.color = Color.red;
 
-            dialogueController.StartSSE();
+            dialogueController.StartAudioStream();
 
             // Start recording
             audioSource.clip = Microphone.Start(micDevice, true, bufferSize, sampleRate);
@@ -113,8 +108,6 @@ public class VoiceInputManager : MonoBehaviour
             Microphone.End(micDevice);
 
             isRecording = false;
-
-            dialogueController.SendEnd();
         }
     }
 
@@ -139,7 +132,7 @@ public class VoiceInputManager : MonoBehaviour
                 byte[] pcmChunk = FloatToPCM16(audioBuffer);
 
                 float startTime = time; // TODO: does this even work?
-                float endTime = startTime + (pcmChunk.Length / (2 * sampleRate));
+                float endTime = startTime + ((float)pcmChunk.Length / (2 * sampleRate));
                 time = endTime;
 
                 dialogueController.StreamAudio(pcmChunk, startTime, endTime);

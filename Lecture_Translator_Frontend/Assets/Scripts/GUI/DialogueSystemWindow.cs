@@ -3,6 +3,19 @@ using TMPro;
 
 namespace GUI
 {
+    [System.Serializable]
+    public class JsonLLMResponse
+    {
+        public string seq;
+        public string user;
+        public string image_des;
+        public string session;
+        public string sender;
+        public string message_id;
+        public string context;
+        public string num_subscribers;
+    }
+
     /// <summary>
     /// This Window is used to talk to an AI by getting user input either from text or the
     /// microphone and then displaying the AI’s response in a text box.
@@ -34,6 +47,12 @@ namespace GUI
         /// </summary>
         [SerializeField] private TextMeshProUGUI aiTextBox;
 
+        [SerializeField] private GameObject loadingPanel;
+
+        public bool loading = true;
+
+        public string llmAnswer = "";
+
         private void Start()
         {
             virtualAvatar = VirtualAvatar.instance;
@@ -41,9 +60,39 @@ namespace GUI
             WindowManager = WindowManager.instance;
         }
 
+        private void Update()
+        {
+            if (!loading && loadingPanel.activeSelf) loadingPanel.SetActive(false);
+
+            if (llmAnswer == "") return;
+
+            JsonLLMResponse llmresponse = JsonUtility.FromJson<JsonLLMResponse>(llmAnswer);
+
+            if (llmresponse.sender.Contains("bot"))
+            {
+                if (llmresponse != null && llmresponse.seq != "" && llmresponse.seq != aiTextBox.text) // Have to do this because you have to update ui on a main thread
+                {
+                    aiTextBox.text = llmresponse.seq;
+                    virtualAvatar.PlayTalkingAnimation();
+                }
+            }
+            else if (llmresponse.sender.Contains("asr"))
+            {
+                if (llmresponse != null && llmresponse.seq != "" && llmresponse.seq != aiTextBox.text)
+                {
+                    userTextBox.text = llmresponse.seq;
+                }
+            }
+        }
+
         private void OnDestroy()
         {
             virtualAvatar.DisableAvatar();
+        }
+
+        public string GetUserPrompt()
+        {
+            return userTextBox.text;
         }
 
         /// <summary>
@@ -52,7 +101,6 @@ namespace GUI
         public void MicrophoneBtnPressed()
         {
             voiceInputManager.ToggleVoiceRecording();
-            userTextBox.text = "*recorded audio*";
         }
 
         /// <summary>
@@ -63,14 +111,6 @@ namespace GUI
             if (text == "") return;
             dialogueController.SendPrompt(text);
             userTextBox.text = text;
-        }
-
-        /// <summary>
-        /// Method that gets called from the VoiceInputManager class when the LLM has finished their response.
-        /// </summary>
-        public void DisplayLLMAnswer(string answer)
-        {
-            aiTextBox.text = answer;
         }
     }
 }

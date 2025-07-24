@@ -11,7 +11,7 @@ using UnityEngine.Networking;
 /// <summary>
 /// This class is used to send prompts to the LLM and receive the responses.
 /// </summary>
-public class DialogueController : MonoBehaviour
+public class DialogueController : MonoBehaviour, ISSEHandler
 {
     /// <summary>
     /// Reference to the DialogueSystemWindow class to display the LLM’s response.
@@ -19,16 +19,9 @@ public class DialogueController : MonoBehaviour
     [SerializeField] private GUI.DialogueSystemWindow dialogueUI;
 
     /// <summary>
-    /// Reference to the VirtualAvatar class to play the talking animation when receiving a response from the LLM.
-    /// </summary>
-    private VirtualAvatar virtualAvatar;
-
-    /// <summary>
     /// The api url of the lecture translator's api
     /// </summary>
     private string apiUrl = "/webapi/start_dialog";
-
-    private string appendUrl = "/webapi/append";
 
     private const string mainUrl = "https://lecture-translator.kit.edu";
     private const string devUrl = "https://lt2srv-backup.iar.kit.edu";
@@ -39,60 +32,59 @@ public class DialogueController : MonoBehaviour
 
     private string token = Environment.GetEnvironmentVariable("MY_API_TOKEN");
 
-    private CancellationToken ct;
-    private string sseUrl = "";
+    private SSEClient sseClient;
 
-    private Coroutine sseCoroutine;
-    private bool sseRunning = false;
+    private string contentDirectory = "/logs/archive/%252F%252Fhome%252Fuevjj%2540student.kit.edu%252Fa";
 
     async void Start()
     {
-        virtualAvatar = VirtualAvatar.instance;
-
-        
-
         string json = $"\"{{\\\"bot\\\":\\\"bot\\\"}}\"";
 
         string answer = await PostRequest(devUrl + apiUrl, json);
 
-        ReceiveAnswer(answer);
+        string[] ids = answer.Split(" ");
+        sessionId = ids[0];
+        streamId = ids[1];
+        streamIdText = ids[3];
 
-        
+        print(sessionId);
+        print("GRAPH: " + await PostRequest(devUrl + "/webapi/" + sessionId + "/getgraph", ""));
+
+        await SendStart(streamId);
+
+        sseClient = new SSEClient(devUrl + "/webapi/stream?channel=" + sessionId, this);
+        sseClient.InitSse();
     }
 
-    private async Task ConnectToSSE()
+    private void OnDestroy()
     {
-        string sseUrl = devUrl + "/webapi/stream?channel=" + sessionId;
-        sseRunning = true;
-        try
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(sseUrl);
-            request.Accept = "text/event-stream";
+        sseClient.Disconnect();
 
-            print("SSE STARTED!");
+        SendEnd(streamId);
+        SendEnd(streamIdText);
+    }
 
-            using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                
-                while (!reader.EndOfStream && !ct.IsCancellationRequested)
-                {
-                    var line = await reader.ReadLineAsync();
-                    if (!string.IsNullOrEmpty(line) && line.StartsWith("data:"))
-                    {
-                        string data = line.Substring(5).Trim();
-                        Debug.Log("SSE Data Received: " + data);
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError("SSE Error: " + ex.Message);
-        }
-        print("SSE Stopped!");
-        sseRunning = false;
+    public async void OnSSEConnectionOpened()
+    {
+        Debug.Log("SSE Connection Opened");
+        dialogueUI.loading = false;
+    }
+
+    public void OnSSEConnectionClosed()
+    {
+        Debug.Log("SSE Connection Closed");
+    }
+
+    public void OnSSEEventReceived(string eventName, string data)
+    {
+        Debug.Log($"Event Received: {eventName} => {data}");
+
+        dialogueUI.llmAnswer = data;
+    }
+
+    public void OnSSEError(Exception ex)
+    {
+        Debug.LogError("SSE Error: " + ex.Message);
     }
 
     /// <summary>
@@ -101,47 +93,38 @@ public class DialogueController : MonoBehaviour
     /// <param name="prompt">The prompt to send to the LLM.</param>
     public async void SendPrompt(string prompt)
     {
-        if (!sseRunning)
-            ConnectToSSE();
-
-        await SendStart();
-
-        string json = $"\"{{\\\"seq\\\":\\\"{prompt}\\\"}}\"";
+        string json = $"\"{{\\\"seq\\\":\\\"{prompt}\\\",\\\"user\\\":\\\"uevjj@student.kit.edu\\\",\\\"context\\\":\\\"a\\\"}}\"";
 
         print("Sending prompt: " + prompt);
 
-        ReceiveAnswer(await PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamIdText + "/append", json));
+        print(await PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamIdText + "/append", json));
     }
 
-    public async void StartSSE()
+    public async void StartAudioStream()
     {
-        //if(!sseRunning)
-            //ConnectToSSE();
-
         print("Requesting Worker Information");
 
         string json = $"\"{{\\\"controll\\\":\\\"INFORMATION\\\"}}\"";
 
         print(await PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json));
-
-        await SendStart();
     }
 
-    public async Task SendStart()
+    public async Task SendStart(string stream)
     {
         print("Send start");
 
-        string json = $"\"{{\\\"controll\\\":\\\"START\\\"}}\"";
+        string json = $"\"{{\\\"controll\\\":\\\"START\\\", \\\"content_directory\\\":\\\"{contentDirectory}\\\"}}\"";
 
-        print("Start response: " + await PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json));
+        await PostRequest(devUrl + "/webapi/" + sessionId + "/" + stream + "/append", json);
     }
 
-    public async Task SendEnd()
+    public async Task SendEnd(string stream)
     {
         print("Send end");
-        string json = "{ \"controll\": \"END\"}";
 
-        print(await PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json));
+        string json = "\"{\\\"controll\\\":\\\"END\\\"}\"";
+
+        await PostRequest(devUrl + "/webapi/" + sessionId + "/" + stream + "/append", json);
     }
 
     /// <summary>
@@ -152,17 +135,15 @@ public class DialogueController : MonoBehaviour
     /// <param name="end">The end time of the recorded audio chunk.</param>
     public async void StreamAudio(byte[] pcmChunk, float start, float end)
     {
-        await SendStart();
         string base64String = Convert.ToBase64String(pcmChunk);
 
         byte[] utf8Bytes = Encoding.UTF8.GetBytes(base64String);
 
         string utf8String = Encoding.UTF8.GetString(utf8Bytes);
 
-        string json = "{\"b64_enc_pcm_s16le\": \"" + utf8String + "\", \"start\": " + start + ",\"end\":" + end + "}"; // TODO: check formatting (LTConnection.java -> normalJsonStringToLtJsonString()
+        string json = "\"{\\\"b64_enc_pcm_s16le\\\": \\\"" + utf8String + "\\\", \\\"start\\\": \\\"" + start.ToString() + "\\\",\\\"end\\\":\\\"" + end.ToString() + "\\\"}\"";
 
         await PostRequest(devUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json);
-        await SendEnd();
     }
 
     /// <summary>
@@ -186,22 +167,8 @@ public class DialogueController : MonoBehaviour
         return request.downloadHandler.text;
     }
 
-    /// <summary>
-    /// This method is called when the api answers the post request
-    /// </summary>
-    /// <param name="answer">The answer sent by the api.</param>
-    public void ReceiveAnswer(string answer)
+    public void SetContentDirectory(string dir)
     {
-        Debug.Log("RESPONSE FROM LT_API: " + answer);
-        if (sessionId == "")
-        {
-            string[] ids = answer.Split(" ");
-            sessionId = ids[0];
-            streamId = ids[1];
-            streamIdText = ids[3];
-        }
-
-        virtualAvatar.PlayTalkingAnimation();
-        dialogueUI.DisplayLLMAnswer(answer);
+        contentDirectory = dir;
     }
 }

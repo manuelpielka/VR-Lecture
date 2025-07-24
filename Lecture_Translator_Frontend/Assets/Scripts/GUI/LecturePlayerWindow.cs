@@ -134,6 +134,8 @@ public class LecturePlayerWindow : Window
     public void AiBtnPressed()
     {
         Window window = WindowManager.CreateWindow(WindowKeys.DialogueKey);
+
+        window.GetComponent<DialogueController>().SetContentDirectory(lecture.GetTranscriptSource());
     }
 
     public void TranscriptBtnPressed()

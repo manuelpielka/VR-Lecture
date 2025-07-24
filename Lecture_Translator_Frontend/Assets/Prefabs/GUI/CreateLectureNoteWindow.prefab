@@ -1372,7 +1372,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &687985980833980135
 MonoBehaviour:
@@ -2761,9 +2761,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87749366bceb54fa7bb351cd71974d56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  titleTextBox: {fileID: 6827507442376949418}
-  noteTextBox: {fileID: 8397162799756873170}
-  NoteWindow: {fileID: 0}
+  titleTextBox: {fileID: 6138523423993376775}
+  noteTextBox: {fileID: 539118470796909193}
   windowTitleText: {fileID: 1094030255297609233}
   CurrentTimeAsTitleToggle: {fileID: 7446440944168441380}
 --- !u!4 &7898104566394091537 stripped

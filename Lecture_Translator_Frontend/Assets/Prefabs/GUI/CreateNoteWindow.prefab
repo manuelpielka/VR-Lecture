@@ -775,7 +775,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &7116324503322123649
 MonoBehaviour:
@@ -1626,7 +1626,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   titleTextBox: {fileID: 5698148813368664875}
   noteTextBox: {fileID: 955994194156661489}
-  NoteWindow: {fileID: 0}
 --- !u!1 &3381958024869017576
 GameObject:
   m_ObjectHideFlags: 0
@@ -1747,7 +1746,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 9003266419295735938}
   m_HandleRect: {fileID: 899734190452822502}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

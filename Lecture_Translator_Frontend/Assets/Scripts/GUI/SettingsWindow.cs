@@ -21,7 +21,7 @@ public class SettingsWindow : Window
 
     private readonly float[] playbackSpeeds = { 1.0f, 1.25f, 1.5f, 1.75f, 2.0f };
     //private readonly int[] subtitleSizes = { 16, 18, 20, 22, 24 };
-    private readonly string[] supportedLanguages = { "English", "Deutsch"};
+    private readonly string[] supportedLanguages = { "English"};
 
     // Temporary cached values for Apply/Discard logic
     private bool tempAutoAdjust;
@@ -180,7 +180,10 @@ public class SettingsWindow : Window
     public void OnApplyPressed()
     {
         settingsManager.SetAutoAdjust(tempAutoAdjust);
-        settingsManager.SetDarkMode(tempDarkMode);
+        if (!tempAutoAdjust)
+        {
+            settingsManager.SetDarkMode(tempDarkMode);
+        }
         settingsManager.SetPlaybackSpeed(playbackSpeeds[tempPlaybackIndex]);
 
         var envManager = FindAnyObjectByType<EnvironmentManager>();
@@ -193,6 +196,7 @@ public class SettingsWindow : Window
         //UserPreferencesManager.SaveLanguage(supportedLanguages[tempLanguageIndex]);
 
         DisplayModeController.Instance.RefreshMode();
+        Debug.Log($"Apply: AutoAdjust={tempAutoAdjust}, Dark={tempDarkMode}, Speed={playbackSpeeds[tempPlaybackIndex]}, BG={tempBackgroundIndex}, Lang={tempLanguageIndex}");
     }
 
     public void OnDiscardPressed()

@@ -21,12 +21,14 @@ public class SettingsWindow : Window
 
     private readonly float[] playbackSpeeds = { 1.0f, 1.25f, 1.5f, 1.75f, 2.0f };
     //private readonly int[] subtitleSizes = { 16, 18, 20, 22, 24 };
+    private readonly string[] supportedLanguages = { "English", "Deutsch"};
 
     // Temporary cached values for Apply/Discard logic
     private bool tempAutoAdjust;
     private bool tempDarkMode;
     private int tempPlaybackIndex;
     private int tempBackgroundIndex;
+    private int tempLanguageIndex;
 
 
     void Start()
@@ -82,18 +84,12 @@ public class SettingsWindow : Window
     {
         playbackSpeedDropdown.ClearOptions();
         foreach (var speed in playbackSpeeds)
-        {
             playbackSpeedDropdown.options.Add(new TMP_Dropdown.OptionData(speed.ToString("0.##") + "x"));
-        }
-
-        float currentSpeed = settingsManager.GetComponent<PlaybackSettingsManager>().GetPlaybackSpeed();
-        int selectedIndex = System.Array.IndexOf(playbackSpeeds, currentSpeed);
-        playbackSpeedDropdown.value = selectedIndex >= 0 ? selectedIndex : 0;
 
         //subtitleSizeDropdown.ClearOptions();
         //foreach (var size in subtitleSizes)
         //{
-            //subtitleSizeDropdown.options.Add(new TMP_Dropdown.OptionData(size.ToString()));
+        //subtitleSizeDropdown.options.Add(new TMP_Dropdown.OptionData(size.ToString()));
         //}
 
         //int currentSize = settingsManager.GetComponent<PlaybackSettingsManager>().GetSubtitleFontSize();
@@ -105,14 +101,103 @@ public class SettingsWindow : Window
         if (envManager != null)
         {
             foreach (var env in envManager.Environments)
-            {
                 backgroundDropdown.options.Add(new TMP_Dropdown.OptionData(env.DisplayName));
-            }
-
-            string savedId = UserPreferencesManager.LoadBackgroundSceneId();
-            int index = envManager.Environments.FindIndex(e => e.SceneId == savedId);
-            backgroundDropdown.value = index >= 0 ? index : 0;
         }
+
+        languageDropdown.ClearOptions();
+        foreach (var lang in supportedLanguages)
+            languageDropdown.options.Add(new TMP_Dropdown.OptionData(lang));
+    }
+
+    private void LoadInitialSettings()
+    {
+
+        tempAutoAdjust = UserPreferencesManager.LoadAutoAdjust();
+        tempDarkMode = UserPreferencesManager.LoadDarkMode();
+        tempPlaybackIndex = GetPlaybackIndex(UserPreferencesManager.LoadPlaybackSpeed());
+        tempBackgroundIndex = GetBackgroundIndex(UserPreferencesManager.LoadBackgroundSceneId());
+        //tempLanguageIndex = GetLanguageIndex(UserPreferencesManager.LoadLanguage());
+
+        modeAutoSwitchToggle.isOn = tempAutoAdjust;
+        darkModeToggle.isOn = tempDarkMode;
+        darkModeToggle.interactable = !tempAutoAdjust;
+        playbackSpeedDropdown.value = tempPlaybackIndex;
+        backgroundDropdown.value = tempBackgroundIndex;
+        languageDropdown.value = tempLanguageIndex;
+    }
+
+    private int GetPlaybackIndex(float speed)
+    {
+        for (int i = 0; i < playbackSpeeds.Length; i++)
+            if (Mathf.Approximately(playbackSpeeds[i], speed)) return i;
+        return 0;
+    }
+
+    private int GetBackgroundIndex(string sceneId)
+    {
+        var envManager = FindAnyObjectByType<EnvironmentManager>();
+        if (envManager == null) return 0;
+        return envManager.Environments.FindIndex(e => e.SceneId == sceneId);
+    }
+
+    //private int GetLanguageIndex(string lang)
+    //{
+        //for (int i = 0; i < supportedLanguages.Length; i++)
+            //if (supportedLanguages[i] == lang) return i;
+        //return 0;
+    //}
+
+    private void BindListeners()
+    {
+        modeAutoSwitchToggle.onValueChanged.AddListener(isOn =>
+        {
+            tempAutoAdjust = isOn;
+            darkModeToggle.interactable = !isOn;
+            if (isOn) darkModeToggle.isOn = false;
+        });
+
+        darkModeToggle.onValueChanged.AddListener(isOn =>
+        {
+            tempDarkMode = isOn;
+        });
+
+        playbackSpeedDropdown.onValueChanged.AddListener(index =>
+        {
+            tempPlaybackIndex = index;
+        });
+
+        backgroundDropdown.onValueChanged.AddListener(index =>
+        {
+            tempBackgroundIndex = index;
+        });
+
+        languageDropdown.onValueChanged.AddListener(index =>
+        {
+            tempLanguageIndex = index;
+        });
+    }
+
+    public void OnApplyPressed()
+    {
+        settingsManager.SetAutoAdjust(tempAutoAdjust);
+        settingsManager.SetDarkMode(tempDarkMode);
+        settingsManager.SetPlaybackSpeed(playbackSpeeds[tempPlaybackIndex]);
+
+        var envManager = FindAnyObjectByType<EnvironmentManager>();
+        if (envManager != null && envManager.Environments.Count > tempBackgroundIndex)
+        {
+            var env = envManager.Environments[tempBackgroundIndex];
+            settingsManager.SetEnvironmentById(env.SceneId);
+        }
+
+        //UserPreferencesManager.SaveLanguage(supportedLanguages[tempLanguageIndex]);
+
+        DisplayModeController.Instance.RefreshMode();
+    }
+
+    public void OnDiscardPressed()
+    {
+        LoadInitialSettings();
     }
 
     private void InitToggles()
@@ -125,20 +210,11 @@ public class SettingsWindow : Window
         darkModeToggle.interactable = !isAutoAdjust;
     }
 
-    private void BindListeners()
-    {
-        playbackSpeedDropdown.onValueChanged.AddListener(OnPlaybackSpeedChanged);
-        //subtitleSizeDropdown.onValueChanged.AddListener(OnSubtitleSizeChanged);
-        modeAutoSwitchToggle.onValueChanged.AddListener(OnAutoAdjustToggled);
-        darkModeToggle.onValueChanged.AddListener(OnDarkModeToggled);
-        backgroundDropdown.onValueChanged.AddListener(OnBackgroundChanged);
-    }
-
-    private void OnPlaybackSpeedChanged(int index)
-    {
-        float selectedSpeed = playbackSpeeds[index];
-        settingsManager.SetPlaybackSpeed(selectedSpeed);
-    }
+    //private void OnPlaybackSpeedChanged(int index)
+    //{
+        //float selectedSpeed = playbackSpeeds[index];
+        //settingsManager.SetPlaybackSpeed(selectedSpeed);
+    //}
 
     //private void OnSubtitleSizeChanged(int index)
     //{
@@ -146,30 +222,30 @@ public class SettingsWindow : Window
         //settingsManager.SetSubtitleFontSize(selectedSize);
     //}
 
-    private void OnAutoAdjustToggled(bool isOn)
-    {
-        settingsManager.SetAutoAdjust(isOn);
-        darkModeToggle.interactable = !isOn;
-        if (isOn)
-        {
-            DisplayModeController.Instance.RefreshMode();
-        }
+    //private void OnAutoAdjustToggled(bool isOn)
+    //{
+        //settingsManager.SetAutoAdjust(isOn);
+        //darkModeToggle.interactable = !isOn;
+        //if (isOn)
+        //{
+            //DisplayModeController.Instance.RefreshMode();
+        //}
         
-    }
+    //}
 
-    private void OnDarkModeToggled(bool isOn)
-    {
-        settingsManager.SetDarkMode(isOn);
-        DisplayModeController.Instance.SetDarkMode(isOn);
-    }
+    //private void OnDarkModeToggled(bool isOn)
+    //{
+        //settingsManager.SetDarkMode(isOn);
+        //DisplayModeController.Instance.SetDarkMode(isOn);
+    //}
 
-    private void OnBackgroundChanged(int index)
-    {
-        var envManager = FindAnyObjectByType<EnvironmentManager>();
-        if (envManager == null) return;
+    //private void OnBackgroundChanged(int index)
+    //{
+        //var envManager = FindAnyObjectByType<EnvironmentManager>();
+        //if (envManager == null) return;
 
-        var config = envManager.Environments[index];
-        envManager.SwitchEnvironment(config);
-        UserPreferencesManager.SaveBackgroundSceneId(config.SceneId);
-    }
+        //var config = envManager.Environments[index];
+        //envManager.SwitchEnvironment(config);
+        //UserPreferencesManager.SaveBackgroundSceneId(config.SceneId);
+    //}
 }

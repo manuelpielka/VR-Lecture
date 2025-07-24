@@ -13,16 +13,13 @@ public class EndStepTutorial : MonoBehaviour, ITutorialStep
     private GameObject OverlayPrefab;
     private GameObject overlayInstance;
     
-    private Button nextButton;
+    private Button FinishButton;
 
 
 
     public void StartStep()
     { 
-        Debug.Log("EndStep started");
-
         overlayInstance = Instantiate(OverlayPrefab);
-        Debug.Log("Instantied overlay: " + overlayInstance.name);
 
         Vector3 forward = Camera.main.transform.forward;
         Vector3 position = Camera.main.transform.position + forward * 2f;
@@ -31,10 +28,9 @@ public class EndStepTutorial : MonoBehaviour, ITutorialStep
         overlayInstance.transform.position = position;
         overlayInstance.transform.rotation = Quaternion.LookRotation(forward);
 
-        nextButton = overlayInstance.GetComponentInChildren<Button>();
-        nextButton.onClick.AddListener(() =>
+        FinishButton = overlayInstance.GetComponentInChildren<Button>();
+        FinishButton.onClick.AddListener(() =>
         {
-            Debug.Log("Next button clicked");
             StepCompleted?.Invoke();
             EndStep();
         });

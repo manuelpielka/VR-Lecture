@@ -36,10 +36,8 @@ public class TutorialManager : MonoBehaviour
     private EndStepTutorial endStep;
 
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {   
-        Debug.Log("TutorialManager Start called");
 
         InitializeSteps();
         StartTutorial();
@@ -53,7 +51,6 @@ public class TutorialManager : MonoBehaviour
         currentStep.StartStep();
     }
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -61,8 +58,6 @@ public class TutorialManager : MonoBehaviour
 
     public void StartTutorial()
     {
-
-        Debug.Log("Starting Tutorial");
 
         isTutorialCompleted = false;
         currentStepIndex = 0;
@@ -98,7 +93,6 @@ public class TutorialManager : MonoBehaviour
     {
         steps[currentStepIndex].StepCompleted -= OnStepCompleted;
 
-        Debug.Log("Step completed: " + currentStepIndex);
         currentStepIndex++;
 
         if (currentStepIndex < steps.Count)

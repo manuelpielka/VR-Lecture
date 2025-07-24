@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using System;
 
 /// <summary>
 /// This class controls all Window object’s prefabs and currently opened Window objects after instantiating them.
@@ -8,6 +9,8 @@ using UnityEngine.InputSystem;
 public class WindowManager : MonoBehaviour
 {
     public static WindowManager instance;
+
+    public static event Action<string> WindowOpened;
 
     /// <summary>
     /// A list of all the currently open windows displayed in the 3D environment.
@@ -126,8 +129,15 @@ public class WindowManager : MonoBehaviour
         if (window != null)
         {
             activeWindows.Add(window);
+
+            WindowOpened?.Invoke(windowKey);
         }
         return window;
+    }
+
+    public bool IsWindowOpen(string windowKey)
+    {
+        return activeWindows.Exists(w => w.Prefab.name == windowKey);
     }
 
 

@@ -15,8 +15,9 @@ public static class Login
         string loginOptionPage = await PostRequest(REQUEST_TOKEN_URL);
         Debug.Log(loginOptionPage);
         MatchCollection options = Regex.Matches(loginOptionPage, URL_REGEX);
-        Debug.Log(SERVER_URL + options[0].Value);
-        string shibbolethPage = await GetRequest(SERVER_URL + options[0].Value);
+        string shibbolethLink = SERVER_URL + options[0].Value;
+        Debug.Log(shibbolethLink);
+        string shibbolethPage = await GetRequest(shibbolethLink);
         Debug.Log(shibbolethPage);
 
 

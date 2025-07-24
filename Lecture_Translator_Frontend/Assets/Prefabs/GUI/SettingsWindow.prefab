@@ -1442,6 +1442,7 @@ GameObject:
   - component: {fileID: 7490112782510125161}
   - component: {fileID: 3954421646971212145}
   - component: {fileID: 2422584163485589652}
+  - component: {fileID: 3359416746761011802}
   m_Layer: 5
   m_Name: TopText
   m_TagString: Untagged
@@ -1567,6 +1568,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3359416746761011802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991607640679018138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &2282881677275034605
 GameObject:
   m_ObjectHideFlags: 0
@@ -2407,6 +2422,7 @@ GameObject:
   - component: {fileID: 2170712638254515606}
   - component: {fileID: 7922589251860978615}
   - component: {fileID: 838742141583186783}
+  - component: {fileID: 7106697079824283284}
   m_Layer: 5
   m_Name: Language
   m_TagString: Untagged
@@ -2532,6 +2548,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7106697079824283284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3491316764416820088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &4056331247918837815
 GameObject:
   m_ObjectHideFlags: 0
@@ -2693,6 +2723,7 @@ GameObject:
   - component: {fileID: 7793883308971452517}
   - component: {fileID: 545912220729289496}
   - component: {fileID: 2085059011956770855}
+  - component: {fileID: 1442223171055783563}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -2818,6 +2849,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1442223171055783563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4806530856182612318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &4840887989790184999
 GameObject:
   m_ObjectHideFlags: 0
@@ -4421,6 +4466,7 @@ GameObject:
   - component: {fileID: 3293841273510655781}
   - component: {fileID: 2620311243008454638}
   - component: {fileID: 6181580428115870054}
+  - component: {fileID: 8419377353861031104}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -4546,6 +4592,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8419377353861031104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7251289247191811586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &7392422499291688728
 GameObject:
   m_ObjectHideFlags: 0
@@ -4557,6 +4617,7 @@ GameObject:
   - component: {fileID: 7723097761109919054}
   - component: {fileID: 7427109431209676152}
   - component: {fileID: 6899035673524488936}
+  - component: {fileID: 2042776062308042050}
   m_Layer: 5
   m_Name: DarkMode
   m_TagString: Untagged
@@ -4682,6 +4743,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2042776062308042050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7392422499291688728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &7494521570895417807
 GameObject:
   m_ObjectHideFlags: 0
@@ -5443,6 +5518,7 @@ GameObject:
   - component: {fileID: 2116726312666774404}
   - component: {fileID: 2438425176256123878}
   - component: {fileID: 6312629472774554595}
+  - component: {fileID: 2782825386041961059}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -5568,6 +5644,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2782825386041961059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8255188128359278635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &8264627718328769471
 GameObject:
   m_ObjectHideFlags: 0
@@ -5654,6 +5744,7 @@ GameObject:
   - component: {fileID: 7667310902614605887}
   - component: {fileID: 5911406601648571915}
   - component: {fileID: 2490218500111919070}
+  - component: {fileID: 5998911804169772085}
   m_Layer: 5
   m_Name: Playbackspeed
   m_TagString: Untagged
@@ -5779,6 +5870,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5998911804169772085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8387193454882785329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &8686684501767101064
 GameObject:
   m_ObjectHideFlags: 0
@@ -5790,6 +5895,7 @@ GameObject:
   - component: {fileID: 6839503425438457599}
   - component: {fileID: 4872912559739453057}
   - component: {fileID: 5245674816910240500}
+  - component: {fileID: 7656812403699318304}
   m_Layer: 5
   m_Name: ModeAutoSwitich
   m_TagString: Untagged
@@ -5915,6 +6021,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7656812403699318304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8686684501767101064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &9029209133235797216
 GameObject:
   m_ObjectHideFlags: 0
@@ -6513,12 +6633,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 143c1a14d48c04905a84d9d4be59fc5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playbackSpeedDropdown: {fileID: 4103566453782889231}
-  subtitleSizeDropdown: {fileID: 0}
+  backgroundDropdown: {fileID: 8575802990047789298}
   modeAutoSwitchToggle: {fileID: 564432768691574368}
   darkModeToggle: {fileID: 4340343426521912679}
-  backgroundDropdown: {fileID: 8575802990047789298}
   languageDropdown: {fileID: 5589973529861708498}
+  playbackSpeedDropdown: {fileID: 4103566453782889231}
   settingsManager: {fileID: 0}
 --- !u!114 &5875964665175212899
 MonoBehaviour:

@@ -22,10 +22,11 @@ public class LecturePlayerWindow : Window
     private Lecture lecture;
     private const float SKIP_AMOUNT = 30;
 
-    void Start()
+    void Awake()
     {
         //TEMPORARY
-        //test();
+        test();
+
 
     }
 
@@ -73,8 +74,10 @@ public class LecturePlayerWindow : Window
 
     private async void test()
     {
-        Lecture lecture = await LectureDownloader.DownloadMetaData("Other/offline_test");
-        AssignLecture(lecture);
+        //Lecture lecture = await LectureDownloader.DownloadMetaData("Other/offline_test");
+        //AssignLecture(lecture);
+
+        Debug.Log(Login.GetToken("", ""));
     }
 
     public void AssignLecture(Lecture lecture)
@@ -135,7 +138,8 @@ public class LecturePlayerWindow : Window
 
     public void TranscriptBtnPressed()
     {
-        Window window = WindowManager.CreateWindow(WindowKeys.TranscriptKey);
+        TranscriptWindow window = (TranscriptWindow)WindowManager.CreateWindow(WindowKeys.TranscriptKey);
+        window.AssignLecture(lecture);
     }
 
     public void NotesBtnPressed()

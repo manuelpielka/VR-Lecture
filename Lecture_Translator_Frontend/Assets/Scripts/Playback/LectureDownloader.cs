@@ -4,7 +4,6 @@ using UnityEngine.Networking;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
-using System.IO;
 
 public static class LectureDownloader
 {
@@ -21,6 +20,8 @@ public static class LectureDownloader
 
     private const string DATA_DIRECTORY = "./Data/";
 
+
+
     public static async Task<Lecture> DownloadMetaData(string path)
     {
         //for READ_DIRECTORY
@@ -36,8 +37,8 @@ public static class LectureDownloader
 
         string jsonBody = $"\"{{\\\"directory\\\":\\\"{path}\\\"}}\"";
 
-        Task<string> metaDataTask = PostRequest(SERVER_URL + META, jsonBody);
-        Task<string> languagesTask = PostRequest(SERVER_URL + LANGUAGES, jsonBody);
+        Task<string> metaDataTask = PostRequestWithJson(SERVER_URL + META, jsonBody);
+        Task<string> languagesTask = PostRequestWithJson(SERVER_URL + LANGUAGES, jsonBody);
 
         string videoSource = "https://lecture-translator.kit.edu/archivemedia/" + path.Replace("/", SEPERATOR);
         string transcriptSource = path;
@@ -63,7 +64,7 @@ public static class LectureDownloader
     {
         string source = lecture.GetTranscriptSource();
         string jsonBody = $"\"{{\\\"directory\\\":\\\"{source}\\\",\\\"language\\\":\\\"{language}\\\"}}\"";
-        return PostRequest(SERVER_URL + VTT, jsonBody);
+        return PostRequestWithJson(SERVER_URL + VTT, jsonBody);
     }
 
     public static void DownloadVTT(Lecture lecture)
@@ -83,7 +84,7 @@ public static class LectureDownloader
     /// </summary>
     /// <param name="url">The url of the api server.</param>
     /// <param name="json">The json data to send in the request.</param>
-    private static async Task<string> PostRequest(string url, string json)
+    private static async Task<string> PostRequestWithJson(string url, string json)
     {
         UnityWebRequest request = new UnityWebRequest(url, "POST");
         byte[] byteJson = new UTF8Encoding().GetBytes(json);
@@ -99,20 +100,17 @@ public static class LectureDownloader
 
     private static async Task PostRequestFile(string url, string json, string targetPath)
     {
-        Debug.Log(Application.dataPath);
-        Debug.Log(Path.GetFullPath("."));
         UnityWebRequest request = new UnityWebRequest(url, "POST");
         byte[] byteJson = new UTF8Encoding().GetBytes(json);
         request.uploadHandler = new UploadHandlerRaw(byteJson);
         request.downloadHandler = new DownloadHandlerFile(targetPath);
         //TODO: Fetch the Token!!!
-        //request.SetRequestHeader("Cookie", "_forward_auth=");
-        Debug.Log("Downloading: " + request.downloadProgress);
+        request.SetRequestHeader("Cookie", "_forward_auth=" + Environment.GetEnvironmentVariable("MY_API_TOKEN"));
         await request.SendWebRequest();
-        
 
 
-        
+
+
         //Log the headers
         /*
         Dictionary<string, string> headers = request.GetResponseHeaders();

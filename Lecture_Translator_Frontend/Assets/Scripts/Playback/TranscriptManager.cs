@@ -7,7 +7,7 @@ public class TranscriptManager : MonoBehaviour
     private Lecture lecture;
     private Dictionary<string, Transcript> transcripts = new Dictionary<string, Transcript>();
 
-    public async void AssignLecture(Lecture lecture)
+    public async Task AssignLecture(Lecture lecture)
     {
         this.lecture = lecture;
 

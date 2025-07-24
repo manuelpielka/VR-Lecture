@@ -171,6 +171,7 @@ namespace BrowsingModule
                     string fileName = fixedFile.Substring(fixedFile.LastIndexOf("/") + 1);
 
                     Lecture lecture = new Lecture(fileName, fixedFile, "", null);
+                    lecture.SetDownloaded(true);
                     LectureElement newSessionElement = new LectureElement(fixedFile, fileName, lecture);
 
                     parent.AddContents(newSessionElement);

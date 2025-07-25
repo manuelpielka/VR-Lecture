@@ -21,7 +21,7 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     /// <summary>
     /// The api url of the lecture translator's api.
     /// </summary>
-    private string apiUrl = "/webapi/start_dialog";
+    private string startDialogURL = "/webapi/start_dialog";
 
     /// <summary>
     /// The main url of the lecture translator.
@@ -54,11 +54,6 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     private string streamIdText = "";
 
     /// <summary>
-    /// The token to access the api.
-    /// </summary>
-    private string token = "";
-
-    /// <summary>
     /// The sse client that handles receiving data from the lecture translator.
     /// </summary>
     private SSEClient sseClient;
@@ -75,7 +70,7 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     {
         string json = $"\"{{\\\"bot\\\":\\\"bot\\\"}}\"";
 
-        string answer = await PostRequest(mainUrl + apiUrl, json);
+        string answer = await PostRequest(mainUrl + startDialogURL, json);
 
         string[] ids = answer.Split(" ");
         sessionId = ids[0];

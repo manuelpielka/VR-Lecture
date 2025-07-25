@@ -41,11 +41,6 @@ namespace GUI
         private GameObject currentPathGO;
 
         /// <summary>
-        /// The path to the root folder.
-        /// </summary>
-        private const string rootPath = "/";
-
-        /// <summary>
         /// The textbox where the current path is displayed.
         /// </summary>
         [SerializeField] private TextMeshProUGUI pathTextBox;

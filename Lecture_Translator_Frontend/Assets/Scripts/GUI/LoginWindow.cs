@@ -4,6 +4,7 @@ using TMPro;
 public class LoginWindow : Window
 {
     [SerializeField] private TextMeshProUGUI errorTextBox;
+    [SerializeField] private TMP_InputField inputField;
 
     public async void OnTokenEntered(string token)
     {
@@ -18,5 +19,10 @@ public class LoginWindow : Window
         {
             errorTextBox.gameObject.SetActive(true);
         }
+    }
+
+    public void PasteFromClipboard()
+    {
+        inputField.text = GUIUtility.systemCopyBuffer;
     }
 }

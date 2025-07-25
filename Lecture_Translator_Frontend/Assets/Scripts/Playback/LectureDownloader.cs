@@ -105,7 +105,7 @@ public static class LectureDownloader
         request.uploadHandler = new UploadHandlerRaw(byteJson);
         request.downloadHandler = new DownloadHandlerFile(targetPath);
         //TODO: Fetch the Token!!!
-        request.SetRequestHeader("Cookie", "_forward_auth=" + Environment.GetEnvironmentVariable("MY_API_TOKEN"));
+        request.SetRequestHeader("Cookie", "_forward_auth=" + Login.token);
         await request.SendWebRequest();
 
 

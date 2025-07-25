@@ -9,12 +9,12 @@ public class Note
     /// <summary>
     /// The title of the note.
     /// </summary>
-    public string Title;
+    public string Title { get; set; }
 
     /// <summary>
     /// The content of the note.
     /// </summary>
-    public string Content;
+    public string Content { get; set; }
 
     /// <summary>
     /// Constructor for deserialization of Unity instantiation.

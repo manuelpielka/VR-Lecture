@@ -4,6 +4,7 @@ using UnityEngine;
 using GUI;
 using System.Reflection;
 using UnityEngine.UI;
+
 /// <summary>
 /// Class <c>NoteWindow</c> is used to display all general notes and is opened through the Main- MenuWindow. 
 /// Here the user can look at their created notes, delete or edit them and create new ones.
@@ -33,8 +34,7 @@ public class NoteWindow : Window
     /// <summary>
     /// The parent transform that contains all NoteGUI elements in the UI (e.g., the ScrollView content).
     /// </summary>
-    [SerializeField] private Transform notesContainer;
-
+    [SerializeField] private Transform noteContainer;
 
     /// <summary>
     /// Button handler for the edit button of a specific note that opens the CreateNoteWindow to be able to edit the note.
@@ -50,7 +50,7 @@ public class NoteWindow : Window
         CreateNoteWindow createWindow = window as CreateNoteWindow;
         if (createWindow != null)
         {
-            createWindow.NoteWindow = this;
+            createWindow.noteWindow = this;
             createWindow.Initialize(true);
             createWindow.FillFields(targetNote.Title, targetNote.Content);
             createWindow.SetOriginalTitle(targetNote.Title);
@@ -84,7 +84,7 @@ public class NoteWindow : Window
         CreateNoteWindow createWindow = window as CreateNoteWindow;
         if (createWindow != null)
         {
-            createWindow.NoteWindow = this;
+            createWindow.noteWindow = this;
             createWindow.Initialize(false);
         }
     }
@@ -100,7 +100,7 @@ public class NoteWindow : Window
             return;
         }
 
-        if (notesContainer == null)
+        if (noteContainer == null)
         {
             Debug.LogError("notesContainer is not assigned in the Inspector!");
             return;
@@ -118,7 +118,7 @@ public class NoteWindow : Window
 
         foreach (var note in notes)
         {
-            GameObject noteGO = Instantiate(notePrefab, notesContainer);
+            GameObject noteGO = Instantiate(notePrefab, noteContainer);
             NoteGUI noteUI = noteGO.GetComponent<NoteGUI>();
 
             if (noteUI == null)
@@ -140,8 +140,8 @@ public class NoteWindow : Window
     /// </summary>
     private void OnEnable()
     {
-        if (notePrefab == null || notesContainer == null)
-        Initialize();
+        if (notePrefab == null || noteContainer == null)
+            Initialize();
 
         LoadNotes();
     }
@@ -180,7 +180,7 @@ public class NoteWindow : Window
         //editedNoteToSave.Content = newContent;
         //noteManager.SaveNote(editedNoteToSave);
         noteManager.EditNote(editedNoteToSave, newTitle, newContent);
-        
+
         Debug.Log($"The new title of the note to edit is '{newTitle}'."); //
     }
 
@@ -204,13 +204,13 @@ public class NoteWindow : Window
     /// </summary>
     /// <param name="prefab">Optional note prefab to assign.</param>
     /// <param name="container">Optional container transform to assign.</param>
-    public void Initialize(GameObject prefab = null, Transform container = null)
+    private void Initialize(GameObject prefab = null, Transform container = null)
     {
         this.notePrefab = prefab ?? Resources.Load<GameObject>("NoteUI");
-        this.notesContainer = container ?? GameObject.Find("Content")?.transform;
+        this.noteContainer = container ?? GameObject.Find("Content")?.transform;
 
         if (notePrefab == null) Debug.LogError("NotePrefab not found!");
-        if (notesContainer == null) Debug.LogError("NotesContainer not found!");
+        if (noteContainer == null) Debug.LogError("NotesContainer not found!");
     }
 
 }

@@ -11,6 +11,12 @@ public class ThemeText : MonoBehaviour
     void Awake()
     {
         text = GetComponent<TextMeshProUGUI>();
+        if (text == null)
+        {
+            Debug.LogWarning($"[ThemeText] Missing TextMeshProUGUI component on {gameObject.name}");
+            return;
+        }
+
         ApplyTheme();
     }
 

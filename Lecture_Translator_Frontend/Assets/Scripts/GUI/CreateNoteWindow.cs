@@ -22,18 +22,17 @@ public class CreateNoteWindow : Window
     /// <summary>
     /// Reference to the NoteWindow in order to save a note.
     /// </summary>
-    public NoteWindow NoteWindow { get; set; }
-
-    protected bool isEditMode;
-
-    private string originalTitle;
+    public NoteWindow noteWindow { get; set; }
 
     /// <summary>
-    /// Called when the user confirms the note (by pressing the apply button).
-    /// Passes the title and content of the note.
-    /// The first parameter is the note title, and the second is the note content.
+    /// Flag indicating whether the window is in edit mode.
     /// </summary>
-    public Action<string, string> OnNoteConfirmed;
+    protected bool isEditMode;
+
+    /// <summary>
+    /// Stores the original title of the note (used for editing and saving changes).
+    /// </summary>
+    protected string originalTitle;
 
 
     /// <summary>
@@ -54,16 +53,16 @@ public class CreateNoteWindow : Window
         {
             Debug.Log($"The original title of the note is '{originalTitle}'."); //
             Debug.Log($"The new title of the note is '{title}'."); //
-            NoteWindow.SaveEditedNote(originalTitle, title, content);
+            noteWindow.SaveEditedNote(originalTitle, title, content);
         }
         else
         {
-            NoteWindow.SaveNewNote(title, content);
+            noteWindow.SaveNewNote(title, content);
             Debug.Log($"The new title of the note to save is: '{title}'."); //
             Debug.Log($"The new content of the note to save is: '{content}'."); //
         }
 
-        NoteWindow.LoadNotes();
+        noteWindow.LoadNotes();
 
         Close();
     }
@@ -93,6 +92,7 @@ public class CreateNoteWindow : Window
 
     /// <summary>
     /// Fills the title and content fields with the given values (used when editing).
+    /// Used when editing an existing note.
     /// </summary>
     /// <param name="title">The title of the note.</param>
     /// <param name="content">The content of the note.</param>
@@ -102,6 +102,11 @@ public class CreateNoteWindow : Window
         noteTextBox.text = content;
     }
 
+    /// <summary>
+    /// Sets the original title of the note.
+    /// Used to identify the note when saving edits.
+    /// </summary>
+    /// <param name="title"></param>
     public void SetOriginalTitle(string title)
     {
         originalTitle = title;

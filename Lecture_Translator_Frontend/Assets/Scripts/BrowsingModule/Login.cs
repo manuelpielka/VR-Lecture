@@ -8,7 +8,7 @@ using System.Text;
 public static class Login
 {
     private const string URL_REGEX = @"/dex/auth/shib\?client_id=[\S]+&amp;redirect_uri=[\S]+&amp;response_type=code&amp;scope=[\S]+&amp;state=[\S]+";
-    private const string REQUEST_TOKEN_URL = "https://lecture-translator.kit.edu/webapi/";
+    private const string REQUEST_TOKEN_URL = "https://lecture-translator.kit.edu/ltarchive/ls";
     private const string SERVER_URL = "https://lecture-translator.kit.edu";
 
     public static string token = "";
@@ -40,13 +40,14 @@ public static class Login
 
         Debug.Log(response);
 
-        return response.Contains("Here's your token:");
+        return !response.Contains("Not authorized");
     }
 
     private static async Task<string> PostRequest(string url)
     {
+        string jsonBody = $"\"{{\\\"directory\\\":\\\"/\\\",\\\"groups\\\":[\\\"admin\\\",\\\"kitemployee\\\",\\\"kitall\\\",\\\"all\\\",\\\"basic\\\",\\\"presenter\\\",\\\"collector\\\"]}}\"";
         UnityWebRequest request = new UnityWebRequest(url, "POST");
-        byte[] byteJson = new UTF8Encoding().GetBytes("");
+        byte[] byteJson = new UTF8Encoding().GetBytes(jsonBody);
         request.uploadHandler = new UploadHandlerRaw(byteJson);
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");

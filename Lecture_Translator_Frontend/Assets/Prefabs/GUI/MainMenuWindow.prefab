@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 845140480642086716}
   - component: {fileID: 9084215908157344041}
   - component: {fileID: 2565047021371536244}
+  - component: {fileID: 7826064529512162658}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -118,6 +119,7 @@ GameObject:
   - component: {fileID: 7366381651628653852}
   - component: {fileID: 2226317514603672733}
   - component: {fileID: 6057261649780678624}
+  - component: {fileID: 6076028101454331780}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -238,6 +240,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6076028101454331780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045539081136686664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &1122718565205852364
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,6 +303,7 @@ GameObject:
   - component: {fileID: 8435847198271688483}
   - component: {fileID: 9070270399280662949}
   - component: {fileID: 5267499403552204955}
+  - component: {fileID: 2543926106913689140}
   m_Layer: 5
   m_Name: SettingsButton
   m_TagString: Untagged
@@ -407,6 +424,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2543926106913689140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531458051126068560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &1589439396271980337
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,6 +581,7 @@ GameObject:
   - component: {fileID: 2880194103314281696}
   - component: {fileID: 8069799269699643274}
   - component: {fileID: 8986413646007649051}
+  - component: {fileID: 7073734137701622881}
   m_Layer: 5
   m_Name: LectureBrowserButton
   m_TagString: Untagged
@@ -670,6 +702,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7073734137701622881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697814426467332787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &3039607058480409399
 GameObject:
   m_ObjectHideFlags: 0
@@ -1200,6 +1246,7 @@ GameObject:
   - component: {fileID: 1845390864955956152}
   - component: {fileID: 1798553879672565258}
   - component: {fileID: 794182475463042179}
+  - component: {fileID: 7154768987649163522}
   m_Layer: 5
   m_Name: NotesButton
   m_TagString: Untagged
@@ -1320,6 +1367,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7154768987649163522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8512118099493901015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1001 &552250520236014296
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2010,5 +2071,22 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3439112761005772926, guid: 29855c9cea4bffa42a97a399d50fe70c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3448080212535764159}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6589301928732564696, guid: 29855c9cea4bffa42a97a399d50fe70c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7826064529512162658}
   m_SourcePrefab: {fileID: 100100000, guid: 29855c9cea4bffa42a97a399d50fe70c, type: 3}
+--- !u!114 &7826064529512162658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 736821970851897632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d59281ebee3d3f48a3022735079163b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightColor: {r: 0.8980392, g: 0.8980392, b: 0.8980392, a: 1}
+  darkColor: {r: 0.14117648, g: 0.14117648, b: 0.14117648, a: 1}

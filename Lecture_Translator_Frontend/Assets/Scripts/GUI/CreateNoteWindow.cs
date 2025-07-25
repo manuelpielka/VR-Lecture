@@ -39,7 +39,7 @@ public class CreateNoteWindow : Window
     /// <summary>
     /// Button handler for the apply button that saves the inputted title and content as a new note or as an edit to an existing note.
     /// </summary>
-    public void Apply()
+    public virtual void Apply()
     {
         string title = titleTextBox.text;
         string content = noteTextBox.text;
@@ -71,7 +71,7 @@ public class CreateNoteWindow : Window
     /// <summary>
     /// Button handler for the discard button that closes the window without saving changes.
     /// </summary>
-    public void Discard()
+    public virtual void Discard()
     {
         Close();
     }

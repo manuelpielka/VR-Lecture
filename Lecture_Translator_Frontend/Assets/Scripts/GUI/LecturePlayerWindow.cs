@@ -22,14 +22,6 @@ public class LecturePlayerWindow : Window
     private Lecture lecture;
     private const float SKIP_AMOUNT = 30;
 
-    void Awake()
-    {
-        //TEMPORARY
-        test();
-
-
-    }
-
     void Update()
     {
         double value = playbackManager.GetCurrentTime();
@@ -70,14 +62,6 @@ public class LecturePlayerWindow : Window
         string formattedTime = stringHours + ":" + stringMinutes + ":" + stringSeconds;
         videoProgressTextBox.text = formattedTime;
 
-    }
-
-    private async void test()
-    {
-        //Lecture lecture = await LectureDownloader.DownloadMetaData("Other/offline_test");
-        //AssignLecture(lecture);
-
-        Debug.Log(Login.GetToken("", ""));
     }
 
     public void AssignLecture(Lecture lecture)

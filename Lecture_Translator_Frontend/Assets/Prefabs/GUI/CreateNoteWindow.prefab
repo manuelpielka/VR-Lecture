@@ -169,6 +169,7 @@ GameObject:
   - component: {fileID: 5904430539813895446}
   - component: {fileID: 5163327328983359333}
   - component: {fileID: 3511665713375281616}
+  - component: {fileID: 1186978443546678033}
   m_Layer: 5
   m_Name: NoteContentText
   m_TagString: Untagged
@@ -308,6 +309,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &1186978443546678033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271107147793884105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &303590455635726817
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,6 +336,7 @@ GameObject:
   - component: {fileID: 3769856452974688544}
   - component: {fileID: 5698148813368664875}
   - component: {fileID: 7674089080641743543}
+  - component: {fileID: 7889972542767539802}
   m_Layer: 5
   m_Name: Note Title
   m_TagString: Untagged
@@ -520,6 +536,20 @@ MonoBehaviour:
   m_OnKeyboardFocusChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7889972542767539802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 303590455635726817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d59281ebee3d3f48a3022735079163b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
+  darkColor: {r: 0.18431373, g: 0.18431373, b: 0.18431373, a: 1}
 --- !u!1 &354655944545443869
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,6 +652,7 @@ GameObject:
   - component: {fileID: 4721715765892544290}
   - component: {fileID: 4497846586672861898}
   - component: {fileID: 2458211197489347209}
+  - component: {fileID: 2327663202835714420}
   m_Layer: 5
   m_Name: NoteTitleText
   m_TagString: Untagged
@@ -747,6 +778,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2327663202835714420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534422246328784185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &616010731328178263
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,6 +970,7 @@ GameObject:
   - component: {fileID: 4090061960197652852}
   - component: {fileID: 6869449805139297857}
   - component: {fileID: 276335825533905943}
+  - component: {fileID: 3179735683896535463}
   m_Layer: 5
   m_Name: TItleText
   m_TagString: Untagged
@@ -1050,6 +1096,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3179735683896535463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1608329139820224246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
+  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &1782069606153644537
 GameObject:
   m_ObjectHideFlags: 0
@@ -1193,6 +1253,7 @@ GameObject:
   - component: {fileID: 193549127213254294}
   - component: {fileID: 8591212736451752632}
   - component: {fileID: 5524302350517467661}
+  - component: {fileID: 5696097565244582373}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -1261,6 +1322,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5696097565244582373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2693585884740075873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d59281ebee3d3f48a3022735079163b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightColor: {r: 0.8980392, g: 0.8980392, b: 0.8980392, a: 1}
+  darkColor: {r: 0.14117648, g: 0.14117648, b: 0.14117648, a: 1}
 --- !u!1 &2710205530908553963
 GameObject:
   m_ObjectHideFlags: 0
@@ -1837,6 +1912,7 @@ GameObject:
   - component: {fileID: 955994194156661489}
   - component: {fileID: 6904840104737727860}
   - component: {fileID: 3788404942554732736}
+  - component: {fileID: 2459424364740988677}
   m_Layer: 5
   m_Name: Note Content
   m_TagString: Untagged
@@ -2066,6 +2142,20 @@ MonoBehaviour:
   m_OnKeyboardFocusChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2459424364740988677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4308239066428286379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d59281ebee3d3f48a3022735079163b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
+  darkColor: {r: 0.18431373, g: 0.18431373, b: 0.18431373, a: 1}
 --- !u!1 &4616151032667468436
 GameObject:
   m_ObjectHideFlags: 0

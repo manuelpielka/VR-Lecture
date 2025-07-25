@@ -77,9 +77,14 @@ public class Window : MonoBehaviour
         //bool isDark = DisplayModeController.Instance?.IsDarkModeEnabled() ?? false;
 
         //foreach (var tmp in GetComponentsInChildren<TextMeshProUGUI>(true))
-            //tmp.color = isDark ? Color.white : Color.black;
+        //tmp.color = isDark ? Color.white : Color.black;
 
         //foreach (var img in GetComponentsInChildren<Image>(true))
-            //img.color = isDark ? Color.black : Color.white;
+        //img.color = isDark ? Color.black : Color.white;
+        foreach (var text in GetComponentsInChildren<ThemeText>(true))
+            text.ApplyTheme();
+
+        foreach (var bg in GetComponentsInChildren<ThemeBackground>(true))
+            bg.ApplyTheme();
     }
 }

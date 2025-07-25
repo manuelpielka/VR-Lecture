@@ -20,4 +20,14 @@ public class ThemeText : MonoBehaviour
 
         text.color = DisplayModeController.Instance.IsDarkModeEnabled() ? darkModeColor : lightModeColor;
     }
+
+    private void OnEnable()
+    {
+        DisplayModeController.OnThemeChanged += ApplyTheme;
+    }
+
+    private void OnDisable()
+    {
+        DisplayModeController.OnThemeChanged -= ApplyTheme;
+    }
 }

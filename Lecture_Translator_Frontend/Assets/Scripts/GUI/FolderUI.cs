@@ -3,6 +3,9 @@ using TMPro;
 
 namespace GUI
 {
+    /// <summary>
+    /// This class handles the folder ui elements shown in the lecture browser.
+    /// </summary>
     public class FolderUI : MonoBehaviour
     {
         /// <summary>

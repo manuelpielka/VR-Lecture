@@ -37,7 +37,7 @@ namespace BrowsingModule
         /// <summary>
         /// The local directory where downloaded lectures are stored.
         /// </summary>
-        private const string DATA_DIRECTORY = "./Data/";
+        private const string dataDirectory = "./Data/";
 
         /// <summary>
         /// The amount of time for a request to timeout to trigger offline mode.
@@ -82,7 +82,7 @@ namespace BrowsingModule
             {
                 // Offline
                 lectureBrowserWindow.onlineMode = false;
-                GetDirOffline(DATA_DIRECTORY, parent);
+                GetDirOffline(dataDirectory, parent);
                 return;
             }
 
@@ -135,7 +135,7 @@ namespace BrowsingModule
         {
             //print(dir);
 
-            if (dir != DATA_DIRECTORY)
+            if (dir != dataDirectory)
             {
                 // Add back button
 

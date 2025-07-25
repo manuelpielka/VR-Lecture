@@ -8,6 +8,8 @@ using UnityEngine.UI;
 /// </summary>
 public class DisplayModeController : MonoBehaviour
 {
+    public delegate void ThemeChanged();
+    public static event ThemeChanged OnThemeChanged;
     public static DisplayModeController Instance;
     /// <summary>
     /// Indicates whether the current display mode is dark mode (true) or light mode (false).
@@ -194,5 +196,13 @@ public class DisplayModeController : MonoBehaviour
         {
             bg.ApplyTheme();
         }
+        //OnThemeChanged?.Invoke();
+        Window[] allWindows = Object.FindObjectsByType<Window>(FindObjectsSortMode.None);
+        foreach (var win in allWindows)
+        {
+            win.RefreshTheme();
+        }
+
+        Debug.Log($"[Theme] Mode applied: {(isDarkModeEnabled ? "Dark" : "Light")}");
     }
 }

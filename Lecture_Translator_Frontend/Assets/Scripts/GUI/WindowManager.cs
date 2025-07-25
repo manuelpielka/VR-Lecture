@@ -10,8 +10,14 @@ using Quaternion = UnityEngine.Quaternion;
 /// </summary>
 public class WindowManager : MonoBehaviour
 {
+    /// <summary>
+    /// The singleton instance of the WindowManager.
+    /// </summary>
     public static WindowManager instance;
 
+    /// <summary>
+    /// Event that is triggered when a window is opened.
+    /// </summary>
     public static event Action<string> WindowOpened;
 
     /// <summary>
@@ -19,9 +25,14 @@ public class WindowManager : MonoBehaviour
     /// </summary>
     private List<Window> activeWindows = new();
 
-
+    /// <summary>
+    /// A list of all the prefabs of the windows with a key.
+    /// </summary>
     [SerializeField] private List<GameObject> windowPrefabsList; //Populated in unity editor. Must have same order as in WindowKeys!!
 
+    /// <summary>
+    /// Input action reference for opening the main menu.
+    /// </summary>
     [SerializeField] private InputActionReference openMainMenu;
 
 
@@ -30,31 +41,45 @@ public class WindowManager : MonoBehaviour
     /// </summary>
     private Dictionary<string, GameObject> windowPrefabs = new Dictionary<string, GameObject>();
 
-
+    /// <summary>
+    /// Initializes the WindowManager and loads all window prefabs.
+    /// </summary>
     void Awake()
     {
         instance = this;
         LoadWindowPrefabs();
     }
 
+    /// <summary>
+    /// Subscribes to input and enables it.
+    /// </summary>
     void OnEnable()
     {
         openMainMenu.action.performed += OpenMainMenu;
         openMainMenu.action.Enable();
     }
 
+    /// <summary>
+    /// Unsubscribes from input and disables input.
+    /// </summary>
     void OnDisable()
     {
         openMainMenu.action.performed -= OpenMainMenu;
         openMainMenu.action.Disable();
     }
 
+    /// <summary>
+    /// Opens the main menu window when the corresponding input action is triggered.
+    /// </summary>
+    /// <param name="context">The input action context.</param>
     private void OpenMainMenu(InputAction.CallbackContext context)
     {
         OpenWindow(WindowKeys.MainMenuKey);
     }
 
-
+    /// <summary>
+    /// Lods all window prefabs to a dictionary for easy access.
+    /// </summary>
     private void LoadWindowPrefabs()
     {
         List<string> keys = WindowKeys.AllKeys;
@@ -152,6 +177,10 @@ public class WindowManager : MonoBehaviour
         return window;
     }
 
+    /// <summary>
+    /// Checks if a window with the given key is currently open.
+    /// </summary>
+    /// <param name="windowKey">The key for the associated prefab.</param>
     public bool IsWindowOpen(string windowKey)
     {
         return activeWindows.Exists(w => w.Prefab.name == windowKey);

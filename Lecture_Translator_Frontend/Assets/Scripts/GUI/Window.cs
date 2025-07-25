@@ -1,6 +1,4 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// This class is the base class of all Windows. A Window is a GUI screen that can be moved around in the VR environment.

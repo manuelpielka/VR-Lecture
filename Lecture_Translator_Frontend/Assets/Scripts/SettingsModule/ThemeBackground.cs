@@ -18,4 +18,13 @@ public class ThemeBackground : MonoBehaviour
         if (DisplayModeController.Instance == null) return;
         image.color = DisplayModeController.Instance.IsDarkModeEnabled() ? darkColor : lightColor;
     }
+    private void OnEnable()
+    {
+        DisplayModeController.OnThemeChanged += ApplyTheme;
+    }
+
+    private void OnDisable()
+    {
+        DisplayModeController.OnThemeChanged -= ApplyTheme;
+    }
 }

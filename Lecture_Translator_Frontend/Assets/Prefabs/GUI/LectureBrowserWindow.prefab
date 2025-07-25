@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2450662325648818437}
   - component: {fileID: 919958346012158975}
   - component: {fileID: 6954192170127578835}
-  - component: {fileID: 2407183200943096282}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -133,20 +132,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2407183200943096282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 429571754403499525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
-  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &914819347891726327
 GameObject:
   m_ObjectHideFlags: 0
@@ -1446,7 +1431,6 @@ GameObject:
   - component: {fileID: 3770112833029416947}
   - component: {fileID: 2689197137319590286}
   - component: {fileID: 4689412418191321041}
-  - component: {fileID: 2239376721429156360}
   m_Layer: 5
   m_Name: DonwloadButton
   m_TagString: Untagged
@@ -1555,20 +1539,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2239376721429156360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6486681996442107369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
-  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
 --- !u!1 &6963000676705326964
 GameObject:
   m_ObjectHideFlags: 0

@@ -146,7 +146,22 @@ public class LecturePlayerWindow : Window
 
     public void NotesBtnPressed()
     {
-        Window window = WindowManager.CreateWindow(WindowKeys.NotesKey);
+        var noteWindow = WindowManager.CreateWindow(WindowKeys.CreateLectureNoteKey) as CreateLectureNoteWindow;
+        noteWindow.Initialize(this, editMode: false);
+
+        noteWindow.OnNoteConfirmed += (title, content) =>
+        {
+            try
+            {
+                Note note = new Note(title, content);
+                FindFirstObjectByType<NoteManager>().AddNote(note);
+                FindFirstObjectByType<NoteManager>().SaveNote(note);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"Failed to create note: {ex.Message}");
+            }
+        };
     }
 
     public void SettingBtnPressed()

@@ -144,7 +144,7 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     /// <param name="prompt">The prompt to send to the LLM.</param>
     public async void SendPrompt(string prompt)
     {
-        string json = $"\"{{\\\"seq\\\":\\\"{prompt}\\\",\\\"user\\\":\\\"uevjj@student.kit.edu\\\",\\\"context\\\":\\\"a\\\"}}\"";
+        string json = $"\"{{\\\"seq\\\":\\\"{prompt}\\\",\\\"user\\\":\\\"{Login.username}\\\",\\\"context\\\":\\\"a\\\"}}\"";
 
         print("Sending prompt: " + prompt);
 
@@ -222,7 +222,7 @@ public class DialogueController : MonoBehaviour, ISSEHandler
         request.uploadHandler = new UploadHandlerRaw(byteJson);
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
-        request.SetRequestHeader("Cookie", "_forward_auth=" + token);
+        request.SetRequestHeader("Cookie", "_forward_auth=" + Login.token);
 
         print("Sending request to: " + url);
 

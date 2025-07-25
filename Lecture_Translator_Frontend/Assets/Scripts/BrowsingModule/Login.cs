@@ -3,12 +3,16 @@ using UnityEngine.Networking;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Text;
 
 public static class Login
 {
     private const string URL_REGEX = @"/dex/auth/shib\?client_id=[\S]+&amp;redirect_uri=[\S]+&amp;response_type=code&amp;scope=[\S]+&amp;state=[\S]+";
-    private const string REQUEST_TOKEN_URL = "https://lecture-translator.kit.edu/gettoken";
+    private const string REQUEST_TOKEN_URL = "https://lecture-translator.kit.edu/webapi/";
     private const string SERVER_URL = "https://lecture-translator.kit.edu";
+
+    public static string token = "";
+    public static string username = "";
 
     public static async Task<string> GetToken(string username, string password)
     {
@@ -24,12 +28,29 @@ public static class Login
         return null;
     }
 
+    public static async Task<bool> SetToken(string newToken)
+    {
+        token = newToken;
+        username = newToken.Split("|")[2];
+
+        Debug.Log("Set token to : " + token);
+        Debug.Log("Set username to: " + username);
+
+        string response = await PostRequest(REQUEST_TOKEN_URL);
+
+        Debug.Log(response);
+
+        return response.Contains("Here's your token:");
+    }
+
     private static async Task<string> PostRequest(string url)
     {
         UnityWebRequest request = new UnityWebRequest(url, "POST");
-        request.uploadHandler = new UploadHandlerRaw(null);
+        byte[] byteJson = new UTF8Encoding().GetBytes("");
+        request.uploadHandler = new UploadHandlerRaw(byteJson);
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("Cookie", "_forward_auth=" + token);
         await request.SendWebRequest();
 
         Dictionary<string, string> headers = request.GetResponseHeaders();

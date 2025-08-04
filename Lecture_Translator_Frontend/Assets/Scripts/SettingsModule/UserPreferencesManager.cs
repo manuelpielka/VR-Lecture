@@ -21,6 +21,7 @@ public static class UserPreferencesManager
     /// </summary>
     public static void SavePlaybackSpeed(float speed)
     {
+        Debug.Log($"Saving Playback Speed: {speed}");
         PlayerPrefs.SetFloat(PlaybackSpeedKey, speed);
         PlayerPrefs.Save();
     }
@@ -30,7 +31,9 @@ public static class UserPreferencesManager
     /// </summary>
     public static float LoadPlaybackSpeed()
     {
-        return PlayerPrefs.GetFloat(PlaybackSpeedKey, 1.0f); // TODO
+        float speed = PlayerPrefs.GetFloat(PlaybackSpeedKey, 1.0f);
+        Debug.Log($"Loaded Playback Speed: {speed}");
+        return speed;
     }
 
     /// <summary>
@@ -38,8 +41,8 @@ public static class UserPreferencesManager
     /// </summary>
     //public static void SaveSubtitleFontSize(int size)
     //{
-        //PlayerPrefs.SetInt(SubtitleFontSizeKey, size);
-        //PlayerPrefs.Save();
+    //PlayerPrefs.SetInt(SubtitleFontSizeKey, size);
+    //PlayerPrefs.Save();
     //}
 
     /// <summary>
@@ -47,7 +50,7 @@ public static class UserPreferencesManager
     /// </summary>
     //public static int LoadSubtitleFontSize()
     //{
-        //return PlayerPrefs.GetInt(SubtitleFontSizeKey, 16); // TODO
+    //return PlayerPrefs.GetInt(SubtitleFontSizeKey, 16); // TODO
     //}
 
     /// <summary>
@@ -55,7 +58,8 @@ public static class UserPreferencesManager
     /// </summary>
     public static void SaveDarkMode(bool isDark)
     {
-        PlayerPrefs.SetInt(IsDarkModeKey, isDark ? 1 : 0); // TODO
+        Debug.Log($"Saving Dark Mode: {isDark}");
+        PlayerPrefs.SetInt(IsDarkModeKey, isDark ? 1 : 0);
         PlayerPrefs.Save();
     }
 
@@ -64,7 +68,9 @@ public static class UserPreferencesManager
     /// </summary>
     public static bool LoadDarkMode()
     {
-        return PlayerPrefs.GetInt(IsDarkModeKey, 0) == 1; // TODO
+        bool isDark = PlayerPrefs.GetInt(IsDarkModeKey, 0) == 1;
+        Debug.Log($"Loaded Dark Mode: {isDark}");
+        return isDark;
     }
 
     /// <summary>
@@ -72,6 +78,7 @@ public static class UserPreferencesManager
     /// </summary>
     public static void SaveAutoAdjust(bool enabled)
     {
+        Debug.Log($"Saving Auto Adjust: {enabled}");
         PlayerPrefs.SetInt(AutoAdjustKey, enabled ? 1 : 0);
         PlayerPrefs.Save();
     }
@@ -81,18 +88,34 @@ public static class UserPreferencesManager
     /// </summary>
     public static bool LoadAutoAdjust()
     {
-        return PlayerPrefs.GetInt(AutoAdjustKey, 1) == 1; // Default: auto-adjust ON
+        bool autoAdjust = PlayerPrefs.GetInt(AutoAdjustKey, 1) == 1;
+        Debug.Log($"Loaded Auto Adjust: {autoAdjust}");
+        return autoAdjust;
     }
 
+    /// <summary>
+    /// Saves the background environment scene ID.
+    /// </summary>
     public static void SaveBackgroundSceneId(string sceneId)
     {
+        if (string.IsNullOrEmpty(sceneId))
+        {
+            Debug.LogError("Attempted to save null or empty BackgroundSceneId");
+            throw new System.ArgumentException("sceneId cannot be null or empty");
+        }
+        Debug.Log($"Saving Background Scene ID: {sceneId}");
         PlayerPrefs.SetString(BackgroundSceneIdKey, sceneId);
         PlayerPrefs.Save();
     }
 
+    /// <summary>
+    /// Loads the background scene ID or returns default "cafe".
+    /// </summary>
     public static string LoadBackgroundSceneId()
     {
-        return PlayerPrefs.GetString(BackgroundSceneIdKey, "cafe");
+        string sceneId = PlayerPrefs.GetString(BackgroundSceneIdKey, "cafe");
+        Debug.Log($"Loaded Background Scene ID: {sceneId}");
+        return sceneId;
     }
 
 
@@ -101,11 +124,18 @@ public static class UserPreferencesManager
     /// </summary>
     public static void ApplyAll(PlaybackSettingsManager playback, DisplayModeController display)
     {
-        playback.SetPlaybackSpeed(LoadPlaybackSpeed());
         //playback.SetSubtitleFontSize(LoadSubtitleFontSize());
-
-        display.SetDarkMode(LoadDarkMode());
-        display.SetAutoAdjust(LoadAutoAdjust());
+        try
+        {
+            playback.SetPlaybackSpeed(LoadPlaybackSpeed());
+            //playback.SetSubtitleFontSize(LoadSubtitleFontSize());
+            display.SetDarkMode(LoadDarkMode());
+            display.SetAutoAdjust(LoadAutoAdjust());
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"Error applying preferences: {ex.Message}");
+        }
     }
 
     /// <summary>
@@ -113,13 +143,18 @@ public static class UserPreferencesManager
     /// </summary>
     public static void SaveAll(PlaybackSettingsManager playback, DisplayModeController display)
     {
-        SavePlaybackSpeed(playback.GetPlaybackSpeed());
-        //SaveSubtitleFontSize(playback.GetSubtitleFontSize());
-
-        SaveDarkMode(display.IsDarkModeEnabled());
-        SaveAutoAdjust(display.IsAutoAdjustEnabled());
-
-        PlayerPrefs.Save(); // Ensure everything is written
+        try
+        {
+            SavePlaybackSpeed(playback.GetPlaybackSpeed());
+            //SaveSubtitleFontSize(playback.GetSubtitleFontSize());
+            SaveDarkMode(display.IsDarkModeEnabled());
+            SaveAutoAdjust(display.IsAutoAdjustEnabled());
+            PlayerPrefs.Save();
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"Error saving preferences: {ex.Message}");
+        }
     }
 
     /// <summary>
@@ -127,6 +162,7 @@ public static class UserPreferencesManager
     /// </summary>
     public static void ClearAll()
     {
+        Debug.Log("Clearing all user preferences");
         PlayerPrefs.DeleteKey(PlaybackSpeedKey);
         //PlayerPrefs.DeleteKey(SubtitleFontSizeKey);
         PlayerPrefs.DeleteKey(IsDarkModeKey);
@@ -134,12 +170,18 @@ public static class UserPreferencesManager
         PlayerPrefs.DeleteKey(TutorialcompletedKey);
     }
 
+    /// <summary>
+    /// Saves whether the tutorial was completed.
+    /// </summary>
     public static void SaveTutorialCompleted(bool completed)
     {
         PlayerPrefs.SetInt(TutorialcompletedKey, completed ? 1 : 0);
         PlayerPrefs.Save();
     }
 
+    /// <summary>
+    /// Loads the tutorial completion state.
+    /// </summary>
     public static bool LoadTutorialCompleted()
     {
         return PlayerPrefs.GetInt(TutorialcompletedKey, 0) == 1;

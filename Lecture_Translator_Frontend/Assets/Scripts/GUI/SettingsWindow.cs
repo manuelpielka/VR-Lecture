@@ -82,19 +82,6 @@ public class SettingsWindow : Window
 
     private void InitDropdowns()
     {
-        playbackSpeedDropdown.ClearOptions();
-        foreach (var speed in playbackSpeeds)
-            playbackSpeedDropdown.options.Add(new TMP_Dropdown.OptionData(speed.ToString("0.##") + "x"));
-
-        //subtitleSizeDropdown.ClearOptions();
-        //foreach (var size in subtitleSizes)
-        //{
-        //subtitleSizeDropdown.options.Add(new TMP_Dropdown.OptionData(size.ToString()));
-        //}
-
-        //int currentSize = settingsManager.GetComponent<PlaybackSettingsManager>().GetSubtitleFontSize();
-        //int selectedSizeIndex = System.Array.IndexOf(subtitleSizes, currentSize);
-        //subtitleSizeDropdown.value = selectedSizeIndex >= 0 ? selectedSizeIndex : 2; // default = 16
 
         backgroundDropdown.ClearOptions();
         var envManager = FindAnyObjectByType<EnvironmentManager>();
@@ -114,24 +101,18 @@ public class SettingsWindow : Window
 
         tempAutoAdjust = UserPreferencesManager.LoadAutoAdjust();
         tempDarkMode = UserPreferencesManager.LoadDarkMode();
-        tempPlaybackIndex = GetPlaybackIndex(UserPreferencesManager.LoadPlaybackSpeed());
         tempBackgroundIndex = GetBackgroundIndex(UserPreferencesManager.LoadBackgroundSceneId());
         //tempLanguageIndex = GetLanguageIndex(UserPreferencesManager.LoadLanguage());
 
         modeAutoSwitchToggle.isOn = tempAutoAdjust;
         darkModeToggle.isOn = tempDarkMode;
         darkModeToggle.interactable = !tempAutoAdjust;
-        playbackSpeedDropdown.value = tempPlaybackIndex;
+
         backgroundDropdown.value = tempBackgroundIndex;
         languageDropdown.value = tempLanguageIndex;
     }
 
-    private int GetPlaybackIndex(float speed)
-    {
-        for (int i = 0; i < playbackSpeeds.Length; i++)
-            if (Mathf.Approximately(playbackSpeeds[i], speed)) return i;
-        return 0;
-    }
+
 
     private int GetBackgroundIndex(string sceneId)
     {
@@ -161,10 +142,6 @@ public class SettingsWindow : Window
             tempDarkMode = isOn;
         });
 
-        playbackSpeedDropdown.onValueChanged.AddListener(index =>
-        {
-            tempPlaybackIndex = index;
-        });
 
         backgroundDropdown.onValueChanged.AddListener(index =>
         {
@@ -186,7 +163,6 @@ public class SettingsWindow : Window
         {
             settingsManager.SetDarkMode(tempDarkMode);
         }
-        settingsManager.SetPlaybackSpeed(playbackSpeeds[tempPlaybackIndex]);
 
         var envManager = FindAnyObjectByType<EnvironmentManager>();
         if (envManager != null && envManager.Environments.Count > tempBackgroundIndex)

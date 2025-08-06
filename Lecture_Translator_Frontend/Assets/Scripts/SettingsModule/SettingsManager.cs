@@ -7,8 +7,7 @@ using UnityEngine;
 public class SettingsManager : MonoBehaviour
 {
     [SerializeField] private EnvironmentManager environmentManager;
-    // Reference to playback settings manager
-    private PlaybackSettingsManager playbackSettingsManager;
+
 
     // Reference to display mode controller
     private DisplayModeController displayModeController;
@@ -18,8 +17,7 @@ public class SettingsManager : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        // Find or initialize managers (can also use dependency injection or assign via Inspector)
-        playbackSettingsManager = FindFirstObjectByType<PlaybackSettingsManager>();
+
         displayModeController = FindFirstObjectByType<DisplayModeController>();
 
         // Load user preferences (if any)
@@ -31,36 +29,12 @@ public class SettingsManager : MonoBehaviour
     /// </summary>
     private void LoadUserPreferences()
     {
-        if (playbackSettingsManager != null)
-        {
-            playbackSettingsManager.SetPlaybackSpeed(UserPreferencesManager.LoadPlaybackSpeed());
-            //playbackSettingsManager.SetSubtitleFontSize(UserPreferencesManager.LoadSubtitleFontSize());
-        }
-
         if (displayModeController != null)
         {
             displayModeController.SetAutoAdjust(UserPreferencesManager.LoadAutoAdjust());
             displayModeController.SetDarkMode(UserPreferencesManager.LoadDarkMode());
         }
     }
-
-    /// <summary>
-    /// Sets playback speed and stores it immediately.
-    /// </summary>
-    public void SetPlaybackSpeed(float speed)
-    {
-        playbackSettingsManager?.SetPlaybackSpeed(speed);
-        UserPreferencesManager.SavePlaybackSpeed(speed);
-    }
-
-    /// <summary>
-    /// Sets subtitle font size and stores it immediately.
-    /// </summary>
-    //public void SetSubtitleFontSize(int size)
-    //{
-        //playbackSettingsManager?.SetSubtitleFontSize(size);
-        //UserPreferencesManager.SaveSubtitleFontSize(size);
-    //}
 
     /// <summary>
     /// Enables or disables auto-adjust mode and stores it.
@@ -87,7 +61,7 @@ public class SettingsManager : MonoBehaviour
     }
     public void ApplyAll()
     {
-        UserPreferencesManager.SaveAll(playbackSettingsManager, displayModeController);
-        UserPreferencesManager.ApplyAll(playbackSettingsManager, displayModeController);
+        UserPreferencesManager.SaveAll(displayModeController);
+        UserPreferencesManager.ApplyAll(displayModeController);
     }
 }

@@ -1,6 +1,5 @@
+using System;
 using UnityEngine;
-using TMPro; 
-using UnityEngine.UI;
 
 /// <summary>
 /// A class that handles automatic and manual switching between light and dark display modes
@@ -8,18 +7,20 @@ using UnityEngine.UI;
 /// </summary>
 public class DisplayModeController : MonoBehaviour
 {
-    public delegate void ThemeChanged();
-    public static event ThemeChanged OnThemeChanged;
     public static DisplayModeController Instance;
+
+    [Header("Theme Settings")]
+    public ColorTheme lightTheme;
+    public ColorTheme darkTheme;
     /// <summary>
     /// Indicates whether the current display mode is dark mode (true) or light mode (false).
     /// </summary>
-    private bool isDarkModeEnabled;
+    [SerializeField] private bool isDarkModeEnabled;
 
     /// <summary>
     /// Whether the display mode should update automatically based on system time.
     /// </summary>
-    private bool autoAdjust;
+    [SerializeField] private bool autoAdjust;
 
     // Timer used to refresh the mode periodically in auto mode
     private float refreshTimer = 0f;
@@ -32,6 +33,11 @@ public class DisplayModeController : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
         // Load user preferences from storage
         isDarkModeEnabled = UserPreferencesManager.LoadDarkMode();
@@ -57,7 +63,7 @@ public class DisplayModeController : MonoBehaviour
             if (refreshTimer >= refreshInterval)
             {
                 refreshTimer = 0f;
-                RefreshMode();
+                UpdateMode();
             }
         }
     }
@@ -81,8 +87,8 @@ public class DisplayModeController : MonoBehaviour
         if (!autoAdjust)
         {
             isDarkModeEnabled = enabled;
-            ApplyMode();
             UserPreferencesManager.SaveDarkMode(enabled);
+            ApplyTheme();
         }
     }
 
@@ -94,8 +100,8 @@ public class DisplayModeController : MonoBehaviour
         if (!autoAdjust)
         {
             isDarkModeEnabled = !isDarkModeEnabled;
-            ApplyMode();
             UserPreferencesManager.SaveDarkMode(isDarkModeEnabled);
+            ApplyTheme();
         }
     }
 
@@ -107,14 +113,16 @@ public class DisplayModeController : MonoBehaviour
     {
         if (autoAdjust)
         {
-            int hour = System.DateTime.Now.Hour;
-            isDarkModeEnabled = (hour >= 18 || hour < 6); // Dark mode from 6pm to 6am magic number
-            ApplyMode();
+            int hour = DateTime.Now.Hour;
+            bool dark = (hour >= 18 || hour < 6);
+            if (dark != isDarkModeEnabled)
+            {
+                isDarkModeEnabled = dark;
+                UserPreferencesManager.SaveDarkMode(dark);
+            }
         }
-        else
-        {
-            ApplyMode(); // Apply manually saved preference
-        }
+
+        ApplyTheme();
     }
     
     /// <summary>
@@ -147,60 +155,33 @@ public class DisplayModeController : MonoBehaviour
     /// <summary>
     /// Applies the current display mode visually (background and text colors).
     /// </summary>
-    private void ApplyMode()
-    {
-        // Set camera background color
-        //if (Camera.main != null)
+    //private void ApplyMode()
+    //{
+        //foreach (var text in Object.FindObjectsByType<ThemeText>(FindObjectsSortMode.None))
         //{
-        // Camera.main.backgroundColor = isDarkModeEnabled ? Color.black : Color.white;
+            //text.ApplyTheme();
         //}
 
-        // Update all TMP texts
-        //TextMeshProUGUI[] allTextElements = Object.FindObjectsByType<TextMeshProUGUI>(FindObjectsSortMode.None);
-        //Color newTextColor = isDarkModeEnabled ? Color.white : Color.black;
-
-        //foreach (TextMeshProUGUI textElement in allTextElements)
+        //foreach (var bg in Object.FindObjectsByType<ThemeBackground>(FindObjectsSortMode.None))
         //{
-        //textElement.color = newTextColor;
+            //bg.ApplyTheme();
         //}
-
-        // Also update legacy UnityEngine.UI.Text if any
-        //Text[] legacyTexts = Object.FindObjectsByType<Text>(FindObjectsSortMode.None);
-        //foreach (Text t in legacyTexts)
-        //{
-        //t.color = newTextColor;
-        //}
-
-        //Image[] allImages = Object.FindObjectsByType<Image>(FindObjectsSortMode.None);
-        //Color backgroundColor = isDarkModeEnabled ? Color.black : Color.white;
-
-        //foreach (Image img in allImages)
-        //{
-        //img.color = backgroundColor;
-        //}
-
+        //OnThemeChanged?.Invoke();
         //Window[] allWindows = Object.FindObjectsByType<Window>(FindObjectsSortMode.None);
         //foreach (var win in allWindows)
         //{
-        //win.RefreshTheme();
+            //win.RefreshTheme();
         //}
 
-        // Optional: Debug log
-        // Debug.Log($"Display mode applied: {(isDarkModeEnabled ? "Dark" : "Light")}");
-        foreach (var text in Object.FindObjectsByType<ThemeText>(FindObjectsSortMode.None))
-        {
-            text.ApplyTheme();
-        }
+        //Debug.Log($"[Theme] Mode applied: {(isDarkModeEnabled ? "Dark" : "Light")}");
+    //}
+    private void ApplyTheme()
+    {
+        ColorTheme activeTheme = isDarkModeEnabled ? darkTheme : lightTheme;
 
-        foreach (var bg in Object.FindObjectsByType<ThemeBackground>(FindObjectsSortMode.None))
+        foreach (var element in UnityEngine.Object.FindObjectsByType<ThemedElement>(FindObjectsSortMode.None))
         {
-            bg.ApplyTheme();
-        }
-        //OnThemeChanged?.Invoke();
-        Window[] allWindows = Object.FindObjectsByType<Window>(FindObjectsSortMode.None);
-        foreach (var win in allWindows)
-        {
-            win.RefreshTheme();
+            element.ApplyTheme(activeTheme, isDarkModeEnabled);
         }
 
         Debug.Log($"[Theme] Mode applied: {(isDarkModeEnabled ? "Dark" : "Light")}");

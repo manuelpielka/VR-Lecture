@@ -13,7 +13,7 @@ public class CreateLectureNoteWindow : CreateNoteWindow
     [SerializeField] private Button applyButton;
     private Lecture currentLecture;
     private LecturePlayerWindow lecturePlayerWindow;
-    private string originalTitle;
+    //private string originalTitle;
     //private bool isEditMode = false;
 
     public void Initialize(LecturePlayerWindow playerWindow, bool editMode, Note noteToEdit = null)
@@ -89,7 +89,7 @@ public class CreateLectureNoteWindow : CreateNoteWindow
             return;
         }
 
-        OnNoteConfirmed?.Invoke(title, content);
+        //OnNoteConfirmed?.Invoke(title, content);
         Close();
     }
 

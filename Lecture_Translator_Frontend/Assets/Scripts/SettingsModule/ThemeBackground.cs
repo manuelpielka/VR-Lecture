@@ -20,11 +20,11 @@ public class ThemeBackground : MonoBehaviour
     }
     private void OnEnable()
     {
-        DisplayModeController.OnThemeChanged += ApplyTheme;
+        //DisplayModeController.OnThemeChanged += ApplyTheme;
     }
 
     private void OnDisable()
     {
-        DisplayModeController.OnThemeChanged -= ApplyTheme;
+        //DisplayModeController.OnThemeChanged -= ApplyTheme;
     }
 }

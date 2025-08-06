@@ -8,50 +8,11 @@ using UnityEngine;
 public static class UserPreferencesManager
 {
     // PlayerPrefs keys
-    private const string PlaybackSpeedKey = "UserPref_PlaybackSpeed";
-    //private const string SubtitleFontSizeKey = "UserPref_SubtitleFontSize";
     private const string IsDarkModeKey = "UserPref_IsDarkMode";
     private const string AutoAdjustKey = "UserPref_AutoAdjust";
     private const string BackgroundSceneIdKey = "UserPref_BackgroundSceneId";
 
     private const string TutorialcompletedKey = "UserPref_TutorialCompleted";
-
-    /// <summary>
-    /// Saves the user's preferred playback speed.
-    /// </summary>
-    public static void SavePlaybackSpeed(float speed)
-    {
-        Debug.Log($"Saving Playback Speed: {speed}");
-        PlayerPrefs.SetFloat(PlaybackSpeedKey, speed);
-        PlayerPrefs.Save();
-    }
-
-    /// <summary>
-    /// Loads the saved playback speed or returns 1.0f by default.
-    /// </summary>
-    public static float LoadPlaybackSpeed()
-    {
-        float speed = PlayerPrefs.GetFloat(PlaybackSpeedKey, 1.0f);
-        Debug.Log($"Loaded Playback Speed: {speed}");
-        return speed;
-    }
-
-    /// <summary>
-    /// Saves the user's subtitle font size preference.
-    /// </summary>
-    //public static void SaveSubtitleFontSize(int size)
-    //{
-    //PlayerPrefs.SetInt(SubtitleFontSizeKey, size);
-    //PlayerPrefs.Save();
-    //}
-
-    /// <summary>
-    /// Loads the saved subtitle font size or returns 16 by default.
-    /// </summary>
-    //public static int LoadSubtitleFontSize()
-    //{
-    //return PlayerPrefs.GetInt(SubtitleFontSizeKey, 16); // TODO
-    //}
 
     /// <summary>
     /// Saves whether the app should be in dark mode.
@@ -122,13 +83,11 @@ public static class UserPreferencesManager
     /// <summary>
     /// Applies all saved user preferences to the given playback and display controllers.
     /// </summary>
-    public static void ApplyAll(PlaybackSettingsManager playback, DisplayModeController display)
+    public static void ApplyAll(DisplayModeController display)
     {
         //playback.SetSubtitleFontSize(LoadSubtitleFontSize());
         try
         {
-            playback.SetPlaybackSpeed(LoadPlaybackSpeed());
-            //playback.SetSubtitleFontSize(LoadSubtitleFontSize());
             display.SetDarkMode(LoadDarkMode());
             display.SetAutoAdjust(LoadAutoAdjust());
         }
@@ -141,12 +100,10 @@ public static class UserPreferencesManager
     /// <summary>
     /// Saves all user preferences from the current playback and display state.
     /// </summary>
-    public static void SaveAll(PlaybackSettingsManager playback, DisplayModeController display)
+    public static void SaveAll(DisplayModeController display)
     {
         try
         {
-            SavePlaybackSpeed(playback.GetPlaybackSpeed());
-            //SaveSubtitleFontSize(playback.GetSubtitleFontSize());
             SaveDarkMode(display.IsDarkModeEnabled());
             SaveAutoAdjust(display.IsAutoAdjustEnabled());
             PlayerPrefs.Save();
@@ -163,8 +120,6 @@ public static class UserPreferencesManager
     public static void ClearAll()
     {
         Debug.Log("Clearing all user preferences");
-        PlayerPrefs.DeleteKey(PlaybackSpeedKey);
-        //PlayerPrefs.DeleteKey(SubtitleFontSizeKey);
         PlayerPrefs.DeleteKey(IsDarkModeKey);
         PlayerPrefs.DeleteKey(AutoAdjustKey);
         PlayerPrefs.DeleteKey(TutorialcompletedKey);
@@ -187,3 +142,4 @@ public static class UserPreferencesManager
         return PlayerPrefs.GetInt(TutorialcompletedKey, 0) == 1;
     }
 }
+

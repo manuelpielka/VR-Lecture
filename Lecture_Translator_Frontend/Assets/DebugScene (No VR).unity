@@ -365,6 +365,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LoginWindow
       objectReference: {fileID: 0}
+    - target: {fileID: 335374460024392181, guid: 6183a05fa113f6544902a61fabfd7a9f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1147483216996619087, guid: 6183a05fa113f6544902a61fabfd7a9f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -743,6 +747,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2616480376412146880, guid: dc1b63d22aa48c64dace66b341cd3430, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6752697343441920504, guid: dc1b63d22aa48c64dace66b341cd3430, type: 3}
       propertyPath: m_Name
       value: Tutorial
@@ -906,6 +914,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56dd2122895ff4a9f8f3c8dec158a369, type: 3}
+--- !u!1001 &6082753151691543025
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4323065532397595237, guid: a48c3632bc2cdc14480855248dfc7c43, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.028401606
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323065532397595237, guid: a48c3632bc2cdc14480855248dfc7c43, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.6135196
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323065532397595237, guid: a48c3632bc2cdc14480855248dfc7c43, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323065532397595237, guid: a48c3632bc2cdc14480855248dfc7c43, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323065532397595237, guid: a48c3632bc2cdc14480855248dfc7c43, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323065532397595237, guid: a48c3632bc2cdc14480855248dfc7c43, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323065532397595237, guid: a48c3632bc2cdc14480855248dfc7c43, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323065532397595237, guid: a48c3632bc2cdc14480855248dfc7c43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323065532397595237, guid: a48c3632bc2cdc14480855248dfc7c43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323065532397595237, guid: a48c3632bc2cdc14480855248dfc7c43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5957754466809450763, guid: a48c3632bc2cdc14480855248dfc7c43, type: 3}
+      propertyPath: m_Name
+      value: SettingsManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a48c3632bc2cdc14480855248dfc7c43, type: 3}
 --- !u!1001 &8461017227822511069
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -914,10 +979,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2985562846630020073, guid: ff067de17a9e2bf448526e06e12f3a56, type: 3}
-      propertyPath: 'windowPrefabsList.Array.data[10]'
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6590108837768629016, guid: ff067de17a9e2bf448526e06e12f3a56, type: 3}
       propertyPath: m_Name
       value: WindowManager
@@ -981,3 +1042,4 @@ SceneRoots:
   - {fileID: 5958014785906252527}
   - {fileID: 655082979096153006}
   - {fileID: 1114243006}
+  - {fileID: 6082753151691543025}

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2177199633095959345}
   - component: {fileID: 7532573310781717645}
   - component: {fileID: 8689752596744295931}
+  - component: {fileID: 5530256599135897137}
   m_Layer: 5
   m_Name: Label
   m_TagString: Untagged
@@ -136,6 +137,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5530256599135897137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72278203389243873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eb00a20f49db544e9f5aeed2c5efcf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  role: 4
 --- !u!1 &91144562615745061
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,7 +236,7 @@ GameObject:
   - component: {fileID: 655230951546036886}
   - component: {fileID: 6264705804565619263}
   - component: {fileID: 8079067115794311867}
-  - component: {fileID: 9169444704726881306}
+  - component: {fileID: 4338597207653134399}
   m_Layer: 5
   m_Name: Size Control Text
   m_TagString: Untagged
@@ -348,7 +362,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &9169444704726881306
+--- !u!114 &4338597207653134399
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -357,11 +371,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 192687788612205526}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Script: {fileID: 11500000, guid: 8eb00a20f49db544e9f5aeed2c5efcf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
-  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
+  role: 4
 --- !u!1 &784132484531145752
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,6 +386,7 @@ GameObject:
   - component: {fileID: 2431872980348855877}
   - component: {fileID: 5194788872351297506}
   - component: {fileID: 1709663642637831418}
+  - component: {fileID: 4067023730117096679}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -498,6 +512,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4067023730117096679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784132484531145752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eb00a20f49db544e9f5aeed2c5efcf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  role: 4
 --- !u!1 &1132509373357963783
 GameObject:
   m_ObjectHideFlags: 0
@@ -986,7 +1013,7 @@ GameObject:
   - component: {fileID: 4073220764117335257}
   - component: {fileID: 5578613250165756949}
   - component: {fileID: 3784990236006571373}
-  - component: {fileID: 6830436139865801249}
+  - component: {fileID: 850076829440457938}
   m_Layer: 5
   m_Name: Lecture Title
   m_TagString: Untagged
@@ -1112,7 +1139,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &6830436139865801249
+--- !u!114 &850076829440457938
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1121,11 +1148,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1914839246122499476}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Script: {fileID: 11500000, guid: 8eb00a20f49db544e9f5aeed2c5efcf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
-  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
+  role: 6
 --- !u!1 &2725576880317423203
 GameObject:
   m_ObjectHideFlags: 0
@@ -1138,7 +1164,7 @@ GameObject:
   - component: {fileID: 2571733668350940534}
   - component: {fileID: 8945429932525066951}
   - component: {fileID: 6181945858843804459}
-  - component: {fileID: 8591022752222582858}
+  - component: {fileID: 3417506615684661618}
   m_Layer: 5
   m_Name: Language Dropdown
   m_TagString: Untagged
@@ -1273,7 +1299,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_AlphaFadeSpeed: 0.15
---- !u!114 &8591022752222582858
+--- !u!114 &3417506615684661618
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1282,11 +1308,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2725576880317423203}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d59281ebee3d3f48a3022735079163b, type: 3}
+  m_Script: {fileID: 11500000, guid: 8eb00a20f49db544e9f5aeed2c5efcf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
-  darkColor: {r: 0.18431373, g: 0.18431373, b: 0.18431373, a: 1}
+  role: 2
 --- !u!1 &2999532297239503647
 GameObject:
   m_ObjectHideFlags: 0
@@ -1298,6 +1323,7 @@ GameObject:
   - component: {fileID: 518976779569657640}
   - component: {fileID: 734988529019269934}
   - component: {fileID: 5994838680494349053}
+  - component: {fileID: 7983154516880743438}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -1423,6 +1449,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7983154516880743438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2999532297239503647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eb00a20f49db544e9f5aeed2c5efcf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  role: 4
 --- !u!1 &3031926823229232086
 GameObject:
   m_ObjectHideFlags: 0
@@ -1471,7 +1510,7 @@ GameObject:
   - component: {fileID: 6435375574722659551}
   - component: {fileID: 1073398954949477757}
   - component: {fileID: 3871939966329514422}
-  - component: {fileID: 4617803246183587284}
+  - component: {fileID: 6681943419922864820}
   m_Layer: 5
   m_Name: '- Button'
   m_TagString: Untagged
@@ -1593,7 +1632,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4617803246183587284
+--- !u!114 &6681943419922864820
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1602,11 +1641,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3238351105726848239}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Script: {fileID: 11500000, guid: 8eb00a20f49db544e9f5aeed2c5efcf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
-  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
+  role: 2
 --- !u!1 &3809537568728639565
 GameObject:
   m_ObjectHideFlags: 0
@@ -2085,6 +2123,7 @@ GameObject:
   - component: {fileID: 7329474848635109693}
   - component: {fileID: 3459963766330369270}
   - component: {fileID: 7062320214440989701}
+  - component: {fileID: 74593335132516927}
   m_Layer: 5
   m_Name: Handle
   m_TagString: Untagged
@@ -2149,6 +2188,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &74593335132516927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4884869444526706551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eb00a20f49db544e9f5aeed2c5efcf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  role: 3
 --- !u!1 &5456158279746946066
 GameObject:
   m_ObjectHideFlags: 0
@@ -2197,7 +2249,7 @@ GameObject:
   - component: {fileID: 8044718076392048917}
   - component: {fileID: 5832459265466484289}
   - component: {fileID: 1647462836860002007}
-  - component: {fileID: 9021103335723244078}
+  - component: {fileID: 9082880196645362908}
   m_Layer: 5
   m_Name: Transcript Text
   m_TagString: Untagged
@@ -2342,7 +2394,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &9021103335723244078
+--- !u!114 &9082880196645362908
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2351,11 +2403,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5540623152236287661}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Script: {fileID: 11500000, guid: 8eb00a20f49db544e9f5aeed2c5efcf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
-  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
+  role: 5
 --- !u!1 &5655538798768415763
 GameObject:
   m_ObjectHideFlags: 0
@@ -2368,7 +2419,7 @@ GameObject:
   - component: {fileID: 1100505079664315661}
   - component: {fileID: 427278723079691346}
   - component: {fileID: 4388671974207835292}
-  - component: {fileID: 3132369156203484340}
+  - component: {fileID: 933776086308488872}
   m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
@@ -2465,7 +2516,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3132369156203484340
+--- !u!114 &933776086308488872
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2474,11 +2525,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5655538798768415763}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d59281ebee3d3f48a3022735079163b, type: 3}
+  m_Script: {fileID: 11500000, guid: 8eb00a20f49db544e9f5aeed2c5efcf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightColor: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
-  darkColor: {r: 0.18431373, g: 0.18431373, b: 0.18431373, a: 1}
+  role: 1
 --- !u!1 &5668918230945078512
 GameObject:
   m_ObjectHideFlags: 0
@@ -2491,7 +2541,7 @@ GameObject:
   - component: {fileID: 7913058156500223265}
   - component: {fileID: 126525304490515902}
   - component: {fileID: 9104378546406383594}
-  - component: {fileID: 1405374477701830410}
+  - component: {fileID: 9173473122972190125}
   m_Layer: 5
   m_Name: + Button
   m_TagString: Untagged
@@ -2613,7 +2663,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1405374477701830410
+--- !u!114 &9173473122972190125
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2622,11 +2672,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5668918230945078512}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Script: {fileID: 11500000, guid: 8eb00a20f49db544e9f5aeed2c5efcf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
-  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
+  role: 2
 --- !u!1 &6637273310860274409
 GameObject:
   m_ObjectHideFlags: 0
@@ -3071,7 +3120,7 @@ GameObject:
   - component: {fileID: 1220751506638537691}
   - component: {fileID: 6248288503479566398}
   - component: {fileID: 1671235665391852189}
-  - component: {fileID: 2635378283460172795}
+  - component: {fileID: 7153165307535976153}
   m_Layer: 5
   m_Name: Back Panel
   m_TagString: Untagged
@@ -3136,7 +3185,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2635378283460172795
+--- !u!114 &7153165307535976153
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3145,11 +3194,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7005328514052730167}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d59281ebee3d3f48a3022735079163b, type: 3}
+  m_Script: {fileID: 11500000, guid: 8eb00a20f49db544e9f5aeed2c5efcf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightColor: {r: 0.8980392, g: 0.8980392, b: 0.8980392, a: 1}
-  darkColor: {r: 0.14117648, g: 0.14117648, b: 0.14117648, a: 1}
+  role: 0
 --- !u!1 &7130250979976547526
 GameObject:
   m_ObjectHideFlags: 0
@@ -3161,7 +3209,7 @@ GameObject:
   - component: {fileID: 1197264372827801920}
   - component: {fileID: 8306491474305229678}
   - component: {fileID: 822933143714694833}
-  - component: {fileID: 449834118884592467}
+  - component: {fileID: 157414577623036674}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -3287,7 +3335,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &449834118884592467
+--- !u!114 &157414577623036674
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3296,11 +3344,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7130250979976547526}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Script: {fileID: 11500000, guid: 8eb00a20f49db544e9f5aeed2c5efcf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
-  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
+  role: 4
 --- !u!1 &7660053502359022787
 GameObject:
   m_ObjectHideFlags: 0
@@ -3312,6 +3359,7 @@ GameObject:
   - component: {fileID: 6459855671188608323}
   - component: {fileID: 5793230688152908006}
   - component: {fileID: 2077673235129690456}
+  - component: {fileID: 5226849254577603270}
   m_Layer: 5
   m_Name: Arrow
   m_TagString: Untagged
@@ -3376,6 +3424,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5226849254577603270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7660053502359022787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eb00a20f49db544e9f5aeed2c5efcf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  role: 3
 --- !u!1 &7740950002986684641
 GameObject:
   m_ObjectHideFlags: 0
@@ -3388,6 +3449,7 @@ GameObject:
   - component: {fileID: 7352868609050129586}
   - component: {fileID: 6191706491821813748}
   - component: {fileID: 9017640070635721967}
+  - component: {fileID: 5596619449020344807}
   m_Layer: 5
   m_Name: Scrollbar Vertical
   m_TagString: Untagged
@@ -3502,6 +3564,19 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5596619449020344807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7740950002986684641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eb00a20f49db544e9f5aeed2c5efcf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  role: 2
 --- !u!1 &7852479513912522256
 GameObject:
   m_ObjectHideFlags: 0
@@ -3514,7 +3589,7 @@ GameObject:
   - component: {fileID: 497164000741693436}
   - component: {fileID: 3387185455761770134}
   - component: {fileID: 7142148299823780961}
-  - component: {fileID: 9037704585879364742}
+  - component: {fileID: 1030498673923698211}
   m_Layer: 5
   m_Name: Close Button
   m_TagString: Untagged
@@ -3635,7 +3710,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &9037704585879364742
+--- !u!114 &1030498673923698211
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3644,11 +3719,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7852479513912522256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7e0cef3a808c0f4bb76d19d67b98f56, type: 3}
+  m_Script: {fileID: 11500000, guid: 8eb00a20f49db544e9f5aeed2c5efcf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightModeColor: {r: 0.007843138, g: 0.007843138, b: 0.007843138, a: 1}
-  darkModeColor: {r: 0.99607843, g: 0.99607843, b: 0.99607843, a: 1}
+  role: 3
 --- !u!1 &8169515326335253169
 GameObject:
   m_ObjectHideFlags: 0

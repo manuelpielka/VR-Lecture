@@ -6,11 +6,12 @@ using UnityEngine;
 /// </summary>
 public class SettingsManager : MonoBehaviour
 {
-    [SerializeField] private EnvironmentManager environmentManager;
+    //[SerializeField] private EnvironmentManager environmentManager;
 
+    public static SettingsManager Instance { get; private set; }
 
-    // Reference to display mode controller
-    private DisplayModeController displayModeController;
+    private bool autoSwitch;
+    private bool darkMode;
 
     /// <summary>
     /// Called once before Start(). Ensures components are assigned and loads saved preferences.
@@ -18,50 +19,83 @@ public class SettingsManager : MonoBehaviour
     private void Awake()
     {
 
-        displayModeController = FindFirstObjectByType<DisplayModeController>();
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
 
         // Load user preferences (if any)
-        LoadUserPreferences();
+        autoSwitch = UserPreferencesManager.LoadAutoAdjust();
+        darkMode = UserPreferencesManager.LoadDarkMode(); LoadSettings();
+    }
+
+    private void Start()
+    {
+        Debug.Log("SettingsManager Started");
+        ApplyDisplayMode();
     }
 
     /// <summary>
     /// Load preferences from PlayerPrefs or default values if not found.
     /// </summary>
-    private void LoadUserPreferences()
+    public void LoadSettings()
     {
-        if (displayModeController != null)
+        autoSwitch = UserPreferencesManager.LoadAutoAdjust();
+        darkMode = UserPreferencesManager.LoadDarkMode();
+        ApplyDisplayMode();
+    }
+
+    private void ApplyDisplayMode()
+    {
+        Debug.Log("Applying Display Mode");
+
+        if (DisplayModeController.Instance == null)
         {
-            displayModeController.SetAutoAdjust(UserPreferencesManager.LoadAutoAdjust());
-            displayModeController.SetDarkMode(UserPreferencesManager.LoadDarkMode());
+            Debug.LogError("DisplayModeController.Instance is null!");
+            return;
+        }
+
+        // autoSwitch
+        DisplayModeController.Instance.SetAutoAdjust(autoSwitch);
+
+        if (autoSwitch)
+        {
+            // autoSwitch
+            return;
+        }
+
+        if (darkMode)
+        {
+            // Dark Mode
+            DisplayModeController.Instance.SetDarkMode(true);
+        }
+        else
+        {
+            // Light Mode
+            DisplayModeController.Instance.SetDarkMode(false);
         }
     }
 
-    /// <summary>
-    /// Enables or disables auto-adjust mode and stores it.
-    /// </summary>
-    public void SetAutoAdjust(bool enabled)
+    public void ApplySettings(bool newAutoSwitch, bool newDarkMode)
     {
-        displayModeController?.SetAutoAdjust(enabled);
-        UserPreferencesManager.SaveAutoAdjust(enabled);
-    }
+        autoSwitch = newAutoSwitch;
+        darkMode = newDarkMode;
 
-    /// <summary>
-    /// Manually sets dark/light mode (only works if autoAdjust is off).
-    /// </summary>
-    public void SetDarkMode(bool enabled)
-    {
-        displayModeController?.SetDarkMode(enabled);
-        UserPreferencesManager.SaveDarkMode(enabled);
+        UserPreferencesManager.SaveAutoAdjust(autoSwitch);
+        UserPreferencesManager.SaveDarkMode(darkMode);
+
+        ApplyDisplayMode();
     }
 
     public void SetEnvironmentById(string sceneId)
     {
-        environmentManager?.LoadEnvironment(sceneId);
-        UserPreferencesManager.SaveBackgroundSceneId(sceneId);
+        //environmentManager?.LoadEnvironment(sceneId);
+        //UserPreferencesManager.SaveBackgroundSceneId(sceneId);
     }
-    public void ApplyAll()
-    {
-        UserPreferencesManager.SaveAll(displayModeController);
-        UserPreferencesManager.ApplyAll(displayModeController);
-    }
+
+    public bool GetAutoSwitch() => autoSwitch;
+    public bool GetDarkMode() => darkMode;
 }

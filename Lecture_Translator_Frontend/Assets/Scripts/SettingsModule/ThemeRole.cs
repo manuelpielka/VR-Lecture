@@ -8,5 +8,5 @@ public enum ThemeRole
     ButtonFigure,
     ButtonText,
     ContentText,
-    DisabledText
+    TitleText
 }

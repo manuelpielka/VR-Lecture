@@ -38,7 +38,7 @@ public class ThemedElement : MonoBehaviour
             case ThemeRole.ButtonFigure: return theme.ButtonFigure;
             case ThemeRole.ButtonText: return theme.ButtonText;
             case ThemeRole.ContentText: return theme.ContentText;
-            case ThemeRole.DisabledText: return theme.DisabledText;
+            case ThemeRole.TitleText: return theme.TitleText;
             default: return Color.magenta; // debug color for unknown role
         }
     }

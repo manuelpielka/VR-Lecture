@@ -9,5 +9,5 @@ public class ColorTheme : ScriptableObject
     public Color ButtonFigure;
     public Color ButtonText;
     public Color ContentText;
-    public Color DisabledText;
+    public Color TitleText;
 }

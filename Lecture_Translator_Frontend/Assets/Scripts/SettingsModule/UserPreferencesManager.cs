@@ -59,14 +59,14 @@ public static class UserPreferencesManager
     /// </summary>
     public static void SaveBackgroundSceneId(string sceneId)
     {
-        if (string.IsNullOrEmpty(sceneId))
-        {
-            Debug.LogError("Attempted to save null or empty BackgroundSceneId");
-            throw new System.ArgumentException("sceneId cannot be null or empty");
-        }
-        Debug.Log($"Saving Background Scene ID: {sceneId}");
-        PlayerPrefs.SetString(BackgroundSceneIdKey, sceneId);
-        PlayerPrefs.Save();
+        //if (string.IsNullOrEmpty(sceneId))
+        //{
+            //Debug.LogError("Attempted to save null or empty BackgroundSceneId");
+           // throw new System.ArgumentException("sceneId cannot be null or empty");
+        //}
+        //Debug.Log($"Saving Background Scene ID: {sceneId}");
+        //PlayerPrefs.SetString(BackgroundSceneIdKey, sceneId);
+        //PlayerPrefs.Save();
     }
 
     /// <summary>
@@ -74,9 +74,10 @@ public static class UserPreferencesManager
     /// </summary>
     public static string LoadBackgroundSceneId()
     {
-        string sceneId = PlayerPrefs.GetString(BackgroundSceneIdKey, "cafe");
-        Debug.Log($"Loaded Background Scene ID: {sceneId}");
-        return sceneId;
+        //string sceneId = PlayerPrefs.GetString(BackgroundSceneIdKey, "cafe");
+        //Debug.Log($"Loaded Background Scene ID: {sceneId}");
+        //return sceneId;
+        return "cafe";
     }
 
 
@@ -85,7 +86,6 @@ public static class UserPreferencesManager
     /// </summary>
     public static void ApplyAll(DisplayModeController display)
     {
-        //playback.SetSubtitleFontSize(LoadSubtitleFontSize());
         try
         {
             display.SetDarkMode(LoadDarkMode());
@@ -100,19 +100,19 @@ public static class UserPreferencesManager
     /// <summary>
     /// Saves all user preferences from the current playback and display state.
     /// </summary>
-    public static void SaveAll(DisplayModeController display)
-    {
-        try
-        {
-            SaveDarkMode(display.IsDarkModeEnabled());
-            SaveAutoAdjust(display.IsAutoAdjustEnabled());
-            PlayerPrefs.Save();
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogError($"Error saving preferences: {ex.Message}");
-        }
-    }
+    //public static void SaveAll(DisplayModeController display)
+    //{
+        //try
+        //{
+            //SaveDarkMode(display.IsDarkModeEnabled());
+            //SaveAutoAdjust(display.IsAutoAdjustEnabled());
+            //PlayerPrefs.Save();
+        //}
+        //catch (System.Exception ex)
+        //{
+            //Debug.LogError($"Error saving preferences: {ex.Message}");
+        //}
+    //}
 
     /// <summary>
     /// Clears all user preferences (useful for testing or reset button).

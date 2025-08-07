@@ -12,15 +12,9 @@ public class DisplayModeController : MonoBehaviour
     [Header("Theme Settings")]
     public ColorTheme lightTheme;
     public ColorTheme darkTheme;
-    /// <summary>
-    /// Indicates whether the current display mode is dark mode (true) or light mode (false).
-    /// </summary>
-    [SerializeField] private bool isDarkModeEnabled;
 
-    /// <summary>
-    /// Whether the display mode should update automatically based on system time.
-    /// </summary>
-    [SerializeField] private bool autoAdjust;
+    private bool isDarkModeEnabled = false;
+    private bool autoAdjust = true;
 
     // Timer used to refresh the mode periodically in auto mode
     private float refreshTimer = 0f;
@@ -39,9 +33,7 @@ public class DisplayModeController : MonoBehaviour
             return;
         }
         Instance = this;
-        // Load user preferences from storage
-        isDarkModeEnabled = UserPreferencesManager.LoadDarkMode();
-        autoAdjust = UserPreferencesManager.LoadAutoAdjust();
+        DontDestroyOnLoad(gameObject);
     }
 
     /// <summary>
@@ -63,14 +55,14 @@ public class DisplayModeController : MonoBehaviour
             if (refreshTimer >= refreshInterval)
             {
                 refreshTimer = 0f;
-                UpdateMode();
+                RefreshMode();
             }
         }
     }
 
     /// <summary>
     /// Returns true if the current display mode is dark mode, otherwise returns false.
-    /// </summary>
+    /// </summary>RefreshMode();
     public bool IsDarkModeEnabled()
     {
         return isDarkModeEnabled;
@@ -87,7 +79,6 @@ public class DisplayModeController : MonoBehaviour
         if (!autoAdjust)
         {
             isDarkModeEnabled = enabled;
-            UserPreferencesManager.SaveDarkMode(enabled);
             ApplyTheme();
         }
     }
@@ -95,15 +86,15 @@ public class DisplayModeController : MonoBehaviour
     /// <summary>
     /// Toggles dark mode manually. Only works when autoAdjust is false.
     /// </summary>
-    public void ToggleMode()
-    {
-        if (!autoAdjust)
-        {
-            isDarkModeEnabled = !isDarkModeEnabled;
-            UserPreferencesManager.SaveDarkMode(isDarkModeEnabled);
-            ApplyTheme();
-        }
-    }
+    //public void ToggleMode()
+    //{
+        //if (!autoAdjust)
+        //{
+            //isDarkModeEnabled = !isDarkModeEnabled;
+            //UserPreferencesManager.SaveDarkMode(isDarkModeEnabled);
+            //ApplyTheme();
+        //}
+    //}
 
     /// <summary>
     /// Updates the display mode based on the current system time.
@@ -114,12 +105,7 @@ public class DisplayModeController : MonoBehaviour
         if (autoAdjust)
         {
             int hour = DateTime.Now.Hour;
-            bool dark = (hour >= 18 || hour < 6);
-            if (dark != isDarkModeEnabled)
-            {
-                isDarkModeEnabled = dark;
-                UserPreferencesManager.SaveDarkMode(dark);
-            }
+            isDarkModeEnabled = (hour >= 18 || hour < 6);
         }
 
         ApplyTheme();
@@ -140,7 +126,6 @@ public class DisplayModeController : MonoBehaviour
     public void SetAutoAdjust(bool enabled)
     {
         autoAdjust = enabled;
-        UserPreferencesManager.SaveAutoAdjust(enabled);
         UpdateMode();
     }
 
@@ -155,26 +140,6 @@ public class DisplayModeController : MonoBehaviour
     /// <summary>
     /// Applies the current display mode visually (background and text colors).
     /// </summary>
-    //private void ApplyMode()
-    //{
-        //foreach (var text in Object.FindObjectsByType<ThemeText>(FindObjectsSortMode.None))
-        //{
-            //text.ApplyTheme();
-        //}
-
-        //foreach (var bg in Object.FindObjectsByType<ThemeBackground>(FindObjectsSortMode.None))
-        //{
-            //bg.ApplyTheme();
-        //}
-        //OnThemeChanged?.Invoke();
-        //Window[] allWindows = Object.FindObjectsByType<Window>(FindObjectsSortMode.None);
-        //foreach (var win in allWindows)
-        //{
-            //win.RefreshTheme();
-        //}
-
-        //Debug.Log($"[Theme] Mode applied: {(isDarkModeEnabled ? "Dark" : "Light")}");
-    //}
     private void ApplyTheme()
     {
         ColorTheme activeTheme = isDarkModeEnabled ? darkTheme : lightTheme;
@@ -182,6 +147,11 @@ public class DisplayModeController : MonoBehaviour
         foreach (var element in UnityEngine.Object.FindObjectsByType<ThemedElement>(FindObjectsSortMode.None))
         {
             element.ApplyTheme(activeTheme, isDarkModeEnabled);
+        }
+
+        foreach (var win in UnityEngine.Object.FindObjectsByType<Window>(FindObjectsSortMode.None))
+        {
+            win.RefreshTheme();
         }
 
         Debug.Log($"[Theme] Mode applied: {(isDarkModeEnabled ? "Dark" : "Light")}");

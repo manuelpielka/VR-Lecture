@@ -10,23 +10,19 @@ public class SettingsWindow : Window
     public TMP_Dropdown backgroundDropdown;
     public Toggle modeAutoSwitchToggle;
     public Toggle darkModeToggle;
-   
     public TMP_Dropdown languageDropdown;
-    public TMP_Dropdown playbackSpeedDropdown;
-    // public TMP_Dropdown subtitleSizeDropdown;
-
-    public SettingsManager settingsManager;
 
     public Button resetTutorialButton;
+    public Button applyButton;
+    public Button discardButton;
 
-    private readonly float[] playbackSpeeds = { 1.0f, 1.25f, 1.5f, 1.75f, 2.0f };
-    //private readonly int[] subtitleSizes = { 16, 18, 20, 22, 24 };
-    private readonly string[] supportedLanguages = { "English"};
+    //public SettingsManager settingsManager;
+
+    private readonly string[] supportedLanguages = { "English", "Deutsch"};
 
     // Temporary cached values for Apply/Discard logic
     private bool tempAutoAdjust;
     private bool tempDarkMode;
-    private int tempPlaybackIndex;
     private int tempBackgroundIndex;
     private int tempLanguageIndex;
 
@@ -35,17 +31,17 @@ public class SettingsWindow : Window
     {
         Debug.Log("SettingsWindow Started");
 
-        if (settingsManager == null)
-        {
-            settingsManager = FindFirstObjectByType<SettingsManager>();
-            if (settingsManager == null)
-            {
-                Debug.LogError("SettingsManager not assigned in the scene.");
-                return;
-            }
-        }
+        //if (settingsManager == null)
+        //{
+           // settingsManager = FindFirstObjectByType<SettingsManager>();
+           // if (settingsManager == null)
+           // {
+               // Debug.LogError("SettingsManager not assigned in the scene.");
+               // return;
+           //}
+        //}
 
-        InitDropdowns();
+        //InitDropdowns();
         LoadInitialSettings();
         BindListeners();
 
@@ -83,43 +79,43 @@ public class SettingsWindow : Window
     private void InitDropdowns()
     {
 
-        backgroundDropdown.ClearOptions();
-        var envManager = FindAnyObjectByType<EnvironmentManager>();
-        if (envManager != null)
-        {
-            foreach (var env in envManager.Environments)
-                backgroundDropdown.options.Add(new TMP_Dropdown.OptionData(env.DisplayName));
-        }
+        //backgroundDropdown.ClearOptions();
+        //var envManager = FindAnyObjectByType<EnvironmentManager>();
+        //if (envManager != null)
+        //{
+            //foreach (var env in envManager.Environments)
+                //backgroundDropdown.options.Add(new TMP_Dropdown.OptionData(env.DisplayName));
+        //}
 
-        languageDropdown.ClearOptions();
-        foreach (var lang in supportedLanguages)
-            languageDropdown.options.Add(new TMP_Dropdown.OptionData(lang));
+        //languageDropdown.ClearOptions();
+        //foreach (var lang in supportedLanguages)
+            //languageDropdown.options.Add(new TMP_Dropdown.OptionData(lang));
     }
 
     private void LoadInitialSettings()
     {
 
-        tempAutoAdjust = UserPreferencesManager.LoadAutoAdjust();
-        tempDarkMode = UserPreferencesManager.LoadDarkMode();
-        tempBackgroundIndex = GetBackgroundIndex(UserPreferencesManager.LoadBackgroundSceneId());
+        tempAutoAdjust = SettingsManager.Instance.GetAutoSwitch();
+        tempDarkMode = SettingsManager.Instance.GetDarkMode();
+        //tempBackgroundIndex = GetBackgroundIndex(UserPreferencesManager.LoadBackgroundSceneId());
         //tempLanguageIndex = GetLanguageIndex(UserPreferencesManager.LoadLanguage());
 
         modeAutoSwitchToggle.isOn = tempAutoAdjust;
         darkModeToggle.isOn = tempDarkMode;
-        darkModeToggle.interactable = !tempAutoAdjust;
 
-        backgroundDropdown.value = tempBackgroundIndex;
-        languageDropdown.value = tempLanguageIndex;
+        //backgroundDropdown.value = tempBackgroundIndex;
+        //languageDropdown.value = tempLanguageIndex;
+        UpdateToggleInteractableStates();
     }
 
 
 
-    private int GetBackgroundIndex(string sceneId)
-    {
-        var envManager = FindAnyObjectByType<EnvironmentManager>();
-        if (envManager == null) return 0;
-        return envManager.Environments.FindIndex(e => e.SceneId == sceneId);
-    }
+    //private int GetBackgroundIndex(string sceneId)
+    //{
+        //var envManager = FindAnyObjectByType<EnvironmentManager>();
+        //if (envManager == null) return 0;
+        //return envManager.Environments.FindIndex(e => e.SceneId == sceneId);
+    //}
 
     //private int GetLanguageIndex(string lang)
     //{
@@ -130,104 +126,66 @@ public class SettingsWindow : Window
 
     private void BindListeners()
     {
-        modeAutoSwitchToggle.onValueChanged.AddListener(isOn =>
-        {
-            tempAutoAdjust = isOn;
-            darkModeToggle.interactable = !isOn;
-            if (isOn) darkModeToggle.isOn = false;
-        });
-
-        darkModeToggle.onValueChanged.AddListener(isOn =>
-        {
-            tempDarkMode = isOn;
-        });
+        modeAutoSwitchToggle.onValueChanged.AddListener(OnAutoSwitchToggleChanged);
+        darkModeToggle.onValueChanged.AddListener(OnDarkModeToggleChanged);
+        applyButton.onClick.AddListener(OnApplyButtonClicked);
+        discardButton.onClick.AddListener(OnDiscardButtonClicked);
 
 
-        backgroundDropdown.onValueChanged.AddListener(index =>
-        {
-            tempBackgroundIndex = index;
-        });
+        //backgroundDropdown.onValueChanged.AddListener(index =>
+        //{
+            //tempBackgroundIndex = index;
+        //});
 
-        languageDropdown.onValueChanged.AddListener(index =>
-        {
-            tempLanguageIndex = index;
-        });
+        //languageDropdown.onValueChanged.AddListener(index =>
+        //{
+            //tempLanguageIndex = index;
+        //});
     }
 
-    public void OnApplyPressed()
+    private void OnAutoSwitchToggleChanged(bool isOn)
     {
-        Debug.Log(">>> Apply Pressed");
-
-        settingsManager.SetAutoAdjust(tempAutoAdjust);
-        if (!tempAutoAdjust)
-        {
-            settingsManager.SetDarkMode(tempDarkMode);
-        }
-
-        var envManager = FindAnyObjectByType<EnvironmentManager>();
-        if (envManager != null && envManager.Environments.Count > tempBackgroundIndex)
-        {
-            var env = envManager.Environments[tempBackgroundIndex];
-            settingsManager.SetEnvironmentById(env.SceneId);
-        }
-
-        //UserPreferencesManager.SaveLanguage(supportedLanguages[tempLanguageIndex]);
-
-        DisplayModeController.Instance.RefreshMode();
-        Debug.Log($"Apply: AutoAdjust={tempAutoAdjust}, Dark={tempDarkMode}, Speed={playbackSpeeds[tempPlaybackIndex]}, BG={tempBackgroundIndex}, Lang={tempLanguageIndex}");
+        tempAutoAdjust = isOn;
+        if (isOn) tempDarkMode = false;
+        UpdateToggleStates();
     }
 
-    public void OnDiscardPressed()
+    private void OnDarkModeToggleChanged(bool isOn)
+    {
+        tempDarkMode = isOn;
+        if (isOn) tempAutoAdjust = false;
+        UpdateToggleStates();
+    }
+
+    /// <summary>
+    /// 根据当前状态刷新 toggle 状态和交互性
+    /// </summary>
+    private void UpdateToggleStates()
+    {
+        modeAutoSwitchToggle.isOn = tempAutoAdjust;
+        darkModeToggle.isOn = tempDarkMode;
+
+        UpdateToggleInteractableStates();
+    }
+
+    /// <summary>
+    /// 控制互斥关系（互相禁止点击）
+    /// </summary>
+    private void UpdateToggleInteractableStates()
+    {
+        modeAutoSwitchToggle.interactable = !tempDarkMode;
+        darkModeToggle.interactable = !tempAutoAdjust;
+    }
+
+    public void OnApplyButtonClicked()
+    {
+        SettingsManager.Instance.ApplySettings(tempAutoAdjust, tempDarkMode);
+        Debug.Log("[SettingsWindow] Apply pressed: saved & applied.");
+    }
+
+    public void OnDiscardButtonClicked()
     {
         LoadInitialSettings();
+        Debug.Log("[SettingsWindow] Discard pressed: reverted changes.");
     }
-
-    //private void InitToggles()
-    //{
-        //bool isAutoAdjust = settingsManager.GetComponent<DisplayModeController>().IsAutoAdjustEnabled();
-        //bool isDark = settingsManager.GetComponent<DisplayModeController>().IsDarkModeEnabled();
-
-        //modeAutoSwitchToggle.isOn = isAutoAdjust;
-        //darkModeToggle.isOn = isDark;
-        //darkModeToggle.interactable = !isAutoAdjust;
-    //}
-
-    //private void OnPlaybackSpeedChanged(int index)
-    //{
-        //float selectedSpeed = playbackSpeeds[index];
-        //settingsManager.SetPlaybackSpeed(selectedSpeed);
-    //}
-
-    //private void OnSubtitleSizeChanged(int index)
-    //{
-        //int selectedSize = subtitleSizes[index];
-        //settingsManager.SetSubtitleFontSize(selectedSize);
-    //}
-
-    //private void OnAutoAdjustToggled(bool isOn)
-    //{
-        //settingsManager.SetAutoAdjust(isOn);
-        //darkModeToggle.interactable = !isOn;
-        //if (isOn)
-        //{
-            //DisplayModeController.Instance.RefreshMode();
-        //}
-        
-    //}
-
-    //private void OnDarkModeToggled(bool isOn)
-    //{
-        //settingsManager.SetDarkMode(isOn);
-        //DisplayModeController.Instance.SetDarkMode(isOn);
-    //}
-
-    //private void OnBackgroundChanged(int index)
-    //{
-        //var envManager = FindAnyObjectByType<EnvironmentManager>();
-        //if (envManager == null) return;
-
-        //var config = envManager.Environments[index];
-        //envManager.SwitchEnvironment(config);
-        //UserPreferencesManager.SaveBackgroundSceneId(config.SceneId);
-    //}
 }

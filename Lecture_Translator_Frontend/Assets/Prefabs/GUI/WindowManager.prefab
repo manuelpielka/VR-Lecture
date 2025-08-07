@@ -54,5 +54,5 @@ MonoBehaviour:
   - {fileID: 7408532357377893035, guid: 42de0d32657504e7d99906592bcb78cc, type: 3}
   - {fileID: 1132509373357963783, guid: 707ddc66980d5af4c9a025413c6fe94d, type: 3}
   - {fileID: 473593591283706632, guid: 273d281cfb7665847bfb5cb086d5cec0, type: 3}
-  - {fileID: 4676878997842820998, guid: a803455d779c39243a22ab9cffcb55fd, type: 3}
+  - {fileID: 340182457681594851, guid: fa301e5744f63bc43b87990babe90d3d, type: 3}
   openMainMenu: {fileID: 2046926310049878357, guid: abcb5b262e4f32b4eb9f9d857b183a37, type: 3}

@@ -74,17 +74,25 @@ public class Window : MonoBehaviour
 
     public void RefreshTheme()
     {
-        //bool isDark = DisplayModeController.Instance?.IsDarkModeEnabled() ?? false;
+        if (DisplayModeController.Instance != null)
+        {
+            bool isDark = DisplayModeController.Instance.IsDarkModeEnabled();
 
-        //foreach (var tmp in GetComponentsInChildren<TextMeshProUGUI>(true))
-        //tmp.color = isDark ? Color.white : Color.black;
+            ColorTheme currentTheme = isDark
+            ? DisplayModeController.Instance.darkTheme
+            : DisplayModeController.Instance.lightTheme;
 
-        //foreach (var img in GetComponentsInChildren<Image>(true))
-        //img.color = isDark ? Color.black : Color.white;
-        foreach (var text in GetComponentsInChildren<ThemeText>(true))
-            text.ApplyTheme();
+            ThemedElement[] themedElements = GetComponentsInChildren<ThemedElement>(true);
 
-        foreach (var bg in GetComponentsInChildren<ThemeBackground>(true))
-            bg.ApplyTheme();
+            foreach (ThemedElement element in themedElements)
+            {
+                element.ApplyTheme(currentTheme, isDark);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("DisplayModeController.Instance is null!");
+        }
+       
     }
 }

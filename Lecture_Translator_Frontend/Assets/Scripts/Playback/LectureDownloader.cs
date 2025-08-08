@@ -139,13 +139,7 @@ public static class LectureDownloader
         request.SetRequestHeader("Cookie", "_forward_auth=" + Login.token);
         UnityWebRequestAsyncOperation requestAwaiter = request.SendWebRequest();
 
-        while (!request.isDone)
-        {
-            Debug.Log("Current Progress: " + request.downloadProgress);
-            progressBar.SetProgress(request.downloadProgress);
-        }
-
-        progressBar.CompleteProgress();
+        progressBar.SetRequest(request);
 
         await requestAwaiter;
 

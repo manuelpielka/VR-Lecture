@@ -1,5 +1,7 @@
 using System.Collections.Generic;
-
+    /// <summary>
+    /// This class stores metadata for a lecture
+    /// </summary>
 public class Lecture
 {
     private string name;
@@ -9,6 +11,9 @@ public class Lecture
     private double lastPlayTime = 0;
     private bool downloaded = false;
 
+    /// <summary>
+    /// Constructor for the Lecture class
+    /// </summary>
     public Lecture(string name, string videoSource, string transcriptSource, List<string> transcriptLanguages)
     {
         this.name = name;

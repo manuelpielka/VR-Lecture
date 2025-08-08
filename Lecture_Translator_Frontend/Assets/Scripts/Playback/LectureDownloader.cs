@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
+using UnityEngine.UIElements;
 
 public static class LectureDownloader
 {
@@ -79,6 +80,13 @@ public static class LectureDownloader
         return targetPath;
     }
 
+    public static async Task<string> DownloadLecture(Lecture lecture, DownloadProgressBar progressBar)
+    {
+        string targetPath = DATA_DIRECTORY + lecture.GetTranscriptSource() + ".mp4";
+        await PostRequestFile(lecture.GetVideoSource(), "", targetPath, progressBar);
+        return targetPath;
+    }
+
 
     /// Sends a post request to the api server.
     /// </summary>
@@ -104,10 +112,42 @@ public static class LectureDownloader
         byte[] byteJson = new UTF8Encoding().GetBytes(json);
         request.uploadHandler = new UploadHandlerRaw(byteJson);
         request.downloadHandler = new DownloadHandlerFile(targetPath);
-        //TODO: Fetch the Token!!!
+
         request.SetRequestHeader("Cookie", "_forward_auth=" + Login.token);
         await request.SendWebRequest();
 
+
+
+
+        //Log the headers
+        /*
+        Dictionary<string, string> headers = request.GetResponseHeaders();
+        foreach (string headercode in headers.Keys)
+        {
+            Debug.Log(headercode + ": " + headers[headercode]);
+        }
+        */
+    }
+
+    private static async Task PostRequestFile(string url, string json, string targetPath, DownloadProgressBar progressBar)
+    {
+        UnityWebRequest request = new UnityWebRequest(url, "POST");
+        byte[] byteJson = new UTF8Encoding().GetBytes(json);
+        request.uploadHandler = new UploadHandlerRaw(byteJson);
+        request.downloadHandler = new DownloadHandlerFile(targetPath);
+
+        request.SetRequestHeader("Cookie", "_forward_auth=" + Login.token);
+        UnityWebRequestAsyncOperation requestAwaiter = request.SendWebRequest();
+
+        while (!request.isDone)
+        {
+            Debug.Log("Current Progress: " + request.downloadProgress);
+            progressBar.SetProgress(request.downloadProgress);
+        }
+
+        progressBar.CompleteProgress();
+
+        await requestAwaiter;
 
 
 

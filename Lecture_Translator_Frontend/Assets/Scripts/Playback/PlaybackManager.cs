@@ -4,6 +4,7 @@ using UnityEngine.Video;
 
 public class PlaybackManager : MonoBehaviour
 {
+    [SerializeField] private DownloadProgressBar downloadProgressBar;
     private Lecture lecture;
     public VideoPlayer VideoPlayer;
 
@@ -13,7 +14,7 @@ public class PlaybackManager : MonoBehaviour
 
         if (!lecture.IsDownloaded())
         {
-            Task<string> download = LectureDownloader.DownloadLecture(lecture);
+            Task<string> download = LectureDownloader.DownloadLecture(lecture, downloadProgressBar);
             VideoPlayer.url = await download;
         }
         else

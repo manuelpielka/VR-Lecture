@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3496e1087b2f5524da5437cca5f9b638, type: 3}
   m_Name: LightTheme
   m_EditorClassIdentifier: 
-  WindowBackground: {r: 0.8980392, g: 0.8980392, b: 0.8980392, a: 1}
+  WindowBackground: {r: 0.8980393, g: 0.8980393, b: 0.8980393, a: 1}
   PanelOnWindowBackground: {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
-  ButtonBackground: {r: 0.76862746, g: 0.76862746, b: 0.76862746, a: 1}
-  ButtonFigure: {r: 0.12156863, g: 0.12156863, b: 0.12156863, a: 1}
-  ButtonText: {r: 0.12156863, g: 0.12156863, b: 0.12156863, a: 1}
-  ContentText: {r: 0.12156863, g: 0.12156863, b: 0.12156863, a: 1}
-  DisabledText: {r: 0, g: 0, b: 0, a: 0}
+  ButtonBackground: {r: 0.8235295, g: 0.8235295, b: 0.8235295, a: 1}
+  ButtonFigure: {r: 0, g: 0, b: 0, a: 1}
+  ButtonText: {r: 0.003921569, g: 0.003921569, b: 0.003921569, a: 1}
+  ContentText: {r: 0.19215688, g: 0.19215688, b: 0.19215688, a: 1}
+  TitleText: {r: 0.003921569, g: 0.003921569, b: 0.003921569, a: 1}

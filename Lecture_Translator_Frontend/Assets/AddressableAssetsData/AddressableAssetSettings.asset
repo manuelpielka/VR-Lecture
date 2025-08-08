@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 4be6ff3cf2233cd498c5bdce25796578
   m_currentHash:
     serializedVersion: 2
-    Hash: e87cd2a33180625715326195ac0705f1
+    Hash: a7e014c751358ddc199fe84808f64074
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -24,11 +24,11 @@ MonoBehaviour:
   m_InternalBundleIdMode: 1
   m_AssetLoadMode: 0
   m_BundledAssetProviderType:
-    m_AssemblyName: 
-    m_ClassName: 
+    m_AssemblyName: Unity.ResourceManager, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_ClassName: UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider
   m_AssetBundleProviderType:
-    m_AssemblyName: 
-    m_ClassName: 
+    m_AssemblyName: Unity.ResourceManager, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    m_ClassName: UnityEngine.ResourceManagement.ResourceProviders.AssetBundleProvider
   m_IgnoreUnsupportedFilesInBuild: 0
   m_UniqueBundleIds: 0
   m_EnableJsonCatalog: 0
@@ -59,7 +59,10 @@ MonoBehaviour:
   m_BuildAddressablesWithPlayerBuild: 0
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
+  - {fileID: 11400000, guid: b70f5cffa10ef1f45ba85c8b14847ba3, type: 2}
+  - {fileID: 11400000, guid: 7f1c890dd79c4084e958ee5bfeac7727, type: 2}
   - {fileID: 11400000, guid: 8aa35887a5806a54f93f2057bd389751, type: 2}
+  - {fileID: 11400000, guid: 74df71bafff50204fa23808719953a8a, type: 2}
   - {fileID: 11400000, guid: 216aa03e06c50fc46a53218ac59c20d9, type: 2}
   m_BuildSettings:
     m_LogResourceManagerExceptions: 1
@@ -101,6 +104,8 @@ MonoBehaviour:
     m_LabelNames:
     - default
     - Locale
+    - Locale-en
+    - Locale-de
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 9f3118841c595754cbfa88fcdce4d2ce, type: 2}

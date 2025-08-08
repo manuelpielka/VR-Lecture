@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: UI_Languages Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: UI_Languages
+  m_TableCollectionNameGuidString: ca9e53fbc695b7c4fa2fd1a9c4ed231d
+  m_Entries:
+  - m_Id: 747413770240
+    m_Key: title_settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 824362471424
+    m_Key: select_environment
+    m_Metadata:
+      m_Items: []
+  - m_Id: 959305814016
+    m_Key: auto_switch_mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1034291580928
+    m_Key: dark_mode
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1101475942400
+    m_Key: select_language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1191825444864
+    m_Key: tutorial
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1231054770176
+    m_Key: reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1328954019840
+    m_Key: discard
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1370284691456
+    m_Key: apply
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 4922307052833865728
+  references:
+    version: 2
+    RefIds:
+    - rid: 4922307052833865728
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1754696164848

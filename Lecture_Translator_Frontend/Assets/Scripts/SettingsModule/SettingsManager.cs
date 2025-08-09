@@ -42,10 +42,10 @@ public class SettingsManager : MonoBehaviour
 
         await languageManager.InitializeAsync();
 
-        string savedLanguage = UserPreferencesManager.LoadLanguageOrNull(); // 可能为 null
+        string savedLanguage = UserPreferencesManager.LoadLanguageOrNull();
         if (string.IsNullOrEmpty(savedLanguage))
         {
-            savedLanguage = "en"; // 默认英语
+            savedLanguage = "en";
             UserPreferencesManager.SaveLanguage(savedLanguage);
         }
 

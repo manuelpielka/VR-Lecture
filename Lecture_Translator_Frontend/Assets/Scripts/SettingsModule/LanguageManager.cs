@@ -54,7 +54,7 @@ public class LanguageManager
         // if not found
         if (targetLocale == null)
         {
-            Debug.LogWarning($"[LanguageManager] 找不到代码为 {code} 的语言");
+            Debug.LogWarning($"[LanguageManager] {code} not found");
             return;
         }
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -183,9 +182,6 @@ public class SettingsWindow : Window
         UpdateToggleStates();
     }
 
-    /// <summary>
-    /// 根据当前状态刷新 toggle 状态和交互性
-    /// </summary>
     private void UpdateToggleStates()
     {
         modeAutoSwitchToggle.isOn = tempAutoAdjust;
@@ -194,9 +190,7 @@ public class SettingsWindow : Window
         UpdateToggleInteractableStates();
     }
 
-    /// <summary>
-    /// 控制互斥关系（互相禁止点击）
-    /// </summary>
+
     private void UpdateToggleInteractableStates()
     {
         modeAutoSwitchToggle.interactable = !tempDarkMode;
@@ -212,7 +206,7 @@ public class SettingsWindow : Window
 
         if (!string.IsNullOrEmpty(target) && target != current)
         {
-            await SettingsManager.Instance.ApplyLanguageAsync(target); // 切语言 + 保存
+            await SettingsManager.Instance.ApplyLanguageAsync(target);
         }
 
         pendingLanguageCode = null;

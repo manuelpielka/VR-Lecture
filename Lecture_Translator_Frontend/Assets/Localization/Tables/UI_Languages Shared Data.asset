@@ -51,6 +51,154 @@ MonoBehaviour:
     m_Key: apply
     m_Metadata:
       m_Items: []
+  - m_Id: 321244055801856
+    m_Key: title_login
+    m_Metadata:
+      m_Items: []
+  - m_Id: 334678491205632
+    m_Key: btn_paste
+    m_Metadata:
+      m_Items: []
+  - m_Id: 334748959707136
+    m_Key: ph_token
+    m_Metadata:
+      m_Items: []
+  - m_Id: 336587314761728
+    m_Key: subtitle_size
+    m_Metadata:
+      m_Items: []
+  - m_Id: 336825039523840
+    m_Key: title_notes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 337692941684736
+    m_Key: ph_create_note
+    m_Metadata:
+      m_Items: []
+  - m_Id: 338444930060288
+    m_Key: mm_lectures
+    m_Metadata:
+      m_Items: []
+  - m_Id: 338646948712448
+    m_Key: mm_take_notes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 340533831864320
+    m_Key: note_create_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 341126298275840
+    m_Key: ph_note_body
+    m_Metadata:
+      m_Items: []
+  - m_Id: 341320528105472
+    m_Key: ph_note_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 342304587321344
+    m_Key: note_use_timestamp_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 342381863178240
+    m_Key: note_for_lecture
+    m_Metadata:
+      m_Items: []
+  - m_Id: 345632385863680
+    m_Key: chat_user
+    m_Metadata:
+      m_Items: []
+  - m_Id: 345704397869056
+    m_Key: chat_ai
+    m_Metadata:
+      m_Items: []
+  - m_Id: 345769921286144
+    m_Key: chat_input_ph
+    m_Metadata:
+      m_Items: []
+  - m_Id: 345826640859136
+    m_Key: chat_loading
+    m_Metadata:
+      m_Items: []
+  - m_Id: 347290843025408
+    m_Key: browse_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 347431457067008
+    m_Key: browse_search_ph
+    m_Metadata:
+      m_Items: []
+  - m_Id: 348832237162496
+    m_Key: playback_speed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 349199658192896
+    m_Key: subtitles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 349493746012160
+    m_Key: language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 350322431430656
+    m_Key: toggle_on
+    m_Metadata:
+      m_Items: []
+  - m_Id: 350399694704640
+    m_Key: toggle_off
+    m_Metadata:
+      m_Items: []
+  - m_Id: 351368222412800
+    m_Key: tutorial_next_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 351591791398912
+    m_Key: tutorial_welcome
+    m_Metadata:
+      m_Items: []
+  - m_Id: 352870139760640
+    m_Key: tutorial_browse_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 352952167763968
+    m_Key: tutorial_browse
+    m_Metadata:
+      m_Items: []
+  - m_Id: 353444633579520
+    m_Key: tutorial_playback_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 353982276243456
+    m_Key: tutorial_playback
+    m_Metadata:
+      m_Items: []
+  - m_Id: 354480542781440
+    m_Key: tutorial_transcript_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 354808390553600
+    m_Key: tutorial_transcript
+    m_Metadata:
+      m_Items: []
+  - m_Id: 355444930711552
+    m_Key: tutorial_aiassistant_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 355479298838528
+    m_Key: tutorial_aiassistant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 356416369266688
+    m_Key: tutorial_completed_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 356419733098496
+    m_Key: tutorial_completed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 356424422330368
+    m_Key: tutorial_finish_button
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

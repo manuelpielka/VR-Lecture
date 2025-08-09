@@ -11,6 +11,7 @@ public static class UserPreferencesManager
     private const string IsDarkModeKey = "UserPref_IsDarkMode";
     private const string AutoAdjustKey = "UserPref_AutoAdjust";
     private const string BackgroundSceneIdKey = "UserPref_BackgroundSceneId";
+    private const string LanguageKey = "UserPref_Language";
 
     private const string TutorialcompletedKey = "UserPref_TutorialCompleted";
 
@@ -52,6 +53,18 @@ public static class UserPreferencesManager
         bool autoAdjust = PlayerPrefs.GetInt(AutoAdjustKey, 1) == 1;
         Debug.Log($"Loaded Auto Adjust: {autoAdjust}");
         return autoAdjust;
+    }
+
+    public static void SaveLanguage(string code)
+    {
+        Debug.Log($"Saving Language: {code}");
+        PlayerPrefs.SetString(LanguageKey, code);
+        PlayerPrefs.Save();
+    }
+
+    public static string LoadLanguageOrNull()
+    {
+        return PlayerPrefs.HasKey(LanguageKey) ? PlayerPrefs.GetString(LanguageKey) : null;
     }
 
     /// <summary>

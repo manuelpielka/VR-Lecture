@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 /// <summary>
 /// The central manager for coordinating all settings modules,
@@ -9,6 +11,8 @@ public class SettingsManager : MonoBehaviour
     //[SerializeField] private EnvironmentManager environmentManager;
 
     public static SettingsManager Instance { get; private set; }
+
+    private LanguageManager languageManager;
 
     private bool autoSwitch;
     private bool darkMode;
@@ -27,15 +31,28 @@ public class SettingsManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // Load user preferences (if any)
-        autoSwitch = UserPreferencesManager.LoadAutoAdjust();
-        darkMode = UserPreferencesManager.LoadDarkMode(); LoadSettings();
+        languageManager = new LanguageManager();
+        LoadSettings();
     }
 
-    private void Start()
+    private async void Start()
     {
         Debug.Log("SettingsManager Started");
         ApplyDisplayMode();
+
+        await languageManager.InitializeAsync();
+
+        string savedLanguage = UserPreferencesManager.LoadLanguageOrNull(); // 可能为 null
+        if (string.IsNullOrEmpty(savedLanguage))
+        {
+            savedLanguage = "en"; // 默认英语
+            UserPreferencesManager.SaveLanguage(savedLanguage);
+        }
+
+        if (LanguageExists(savedLanguage))
+        {
+            await languageManager.SetLanguageAsync(savedLanguage);
+        }
     }
 
     /// <summary>
@@ -98,4 +115,29 @@ public class SettingsManager : MonoBehaviour
 
     public bool GetAutoSwitch() => autoSwitch;
     public bool GetDarkMode() => darkMode;
+
+    public IReadOnlyDictionary<string, string> GetLanguages()
+    {
+        return languageManager.GetLanguages();
+    }
+
+    public string GetCurrentLanguageCode()
+    {
+        return languageManager.GetCurrentLanguageCode();
+    }
+
+    public bool LanguageExists(string code)
+    {
+        return languageManager.LanguageExists(code);
+    }
+
+    public async Task ApplyLanguageAsync(string code)
+    {
+        if (string.IsNullOrEmpty(code) || !LanguageExists(code)) return;
+
+        await languageManager.SetLanguageAsync(code);
+        UserPreferencesManager.SaveLanguage(code);
+        Debug.Log($"[Lang] ApplyLanguageAsync target={code}");
+        Debug.Log($"[Lang] SelectedLocale = {UnityEngine.Localization.Settings.LocalizationSettings.SelectedLocale.Identifier.Code}");
+    }
 }

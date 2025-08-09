@@ -1,7 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System;
 
 public class SettingsWindow : Window
 {
@@ -18,13 +20,16 @@ public class SettingsWindow : Window
 
     //public SettingsManager settingsManager;
 
-    private readonly string[] supportedLanguages = { "English", "Deutsch"};
+    //private readonly string[] supportedLanguages = { "English", "Deutsch"};
 
     // Temporary cached values for Apply/Discard logic
     private bool tempAutoAdjust;
     private bool tempDarkMode;
     private int tempBackgroundIndex;
-    private int tempLanguageIndex;
+
+    private List<string> languageCodes = new List<string>();   // "en","de"
+    private List<string> languageNames = new List<string>();
+    private string pendingLanguageCode = null;
 
 
     void Start()
@@ -43,6 +48,7 @@ public class SettingsWindow : Window
 
         //InitDropdowns();
         LoadInitialSettings();
+        BuildLanguageDropdown();
         BindListeners();
 
         resetTutorialButton = transform.Find("Canvas/Panel/ResetTutorialButton")?.GetComponent<Button>();
@@ -108,20 +114,39 @@ public class SettingsWindow : Window
         UpdateToggleInteractableStates();
     }
 
+    private void BuildLanguageDropdown()
+    {
+        var dict = SettingsManager.Instance.GetLanguages(); // code -> display
+        languageCodes = dict.Keys.OrderBy(k => dict[k]).ToList();
+        languageNames = languageCodes.Select(code => dict[code]).ToList();
 
+        languageDropdown.ClearOptions();
+        languageDropdown.AddOptions(languageNames);
+
+        SyncLanguageDropdownToCurrent();
+        pendingLanguageCode = null;
+    }
+
+    private void SyncLanguageDropdownToCurrent()
+    {
+        string current = SettingsManager.Instance.GetCurrentLanguageCode();
+        int idx = Mathf.Max(0, languageCodes.IndexOf(current));
+        languageDropdown.SetValueWithoutNotify(idx);
+        languageDropdown.RefreshShownValue();
+    }
 
     //private int GetBackgroundIndex(string sceneId)
     //{
-        //var envManager = FindAnyObjectByType<EnvironmentManager>();
-        //if (envManager == null) return 0;
-        //return envManager.Environments.FindIndex(e => e.SceneId == sceneId);
+    //var envManager = FindAnyObjectByType<EnvironmentManager>();
+    //if (envManager == null) return 0;
+    //return envManager.Environments.FindIndex(e => e.SceneId == sceneId);
     //}
 
     //private int GetLanguageIndex(string lang)
     //{
-        //for (int i = 0; i < supportedLanguages.Length; i++)
-            //if (supportedLanguages[i] == lang) return i;
-        //return 0;
+    //for (int i = 0; i < supportedLanguages.Length; i++)
+    //if (supportedLanguages[i] == lang) return i;
+    //return 0;
     //}
 
     private void BindListeners()
@@ -131,15 +156,16 @@ public class SettingsWindow : Window
         applyButton.onClick.AddListener(OnApplyButtonClicked);
         discardButton.onClick.AddListener(OnDiscardButtonClicked);
 
+        languageDropdown.onValueChanged.AddListener(idx =>
+        {
+            if (idx >= 0 && idx < languageCodes.Count)
+                pendingLanguageCode = languageCodes[idx];
+        });
+
 
         //backgroundDropdown.onValueChanged.AddListener(index =>
         //{
-            //tempBackgroundIndex = index;
-        //});
-
-        //languageDropdown.onValueChanged.AddListener(index =>
-        //{
-            //tempLanguageIndex = index;
+        //tempBackgroundIndex = index;
         //});
     }
 
@@ -177,15 +203,32 @@ public class SettingsWindow : Window
         darkModeToggle.interactable = !tempAutoAdjust;
     }
 
-    public void OnApplyButtonClicked()
+    public async void OnApplyButtonClicked()
     {
         SettingsManager.Instance.ApplySettings(tempAutoAdjust, tempDarkMode);
+
+        string current = SettingsManager.Instance.GetCurrentLanguageCode();
+        string target = string.IsNullOrEmpty(pendingLanguageCode) ? current : pendingLanguageCode;
+
+        if (!string.IsNullOrEmpty(target) && target != current)
+        {
+            await SettingsManager.Instance.ApplyLanguageAsync(target); // «–”Ô—‘ + ±£¥Ê
+        }
+
+        pendingLanguageCode = null;
+        SyncLanguageDropdownToCurrent();
+
         Debug.Log("[SettingsWindow] Apply pressed: saved & applied.");
+        Debug.Log($"[Lang] current={SettingsManager.Instance.GetCurrentLanguageCode()} pending={pendingLanguageCode}");
     }
 
     public void OnDiscardButtonClicked()
     {
         LoadInitialSettings();
+
+        pendingLanguageCode = null;
+        SyncLanguageDropdownToCurrent();
+
         Debug.Log("[SettingsWindow] Discard pressed: reverted changes.");
     }
 }

@@ -54,6 +54,173 @@ MonoBehaviour:
     m_Localized: Apply
     m_Metadata:
       m_Items: []
+  - m_Id: 321244055801856
+    m_Localized: Login
+    m_Metadata:
+      m_Items: []
+  - m_Id: 334678491205632
+    m_Localized: Paste
+    m_Metadata:
+      m_Items: []
+  - m_Id: 334748959707136
+    m_Localized: Enter token here...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 336587314761728
+    m_Localized: Subtitle Size
+    m_Metadata:
+      m_Items: []
+  - m_Id: 336825039523840
+    m_Localized: Your Notes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 337692941684736
+    m_Localized: "Click + to create note\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 338444930060288
+    m_Localized: Lectures
+    m_Metadata:
+      m_Items: []
+  - m_Id: 338646948712448
+    m_Localized: Take notes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 340533831864320
+    m_Localized: Create Note
+    m_Metadata:
+      m_Items: []
+  - m_Id: 341126298275840
+    m_Localized: Enter text...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 341320528105472
+    m_Localized: Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 342304587321344
+    m_Localized: Use current timestamp as title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 342381863178240
+    m_Localized: 'Note for:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 345632385863680
+    m_Localized: User
+    m_Metadata:
+      m_Items: []
+  - m_Id: 345704397869056
+    m_Localized: AI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 345769921286144
+    m_Localized: "Type your question here\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 345826640859136
+    m_Localized: "Loading\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 347290843025408
+    m_Localized: Browse Online Lectures
+    m_Metadata:
+      m_Items: []
+  - m_Id: 347431457067008
+    m_Localized: "Search\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 348832237162496
+    m_Localized: Playback speed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 349199658192896
+    m_Localized: Subtitles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 349493746012160
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 350322431430656
+    m_Localized: On
+    m_Metadata:
+      m_Items: []
+  - m_Id: 350399694704640
+    m_Localized: Off
+    m_Metadata:
+      m_Items: []
+  - m_Id: 351368222412800
+    m_Localized: Next
+    m_Metadata:
+      m_Items: []
+  - m_Id: 351591791398912
+    m_Localized: "Welcome to the VR Lecture Viewer! \n\nThis program lets you view
+      recorded lectures in a virtual environment, interact with a virtual assistant,
+      and explore lectures using various tools.\n\nFirst, open the main menu using
+      the button on your controller!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 352870139760640
+    m_Localized: Browsing Lectures
+    m_Metadata:
+      m_Items: []
+  - m_Id: 352952167763968
+    m_Localized: "Here you will learn how to select and open a lecture.\n\nFrom the\_Main
+      Menu, press the\_ \u201CLectures\u201D\_button. This opens the lecture browser
+      window.\n\nSelect a lecture from the list and open it. \n\nThis will load the
+      video lecture in the virtual space."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 353444633579520
+    m_Localized: Lecture Playback
+    m_Metadata:
+      m_Items: []
+  - m_Id: 353982276243456
+    m_Localized: "Control how your lecture is played with intuitive controls.\n\nUse
+      the\_Playback Controls Window\_to navigate the lecture (play, pause, skip,
+      or seek).\n\nCustomize settings like playback speed, font size, or subtitle
+      language!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 354480542781440
+    m_Localized: Transcripts and Translations
+    m_Metadata:
+      m_Items: []
+  - m_Id: 354808390553600
+    m_Localized: 'Read or follow along with the spoken content via transcript or
+      translation.
+
+
+      Press The "Transcript" button in the bottom right of the
+      player!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 355444930711552
+    m_Localized: AI Assistant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 355479298838528
+    m_Localized: "You can ask the avatar questions during lecture playback.\n\nPress\_the
+      \u201CAsk Avatar\u201D\_button in the bottom right.\n\nYou can enter the question
+      or speak it aloud using the microphone button!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 356416369266688
+    m_Localized: Tutorial Completed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 356419733098496
+    m_Localized: 'You have completed the tutorial!
+
+
+      Have fun learning!'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 356424422330368
+    m_Localized: Finish
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

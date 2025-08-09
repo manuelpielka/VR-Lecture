@@ -54,6 +54,169 @@ MonoBehaviour:
     m_Localized: "\xDCbernehmen"
     m_Metadata:
       m_Items: []
+  - m_Id: 321244055801856
+    m_Localized: Anmeldung
+    m_Metadata:
+      m_Items: []
+  - m_Id: 334678491205632
+    m_Localized: "Einf\xFCgen"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 334748959707136
+    m_Localized: "Token hier eingeben\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 336587314761728
+    m_Localized: "Untertitelgr\xF6\xDFe"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 336825039523840
+    m_Localized: Ihre Notizen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 337692941684736
+    m_Localized: "Klicken Sie auf +, um eine Notiz zu erstellen\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 338646948712448
+    m_Localized: Notizen erstellen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 338444930060288
+    m_Localized: Vorlesungen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 340533831864320
+    m_Localized: Notiz erstellen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 341126298275840
+    m_Localized: "Text eingeben\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 341320528105472
+    m_Localized: Titel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 342304587321344
+    m_Localized: Aktuellen Zeitstempel als Titel verwenden
+    m_Metadata:
+      m_Items: []
+  - m_Id: 342381863178240
+    m_Localized: "Notiz f\xFCr: "
+    m_Metadata:
+      m_Items: []
+  - m_Id: 345632385863680
+    m_Localized: Benutzer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 345704397869056
+    m_Localized: KI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 345769921286144
+    m_Localized: "Tippen Sie Ihre Frage hier ein\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 345826640859136
+    m_Localized: "Wird geladen\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 347290843025408
+    m_Localized: Online-Vorlesungen durchsuchen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 347431457067008
+    m_Localized: "Suchen\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 348832237162496
+    m_Localized: Wiedergabegeschwindigkeit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 349199658192896
+    m_Localized: Untertitel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 349493746012160
+    m_Localized: Sprache
+    m_Metadata:
+      m_Items: []
+  - m_Id: 350322431430656
+    m_Localized: An
+    m_Metadata:
+      m_Items: []
+  - m_Id: 350399694704640
+    m_Localized: Aus
+    m_Metadata:
+      m_Items: []
+  - m_Id: 351368222412800
+    m_Localized: Weiter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 351591791398912
+    m_Localized: "Willkommen beim VR Lecture Viewer!\n\nDieses Programm erm\xF6glicht
+      es Ihnen, aufgezeichnete Vorlesungen in einer virtuellen Umgebung anzusehen,
+      mit einem virtuellen Assistenten zu interagieren und Vorlesungen mit verschiedenen
+      Werkzeugen zu erkunden.\n\n\xD6ffnen Sie zuerst das Hauptmen\xFC mit der Taste
+      an Ihrem Controller!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 352870139760640
+    m_Localized: Vorlesungen durchsuchen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 352952167763968
+    m_Localized: "Hier lernen Sie, wie Sie eine Vorlesung ausw\xE4hlen und \xF6ffnen.\n\nW\xE4hlen
+      Sie im Hauptmen\xFC die Schaltfl\xE4che \u201EVorlesungen\u201C. Dies \xF6ffnet
+      das Vorlesungsbrowser-Fenster.\n\nW\xE4hlen Sie eine Vorlesung aus der Liste
+      und \xF6ffnen Sie sie.\n\nDadurch wird die Videovorlesung in den virtuellen
+      Raum geladen."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 353444633579520
+    m_Localized: Vorlesungswiedergabe
+    m_Metadata:
+      m_Items: []
+  - m_Id: 353982276243456
+    m_Localized: "Steuern Sie die Wiedergabe Ihrer Vorlesung mit intuitiven Bedienelementen.\n\nVerwenden
+      Sie das Fenster \u201EWiedergabesteuerung\u201C, um in der Vorlesung zu navigieren
+      (abspielen, pausieren, \xFCberspringen oder suchen).\n\nPassen Sie Einstellungen
+      wie Wiedergabegeschwindigkeit, Schriftgr\xF6\xDFe oder Untertitelsprache an!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 354480542781440
+    m_Localized: "Transkripte und \xDCbersetzungen"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 354808390553600
+    m_Localized: "Lesen Sie mit oder folgen Sie dem gesprochenen Inhalt \xFCber Transkript
+      oder \xDCbersetzung.\n\nDr\xFCcken Sie die \u201ETranskript\u201C-Taste unten
+      rechts im Player!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 355444930711552
+    m_Localized: KI-Assistent
+    m_Metadata:
+      m_Items: []
+  - m_Id: 355479298838528
+    m_Localized: "Sie k\xF6nnen dem Avatar w\xE4hrend der Vorlesung Fragen stellen.\n\nDr\xFCcken
+      Sie die Schaltfl\xE4che \u201EAvatar fragen\u201C unten rechts.\n\nSie k\xF6nnen
+      die Frage eingeben oder sie \xFCber die Mikrofontaste laut stellen!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 356424422330368
+    m_Localized: Fertig
+    m_Metadata:
+      m_Items: []
+  - m_Id: 356419733098496
+    m_Localized: "Sie haben das Tutorial abgeschlossen!\n\nViel Spa\xDF beim Lernen!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 356416369266688
+    m_Localized: Tutorial abgeschlossen
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

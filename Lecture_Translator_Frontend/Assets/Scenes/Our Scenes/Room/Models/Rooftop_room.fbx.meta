@@ -1,0 +1,522 @@
+fileFormatVersion: 2
+guid: 071fc787633a5423d976817190045449
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Baldo mdf
+    second: {fileID: 2100000, guid: 788ca9eb0acfb4dacb5c7eb9212c7dc7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Daiktadezes korpusas
+    second: {fileID: 2100000, guid: 4189f585bbed74132a0810c389bd4560, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Dangtelio plastikas
+    second: {fileID: 2100000, guid: ed051cb117d79497f8d9a740c2990127, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DefaultMaterial~1
+    second: {fileID: 2100000, guid: 3c3597281653846caaa3339dacf65dbb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Deziu oda
+    second: {fileID: 2100000, guid: 663071e2e612c48eb805b4a55697f121, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Deziu raistelis
+    second: {fileID: 2100000, guid: 045802a392a3542088f63fdd88a2d647, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Duru stikliukas
+    second: {fileID: 2100000, guid: 7c5378e7a27ab42a9835a1b3c44a2026, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Durys
+    second: {fileID: 2100000, guid: 9c4e3282b2ee54876a05e9851abddf5e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Figuros sviesios
+    second: {fileID: 2100000, guid: a160db885f92149f2b9a1f1a5fb68e4f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Figuros tamsios
+    second: {fileID: 2100000, guid: 2195429e7586045a396a83831e9ffaf7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Foto1
+    second: {fileID: 2100000, guid: 37781a6e84e2c49deaf6a98db23eb0d6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Foto3
+    second: {fileID: 2100000, guid: c39f0da74491d41c2869fd66df454b0c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Foto6
+    second: {fileID: 2100000, guid: f9fea1d0c19854761bebcca8b11738a6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Kamuolio balta
+    second: {fileID: 2100000, guid: cd9378bf609e544b0bd113d4fcaf2650, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Kamuolio juoda
+    second: {fileID: 2100000, guid: ea13d224764364f21b4e9b504b90b12a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Kedes medz
+    second: {fileID: 2100000, guid: 5858b21e1e12641c598d57bf5e7ddfc1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Kedes plastik
+    second: {fileID: 2100000, guid: fcbea481ff9b8446d9f22c47af7f4c0a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Kedes ratuk
+    second: {fileID: 2100000, guid: c8d62d3ef356e48d4868e70d24908e9a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Kilimas
+    second: {fileID: 2100000, guid: b4bb50fb0aa3e415791c0d6e1d935fd4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Laikrodzio korpusas
+    second: {fileID: 2100000, guid: 30744d8264eb24bcd9c4016a0bba7fdf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Langas
+    second: {fileID: 2100000, guid: 30af7730dca5c45c8b19f3a2aa1ca719, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lempos cromas
+    second: {fileID: 2100000, guid: eeec69584ce21466ea51f556f982d7d4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lempos cromas1
+    second: {fileID: 2100000, guid: e98c0c30288d14ac79e769669c4e5bc8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lempos korpusas
+    second: {fileID: 2100000, guid: 6c623a35aae0041ab9aeec41d65c8f7a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lempos laidas
+    second: {fileID: 2100000, guid: e05fcc3f91bcb4436a4d76ce60b7a6ac, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lempos vidus
+    second: {fileID: 2100000, guid: 3f299936e03b8407e80df47a0cedd087, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Loptopo LOGO
+    second: {fileID: 2100000, guid: e9f2c64f7daa04789807bd12dccad2ba, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Loptopo korpusas
+    second: {fileID: 2100000, guid: 96b568b2a0b5d4f1abddec487ddaa953, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Lubos
+    second: {fileID: 2100000, guid: 1ee6af4ea73ef47208c4cc3557ff911c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #1
+    second: {fileID: 2100000, guid: 29db063dd1d05420293b19d4d2f9275c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #10
+    second: {fileID: 2100000, guid: 0de33d027b1064fbdb23e092b546d706, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #11
+    second: {fileID: 2100000, guid: bdf8ebf42fd224f41b5eac7d63a508ae, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #12
+    second: {fileID: 2100000, guid: a13f5112eb5784cb6a926c376b7d4e06, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #13
+    second: {fileID: 2100000, guid: b852e7558ae6446719dd9b5b8b89b51f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #14
+    second: {fileID: 2100000, guid: d3f473425fd394d2794cd3cf160b170a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #2
+    second: {fileID: 2100000, guid: 3b021c8e757514d1895ac0a8137b8ac6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #3
+    second: {fileID: 2100000, guid: a396dbb8cddf545c6a5480a8a2a00788, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #4
+    second: {fileID: 2100000, guid: aa64eded64b6c4b358b4192a1d997ced, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #5
+    second: {fileID: 2100000, guid: 5f70ca3b4c9fc4302a135662f85ccb6b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #6
+    second: {fileID: 2100000, guid: a8e0ce47ada3348ea9d04420de625274, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #7
+    second: {fileID: 2100000, guid: a234c3402e34b4b7fb5f77044dd9ae03, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #8
+    second: {fileID: 2100000, guid: 7f33ec7769891431ba8dd73f4ddebe3c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material #9
+    second: {fileID: 2100000, guid: 2cb1b29ce0859487dbe2a3841e90118b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mdf
+    second: {fileID: 2100000, guid: f90bab65f99474083b2fb8c41393738b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Medis
+    second: {fileID: 2100000, guid: d665ef96feb014f7abf6de3daae12ff5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Medis virtuveje
+    second: {fileID: 2100000, guid: 8e9d099e80e444a55ae8d85a2655bf2d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PS aliuminis
+    second: {fileID: 2100000, guid: af50ad0c688af4b9496458646aeac762, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PS geltona
+    second: {fileID: 2100000, guid: 0c34710a48eb64f6d883ccca6e08f2f0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PS korpusas
+    second: {fileID: 2100000, guid: 7bcce8a57250945a19150401d1993978, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PS melyna
+    second: {fileID: 2100000, guid: a74958afe7c6c4c0cbd44851acd668c5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PS pulto guma
+    second: {fileID: 2100000, guid: a1f040f11d18f416fa0302ccf77725e4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PS raudona
+    second: {fileID: 2100000, guid: 04f37313f40714accb6442e06517ddd4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PS zalia
+    second: {fileID: 2100000, guid: ff46b376ce7684cccbcbe0e3629b6cbb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pagalve balta
+    second: {fileID: 2100000, guid: 5d492614ec97449af98931c01b58c6fc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Paneles korpusas
+    second: {fileID: 2100000, guid: e75cabcbce36e4fcfa5b63b5f0a0f23f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Paneles sviesa
+    second: {fileID: 2100000, guid: 530d1f895fea74803aa8c486957798d3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Parketas (2)
+    second: {fileID: 2100000, guid: 67bd3f32080be41d78a5184300787aa1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pav remas
+    second: {fileID: 2100000, guid: 5b7b5833e57ba45aeb40c8d094c0d201, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pav stiklas
+    second: {fileID: 2100000, guid: 282c3749e79c34d5498ca2d7ca63d632, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Paveiklas (1)
+    second: {fileID: 2100000, guid: 9c67d2d92ef984c59bd0f8e923e21ad0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Radiatoriaus balta
+    second: {fileID: 2100000, guid: 4ba7f99352c7e4358b04fe71606c283a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rankenos cromas
+    second: {fileID: 2100000, guid: a63519e885d444958ba8d81d17a35ed2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Remelis baltas
+    second: {fileID: 2100000, guid: 8ec3722008343485b91b3855bf3f59b6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rozetes korpusas
+    second: {fileID: 2100000, guid: ebc988f4d1a3946beba4eb70b0455fac, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Sacmatu sviesus medis
+    second: {fileID: 2100000, guid: 65d398164ae4d4332bc2c4be778cd1c8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Sacmatu tamsus medis
+    second: {fileID: 2100000, guid: 3a1c27017e9004be2be96d78d42373b5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Sienos
+    second: {fileID: 2100000, guid: 740242e46f2a74cfb8460e820fa0aa23, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SimLab_Auto_Lietuvos-v_liava_Material0
+    second: {fileID: 2100000, guid: 2dc442a789f7f4778b6f12d17d2e8868, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Skylute
+    second: {fileID: 2100000, guid: 3a8db46b8c7b14e75bb368b9efbdeec2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Sofkos pilka
+    second: {fileID: 2100000, guid: e55054b40c9914f70bed8fdd5be48c32, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Staliuku metalas
+    second: {fileID: 2100000, guid: da4dcf3b8c0a64cc08447a3321c7af65, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Staliuku virsus
+    second: {fileID: 2100000, guid: 7e0ac4a1bcc7944cfba9302a17929007, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stalo koja
+    second: {fileID: 2100000, guid: 8ba5e027e7d0e4ccc93608b04a3f09a7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Stiklas
+    second: {fileID: 2100000, guid: 704ad7baba0ff47429074f1b193ba30f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tv aliuminis
+    second: {fileID: 2100000, guid: 25ddf0afa7a9e4568ac5d993b4aa0851, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tv ekranas
+    second: {fileID: 2100000, guid: 06df51302309a494bb05dc3bdaeb634f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tv korpusas
+    second: {fileID: 2100000, guid: 3a4781929621e4bed94ee228bc55d8f8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Veliavos stiebas
+    second: {fileID: 2100000, guid: 2254247a764ab448f9e0088f8b287f03, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Virselis
+    second: {fileID: 2100000, guid: 068013f54787b4c2ba2d84faa09dd27c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Zaliuziu siulas
+    second: {fileID: 2100000, guid: e9c22d3d7053440f6aa11733475dd83c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Zurnalo sonai
+    second: {fileID: 2100000, guid: 690cb0a21870e4782853ca011b5d396f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: '[Color_003]'
+    second: {fileID: 2100000, guid: 73893beae29c346bc856bc0b652fbee3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: side logos
+    second: {fileID: 2100000, guid: a3043f92f4b604cc5b099d14f4c9d42d, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

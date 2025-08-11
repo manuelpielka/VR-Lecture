@@ -16,6 +16,12 @@ public class Window : MonoBehaviour
     public GameObject Prefab { get; set; }
 
     /// <summary>
+    /// Unique identifier for this window instance, matching the prefab key.
+    /// Used by <see cref="WindowManager"/> to detect and prevent opening duplicate windows.
+    /// </summary>
+    public string Key { get; set; } 
+
+    /// <summary>
     /// Reference to the window manager to open and close Window objects.
     /// </summary>
     public WindowManager WindowManager { get; set; }

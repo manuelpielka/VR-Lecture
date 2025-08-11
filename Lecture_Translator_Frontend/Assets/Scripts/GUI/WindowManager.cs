@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using System;
 using Vector3 = UnityEngine.Vector3;
 using Quaternion = UnityEngine.Quaternion;
+using NUnit.Framework;
 
 /// <summary>
 /// This class controls all Window object’s prefabs and currently opened Window objects after instantiating them.
@@ -46,6 +47,13 @@ public class WindowManager : MonoBehaviour
     /// </summary>
     void Awake()
     {
+        // Prevent multiple WindowManager instances from existing
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         instance = this;
         LoadWindowPrefabs();
     }
@@ -144,6 +152,7 @@ public class WindowManager : MonoBehaviour
 
                 window.WindowManager = this;
                 window.Prefab = prefab;
+                window.Key = prefabKey; //Needed so OpenWindow can detect and prevent duplicate windows
                 return window;
             }
             else
@@ -167,6 +176,10 @@ public class WindowManager : MonoBehaviour
     /// <returns>The window after opening it.</returns>
     public Window OpenWindow(string windowKey)
     {
+        //Check if the given window is already open 
+        var existing = activeWindows.Find(w => w.Key == windowKey);
+        if (existing != null) return existing;
+
         Window window = CreateWindow(windowKey);
         if (window != null)
         {
@@ -185,8 +198,6 @@ public class WindowManager : MonoBehaviour
     {
         return activeWindows.Exists(w => w.Prefab.name == windowKey);
     }
-
-
 
     /// <summary>
     /// Removes the closed window from the list of active windows.

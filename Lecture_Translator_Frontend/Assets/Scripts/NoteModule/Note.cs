@@ -3,18 +3,20 @@ using System.Text.RegularExpressions;
 
 /// <summary>
 /// Class <c>Note</c> represents a note with a title and its content.
+/// This class is marked as [System.Serializable] so it can be serialized by Unity's JsonUtility and displayed in the Inspector.
 /// </summary>
+[System.Serializable]
 public class Note
 {
     /// <summary>
     /// The title of the note.
     /// </summary>
-    public string Title { get; set; }
+    public string Title;
 
     /// <summary>
     /// The content of the note.
     /// </summary>
-    public string Content { get; set; }
+    public string Content;
 
     /// <summary>
     /// Constructor for deserialization of Unity instantiation.

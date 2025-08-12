@@ -37,7 +37,7 @@ public class NoteManager : MonoBehaviour
     /// <summary>
     /// Adds the new note and stores the note to the list of notes.
     /// </summary>
-    /// <param name="note"></param> The new created note.
+    /// <param name="note">The new created note.</param>
     public void AddNote(Note note)
     {
         if (IsNull(note, "Add note failed: note is null.")) return;
@@ -97,22 +97,7 @@ public class NoteManager : MonoBehaviour
 
         if (IsNull(note, "Edit failed: note is null.")) return;
 
-        foreach (var targetNote in Notes) //
-        {
-            Debug.Log($"The note '{targetNote.Title}' is in the list."); //
-        }
-
-        if (Notes.Contains(note)) //
-        {
-            Debug.Log($"The note '{note.Title}' has been found in the list."); //
-        }
-
         Note noteInList = Notes.Find(n => n.Title == note.Title);
-
-        if (noteInList != null) //
-            Debug.Log("找到了這個 note 用 Title 比對！"); //
-        else
-            Debug.LogWarning("用 Title 找還是找不到！"); //
 
         if (noteInList == null)
         {
@@ -120,16 +105,10 @@ public class NoteManager : MonoBehaviour
             return;
         }
 
-        //if (!Notes.Contains(note))
-        //{
-        //    Debug.LogWarning($"The note '{note.Title}' is not found in the list.");
-        //    return;
-        //}
-
         // Check if newTitle already exists in another note
         foreach (var existingNote in Notes)
         {
-            if (existingNote.Title == newTitle && existingNote != note)
+            if (existingNote.Title == newTitle && existingNote != noteInList)
             {
                 Debug.LogWarning($"Edit failed: another note with title '{newTitle}' already exists.");
                 return;
@@ -137,7 +116,7 @@ public class NoteManager : MonoBehaviour
         }
 
         //Delete the old file if the note title (file name) has changed
-        if (newTitle != note.Title)
+        if (newTitle != noteInList.Title)
         {
             string folder = Path.Combine(Application.persistentDataPath, "notes");
             string oldPath = Path.Combine(folder, $"{note.Title}.json");
@@ -154,12 +133,11 @@ public class NoteManager : MonoBehaviour
             catch (System.Exception ex)
             {
                 Debug.LogError($"Failed to rename note file '{note.Title}': {ex.Message}");
+                return;
             }
 
         }
 
-        //note.Title = newTitle;
-        //note.Content = newContent;
         noteInList.Title = newTitle;
         noteInList.Content = newContent;
         
@@ -169,7 +147,7 @@ public class NoteManager : MonoBehaviour
     /// <summary>
     /// Saves the note locally in a JSON file for offline use.
     /// </summary>
-    /// <param name="note"></param> The note to be saved.(The title of the note is also its file name.)
+    /// <param name="note">The note to be saved.(The title of the note is also its file name.)</param>
     public void SaveNote(Note note)
     {
         if (IsNull(note, "Save failed: note is null.")) return;
@@ -203,7 +181,7 @@ public class NoteManager : MonoBehaviour
     /// <summary>
     /// Loads the saved note from the local file for offline use.
     /// </summary>
-    /// <param name="title"></param>The title of the note to load. (It must match the file name.)
+    /// <param name="title">The title of the note to load. (It must match the file name.)</param>
     /// <returns>Return a <c>Note</c> object if the file is found and loaded successfully; Otherwise return null</returns>
     public Note LoadNote(string title)
     {

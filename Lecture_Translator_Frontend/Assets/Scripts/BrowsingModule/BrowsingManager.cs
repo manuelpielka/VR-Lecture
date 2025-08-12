@@ -208,7 +208,8 @@ namespace BrowsingModule
             request.SetRequestHeader("Content-Type", "application/json");
             request.timeout = requestTimeout;
 
-            //test
+            //From my recent test it seems that we need auth for this now
+            //I've taken the liberty of adding that here
             request.SetRequestHeader("Cookie", "_forward_auth=" + Login.token);
 
             //print("Sending request to: " + url);

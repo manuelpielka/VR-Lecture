@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -19,13 +20,28 @@ public class TranscriptWindow : Window
         languageDropdown.AddOptions(lecture.GetTranscriptLanguages());
 
         await transcriptDownload;
-        transcriptText.text = transcriptManager.GetTranscript(STANDARD_LANGUAGE).getFullText();
+        try
+        {
+            transcriptText.text = transcriptManager.GetTranscript(STANDARD_LANGUAGE).getFullText();
+        }
+        catch (KeyNotFoundException)
+        {
+            Debug.Log("Standard Language does not exist! This is not supposed to happen!");
+        }
+
     }
 
     public void LanguageSelected()
     {
         string selectedOption = languageDropdown.options[languageDropdown.value].text;
-        transcriptText.text = transcriptManager.GetTranscript(selectedOption).getFullText();
+        try
+        {
+            transcriptText.text = transcriptManager.GetTranscript(selectedOption).getFullText();
+        }
+        catch (KeyNotFoundException)
+        {
+            Debug.Log("Selected Language does not exist! This is not supposed to happen!");
+        }
     }
 
     public void SizePlusBtnPressed()

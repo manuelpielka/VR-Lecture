@@ -12,10 +12,10 @@ public class Transcript
     public Transcript(string fullText)
     {
         //Remove Metadata and Linebreaks
-        string cleanedText = fullText.Replace("WEBVTT","").Replace("\n"," ").Replace("\r","").Replace("   "," ");
+        string cleanedText = fullText.Replace("WEBVTT","").Replace("\n"," ").Replace("\r","").Replace("  "," ");
 
         //Remove Timestamps for full Text
-        this.fullText = Regex.Replace(cleanedText, TIMESTAMP_REGEX, "");
+        this.fullText = Regex.Replace(cleanedText, TIMESTAMP_REGEX, "").Replace("  ", " ");
 
         //create subtitles from the cleaned Text
         string[] rawLines = Regex.Split(cleanedText, TIMESTAMP_REGEX);

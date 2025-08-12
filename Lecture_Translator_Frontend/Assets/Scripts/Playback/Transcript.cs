@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -7,12 +6,12 @@ public class Transcript
 {
     private const string TIMESTAMP_REGEX = "[0-9]+:[0-9][0-9]:[0-9][0-9].[0-9][0-9][0-9] --> [0-9]+:[0-9][0-9]:[0-9][0-9].[0-9][0-9][0-9]";
     private const string REGEX_FIRST_PART = "[0-9]+:[0-9][0-9]:[0-9][0-9].[0-9][0-9][0-9] --> ";
-    private string fullText;
+    private readonly string fullText;
     private Dictionary<float, string> subtitleLines = new Dictionary<float, string>();
     public Transcript(string fullText)
     {
         //Remove Metadata and Linebreaks
-        string cleanedText = fullText.Replace("WEBVTT","").Replace("\n"," ").Replace("\r","").Replace("  "," ");
+        string cleanedText = fullText.Replace("WEBVTT", "").Replace("\n", " ").Replace("\r", "").Replace("  ", " ");
 
         //Remove Timestamps for full Text
         this.fullText = Regex.Replace(cleanedText, TIMESTAMP_REGEX, "").Replace("  ", " ");
@@ -22,7 +21,8 @@ public class Transcript
 
         IList<Match> matches = Regex.Matches(cleanedText, TIMESTAMP_REGEX);
         List<float> timestamps = new List<float>();
-        foreach (Match match in matches) {
+        foreach (Match match in matches)
+        {
             //turn upper limit string to seconds as float
             string value = match.Value;
             value = Regex.Replace(value, REGEX_FIRST_PART, "");
@@ -36,7 +36,14 @@ public class Transcript
         for (int i = 0; i < timestamps.Count; i++)
         {
             //rawlines starts with an empty line due to splitting, so i+1
-            subtitleLines.Add(timestamps[i],rawLines[i+1]);
+            subtitleLines.Add(timestamps[i], rawLines[i + 1]);
+        }
+
+        //handle empty subtitle files
+        if (subtitleLines.Count == 0)
+        {
+            subtitleLines.Add(Mathf.Infinity, "Unavailable");
+            this.fullText = "Unavailable";
         }
         
     }

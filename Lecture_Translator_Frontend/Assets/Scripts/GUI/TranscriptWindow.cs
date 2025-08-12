@@ -11,7 +11,7 @@ public class TranscriptWindow : Window
     [SerializeField] private TranscriptManager transcriptManager;
     private const string STANDARD_LANGUAGE = "Multilingual";
 
-    public async void AssignLecture(Lecture lecture)
+    public async Task AssignLecture(Lecture lecture)
     {
         Task transcriptDownload = transcriptManager.AssignLecture(lecture);
 

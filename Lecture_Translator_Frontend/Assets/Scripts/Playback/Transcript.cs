@@ -12,7 +12,7 @@ public class Transcript
     public Transcript(string fullText)
     {
         //Remove Metadata and Linebreaks
-        string cleanedText = fullText.Replace("WEBVTT","").Replace("\n","").Replace("\r","");
+        string cleanedText = fullText.Replace("WEBVTT","").Replace("\n"," ").Replace("\r","");
 
         //Remove Timestamps for full Text
         this.fullText = Regex.Replace(cleanedText, TIMESTAMP_REGEX, "");

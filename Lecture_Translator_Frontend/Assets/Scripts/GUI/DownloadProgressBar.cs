@@ -11,7 +11,6 @@ public class DownloadProgressBar : MonoBehaviour
     {
         if (request != null)
         {
-            Debug.Log("Current Progress: " + request.downloadProgress);
             progressBar.value = request.downloadProgress;
             if (request.isDone)
             {

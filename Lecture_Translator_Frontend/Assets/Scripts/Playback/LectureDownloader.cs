@@ -99,6 +99,9 @@ public static class LectureDownloader
         request.uploadHandler = new UploadHandlerRaw(byteJson);
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
+
+        //seems to be the case that we need auth for everything now
+        request.SetRequestHeader("Cookie", "_forward_auth=" + Login.token);
         await request.SendWebRequest();
 
 

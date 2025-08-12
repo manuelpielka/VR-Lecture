@@ -47,9 +47,6 @@ public class NoteManager : MonoBehaviour
             Debug.LogWarning($"Note '{note.Title}' already exists.");
             return;
         }
-
-        Notes.Add(note);
-        Debug.Log($"Add note '{note.Title}' into the note list."); //
     }
 
     /// <summary>

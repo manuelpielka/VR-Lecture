@@ -27,6 +27,11 @@ public class WindowManager : MonoBehaviour
     private List<Window> activeWindows = new();
 
     /// <summary>
+    /// A bool storing info about whether the main menu is currently open or not.
+    /// </summary>
+    private bool mainMenuOpen = false;
+
+    /// <summary>
     /// A list of all the prefabs of the windows with a key.
     /// </summary>
     [SerializeField] private List<GameObject> windowPrefabsList; //Populated in unity editor. Must have same order as in WindowKeys!!
@@ -82,7 +87,25 @@ public class WindowManager : MonoBehaviour
     /// <param name="context">The input action context.</param>
     private void OpenMainMenu(InputAction.CallbackContext context)
     {
-        OpenWindow(WindowKeys.MainMenuKey);
+        if (!mainMenuOpen)
+        {
+            mainMenuOpen = true;
+            OpenWindow(WindowKeys.MainMenuKey);
+
+        }
+        else
+        {
+            foreach (Window window in activeWindows)
+            {
+                if (window.Key == WindowKeys.MainMenuKey)
+                {
+                    mainMenuOpen = false;
+                    window.Close();
+                    return;
+                }
+            }
+        }
+
     }
 
     /// <summary>

@@ -46,7 +46,7 @@ public class Note
     /// <summary>
     /// Only numbers(0-9), letters(A-Z, a-z), hyphen(-) and underscores(_) are allowed.
     /// </summary>
-    /// <param name="title"></param>The title string to validate.
+    /// <param name="title">The title string to validate.</param>
     /// <returns>True if the title contains only allowed characters; Otherwise return false.</returns>
     private bool IsValidTitle(string title)
     {

@@ -1,82 +1,170 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Class <c>EnvironmentManager</c> manages switching between different VR environments.
+/// Class <c>EnvironmentManager</c>manages additive switching between environment scenes.
 /// </summary>
 public class EnvironmentManager : MonoBehaviour
 {
-    //A list of all available VR environment configurations.
-    [SerializeField]
-    public List<EnvironmentConfig> Environments = new List<EnvironmentConfig>();
+    /// <summary>
+    /// Global access to the only instance.
+    /// </summary>
+    public static EnvironmentManager Instance { get; private set; }
 
-    
-    //The currently active environment configuration.
-    public EnvironmentConfig CurrentEnvironment{ get; private set; }
-    
-    [SerializeField] private Transform backgroundContainer;
-    private GameObject currentBackgroundInstance;
+    /// <summary>
+    /// Default environment scene name (must exactly match the entry in Build Settings).
+    /// Used to detect the starting scene when the app boots into it, and as the target when you programmatically reset back to the default environment.
+    /// </summary>
+    [Header("Startup")]
+    [Tooltip("Scene that should be treated as the default environment.")]
+    [SerializeField] private string defaultEnvironmentScene = "Library hall";
 
+    /// <summary>
+    /// Tracks the currently active environment scene name.
+    /// </summary>
+    private string currentSceneName;
 
-    //Loads the environment configuration using the given scene ID and initiates the switch to that environment.
-    public void LoadEnvironment(string sceneId)
+    /// <summary>
+    /// Read-only current environment scene name.
+    /// </summary>
+    public string CurrentSceneName => currentSceneName;
+
+    /// <summary>
+    /// Returns all scene names from Build Settings (including index 0).
+    /// Intended for building dropdowns so users can switch and also switch back.
+    /// </summary>
+    /// <returns>A list of scene names in build-index order (including index 0)</returns>
+    public List<string> GetEnvironmentSceneNames()
     {
-        // Look up the environment configuration that matches the given scene ID
-        var config = FindEnvironmentById(sceneId);
-        if (config != null)
+        var names = new List<string>();
+        int count = SceneManager.sceneCountInBuildSettings;
+        for (int i = 0; i < count; i++)
         {
-            // If found, switch to the selected environment
-            SwitchEnvironment(config);
+            string path = SceneUtility.GetScenePathByBuildIndex(i);
+            string name = Path.GetFileNameWithoutExtension(path);
+            names.Add(name);
         }
-        else
-        {
-            // If not found, print a warning message
-            Debug.LogWarning($"Environment: '{sceneId}' not found.");
-        }
+        return names;
     }
 
-    //Switches to the specified environment by loading its scene and applying its config- uration.
-    public void SwitchEnvironment(EnvironmentConfig config)
+    /// <summary>
+    /// Switchs environments by scene name.
+    /// Validates the request and starts the internal switch routine.
+    /// </summary>
+    /// <param name="sceneName">Exact scene name as listed in Build Settings.</param>
+    public void LoadEnvironment(string sceneName)
     {
-        if (config == null)
+        if (string.IsNullOrEmpty(sceneName)) return;
+        if (sceneName == currentSceneName) return;
+
+        if (!IsSceneInBuildSettings(sceneName))
         {
+            Debug.LogWarning($"EnvironmentManager: Scene '{sceneName}' is not in Build Settings.");
             return;
         }
 
-        if (currentBackgroundInstance != null)
-        {
-            // Removes the previous background if it exists.
-            Destroy(currentBackgroundInstance);
-        }
-        // Instantiate the new background and assign it as the current one.
-        currentBackgroundInstance = Instantiate(config.BackgroundPrefab, backgroundContainer);
-        CurrentEnvironment = config;
+        StopAllCoroutines();
+        StartCoroutine(SwitchEnvironmentCoroutine(sceneName));
     }
-
-    //Searches available environments and returns the one matching the given scene ID.
-    public EnvironmentConfig FindEnvironmentById(string sceneId)
-    {
-        // Finds and returns the environment that matches the given SceneId.
-        return Environments.Find(environment => environment.SceneId == sceneId);
-    }
-
-
 
     /// <summary>
-    /// Called when the scene starts. 
-    /// Automatically loads the first environment in the list, so the user enters the app with a default VR background.
+    /// Loads the target environment additively, makes it active so RenderSettings apply,
+    /// then unloads the previous environment. Used internally by LoadEnvironment().
     /// </summary>
-    void Start()
+    /// <param name="targetScene">Scene name to load.</param>
+    /// <returns>Coroutine enumerator.</returns>
+    private IEnumerator SwitchEnvironmentCoroutine(string targetScene)
     {
-        // If the list of environments is not empty, automatically load the first environment.
-        if (Environments.Count > 0)
+        string previous = currentSceneName;
+
+        // Load target additively and wait until finished
+        var load = SceneManager.LoadSceneAsync(targetScene, LoadSceneMode.Additive);
+        load.allowSceneActivation = false;
+
+        // Wait until the scene data is fully loaded (progress reaches 0.9)
+        while (load.progress < 0.9f)
         {
-            string savedSceneId = UserPreferencesManager.LoadBackgroundSceneId();
-            LoadEnvironment(savedSceneId);
+            yield return null;
         }
+
+        // Allow activation; Awake/OnEnable/Start in the new scene will run now
+        load.allowSceneActivation = true;
+        while (!load.isDone) yield return null;
+
+        // Make the new environment the active scene so its RenderSettings apply
+        Scene newScene = SceneManager.GetSceneByName(targetScene);
+        if (newScene.IsValid())
+        {
+            SceneManager.SetActiveScene(newScene);
+        }
+
+        // Give one frame to settle before unloading the previous environment
+        yield return null;
+
+        // Unload previous environment (if any)
+        if (!string.IsNullOrEmpty(previous))
+        {
+            Scene prevScene = SceneManager.GetSceneByName(previous);
+            if (prevScene.IsValid() && prevScene.isLoaded)
+            {
+                AsyncOperation unload = SceneManager.UnloadSceneAsync(prevScene);
+                while (!unload.isDone) yield return null;
+            }
+        }
+        currentSceneName = targetScene;
     }
 
-    // Update is called once per frame
-    //void Update(){}
+    /// <summary>
+    /// Ensures a single, persistent instance and records the starting scene if the app booted directly into the default environment.
+    /// </summary>
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        // If app starts in the default environment (index 0), record it so we don't reload it.
+        var active = SceneManager.GetActiveScene().name;
+        if (active == defaultEnvironmentScene) currentSceneName = active;
+    }
+
+    /// <summary>
+    /// Checks whether a scene exists in Build Settings.
+    /// </summary>
+    /// <param name="sceneName">Scene name to look for.</param>
+    /// <returns></returns>
+    private bool IsSceneInBuildSettings(string sceneName)
+    {
+        int count = SceneManager.sceneCountInBuildSettings;
+        for (int i = 0; i < count; i++)
+        {
+            string path = SceneUtility.GetScenePathByBuildIndex(i);
+            string name = Path.GetFileNameWithoutExtension(path);
+            if (name == sceneName) return true;
+        }
+        return false;
+    }
+
+    // EnvironmentManager.cs (inside the class)
+#if UNITY_EDITOR
+    [ContextMenu("Switch To Room")]
+    private void _SwitchToRoom()
+    {
+        LoadEnvironment("Room");
+    }
+
+    [ContextMenu("Switch To Library hall")]
+    private void _SwitchToLibraryHall()
+    {
+        LoadEnvironment("Library hall"); // 改成你的場景名
+    }
+#endif
+
 }

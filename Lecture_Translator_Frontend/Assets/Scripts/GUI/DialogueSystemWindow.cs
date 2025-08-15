@@ -51,6 +51,11 @@ namespace GUI
         [SerializeField] private TextMeshProUGUI aiTextBox;
 
         /// <summary>
+        /// The input field to write the prompt into.
+        /// </summary>
+        [SerializeField] private TMP_InputField inputField;
+
+        /// <summary>
         /// The GameObject of the loading panel.
         /// </summary>
         [SerializeField] private GameObject loadingPanel;
@@ -140,6 +145,7 @@ namespace GUI
         /// </summary>
         public void TextInputEnded(string text)
         {
+            inputField.text = "";
             if (text == "") return;
             dialogueController.SendPrompt(text);
             userTextBox.text = text;

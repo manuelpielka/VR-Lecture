@@ -52,6 +52,7 @@ public class WindowManager : MonoBehaviour
     /// </summary>
     void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         // Prevent multiple WindowManager instances from existing
         if (instance != null && instance != this)
         {
@@ -151,6 +152,8 @@ public class WindowManager : MonoBehaviour
 
             GameObject instance = Instantiate(prefab);
             Window window = instance.GetComponent<Window>();
+
+            DontDestroyOnLoad(instance);
 
             if (window != null)
             {

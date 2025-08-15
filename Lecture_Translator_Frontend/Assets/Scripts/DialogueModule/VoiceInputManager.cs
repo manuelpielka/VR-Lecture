@@ -105,11 +105,11 @@ public class VoiceInputManager : MonoBehaviour
 
         if (!isRecording)
         {
+            // Start recording
             micImage.color = Color.red;
 
             dialogueController.StartAudioStream();
 
-            // Start recording
             audioSource.clip = Microphone.Start(micDevice, true, bufferSize, sampleRate);
 
             isRecording = true;
@@ -118,8 +118,9 @@ public class VoiceInputManager : MonoBehaviour
         }
         else
         {
-            micImage.color = Color.white;
             // End recording
+            micImage.color = Color.white;
+
             Microphone.End(micDevice);
 
             isRecording = false;
@@ -146,7 +147,7 @@ public class VoiceInputManager : MonoBehaviour
 
                 byte[] pcmChunk = FloatToPCM16(audioBuffer);
 
-                float startTime = time; // TODO: does this even work?
+                float startTime = time;
                 float endTime = startTime + ((float)pcmChunk.Length / (2 * sampleRate));
                 time = endTime;
 

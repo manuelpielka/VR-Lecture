@@ -72,6 +72,8 @@ public class DialogueController : MonoBehaviour, ISSEHandler
 
         string answer = await PostRequest(mainUrl + startDialogURL, json);
 
+        //TODO: Add error handling for "Not authorized"
+
         string[] ids = answer.Split(" ");
         sessionId = ids[0];
         streamId = ids[1];

@@ -2233,6 +2233,7 @@ MonoBehaviour:
   dialogueController: {fileID: 484358975134104627}
   userTextBox: {fileID: 8489464316716237434}
   aiTextBox: {fileID: 3911238746864813871}
+  inputField: {fileID: 4678811851802484631}
   loadingPanel: {fileID: 7682475292276140224}
   loading: 1
   llmAnswer: 

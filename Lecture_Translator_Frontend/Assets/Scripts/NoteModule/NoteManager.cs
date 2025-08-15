@@ -47,6 +47,14 @@ public class NoteManager : MonoBehaviour
             Debug.LogWarning($"Note '{note.Title}' already exists.");
             return;
         }
+
+        if (Notes.Exists(n => n.Title == note.Title && !ReferenceEquals(n, note)))
+        {
+            Debug.LogWarning($"A note with title '{note.Title}' already exists.");
+            return;
+        }
+
+        Notes.Add(note);
     }
 
     /// <summary>

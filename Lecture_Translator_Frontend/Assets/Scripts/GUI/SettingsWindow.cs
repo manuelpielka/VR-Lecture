@@ -17,18 +17,16 @@ public class SettingsWindow : Window
     public Button applyButton;
     public Button discardButton;
 
-    //public SettingsManager settingsManager;
-
-    //private readonly string[] supportedLanguages = { "English", "Deutsch"};
-
     // Temporary cached values for Apply/Discard logic
     private bool tempAutoAdjust;
     private bool tempDarkMode;
-    private int tempBackgroundIndex;
 
     private List<string> languageCodes = new List<string>();   // "en","de"
     private List<string> languageNames = new List<string>();
     private string pendingLanguageCode = null;
+
+    private List<string> envOptions = new List<string>();
+    private string pendingEnv = null;
 
 
     void Start()
@@ -48,6 +46,7 @@ public class SettingsWindow : Window
         //InitDropdowns();
         LoadInitialSettings();
         BuildLanguageDropdown();
+        BuildEnvironmentDropdown();
         BindListeners();
 
         resetTutorialButton = transform.Find("Canvas/Panel/ResetTutorialButton")?.GetComponent<Button>();
@@ -79,22 +78,6 @@ public class SettingsWindow : Window
             Debug.LogWarning("TutorialManager not found.");
         }
        
-    }
-
-    private void InitDropdowns()
-    {
-
-        //backgroundDropdown.ClearOptions();
-        //var envManager = FindAnyObjectByType<EnvironmentManager>();
-        //if (envManager != null)
-        //{
-            //foreach (var env in envManager.Environments)
-                //backgroundDropdown.options.Add(new TMP_Dropdown.OptionData(env.DisplayName));
-        //}
-
-        //languageDropdown.ClearOptions();
-        //foreach (var lang in supportedLanguages)
-            //languageDropdown.options.Add(new TMP_Dropdown.OptionData(lang));
     }
 
     private void LoadInitialSettings()
@@ -134,19 +117,24 @@ public class SettingsWindow : Window
         languageDropdown.RefreshShownValue();
     }
 
-    //private int GetBackgroundIndex(string sceneId)
-    //{
-    //var envManager = FindAnyObjectByType<EnvironmentManager>();
-    //if (envManager == null) return 0;
-    //return envManager.Environments.FindIndex(e => e.SceneId == sceneId);
-    //}
+    private void BuildEnvironmentDropdown()
+    {
+        envOptions = SettingsManager.Instance.GetEnvironmentOptions();
 
-    //private int GetLanguageIndex(string lang)
-    //{
-    //for (int i = 0; i < supportedLanguages.Length; i++)
-    //if (supportedLanguages[i] == lang) return i;
-    //return 0;
-    //}
+        backgroundDropdown.ClearOptions();
+        backgroundDropdown.AddOptions(envOptions);
+
+        SyncEnvironmentDropdownToCurrent();
+        pendingEnv = null;
+    }
+
+    private void SyncEnvironmentDropdownToCurrent()
+    {
+        string current = SettingsManager.Instance.GetCurrentEnvironment();
+        int idx = Mathf.Max(0, envOptions.IndexOf(current));
+        backgroundDropdown.SetValueWithoutNotify(idx);
+        backgroundDropdown.RefreshShownValue();
+    }
 
     private void BindListeners()
     {
@@ -162,10 +150,11 @@ public class SettingsWindow : Window
         });
 
 
-        //backgroundDropdown.onValueChanged.AddListener(index =>
-        //{
-        //tempBackgroundIndex = index;
-        //});
+        backgroundDropdown.onValueChanged.AddListener(index =>
+        {
+            if (index >= 0 && index < envOptions.Count)
+                pendingEnv = envOptions[index];
+        });
     }
 
     private void OnAutoSwitchToggleChanged(bool isOn)
@@ -212,6 +201,13 @@ public class SettingsWindow : Window
         pendingLanguageCode = null;
         SyncLanguageDropdownToCurrent();
 
+        if (!string.IsNullOrEmpty(pendingEnv) && pendingEnv != SettingsManager.Instance.GetCurrentEnvironment())
+        {
+            SettingsManager.Instance.ApplyEnvironment(pendingEnv);
+        }
+        pendingEnv = null;
+        SyncEnvironmentDropdownToCurrent();
+
         Debug.Log("[SettingsWindow] Apply pressed: saved & applied.");
         Debug.Log($"[Lang] current={SettingsManager.Instance.GetCurrentLanguageCode()} pending={pendingLanguageCode}");
     }
@@ -222,6 +218,9 @@ public class SettingsWindow : Window
 
         pendingLanguageCode = null;
         SyncLanguageDropdownToCurrent();
+
+        pendingEnv = null;
+        SyncEnvironmentDropdownToCurrent();
 
         Debug.Log("[SettingsWindow] Discard pressed: reverted changes.");
     }

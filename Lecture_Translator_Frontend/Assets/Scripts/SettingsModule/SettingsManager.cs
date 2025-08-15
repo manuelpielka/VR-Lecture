@@ -53,6 +53,12 @@ public class SettingsManager : MonoBehaviour
         {
             await languageManager.SetLanguageAsync(savedLanguage);
         }
+
+        string savedEnv = UserPreferencesManager.LoadEnvironmentSceneOrNull();
+        if (!string.IsNullOrEmpty(savedEnv))
+        {
+            EnvironmentManager.Instance.LoadEnvironment(savedEnv);
+        }
     }
 
     /// <summary>
@@ -139,5 +145,24 @@ public class SettingsManager : MonoBehaviour
         UserPreferencesManager.SaveLanguage(code);
         Debug.Log($"[Lang] ApplyLanguageAsync target={code}");
         Debug.Log($"[Lang] SelectedLocale = {UnityEngine.Localization.Settings.LocalizationSettings.SelectedLocale.Identifier.Code}");
+    }
+
+    public List<string> GetEnvironmentOptions()
+    {
+        return EnvironmentManager.Instance?.GetEnvironmentSceneNames() ?? new List<string>();
+    }
+
+    public string GetCurrentEnvironment()
+    {
+        return EnvironmentManager.Instance?.CurrentSceneName;
+    }
+
+    public void ApplyEnvironment(string sceneName)
+    {
+        if (string.IsNullOrEmpty(sceneName)) return;
+        if (sceneName == GetCurrentEnvironment()) return;
+
+        EnvironmentManager.Instance.LoadEnvironment(sceneName);
+        UserPreferencesManager.SaveEnvironmentScene(sceneName);
     }
 }

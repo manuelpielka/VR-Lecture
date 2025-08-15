@@ -10,7 +10,7 @@ public static class UserPreferencesManager
     // PlayerPrefs keys
     private const string IsDarkModeKey = "UserPref_IsDarkMode";
     private const string AutoAdjustKey = "UserPref_AutoAdjust";
-    private const string BackgroundSceneIdKey = "UserPref_BackgroundSceneId";
+    private const string EnvKey = "env_scene";
     private const string LanguageKey = "UserPref_Language";
 
     private const string TutorialcompletedKey = "UserPref_TutorialCompleted";
@@ -67,32 +67,16 @@ public static class UserPreferencesManager
         return PlayerPrefs.HasKey(LanguageKey) ? PlayerPrefs.GetString(LanguageKey) : null;
     }
 
-    /// <summary>
-    /// Saves the background environment scene ID.
-    /// </summary>
-    public static void SaveBackgroundSceneId(string sceneId)
+    public static void SaveEnvironmentScene(string name)
     {
-        //if (string.IsNullOrEmpty(sceneId))
-        //{
-            //Debug.LogError("Attempted to save null or empty BackgroundSceneId");
-           // throw new System.ArgumentException("sceneId cannot be null or empty");
-        //}
-        //Debug.Log($"Saving Background Scene ID: {sceneId}");
-        //PlayerPrefs.SetString(BackgroundSceneIdKey, sceneId);
-        //PlayerPrefs.Save();
+        PlayerPrefs.SetString(EnvKey, name);
+        PlayerPrefs.Save();
     }
 
-    /// <summary>
-    /// Loads the background scene ID or returns default "cafe".
-    /// </summary>
-    public static string LoadBackgroundSceneId()
+    public static string LoadEnvironmentSceneOrNull()
     {
-        //string sceneId = PlayerPrefs.GetString(BackgroundSceneIdKey, "cafe");
-        //Debug.Log($"Loaded Background Scene ID: {sceneId}");
-        //return sceneId;
-        return "cafe";
+        return PlayerPrefs.HasKey(EnvKey) ? PlayerPrefs.GetString(EnvKey) : null;
     }
-
 
     /// <summary>
     /// Applies all saved user preferences to the given playback and display controllers.

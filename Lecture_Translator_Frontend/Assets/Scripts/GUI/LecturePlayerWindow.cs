@@ -221,10 +221,4 @@ public class LecturePlayerWindow : Window
         return playbackManager;
     }
 
-    //public void SetSubtitleFontSize(int size)
-    //{
-        //subtitleTextBox.fontSize = size;
-        //subtitleSizeTextBox.text = size.ToString();
-    //}
-
 }

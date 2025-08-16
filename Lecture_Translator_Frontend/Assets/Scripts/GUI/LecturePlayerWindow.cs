@@ -130,22 +130,25 @@ public class LecturePlayerWindow : Window
 
     public void NotesBtnPressed()
     {
-        var noteWindow = WindowManager.CreateWindow(WindowKeys.CreateLectureNoteKey) as CreateLectureNoteWindow;
-        noteWindow.Initialize(this, editMode: false);
+        var window = WindowManager.CreateWindow(WindowKeys.CreateLectureNoteKey) as CreateLectureNoteWindow;
+        if (window == null)
+        {
+            Debug.LogError("Failed to open CreateLectureNoteWindow.");
+            return;
+        }
 
-        //noteWindow.OnNoteConfirmed += (title, content) =>
-        //{
-            //try
-            //{
-                //Note note = new Note(title, content);
-                //FindFirstObjectByType<NoteManager>().AddNote(note);
-                //FindFirstObjectByType<NoteManager>().SaveNote(note);
-            //}
-            //catch (System.Exception ex)
-            //{
-                //Debug.LogError($"Failed to create note: {ex.Message}");
-            //}
-        //};
+        double now = playbackManager.GetCurrentTime();
+
+        if (lecture != null)
+        {
+            
+            window.Initialize(lecture, now, isEditMode: false);
+        }
+        else
+        {
+            
+            window.Initialize("(Lecture deleted)", now, isEditMode: false);
+        }
     }
 
     public void SettingBtnPressed()
@@ -199,9 +202,6 @@ public class LecturePlayerWindow : Window
     {
         lecture.SetLastPlayTime(playbackManager.GetCurrentTime());
 
-        //float currentTime = (float)playbackManager.GetCurrentTime();
-        //SessionStateManager.SaveSessionState(lecture, currentTime);
-
         //delete downloaded file if "streaming"
         if (!lecture.IsDownloaded())
         {
@@ -209,16 +209,6 @@ public class LecturePlayerWindow : Window
         }
 
         Close();
-    }
-
-    public Lecture GetLecture()
-    {
-        return this.lecture;
-    }
-
-    public PlaybackManager GetPlaybackManager()
-    {
-        return playbackManager;
     }
 
 }

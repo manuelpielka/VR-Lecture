@@ -576,7 +576,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.14289856}
+  m_AnchoredPosition: {x: 0, y: 0.17707825}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &650608150028316333
@@ -4964,10 +4964,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   titleTextBox: {fileID: 6138523423993376775}
   noteTextBox: {fileID: 7627332863845267159}
-  windowTitleText: {fileID: 1094030255297609233}
-  CurrentTimeAsTitleToggle: {fileID: 7446440944168441380}
-  discardButton: {fileID: 1125249491829079425}
-  applyButton: {fileID: 2889104323912612157}
+  windowTitleText: {fileID: 312097754410952762}
+  useTimestampAsTitleToggle: {fileID: 7446440944168441380}
 --- !u!4 &7898104566394091537 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c6984c48aed9a154294088f4265d8478, type: 3}

@@ -18,6 +18,11 @@ public class Note
     /// </summary>
     public string Content;
 
+    public string LectureTitle;
+
+    public double CreatedAtSeconds;
+
+
     /// <summary>
     /// Constructor for deserialization of Unity instantiation.
     /// </summary>

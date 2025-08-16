@@ -1,4 +1,5 @@
 using GUI;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,98 +7,154 @@ using UnityEngine.UI;
 public class CreateLectureNoteWindow : CreateNoteWindow
 {
     [SerializeField] private TextMeshProUGUI windowTitleText;
-    //[SerializeField] private TMP_InputField titleTextBox;
-    //[SerializeField] private TMP_InputField noteTextBox;
-    [SerializeField] private Toggle CurrentTimeAsTitleToggle;
-    [SerializeField] private Button discardButton;
-    [SerializeField] private Button applyButton;
-    private Lecture currentLecture;
-    private LecturePlayerWindow lecturePlayerWindow;
-    //private string originalTitle;
-    //private bool isEditMode = false;
+    [SerializeField] private Toggle useTimestampAsTitleToggle;
 
-    public void Initialize(LecturePlayerWindow playerWindow, bool editMode, Note noteToEdit = null)
+    private Lecture boundLecture;
+    private string lectureTitleSnapshot = "Lecture";
+    private double capturedTimeSeconds;
+    private double createdAtSecondsForToggle;
+    private NoteManager noteManager;
+
+    public void Initialize(Lecture lecture, double timeSecondsAtOpen, bool isEditMode)
     {
-        this.lecturePlayerWindow = playerWindow;
-        this.currentLecture = playerWindow?.GetLecture();
-        this.isEditMode = editMode;
-
-        // Set window title
-        windowTitleText.text = $"Note for: {currentLecture.GetName()}";
-
-        if (isEditMode && noteToEdit != null)
+        if (lecture == null)
         {
-            FillFields(noteToEdit.Title, noteToEdit.Content);
-            originalTitle = noteToEdit.Title;
+            InitializeInternal(null, "(Lecture deleted)", timeSecondsAtOpen, 0d, isEditMode);
+            return;
         }
-        else
-        {
-            FillFields("", "");
-        }
-
-        CurrentTimeAsTitleToggle.onValueChanged.RemoveAllListeners();
-        CurrentTimeAsTitleToggle.isOn = false;
-        CurrentTimeAsTitleToggle.interactable = !isEditMode;
-        titleTextBox.interactable = true;
-
-
-        if (!isEditMode)
-        {
-            CurrentTimeAsTitleToggle.onValueChanged.AddListener(OnToggleTimestampAsTitle);
-        }
-
-        // Fill input fields
-        //titleTextBox.text = noteToEdit?.Title ?? "";
-        //noteTextBox.text = noteToEdit?.Content ?? "";
-
-
-        // Discard button
-        discardButton.onClick.RemoveAllListeners();
-        discardButton.onClick.AddListener(Close);
-
-        // Apply button
-        applyButton.onClick.RemoveAllListeners();
-        applyButton.onClick.AddListener(Apply);
+        InitializeInternal(lecture, lecture.GetName(), timeSecondsAtOpen, /*createdAtFromNote*/ 0d, isEditMode);
     }
 
-    private void OnToggleTimestampAsTitle(bool isOn)
+    public void Initialize(string lectureTitleSnapshot, double createdAtSecondsFromNote, bool isEditMode)
     {
-        if (isOn)
+        InitializeInternal(/*lecture*/ null, lectureTitleSnapshot, /*timeSecondsAtOpen*/ 0d, createdAtSecondsFromNote, isEditMode);
+    }
+
+    private void InitializeInternal(Lecture lecture, string titleSnapshot, double timeSecondsAtOpen, double createdAtFromNote, bool isEditMode)
+    {
+        base.Initialize(isEditMode);
+
+        noteManager = FindFirstObjectByType<NoteManager>();
+        if (noteManager == null)
         {
-            double currentTime = lecturePlayerWindow.GetPlaybackManager().GetCurrentTime();
-            titleTextBox.text = FormatTimeAsString(currentTime);
-            titleTextBox.interactable = false;
+            Debug.LogError("NoteManager not found in scene.");
         }
-        else
+
+        boundLecture = lecture;
+        lectureTitleSnapshot = string.IsNullOrEmpty(titleSnapshot) ? "(Lecture deleted)" : titleSnapshot;
+
+        
+        capturedTimeSeconds = timeSecondsAtOpen;
+        createdAtSecondsForToggle = createdAtFromNote;
+
+        
+        if (windowTitleText != null)
+            windowTitleText.text = lectureTitleSnapshot;
+
+       
+        if (useTimestampAsTitleToggle != null)
         {
-            titleTextBox.interactable = true;
+            useTimestampAsTitleToggle.onValueChanged.RemoveListener(OnUseTimestampToggleChanged);
+            useTimestampAsTitleToggle.onValueChanged.AddListener(OnUseTimestampToggleChanged);
+            ApplyUseTimestampToggleToUI(useTimestampAsTitleToggle.isOn);
         }
     }
 
+    public new void FillFields(string title, string content)
+    {
+        base.FillFields(title, content);
+        
+        if (useTimestampAsTitleToggle != null)
+        {
+            ApplyUseTimestampToggleToUI(useTimestampAsTitleToggle.isOn);
+        }
+    }
 
     public override void Apply()
     {
-        string title = (!isEditMode && CurrentTimeAsTitleToggle.isOn)
-            ? FormatTimeAsString(lecturePlayerWindow.GetPlaybackManager().GetCurrentTime())
-            : titleTextBox.text;
-
+        string title = titleTextBox.text;
         string content = noteTextBox.text;
 
         if (string.IsNullOrWhiteSpace(title))
         {
-            Debug.LogWarning("Note title cannot be empty.");
+            Debug.LogWarning("Note title cannot be empty!");
             return;
         }
 
-        //OnNoteConfirmed?.Invoke(title, content);
+        try
+        {
+            if (isEditMode)
+            {
+
+                var noteToEdit = noteManager?.Notes?.Find(n => n.Title == originalTitle);
+                if (noteToEdit == null)
+                {
+                    Debug.LogWarning($"Edit failed: note '{originalTitle}' not found in NoteManager list.");
+                    return;
+                }
+                noteManager.EditNote(noteToEdit, title, content);
+            }
+            else
+            {
+
+                var newNote = new Note(title, content)
+                {
+                    LectureTitle = lectureTitleSnapshot,          
+                    CreatedAtSeconds = capturedTimeSeconds        
+                };
+                noteManager.AddNote(newNote);
+                noteManager.SaveNote(newNote);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Apply failed: {ex.Message}");
+            return;
+        }
+
+
+        var maybeNoteWindow = FindFirstObjectByType<NoteWindow>();
+        if (maybeNoteWindow != null) maybeNoteWindow.LoadNotes();
+
         Close();
     }
 
-    private string FormatTimeAsString(double time)
+    public override void Discard()
     {
-        int h = (int)(time / 3600);
-        int m = (int)((time % 3600) / 60);
-        int s = (int)(time % 60);
-        return $"{h:D2}-{m:D2}-{s:D2}";
+        Close();
     }
+
+    private void OnUseTimestampToggleChanged(bool isOn)
+    {
+        ApplyUseTimestampToggleToUI(isOn);
+    }
+
+    private void ApplyUseTimestampToggleToUI(bool useTimestamp)
+    {
+        if (titleTextBox == null) return;
+
+        if (useTimestamp)
+        {
+
+            double seconds = isEditMode ? createdAtSecondsForToggle : capturedTimeSeconds;
+            titleTextBox.text = FormatTimestampForTitle(seconds);
+            titleTextBox.interactable = false; 
+        }
+        else
+        {
+            titleTextBox.interactable = true;  
+
+        }
+    }
+
+    private static string FormatTimestampForTitle(double seconds)
+    {
+        if (seconds < 0) seconds = 0;
+        int total = Mathf.FloorToInt((float)seconds);
+        int hh = total / 3600;
+        int mm = (total % 3600) / 60;
+        int ss = total % 60;
+        return $"{hh:D2}-{mm:D2}-{ss:D2}";
+    }
+
 }

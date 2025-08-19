@@ -100,6 +100,23 @@ namespace GUI
         /// </summary>
         private const string THUMBNAIL = "thumb";
 
+        /// <summary>
+        /// Called when this object is enabled.
+        /// </summary>
+        private void OnEnable()
+        {
+            browsingManager.OnOnlineModeChanged += ChangeOnlineMode;
+            browsingManager.OnPathChanged += ChangeCurrentPath;
+        }
+
+        /// <summary>
+        /// Called when this object is disabled.
+        /// </summary>
+        private void OnDisable()
+        {
+            browsingManager.OnOnlineModeChanged -= ChangeOnlineMode;
+            browsingManager.OnPathChanged -= ChangeCurrentPath;
+        }
 
         /// <summary>
         /// Selects a lecture to begin playback with.
@@ -342,6 +359,15 @@ namespace GUI
                 }
                 hierarchyTextBox.text += "- " + element.GetName() + "\n";
             }
+        }
+
+        /// <summary>
+        /// Changes the online mode.
+        /// </summary>
+        /// <param name="value"> New value. </param>
+        public void ChangeOnlineMode(bool value)
+        {
+            onlineMode = value;
         }
     }
 }

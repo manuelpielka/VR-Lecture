@@ -24,8 +24,6 @@ public class VirtualAvatar : MonoBehaviour
     /// </summary>
     public void EnableAvatar()
     {
-        // Play Fade in animation?
-        //animator.SetTrigger("FadeIn");
         if (animator != null)
             animator.gameObject.SetActive(true);
     }
@@ -35,9 +33,6 @@ public class VirtualAvatar : MonoBehaviour
     /// </summary>
     public void DisableAvatar()
     {
-        // Play Fade out animation?
-        //animator.SetTrigger("FadeOut");
-
         if (animator != null)
             animator.gameObject.SetActive(false);
     }

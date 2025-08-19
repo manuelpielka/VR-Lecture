@@ -14,11 +14,6 @@ using UnityEngine.Networking;
 public class DialogueController : MonoBehaviour, ISSEHandler
 {
     /// <summary>
-    /// Reference to the DialogueSystemWindow class to display the LLM’s response.
-    /// </summary>
-    [SerializeField] private GUI.DialogueSystemWindow dialogueUI;
-
-    /// <summary>
     /// The api url of the lecture translator's api.
     /// </summary>
     private string startDialogURL = "/webapi/start_dialog";
@@ -64,6 +59,16 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     private string contentDirectory = "";
 
     /// <summary>
+    /// Action that is invoked when the sse connection is opened / closed.
+    /// </summary>
+    public Action<bool> OnLoadingChanged;
+
+    /// <summary>
+    /// Action that is invoked when the sse connection receives data from the api.
+    /// </summary>
+    public Action<string> OnResponseReceived;
+
+    /// <summary>
     /// The Start method called by unity.
     /// </summary>
     async void Start()
@@ -105,7 +110,8 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     public async void OnSSEConnectionOpened()
     {
         Debug.Log("SSE Connection Opened");
-        dialogueUI.loading = false;
+
+        OnLoadingChanged?.Invoke(false);
     }
 
     /// <summary>
@@ -114,7 +120,8 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     public void OnSSEConnectionClosed()
     {
         Debug.Log("SSE Connection Closed");
-        dialogueUI.loading = true;
+
+        OnLoadingChanged?.Invoke(true);
     }
 
     /// <summary>
@@ -124,7 +131,7 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     {
         Debug.Log($"Event Received: {eventName} => {data}");
 
-        dialogueUI.llmAnswer = data;
+        OnResponseReceived?.Invoke(data);
     }
 
     /// <summary>

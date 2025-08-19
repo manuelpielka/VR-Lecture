@@ -76,6 +76,24 @@ namespace GUI
         private bool isRecording = false;
 
         /// <summary>
+        /// Called by unity when the object is enabled.
+        /// </summary>
+        private void OnEnable()
+        {
+            dialogueController.OnLoadingChanged += SetLoading;
+            dialogueController.OnResponseReceived += SetLLMAnswer;
+        }
+
+        /// <summary>
+        /// Called by unity when the object is disabled.
+        /// </summary>
+        private void OnDisable()
+        {
+            dialogueController.OnLoadingChanged -= SetLoading;
+            dialogueController.OnResponseReceived -= SetLLMAnswer;
+        }
+
+        /// <summary>
         /// The start method called by unity.
         /// </summary>
         private void Start()
@@ -83,34 +101,6 @@ namespace GUI
             virtualAvatar = VirtualAvatar.instance;
             virtualAvatar.EnableAvatar();
             WindowManager = WindowManager.instance;
-        }
-
-        /// <summary>
-        /// The update method called by unity every frame.
-        /// </summary>
-        private void Update()
-        {
-            loadingPanel.SetActive(loading);
-
-            if (llmAnswer == "") return;
-
-            JsonLLMResponse llmresponse = JsonUtility.FromJson<JsonLLMResponse>(llmAnswer);
-
-            if (llmresponse.sender.Contains("bot"))
-            {
-                if (llmresponse != null && llmresponse.seq != "" && llmresponse.seq != aiTextBox.text) // Have to do this because you have to update ui on a main thread
-                {
-                    aiTextBox.text = llmresponse.seq;
-                    virtualAvatar.PlayTalkingAnimation();
-                }
-            }
-            else if (llmresponse.sender.Contains("asr"))
-            {
-                if (llmresponse != null && llmresponse.seq != "" && llmresponse.seq != aiTextBox.text)
-                {
-                    userTextBox.text = llmresponse.seq;
-                }
-            }
         }
 
         /// <summary>
@@ -149,6 +139,45 @@ namespace GUI
             if (text == "") return;
             dialogueController.SendPrompt(text);
             userTextBox.text = text;
+        }
+
+        /// <summary>
+        /// Sets the loading panel to the bool value.
+        /// </summary>
+        /// <param name="value"> The new value. </param>
+        private void SetLoading(bool value)
+        {
+            loading = value;
+            loadingPanel.SetActive(loading);
+        }
+
+        /// <summary>
+        /// Sets the llmAnswer string and converts the json data correctly.
+        /// </summary>
+        /// <param name="value"> The new value. </param>
+        private void SetLLMAnswer(string value)
+        {
+            llmAnswer = value;
+
+            if (llmAnswer == "") return;
+
+            JsonLLMResponse llmresponse = JsonUtility.FromJson<JsonLLMResponse>(llmAnswer);
+
+            if (llmresponse.sender.Contains("bot"))
+            {
+                if (llmresponse != null && llmresponse.seq != "" && llmresponse.seq != aiTextBox.text)
+                {
+                    aiTextBox.text = llmresponse.seq;
+                    virtualAvatar.PlayTalkingAnimation();
+                }
+            }
+            else if (llmresponse.sender.Contains("asr"))
+            {
+                if (llmresponse != null && llmresponse.seq != "" && llmresponse.seq != aiTextBox.text)
+                {
+                    userTextBox.text = llmresponse.seq;
+                }
+            }
         }
     }
 }

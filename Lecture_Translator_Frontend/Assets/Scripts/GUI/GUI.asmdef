@@ -1,17 +1,15 @@
 {
-    "name": "EditorMode",
+    "name": "GUI",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Note",
-        "Settings",
+        "Unity.TextMeshPro",
         "BrowsingModule",
-        "Playback"
+        "Playback",
+        "DialogueModule"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

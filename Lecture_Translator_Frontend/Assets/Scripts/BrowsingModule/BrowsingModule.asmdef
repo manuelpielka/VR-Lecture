@@ -1,17 +1,13 @@
 {
-    "name": "EditorMode",
+    "name": "BrowsingModule",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Note",
-        "Settings",
-        "BrowsingModule",
-        "Playback"
+        "Playback",
+        "Login"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

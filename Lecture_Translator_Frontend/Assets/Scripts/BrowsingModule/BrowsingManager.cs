@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.IO;
+using System;
 
 namespace BrowsingModule
 {
@@ -32,7 +33,7 @@ namespace BrowsingModule
         /// <summary>
         /// Reference to the LectureBrowserWindow to update the UI.
         /// </summary>
-        [SerializeField] private GUI.LectureBrowserWindow lectureBrowserWindow;
+        //[SerializeField] private GUI.LectureBrowserWindow lectureBrowserWindow;
 
         /// <summary>
         /// The local directory where downloaded lectures are stored.
@@ -43,6 +44,16 @@ namespace BrowsingModule
         /// The amount of time for a request to timeout to trigger offline mode.
         /// </summary>
         private const int requestTimeout = 1;
+
+        /// <summary>
+        /// Action that is invoked when the path elements are reloaded.
+        /// </summary>
+        public event Action<string> OnPathChanged;
+
+        /// <summary>
+        /// Action that is invoked when the mode is changed to offline mode.
+        /// </summary>
+        public event Action<bool> OnOnlineModeChanged;
 
         /// <summary>
         /// This method is called by unity when this GameObject is enabled.
@@ -61,7 +72,8 @@ namespace BrowsingModule
         {
             await GetDir(rootPath, root);
 
-            lectureBrowserWindow.ChangeCurrentPath(rootPath);
+            //lectureBrowserWindow.ChangeCurrentPath(rootPath);
+            OnPathChanged?.Invoke(rootPath);
         }
 
         /// <summary>
@@ -81,7 +93,7 @@ namespace BrowsingModule
             if (result == "")
             {
                 // Offline
-                lectureBrowserWindow.onlineMode = false;
+                OnOnlineModeChanged?.Invoke(false);
                 GetDirOffline(dataDirectory, parent);
                 return;
             }
@@ -133,8 +145,6 @@ namespace BrowsingModule
         /// <param name="parent"> The parent FolderElement to add the subfolders and files to. </param>
         private void GetDirOffline(string dir, FolderElement parent)
         {
-            //print(dir);
-
             if (dir != dataDirectory)
             {
                 // Add back button
@@ -156,11 +166,9 @@ namespace BrowsingModule
                 string[] files = Directory.GetFiles(dir);
                 string[] directories = Directory.GetDirectories(dir);
 
-                //Debug.Log("Directories:");
                 foreach (string directory in directories)
                 {
                     string fixedDir = directory.Replace("\\", "/");
-                    //Debug.Log(fixedDir);
 
                     string dirName = fixedDir.Substring(fixedDir.LastIndexOf("/") + 1);
 
@@ -171,12 +179,9 @@ namespace BrowsingModule
                     GetDirOffline(fixedDir, newElement);
                 }
 
-                //Debug.Log("Files:");
                 foreach (string file in files)
                 {
                     string fixedFile = file.Replace("\\", "/");
-
-                    //Debug.Log(fixedFile);
 
                     string fileName = fixedFile.Substring(fixedFile.LastIndexOf("/") + 1);
 
@@ -208,11 +213,7 @@ namespace BrowsingModule
             request.SetRequestHeader("Content-Type", "application/json");
             request.timeout = requestTimeout;
 
-            //From my recent test it seems that we need auth for this now
-            //I've taken the liberty of adding that here
             request.SetRequestHeader("Cookie", "_forward_auth=" + Login.token);
-
-            //print("Sending request to: " + url);
 
             await request.SendWebRequest();
 
@@ -276,6 +277,8 @@ namespace BrowsingModule
         /// <returns> List of the contents of the path. </returns>
         public List<GenericElement> GetContents(string path)
         {
+            if (!path.Contains("/")) return null;
+
             string[] paths = path.Split("/");
 
             FolderElement currElement = root;
@@ -304,6 +307,8 @@ namespace BrowsingModule
         /// <returns> A list of search results. </returns>
         public List<GenericElement> Search(string name, string path)
         {
+            if (!path.Contains("/")) return null;
+
             string[] paths = path.Split("/");
 
             FolderElement currElement = root;

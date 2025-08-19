@@ -5,12 +5,10 @@ public class SubtitleManager : MonoBehaviour
 {
     [SerializeField] private PlaybackManager playbackManager;
     [SerializeField] private TranscriptManager transcriptManager;
-    [SerializeField] private LecturePlayerWindow lecturePlayerWindow;
 
     private string currentLanguage = "English";
 
-    // Update is called once per frame
-    void Update()
+    public string getCurrentLine()
     {
         string currentLine = "Loading...";
         try
@@ -23,8 +21,8 @@ public class SubtitleManager : MonoBehaviour
             //Not really a problem when it happens, so we just log it
             Debug.Log($"Tried to load nonexistent Line: {currentLanguage}:{playbackManager.GetCurrentTime()}");
         }
-        
-        lecturePlayerWindow.SetSubtitleText(currentLine);
+
+        return currentLine;
     }
 
     public void SetLanguage(string language)

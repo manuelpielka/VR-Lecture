@@ -24,6 +24,10 @@ public class LecturePlayerWindow : Window
 
     void Update()
     {
+        //Update current line
+        subtitleTextBox.text = subtitleManager.getCurrentLine();
+
+
         double value = playbackManager.GetCurrentTime();
 
 
@@ -71,11 +75,6 @@ public class LecturePlayerWindow : Window
         playbackManager.AssignLecture(lecture);
 
         languageDropdown.AddOptions(lecture.GetTranscriptLanguages());
-    }
-
-    public void SetSubtitleText(string text)
-    {
-        subtitleTextBox.text = text;
     }
 
     public void Play()

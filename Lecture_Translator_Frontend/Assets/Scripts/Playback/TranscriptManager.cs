@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.IO;
 
 public class TranscriptManager : MonoBehaviour
 {
@@ -25,14 +26,18 @@ public class TranscriptManager : MonoBehaviour
             foreach (string language in DownloadTaskList.Keys)
             {
                 string transcriptRaw = await DownloadTaskList[language];
-                Debug.Log(transcriptRaw);
                 Transcript transcript = new Transcript(transcriptRaw);
                 transcripts.Add(language, transcript);
             }
         }
         else
         {
-            //TODO: needs to be implemented
+            foreach (string language in lecture.GetTranscriptLanguages())
+            {
+                string transcriptRaw = File.ReadAllText(lecture.GetTranscriptSource() + "/" + language + ".vtt");
+                Transcript transcript = new Transcript(transcriptRaw);
+                transcripts.Add(language, transcript);
+            }
         }
 
     }

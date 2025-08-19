@@ -26,11 +26,6 @@ public class Window : MonoBehaviour
     /// </summary>
     public WindowManager WindowManager { get; set; }
 
-    /// <summary>
-    /// Reference to the tutorial manager to start the tutorial.
-    /// </summary>
-    public TutorialManager TutorialManager { get; set; }
-
     private void Start()
     {
         WindowManager = WindowManager.instance;

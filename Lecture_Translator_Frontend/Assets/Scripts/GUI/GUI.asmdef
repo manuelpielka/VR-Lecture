@@ -9,7 +9,8 @@
         "Playback",
         "DialogueModule",
         "Unity.InputSystem",
-        "Note"
+        "Note",
+        "Contract"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

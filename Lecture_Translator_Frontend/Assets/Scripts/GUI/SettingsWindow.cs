@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Shared;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -66,17 +67,7 @@ public class SettingsWindow : Window
     private void OnResetTutorialClicked()
     {
         Debug.Log("Reset Tutorial Button Clicked");
-
-        TutorialManager tutorialManager = FindFirstObjectByType<TutorialManager>();
-        if (tutorialManager != null)
-        {
-            Debug.Log("Reset Tutorial called.");
-            tutorialManager.ResetTutorial();
-        }
-        else
-        {
-            Debug.LogWarning("TutorialManager not found.");
-        }
+        Signals.TutorialResetRequested?.Invoke();
        
     }
 

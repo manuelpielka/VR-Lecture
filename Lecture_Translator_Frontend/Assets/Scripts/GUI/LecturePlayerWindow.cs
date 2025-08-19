@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -66,6 +64,24 @@ public class LecturePlayerWindow : Window
         string formattedTime = stringHours + ":" + stringMinutes + ":" + stringSeconds;
         videoProgressTextBox.text = formattedTime;
 
+    }
+
+    //make sure streamed data is deleted if appliction is quit without having closed the PlaybackWindow
+    void OnApplicationQuit()
+    {
+        try
+        {
+            if (!lecture.IsDownloaded())
+            {
+                File.Delete(playbackManager.VideoPlayer.url);
+            }
+        }
+        catch (Exception)
+        {
+            //might occur if file has not been downloaded or no lecture has benn assigned yet when the application is closed.
+            //if the application is closing anyway then there is no issue with this exception, it just means there is nothing to delete
+        }
+        
     }
 
     public void AssignLecture(Lecture lecture)

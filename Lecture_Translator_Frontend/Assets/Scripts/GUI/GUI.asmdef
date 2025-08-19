@@ -8,7 +8,8 @@
         "BrowsingModule",
         "Playback",
         "DialogueModule",
-        "Unity.InputSystem"
+        "Unity.InputSystem",
+        "Note"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

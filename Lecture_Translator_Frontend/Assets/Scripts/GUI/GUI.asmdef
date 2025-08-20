@@ -10,7 +10,9 @@
         "DialogueModule",
         "Unity.InputSystem",
         "Note",
-        "Contract"
+        "Contract",
+        "Settings",
+        "Login"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

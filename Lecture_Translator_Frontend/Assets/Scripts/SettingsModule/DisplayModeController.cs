@@ -62,7 +62,7 @@ public class DisplayModeController : MonoBehaviour
 
     /// <summary>
     /// Returns true if the current display mode is dark mode, otherwise returns false.
-    /// </summary>RefreshMode();
+    /// </summary>
     public bool IsDarkModeEnabled()
     {
         return isDarkModeEnabled;
@@ -149,9 +149,9 @@ public class DisplayModeController : MonoBehaviour
             element.ApplyTheme(activeTheme, isDarkModeEnabled);
         }
 
-        foreach (var win in UnityEngine.Object.FindObjectsByType<Window>(FindObjectsSortMode.None))
+        foreach (var win in UnityEngine.Object.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
         {
-            win.RefreshTheme();
+            if (win is IThemeRefreshable refreshable) refreshable.RefreshTheme();
         }
 
         Debug.Log($"[Theme] Mode applied: {(isDarkModeEnabled ? "Dark" : "Light")}");

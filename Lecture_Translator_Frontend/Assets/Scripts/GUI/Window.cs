@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// This class is the base class of all Windows. A Window is a GUI screen that can be moved around in the VR environment.
 /// </summary>
-public class Window : MonoBehaviour
+public class Window : MonoBehaviour, IThemeRefreshable
 {
 
     /// <summary>

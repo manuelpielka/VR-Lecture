@@ -37,16 +37,67 @@ public class PlaybackModuleTests
         Assert.AreEqual(testTranscript.getLine(60), "Unavailable");
     }
 
-    [Test]
-    public async Task PlaybackManagerAssigningLectureTest()
+    private Lecture SetUpExampleLecture()
     {
-        List<string> example_languages = new List<string>(["Multilingual", "Chinese", "English", "German", "Spanish"]);
+        List<string> example_languages = new List<string> { "Multilingual", "Chinese", "English", "German", "Spanish" };
         Lecture example = new Lecture("offline_test", "Test/Other/offline_test.mp4", "Test/Other/offline_test", example_languages);
         example.SetDownloaded(true);
-        PlaybackManager test = new PlaybackManager();
-        await test.AssignLecture(example);
+        return example;
     }
 
+    private async Task<PlaybackManager> SetUpPlaybackManager(Lecture lecture)
+    {
+        PlaybackManager playbackManager = new PlaybackManager();
+        playbackManager.VideoPlayer = new UnityEngine.Video.VideoPlayer();
+        await playbackManager.AssignLecture(lecture);
+        return playbackManager;
+    }
+
+    private async Task<TranscriptManager> SetUpTranscriptManager(Lecture lecture)
+    {
+        TranscriptManager transcriptManager = new TranscriptManager();
+        await transcriptManager.AssignLecture(lecture);
+        return transcriptManager;
+    }
+
+    [Test]
+    public async Task PlaybackManagerTest()
+    {
+        Lecture example = SetUpExampleLecture();
+        PlaybackManager test = await SetUpPlaybackManager(example);
+        Assert.IsTrue(test.GetCurrentTime() == 0, "Video start time is correct");
+        Assert.IsTrue(test.GetVideoLength() > 638 && test.GetVideoLength() < 641, "Video Length is correct");
+        test.MoveTo(41.41d);
+        //remember, doubles are not exact! An epsilon distance is required for these checks
+        Assert.IsTrue(test.GetCurrentTime() > 41 && test.GetCurrentTime() < 42, "Moving Timestamp successful");
+    }
+
+    [Test]
+    public async void TranscriptManagerTest()
+    {
+        Lecture example = SetUpExampleLecture();
+        TranscriptManager test = await SetUpTranscriptManager(example);
+        Assert.IsTrue(test.GetTranscript("Chinese").getFullText() == "Chinese Example Text");
+        Assert.IsTrue(test.GetTranscript("English").getFullText() == "English Example Text");
+        Assert.IsTrue(test.GetTranscript("German").getFullText() == "German Example Text");
+        Assert.IsTrue(test.GetTranscript("Multilingual").getFullText() == "Multilingual Example Text");
+        Assert.IsTrue(test.GetTranscript("Spanish").getFullText() == "Spanish Example Text");
+    }
+
+    [Test]
+    public async Task SubtitleManagerTest()
+    {
+        Lecture example = SetUpExampleLecture();
+        PlaybackManager playback = await SetUpPlaybackManager(example);
+        TranscriptManager transcript = await SetUpTranscriptManager(example);
+        SubtitleManager test = new SubtitleManager(playback, transcript);
+        Assert.IsTrue(test.getCurrentLine() == "English Example Text", "Standard Language Test successful");
+        test.SetLanguage("Spanish");
+        Assert.IsTrue(test.getCurrentLine() == "Spanish Example Text", "Language Switching Test successful");
+    }
+
+    //Ignore this, if it turns out to be not needed it wil be removed later
+    /*
     // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
     // `yield return null;` to skip a frame.
     [UnityTest]
@@ -56,4 +107,5 @@ public class PlaybackModuleTests
         // Use yield to skip a frame.
         yield return null;
     }
+    */
 }

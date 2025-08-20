@@ -8,6 +8,13 @@ public class SubtitleManager : MonoBehaviour
 
     private string currentLanguage = "English";
 
+    //this constructor exists purley for testing and is not used in the actual code
+    public SubtitleManager(PlaybackManager playbackManager, TranscriptManager transcriptManager)
+    {
+        this.playbackManager = playbackManager;
+        this.transcriptManager = transcriptManager;
+    }
+
     public string getCurrentLine()
     {
         string currentLine = "Loading...";

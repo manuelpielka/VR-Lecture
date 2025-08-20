@@ -68,7 +68,7 @@ public static class LectureDownloader
         return PostRequestWithJson(SERVER_URL + VTT, jsonBody);
     }
 
-    public async static Task DownloadVTT(Lecture lecture)
+    public static async Task DownloadVTT(Lecture lecture)
     {
         string source = lecture.GetTranscriptSource();
         List<Task> DownloadTasks = new List<Task>();
@@ -76,7 +76,7 @@ public static class LectureDownloader
         foreach (string language in lecture.GetTranscriptLanguages())
         {
             string jsonBody = $"\"{{\\\"directory\\\":\\\"{source}\\\",\\\"language\\\":\\\"{language}\\\"}}\"";
-            DownloadTasks.Add(PostRequestFile(SERVER_URL + VTT, jsonBody, lecture.GetTranscriptSource() + "/" + language + ".vtt"));
+            DownloadTasks.Add(PostRequestFile(SERVER_URL + VTT, jsonBody, DATA_DIRECTORY + lecture.GetTranscriptSource() + "/" + language + ".vtt"));
         }
 
         foreach (Task task in DownloadTasks)

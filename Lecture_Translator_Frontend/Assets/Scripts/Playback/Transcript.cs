@@ -14,7 +14,7 @@ public class Transcript
         string cleanedText = fullText.Replace("WEBVTT", "").Replace("\n", " ").Replace("\r", "").Replace("  ", " ");
 
         //Remove Timestamps for full Text
-        this.fullText = Regex.Replace(cleanedText, TIMESTAMP_REGEX, "").Replace("  ", " ");
+        this.fullText = Regex.Replace(cleanedText, TIMESTAMP_REGEX, "").Replace("  ", " ").Trim();
 
         //create subtitles from the cleaned Text
         string[] rawLines = Regex.Split(cleanedText, TIMESTAMP_REGEX);
@@ -36,7 +36,7 @@ public class Transcript
         for (int i = 0; i < timestamps.Count; i++)
         {
             //rawlines starts with an empty line due to splitting, so i+1
-            subtitleLines.Add(timestamps[i], rawLines[i + 1]);
+            subtitleLines.Add(timestamps[i], rawLines[i + 1].Trim());
         }
 
         //handle empty subtitle files

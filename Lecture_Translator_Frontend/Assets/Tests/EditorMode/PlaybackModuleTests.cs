@@ -16,31 +16,31 @@ public class PlaybackModuleTests
     public void FullTextTest()
     {
         Transcript testTranscript = new Transcript(VALID_INPUT_STRING);
-        Assert.IsTrue(testTranscript.getFullText() == EXPECTED_FULL_TEXT);
+        Assert.IsTrue(testTranscript.getFullText() == EXPECTED_FULL_TEXT, testTranscript.getFullText());
     }
 
     [Test]
     public void GetLineTest()
     {
         Transcript testTranscript = new Transcript(VALID_INPUT_STRING);
-        Assert.IsTrue(testTranscript.getLine(9f) == "Hello everyone, I am Shobhit Kundu, a PhD student from the University of Southern California.", "Line 1 Correct");
-        Assert.IsTrue(testTranscript.getLine(18f) == "Today I am going to present our accepted work at NeurIPS, analyzing the confidentiality of", "Line 2 Correct");
-        Assert.IsTrue(testTranscript.getLine(20f) == "undistillable teachers in knowledge distillation.", "Line 3 Correct");
-        Assert.IsTrue(testTranscript.getLine(21.3f) == "This work was jointly done with M.S.", "Line 4 Correct");
+        Assert.IsTrue(testTranscript.getLine(9f) == "Hello everyone, I am Shobhit Kundu, a PhD student from the University of Southern California.", testTranscript.getLine(9f));
+        Assert.IsTrue(testTranscript.getLine(18f) == "Today I am going to present our accepted work at NeurIPS, analyzing the confidentiality of", testTranscript.getLine(18f));
+        Assert.IsTrue(testTranscript.getLine(20f) == "undistillable teachers in knowledge distillation.", testTranscript.getLine(20f));
+        Assert.IsTrue(testTranscript.getLine(22f) == "This work was jointly done with M.S.", testTranscript.getLine(22f));
     }
 
     [Test]
     public void InvalidTranscriptTest()
     {
         Transcript testTranscript = new Transcript(INVALID_INPUT_STRING);
-        Assert.AreEqual(testTranscript.getFullText(), "Unavailable");
-        Assert.AreEqual(testTranscript.getLine(60), "Unavailable");
+        Assert.AreEqual(testTranscript.getFullText(), "Unavailable", testTranscript.getFullText());
+        Assert.AreEqual(testTranscript.getLine(60), "Unavailable", testTranscript.getLine(60));
     }
 
     private Lecture SetUpExampleLecture()
     {
         List<string> example_languages = new List<string> { "Multilingual", "Chinese", "English", "German", "Spanish" };
-        Lecture example = new Lecture("offline_test", "Test/Other/offline_test.mp4", "Test/Other/offline_test", example_languages);
+        Lecture example = new Lecture("offline_test", "Data/Test/Other/offline_test.mp4", "Data/Test/Other/offline_test", example_languages);
         example.SetDownloaded(true);
         return example;
     }
@@ -65,23 +65,23 @@ public class PlaybackModuleTests
     {
         Lecture example = SetUpExampleLecture();
         PlaybackManager test = await SetUpPlaybackManager(example);
-        Assert.IsTrue(test.GetCurrentTime() == 0, "Video start time is correct");
-        Assert.IsTrue(test.GetVideoLength() > 638 && test.GetVideoLength() < 641, "Video Length is correct");
+        Assert.IsTrue(test.GetCurrentTime() == 0, test.GetCurrentTime().ToString());
+        Assert.IsTrue(test.GetVideoLength() > 638 && test.GetVideoLength() < 641, test.GetVideoLength().ToString());
         test.MoveTo(41.41d);
         //remember, doubles are not exact! An epsilon distance is required for these checks
-        Assert.IsTrue(test.GetCurrentTime() > 41 && test.GetCurrentTime() < 42, "Moving Timestamp successful");
+        Assert.IsTrue(test.GetCurrentTime() > 41 && test.GetCurrentTime() < 42, test.GetCurrentTime().ToString());
     }
 
     [Test]
-    public async void TranscriptManagerTest()
+    public async Task TranscriptManagerTest()
     {
         Lecture example = SetUpExampleLecture();
         TranscriptManager test = await SetUpTranscriptManager(example);
-        Assert.IsTrue(test.GetTranscript("Chinese").getFullText() == "Chinese Example Text");
-        Assert.IsTrue(test.GetTranscript("English").getFullText() == "English Example Text");
-        Assert.IsTrue(test.GetTranscript("German").getFullText() == "German Example Text");
-        Assert.IsTrue(test.GetTranscript("Multilingual").getFullText() == "Multilingual Example Text");
-        Assert.IsTrue(test.GetTranscript("Spanish").getFullText() == "Spanish Example Text");
+        Assert.IsTrue(test.GetTranscript("Chinese").getFullText() == "Chinese Example Text", test.GetTranscript("Chinese").getFullText());
+        Assert.IsTrue(test.GetTranscript("English").getFullText() == "English Example Text", test.GetTranscript("English").getFullText());
+        Assert.IsTrue(test.GetTranscript("German").getFullText() == "German Example Text", test.GetTranscript("German").getFullText());
+        Assert.IsTrue(test.GetTranscript("Multilingual").getFullText() == "Multilingual Example Text", test.GetTranscript("Multilingual").getFullText());
+        Assert.IsTrue(test.GetTranscript("Spanish").getFullText() == "Spanish Example Text", test.GetTranscript("Spanish").getFullText());
     }
 
     [Test]

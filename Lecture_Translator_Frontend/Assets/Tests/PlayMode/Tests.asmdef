@@ -5,7 +5,8 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "Settings",
-        "UnityEngine.UI"
+        "UnityEngine.UI",
+        "Contract"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

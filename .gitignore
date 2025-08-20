@@ -76,4 +76,5 @@ crashlytics-build.properties
 
 .DS_Store
 Lecture_Translator_Frontend/.vsconfig
-/Lecture_Translator_Frontend/Data
+/Lecture_Translator_Frontend/Data/*
+!/Lecture_Translator_Frontend/Data/Test

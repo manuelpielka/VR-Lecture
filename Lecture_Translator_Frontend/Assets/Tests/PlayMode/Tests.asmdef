@@ -6,7 +6,9 @@
         "UnityEditor.TestRunner",
         "Settings",
         "UnityEngine.UI",
-        "Contract"
+        "Contract",
+        "GUI",
+        "Playback"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

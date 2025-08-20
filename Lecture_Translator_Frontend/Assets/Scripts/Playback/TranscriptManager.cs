@@ -34,7 +34,7 @@ public class TranscriptManager : MonoBehaviour
         {
             foreach (string language in lecture.GetTranscriptLanguages())
             {
-                string transcriptRaw = File.ReadAllText(lecture.GetTranscriptSource() + "/" + language + ".vtt");
+                string transcriptRaw = File.ReadAllText("./" + lecture.GetTranscriptSource() + "/" + language + ".vtt");
                 Transcript transcript = new Transcript(transcriptRaw);
                 transcripts.Add(language, transcript);
             }

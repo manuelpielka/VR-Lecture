@@ -60,6 +60,8 @@ public class PlaybackModuleTests
         return transcriptManager;
     }
 
+    //This test does not function because a videoplayer cannot properly be instantiated from code, which is necessary for the Playbackmanager to function
+    /*
     [Test]
     public async Task PlaybackManagerTest()
     {
@@ -71,6 +73,7 @@ public class PlaybackModuleTests
         //remember, doubles are not exact! An epsilon distance is required for these checks
         Assert.IsTrue(test.GetCurrentTime() > 41 && test.GetCurrentTime() < 42, test.GetCurrentTime().ToString());
     }
+    */
 
     [Test]
     public async Task TranscriptManagerTest()
@@ -84,6 +87,8 @@ public class PlaybackModuleTests
         Assert.IsTrue(test.GetTranscript("Spanish").getFullText() == "Spanish Example Text", test.GetTranscript("Spanish").getFullText());
     }
 
+    //This test depends on a Playbackmanager and as such does not function either
+    /*
     [Test]
     public async Task SubtitleManagerTest()
     {
@@ -95,6 +100,7 @@ public class PlaybackModuleTests
         test.SetLanguage("Spanish");
         Assert.IsTrue(test.getCurrentLine() == "Spanish Example Text", "Language Switching Test successful");
     }
+    */
 
     //Ignore this, if it turns out to be not needed it wil be removed later
     /*

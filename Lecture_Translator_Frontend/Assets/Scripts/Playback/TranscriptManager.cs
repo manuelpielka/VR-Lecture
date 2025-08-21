@@ -46,4 +46,9 @@ public class TranscriptManager : MonoBehaviour
     {
         return transcripts[language];
     }
+
+    public List<string> GetAvailableLanguages()
+    {
+        return lecture.GetTranscriptLanguages();
+    }
 }

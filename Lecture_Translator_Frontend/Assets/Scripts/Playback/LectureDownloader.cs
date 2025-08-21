@@ -49,13 +49,12 @@ public static class LectureDownloader
         string name = metaDataResponse.title;
 
         string langaugesRaw = await languagesTask;
-        Debug.Log(langaugesRaw);
+
         //Before: ["Multilingual", "German", "Dutch", "Italian", "Portuguese", "Spanish", "French", "English", "English Summary"]
         langaugesRaw = langaugesRaw.Replace("[", "");
         langaugesRaw = langaugesRaw.Replace("]", "");
         langaugesRaw = langaugesRaw.Replace("\"", "");
         //After: Multilingual, German, Dutch, Italian, Portuguese, Spanish, French, English, English Summary
-        Debug.Log(langaugesRaw);
 
         List<string> languages = new List<string>(langaugesRaw.Replace(", ", ",").Split(","));
         Lecture lecture = new Lecture(name, videoSource, transcriptSource, languages);

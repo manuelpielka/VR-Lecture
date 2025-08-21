@@ -26,7 +26,9 @@ public class TranscriptWindow : Window
         }
         catch (KeyNotFoundException)
         {
-            Debug.Log("Standard Language does not exist! This is not supposed to happen!");
+            //Fallback in case standard language does not exist
+            //just pick the top of the list
+            transcriptText.text = transcriptManager.GetTranscript(lecture.GetTranscriptLanguages()[0]).getFullText();
         }
 
     }

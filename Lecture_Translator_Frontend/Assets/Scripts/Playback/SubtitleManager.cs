@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class SubtitleManager : MonoBehaviour
 {
-    private const string DEFAULT_LANGUAGE= "English";
+    private const string DEFAULT_LANGUAGE = "Multilingual";
     [SerializeField] private PlaybackManager playbackManager;
     [SerializeField] private TranscriptManager transcriptManager;
-    private string currentLanguage = "English";
+    private string currentLanguage = DEFAULT_LANGUAGE;
 
     //this constructor exists purley for testing and is not used in the actual code
     public SubtitleManager(PlaybackManager playbackManager, TranscriptManager transcriptManager)
@@ -20,7 +20,8 @@ public class SubtitleManager : MonoBehaviour
         string currentLine = "Loading...";
         try
         {
-            Debug.Log("Fetch attempted: " + currentLanguage);
+            //no idea why this happens initially, but it's not intended. so we overwrite it
+            if (currentLanguage == null) currentLanguage = DEFAULT_LANGUAGE;
             currentLine = transcriptManager.GetTranscript(currentLanguage).getLine((float)playbackManager.GetCurrentTime());
         }
         catch (KeyNotFoundException)
@@ -36,11 +37,5 @@ public class SubtitleManager : MonoBehaviour
     public void SetLanguage(string language)
     {
         currentLanguage = language;
-
-        //In case a null language is passed by the settings
-        if (currentLanguage == null)
-        {
-            currentLanguage = DEFAULT_LANGUAGE;
-        }
     }
 }

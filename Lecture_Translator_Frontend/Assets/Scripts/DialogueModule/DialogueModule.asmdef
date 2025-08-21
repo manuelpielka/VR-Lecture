@@ -2,18 +2,18 @@
     "name": "DialogueModule",
     "rootNamespace": "",
     "references": [
-        "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner",
-        "Login"
+        "GUID:27619889b8ba8c24980f49ee34dbb44a",
+        "GUID:0acc523941302664db1f4e527237feb3",
+        "GUID:b77336a0b54ecfd4a8b2d46e690b694f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": true,
+    "overrideReferences": false,
     "precompiledReferences": [
         "nunit.framework.dll"
     ],
-    "autoReferenced": false,
+    "autoReferenced": true,
     "defineConstraints": [
         "UNITY_INCLUDE_TESTS"
     ],

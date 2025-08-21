@@ -732,29 +732,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '- Algo2_WS19
-
-    - ArtificialIntelligence2
-
-    - ASR
-
-    - conferences
-
-    -
-    KIT
-
-    - KognitiveSysteme
-
-    - MachineTranslation
-
-    - NeuralNetworks
-
-    -
-    NLP
-
-    - Other
-
-'
+  m_text: '- Loading...'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f675742eaf9c20a4f909d78ee7a14fed, type: 2}
   m_sharedMaterial: {fileID: 4687939059374929122, guid: f675742eaf9c20a4f909d78ee7a14fed, type: 2}
@@ -1930,7 +1908,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '> ASR > WS 23/24'
+  m_text: '> Loading...'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f675742eaf9c20a4f909d78ee7a14fed, type: 2}
   m_sharedMaterial: {fileID: 4687939059374929122, guid: f675742eaf9c20a4f909d78ee7a14fed, type: 2}

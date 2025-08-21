@@ -1283,8 +1283,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2317ceab4d3d38419fe16eebc1c0cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_InputField: {fileID: 0}
-  m_Keyboard: {fileID: 0}
+  m_InputField: {fileID: 8661237323337070527}
+  m_Keyboard: {fileID: 5430821187269900777}
   m_UseSceneKeyboard: 1
   m_UpdateOnKeyPress: 1
   m_AlwaysObserveKeyboard: 0
@@ -3196,6 +3196,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1aaf2dceef22d1147bfc70d706ddd188, type: 3}
+--- !u!114 &5430821187269900777 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7339749990365776478, guid: 1aaf2dceef22d1147bfc70d706ddd188, type: 3}
+  m_PrefabInstance: {fileID: 3351276953311048631}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f17a1b36fcb274449d030ef08f66941, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5430821187269900778 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7339749990365776477, guid: 1aaf2dceef22d1147bfc70d706ddd188, type: 3}

@@ -69,5 +69,10 @@ namespace GUI
             lectureBrowserUI = _lectureBrowserUI;
         }
 
+        public void SetThumbnail(Sprite sprite)
+        {
+            thumbnailDisplay.sprite = sprite;
+        }
+
     }
 }

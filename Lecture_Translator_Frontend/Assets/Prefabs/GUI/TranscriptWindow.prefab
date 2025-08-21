@@ -2325,8 +2325,8 @@ MonoBehaviour:
     consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse
     molestie consequat,"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a177ae5c7a1c4b54db62e4f9e76937b2, type: 2}
+  m_sharedMaterial: {fileID: 5702282334957518340, guid: a177ae5c7a1c4b54db62e4f9e76937b2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

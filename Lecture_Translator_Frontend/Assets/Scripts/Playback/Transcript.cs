@@ -16,7 +16,6 @@ public class Transcript
 
         //Remove Timestamps for full Text
         this.fullText = Regex.Replace(cleanedText, TIMESTAMP_REGEX, "").Replace("  ", " ").Trim();
-        Debug.Log("Full Transcript Text: " + this.fullText);
 
         //create subtitles from the cleaned Text
         string[] rawLines = Regex.Split(cleanedText, TIMESTAMP_REGEX);
@@ -27,7 +26,6 @@ public class Transcript
         {
             //turn upper limit string to seconds as float
             string value = match.Value;
-            Debug.Log("time match:" + value);
             value = Regex.Replace(value, REGEX_FIRST_PART, "");
             value = value.Replace(".", ",");
             string[] times = value.Split(":");
@@ -42,8 +40,6 @@ public class Transcript
         {
             //rawlines starts with an empty line due to splitting, so i+1
             subtitleLines.Add(timestamps[i], rawLines[i + 1].Trim());
-            Debug.Log("Iteration: " + i);
-            Debug.Log("Timestamp: " + timestamps[i] + " line: " + rawLines[i + 1].Trim());
         }
 
         //handle empty subtitle files
@@ -62,10 +58,13 @@ public class Transcript
 
     public string getLine(float time)
     {
+
+        Debug.Log("No. of Timestamps: " + subtitleLines.Keys.Count);
         //loop over all end timestamps (keys) and determine the one closest to the current time
         float targetKey = 0;
         foreach (float key in subtitleLines.Keys)
         {
+            Debug.Log(key);
             float delta = key - time;
             if (delta >= 0)
             {

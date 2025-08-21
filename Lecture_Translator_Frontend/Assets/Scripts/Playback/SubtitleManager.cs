@@ -28,7 +28,7 @@ public class SubtitleManager : MonoBehaviour
         {
             //Most likely the Subtitles haven't loaded yet (or simply do not exist for this lecture)
             //Not really a problem when it happens, so we just log it
-            Debug.Log($"Tried to load nonexistent Line: {currentLanguage}:{playbackManager.GetCurrentTime()}");
+            //Debug.Log($"Tried to load nonexistent Line: {currentLanguage}:{playbackManager.GetCurrentTime()}");
 
             //Sometimes our default language will not be available, causing this exception
             //We just choose the first available language in this case

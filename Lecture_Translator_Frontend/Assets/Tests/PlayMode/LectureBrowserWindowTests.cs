@@ -6,6 +6,7 @@ using UnityEngine.TestTools;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Reflection;
+using System.IO;
 
 public class LectureBrowserWindowTests
 {
@@ -74,6 +75,8 @@ public class LectureBrowserWindowTests
     [UnityTest] // T5.1 Lecture Download | Covers T7.1
     public IEnumerator DownloadLecture_Test()
     {
+        Directory.Delete("./Data/other", true);
+
         var windowManager = GameObject.Find("WindowManager").GetComponent<WindowManager>();
         yield return null;
         var lectureBrowserWindow = windowManager.OpenWindow("LectureBrowserWindow").GetComponent<GUI.LectureBrowserWindow>();
@@ -82,6 +85,10 @@ public class LectureBrowserWindowTests
         Lecture testLecture = new Lecture("Test", "", "other/offline_test", new List<string>());
 
         lectureBrowserWindow.DownloadLecture(testLecture);
+
+        Assert.IsTrue(File.Exists("./Data/other/offline_test.mp4"), "File does not exist.");
+
+        Directory.Delete("./Data/other", true);
     }
 
     [UnityTest] // T2.2.1 / T2.2.2

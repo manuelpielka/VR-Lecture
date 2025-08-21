@@ -106,6 +106,8 @@ namespace GUI
 
         bool processing = false;
 
+        [SerializeField] private DownloadProgressBar progressBar;
+
         private void Update()
         {
             if (!processing && queue.Count > 0)
@@ -185,7 +187,8 @@ namespace GUI
         /// <param name="lecture"> The lecture that should be downloaded.</param>
         public void DownloadLecture(Lecture lecture)
         {
-            LectureDownloader.DownloadLecture(lecture);
+            progressBar.gameObject.SetActive(true);
+            LectureDownloader.DownloadLecture(lecture, progressBar);
         }
 
         /// <summary>

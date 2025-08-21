@@ -28,6 +28,7 @@ public class TranscriptManager : MonoBehaviour
                 string transcriptRaw = await DownloadTaskList[language];
                 Transcript transcript = new Transcript(transcriptRaw);
                 transcripts.Add(language, transcript);
+                Debug.Log("Language added: " + language);
             }
         }
         else
@@ -44,6 +45,7 @@ public class TranscriptManager : MonoBehaviour
 
     public Transcript GetTranscript(string language)
     {
+        Debug.Log("Requested Language: " + language);
         return transcripts[language];
     }
 

@@ -220,7 +220,16 @@ public class LecturePlayerWindow : Window
         //delete downloaded file if "streaming"
         if (!lecture.IsDownloaded())
         {
-            File.Delete(playbackManager.VideoPlayer.url);
+            try
+            {
+                File.Delete(playbackManager.VideoPlayer.url);
+            }
+            catch (ArgumentException)
+            {
+                //happens when closing while still downloading
+                //not an issue to closing the window though
+            }
+
         }
 
         Close();

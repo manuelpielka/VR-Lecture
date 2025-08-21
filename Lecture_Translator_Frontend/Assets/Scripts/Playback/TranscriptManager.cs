@@ -14,18 +14,9 @@ public class TranscriptManager : MonoBehaviour
 
         if (!lecture.IsDownloaded())
         {
-            Dictionary<string, Task<string>> DownloadTaskList = new Dictionary<string, Task<string>>();
-
-            //Download in pararllel to minimize wait times
             foreach (string language in lecture.GetTranscriptLanguages())
             {
-                DownloadTaskList.Add(language, LectureDownloader.StreamVTT(lecture, language));
-            }
-
-            //Process responses
-            foreach (string language in DownloadTaskList.Keys)
-            {
-                string transcriptRaw = await DownloadTaskList[language];
+                string transcriptRaw = await LectureDownloader.StreamVTT(lecture, language);
                 Transcript transcript = new Transcript(transcriptRaw);
                 transcripts.Add(language, transcript);
                 Debug.Log("Language added: " + language);

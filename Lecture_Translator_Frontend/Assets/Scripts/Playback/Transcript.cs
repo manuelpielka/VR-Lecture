@@ -66,6 +66,7 @@ public class Transcript
         {
             Debug.Log(key);
             float delta = key - time;
+            Debug.Log("TimeDelta: " + delta);
             if (delta >= 0)
             {
                 targetKey = key;

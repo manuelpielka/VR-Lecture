@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SubtitleManager : MonoBehaviour
 {
-    private const string DEFAULT_LANGUAGE
+    private const string DEFAULT_LANGUAGE= "English";
     [SerializeField] private PlaybackManager playbackManager;
     [SerializeField] private TranscriptManager transcriptManager;
     private string currentLanguage = "English";

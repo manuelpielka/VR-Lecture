@@ -14,11 +14,16 @@ public class TranscriptManager : MonoBehaviour
 
         if (!lecture.IsDownloaded())
         {
+            Debug.Log(lecture.GetTranscriptLanguages().Count);
             foreach (string language in lecture.GetTranscriptLanguages())
             {
+                Debug.Log("Attempting language: " + language);
                 string transcriptRaw = await LectureDownloader.StreamVTT(lecture, language);
+                Debug.Log("Downloaded");
                 Transcript transcript = new Transcript(transcriptRaw);
+                Debug.Log("Parsed");
                 transcripts.Add(language, transcript);
+                Debug.Log("Added to index");
             }
         }
         else

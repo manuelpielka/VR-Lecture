@@ -12,9 +12,11 @@ public class Transcript
     {
         //Remove Metadata and Linebreaks
         string cleanedText = fullText.Replace("WEBVTT", "").Replace("\n", " ").Replace("\r", "").Replace("  ", " ");
+        Debug.Log("Cleaned Text: " + cleanedText);
 
         //Remove Timestamps for full Text
         this.fullText = Regex.Replace(cleanedText, TIMESTAMP_REGEX, "").Replace("  ", " ").Trim();
+        Debug.Log("Full Transcript Text: " + this.fullText);
 
         //create subtitles from the cleaned Text
         string[] rawLines = Regex.Split(cleanedText, TIMESTAMP_REGEX);
@@ -25,6 +27,7 @@ public class Transcript
         {
             //turn upper limit string to seconds as float
             string value = match.Value;
+            Debug.Log("time match:" + value);
             value = Regex.Replace(value, REGEX_FIRST_PART, "");
             value = value.Replace(".", ",");
             string[] times = value.Split(":");
@@ -33,10 +36,14 @@ public class Transcript
             timestamps.Add(result);
         }
 
+        Debug.Log("Timestamps found: " + timestamps.Count);
+
         for (int i = 0; i < timestamps.Count; i++)
         {
             //rawlines starts with an empty line due to splitting, so i+1
             subtitleLines.Add(timestamps[i], rawLines[i + 1].Trim());
+            Debug.Log("Iteration: " + i);
+            Debug.Log("Timestamp: " + timestamps[i] + " line: " + rawLines[i + 1].Trim());
         }
 
         //handle empty subtitle files

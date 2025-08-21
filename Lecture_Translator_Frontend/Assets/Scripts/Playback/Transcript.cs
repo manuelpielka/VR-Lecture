@@ -12,7 +12,6 @@ public class Transcript
     {
         //Remove Metadata and Linebreaks
         string cleanedText = fullText.Replace("WEBVTT", "").Replace("\n", " ").Replace("\r", "").Replace("  ", " ");
-        Debug.Log("Cleaned Text: " + cleanedText);
 
         //Remove Timestamps for full Text
         this.fullText = Regex.Replace(cleanedText, TIMESTAMP_REGEX, "").Replace("  ", " ").Trim();
@@ -34,7 +33,6 @@ public class Transcript
             timestamps.Add(result);
         }
 
-        Debug.Log("Timestamps found: " + timestamps.Count);
 
         for (int i = 0; i < timestamps.Count; i++)
         {
@@ -59,14 +57,11 @@ public class Transcript
     public string getLine(float time)
     {
 
-        Debug.Log("No. of Timestamps: " + subtitleLines.Keys.Count);
         //loop over all end timestamps (keys) and determine the one closest to the current time
         float targetKey = 0;
         foreach (float key in subtitleLines.Keys)
         {
-            Debug.Log(key);
             float delta = key - time;
-            Debug.Log("TimeDelta: " + delta);
             if (delta >= 0)
             {
                 targetKey = key;

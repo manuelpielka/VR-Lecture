@@ -40,8 +40,6 @@ public class SubtitleManager : MonoBehaviour
             }
         }
 
-        transcriptManager.GetTranscript(currentLanguage);
-
         return currentLine;
     }
 

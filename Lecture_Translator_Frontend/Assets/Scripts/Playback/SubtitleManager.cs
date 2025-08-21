@@ -33,8 +33,9 @@ public class SubtitleManager : MonoBehaviour
             //Sometimes our default language will not be available, causing this exception
             //We just choose the first available language in this case
             List<string> availableLanguges = transcriptManager.GetAvailableLanguages();
-            if (availableLanguges.Contains(currentLanguage))
+            if (!availableLanguges.Contains(currentLanguage))
             {
+                Debug.Log("Language automatically changed to: " + availableLanguges[0]);
                 currentLanguage = availableLanguges[0];
             }
         }

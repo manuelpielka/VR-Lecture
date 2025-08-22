@@ -53,6 +53,16 @@ namespace GUI
         [SerializeField] private TextMeshProUGUI hierarchyTextBox;
 
         /// <summary>
+        /// The textbox where the "Browse Online Lectures" text is displayed.
+        /// </summary>
+        [SerializeField] private TextMeshProUGUI onlineTextBox;
+
+        /// <summary>
+        /// The textbox where the "Browse Downloaded Lectures" text is displayed
+        /// </summary>
+        [SerializeField] private TextMeshProUGUI offlineTextBox;
+
+        /// <summary>
         /// The prefab of a LectureUI element.
         /// </summary>
         [SerializeField] private GameObject lectureUIPrefab;
@@ -185,10 +195,14 @@ namespace GUI
         /// Selects a lecture to download.
         /// </summary>
         /// <param name="lecture"> The lecture that should be downloaded.</param>
-        public void DownloadLecture(Lecture lecture)
+        public async Task DownloadLecture(Lecture lecture)
         {
             progressBar.gameObject.SetActive(true);
-            LectureDownloader.DownloadLecture(lecture, progressBar);
+            await LectureDownloader.DownloadLecture(lecture, progressBar);
+
+            //TODO: Download transcript
+
+            lecture.SetDownloaded(true);
         }
 
         /// <summary>
@@ -434,6 +448,9 @@ namespace GUI
         public void ChangeOnlineMode(bool value)
         {
             onlineMode = value;
+
+            onlineTextBox.gameObject.SetActive(onlineMode);
+            offlineTextBox.gameObject.SetActive(!onlineMode);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,6 +35,21 @@ namespace GUI
         /// </summary>
         [SerializeField] private Image thumbnailDisplay;
 
+        /// <summary>
+        /// The button to download this lecture.
+        /// </summary>
+        [SerializeField] private Button downloadButton;
+
+        /// <summary>
+        /// The button to delete this downloaded lecture.
+        /// </summary>
+        [SerializeField] private Button deleteButton;
+
+        /// <summary>
+        /// Directory of the downloaded lectures.
+        /// </summary>
+        private const string DATA_DIRECTORY = "./Data/";
+
 
         /// <summary>
         /// Button handler for the play button.
@@ -46,9 +62,24 @@ namespace GUI
         /// <summary>
         /// Button handler for the download button.
         /// </summary>
-        public void OnDownloadClick()
+        public async void OnDownloadClick()
         {
-            lectureBrowserUI.DownloadLecture(lecture);
+            downloadButton.gameObject.SetActive(false);
+
+            await lectureBrowserUI.DownloadLecture(lecture);
+
+            deleteButton.gameObject.SetActive(true);
+        }
+
+        /// <summary>
+        /// Download handler for the delete button.
+        /// </summary>
+        public void OnDeleteClick()
+        {
+            File.Delete(DATA_DIRECTORY + lecture.GetTranscriptSource() + ".mp4");
+
+            deleteButton.gameObject.SetActive(false);
+            downloadButton.gameObject.SetActive(true);
         }
 
         /// <summary>
@@ -67,6 +98,12 @@ namespace GUI
             dateTextBox.text = date + " | " + presenter;
             lecture = _lecture;
             lectureBrowserUI = _lectureBrowserUI;
+
+            if (lecture.IsDownloaded())
+            {
+                downloadButton.gameObject.SetActive(false);
+                deleteButton.gameObject.SetActive(true);
+            }
         }
 
         public void SetThumbnail(Sprite sprite)

@@ -99,6 +99,7 @@ namespace BrowsingModule
                 GetDirOffline(dataDirectory, parent);
                 return;
             }
+            OnOnlineModeChanged?.Invoke(true);
 
             List<string> itemnames = GetFolderNames(result);
             itemnames.Sort();
@@ -134,7 +135,14 @@ namespace BrowsingModule
             foreach (var session in sessionnames)
             {
                 print(dir + "/" + session);
+
                 Lecture lecture = await LectureDownloader.DownloadMetaData(dir + "/" + session);
+
+                if (File.Exists(dataDirectory + dir.Substring(1) + "/" + session + ".mp4"))
+                {
+                    print("Lecture is already downloaded. No need to redownload.");
+                    lecture.SetDownloaded(true);
+                }
                 LectureElement newSessionElement = new LectureElement(dir + "/" + session, session, lecture);
 
                 parent.AddContents(newSessionElement);
@@ -184,6 +192,8 @@ namespace BrowsingModule
 
                 foreach (string file in files)
                 {
+                    if (!file.EndsWith(".mp4")) continue; // Only load Video files
+
                     string fixedFile = file.Replace("\\", "/");
 
                     string fileName = fixedFile.Substring(fixedFile.LastIndexOf("/") + 1);

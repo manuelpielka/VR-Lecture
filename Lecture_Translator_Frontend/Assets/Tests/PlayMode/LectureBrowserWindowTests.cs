@@ -75,7 +75,8 @@ public class LectureBrowserWindowTests
     [UnityTest] // T5.1 Lecture Download | Covers T7.1
     public IEnumerator DownloadLecture_Test()
     {
-        Directory.Delete("./Data/other", true);
+        if (Directory.Exists("./Data/other"))
+            Directory.Delete("./Data/other", true);
 
         var windowManager = GameObject.Find("WindowManager").GetComponent<WindowManager>();
         yield return null;

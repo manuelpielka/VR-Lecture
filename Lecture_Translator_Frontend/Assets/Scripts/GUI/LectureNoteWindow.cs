@@ -2,32 +2,81 @@ using System;
 using UnityEngine;
 using TMPro;
 
-namespace GUI
+public class LectureNoteWindow : NoteWindow
 {
-    public class LectureNoteWindow : NoteWindow
+    private Lecture lecture;
+
+    private PlaybackManager playbackManager;
+
+    [SerializeField] private TextMeshProUGUI titleTextbox;
+
+
+    public void SetValues(Lecture lecture, PlaybackManager playbackManager)
     {
-        private string lectureName;
+        this.lecture = lecture;
+        this.playbackManager = playbackManager;
 
-        private PlaybackManager playbackManager;
+        titleTextbox.text = "Notes for Lecture: " + lecture.GetName();
+    }
 
-        [SerializeField] private TextMeshProUGUI titleTextbox;
+    public void TimeStampClicked(NoteGUI note)
+    {
+        string timestampString = note.titleTextBox.text;
 
+        if (!timestampString.Contains("-")) return;
 
-        public void SetValues(string lectureName, PlaybackManager playbackManager)
+        string[] timestamps = timestampString.Split("-");
+
+        if (timestamps.Length != 3) return;
+
+        try
         {
-            this.lectureName = lectureName;
-            this.playbackManager = playbackManager;
+            int hh = int.Parse(timestamps[0]);
+            int mm = int.Parse(timestamps[1]);
+            int ss = int.Parse(timestamps[2]);
 
-            titleTextbox.text = "Notes for Lecture: " + lectureName;
+            int seconds = hh * 3600 + mm * 60 + ss;
+
+            playbackManager.MoveTo(seconds);
         }
-
-        public void TimeStampClicked(NoteGUI note)
+        catch(FormatException)
         {
-            string timestampString = note.titleTextBox.text;
+            return;
+        }
+    }
 
-            TimeSpan timeSpan = TimeSpan.Parse(timestampString);
+    /// <summary>
+    /// Button handler for the edit button of a specific note that opens the CreateLectureNoteWindow to be able to edit the note.
+    /// </summary>
+    /// <param name="noteUI ">The noteUI element to edit</param>
+    public new void EditNote(NoteGUI noteUI)
+    {
+        string originalTitle = noteUI.titleTextBox.text;
+        Note targetNote = noteManager.LoadNote(originalTitle);
+        if (NoteUtils.IsNull(targetNote, "Edit failed: target note is null.")) return;
 
-            playbackManager.MoveTo(timeSpan.TotalSeconds);
+        Window window = WindowManager.OpenWindow(WindowKeys.CreateLectureNoteKey);
+        CreateLectureNoteWindow createWindow = window as CreateLectureNoteWindow;
+        if (createWindow != null)
+        {
+            createWindow.noteWindow = this;
+            createWindow.Initialize(lecture, playbackManager.GetCurrentTime(), true);
+            createWindow.FillFields(targetNote.Title, targetNote.Content);
+            createWindow.SetOriginalTitle(targetNote.Title);
+        }
+    }
+
+    /// <summary>
+    /// Button handler for the create note button that opens the CreateNoteWindow.
+    /// </summary>
+    public new void CreateNote()
+    {
+        Window window = WindowManager.OpenWindow(WindowKeys.CreateLectureNoteKey);
+        CreateLectureNoteWindow createWindow = window as CreateLectureNoteWindow;
+        if (createWindow != null)
+        {
+            createWindow.noteWindow = this;
+            createWindow.Initialize(lecture, playbackManager.GetCurrentTime(), false);
         }
     }
 }

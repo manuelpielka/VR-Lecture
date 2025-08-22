@@ -120,7 +120,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 347290843025408
-    m_Key: browse_title
+    m_Key: browse_title_online
     m_Metadata:
       m_Items: []
   - m_Id: 347431457067008
@@ -197,6 +197,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 356424422330368
     m_Key: tutorial_finish_button
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4922129081651200
+    m_Key: browse_title_offline
     m_Metadata:
       m_Items: []
   m_Metadata:

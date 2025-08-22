@@ -48,7 +48,26 @@ public class NoteGUI : MonoBehaviour
     /// </summary>
     public void Edit()
     {
+        if (noteWindowUI is LectureNoteWindow) // We need this to call the right function
+        {
+            LectureNoteWindow lectureNoteWindowUI = (LectureNoteWindow) noteWindowUI;
+            lectureNoteWindowUI.EditNote(this);
+            return;
+        }
+
         Debug.Log("Edit button clicked!");
         noteWindowUI.EditNote(this);
+    }
+
+    /// <summary>
+    /// Button handler for the title button that changes the timestamp in the playbackwindow.
+    /// </summary>
+    public void TitleClicked()
+    {
+        if (noteWindowUI is LectureNoteWindow)
+        {
+            LectureNoteWindow lectureNoteWindowUI = (LectureNoteWindow)noteWindowUI;
+            lectureNoteWindowUI.TimeStampClicked(this);
+        }
     }
 }

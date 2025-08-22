@@ -19,7 +19,7 @@ public class NoteWindow : Window
     /// <summary>
     /// Reference to the NoteManager used for saving, loading, editing, and deleting notes.
     /// </summary>
-    [SerializeField] private NoteManager noteManager;
+    [SerializeField] protected NoteManager noteManager; // Protected so that LectureNoteWindow can access...
 
     /// <summary>
     /// A reference to the NoteUtils class for utility functions.

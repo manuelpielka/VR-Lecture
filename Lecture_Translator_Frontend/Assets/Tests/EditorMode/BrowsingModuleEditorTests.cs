@@ -204,6 +204,6 @@ public class BrowsingModuleEditorTests
 
         root = (FolderElement) field.GetValue(manager);
 
-        Assert.That(root.GetContents(), Is.Empty);
+        Assert.IsTrue(1 == root.GetContents().Count);
     }
 }

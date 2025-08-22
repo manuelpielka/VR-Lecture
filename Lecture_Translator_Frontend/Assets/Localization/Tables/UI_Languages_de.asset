@@ -217,6 +217,10 @@ MonoBehaviour:
     m_Localized: Tutorial abgeschlossen
     m_Metadata:
       m_Items: []
+  - m_Id: 4922129081651200
+    m_Localized: Heruntergeladene Vorlesungen durchsuchen
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -18,8 +18,14 @@ public class Note
     /// </summary>
     public string Content;
 
+    /// <summary>
+    /// The lecture title this note is associated with.
+    /// </summary>
     public string LectureTitle;
 
+    /// <summary>
+    /// The timestamp of the lecture when this note was created.
+    /// </summary>
     public double CreatedAtSeconds;
 
 

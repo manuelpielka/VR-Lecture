@@ -69,6 +69,30 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     public Action<string> OnResponseReceived;
 
     /// <summary>
+    /// Action that is invoked when the sse connection receives data from the api.
+    /// </summary>
+    public Action<bool> OnInvalidTokenError;
+
+    /// <summary>
+    /// Check if the loading value changed this frame (for multithreading purposes)
+    /// </summary>
+    private bool loadingChanged = false;
+    /// <summary>
+    /// Check if the response value changed this frame (for multithreading purposes)
+    /// </summary>
+    private bool responseReceived = false;
+
+    /// <summary>
+    /// Whether or not the SSE connection is connected.
+    /// </summary>
+    private bool loading = true;
+
+    /// <summary>
+    /// The last response the api sent via SSE.
+    /// </summary>
+    private string response = "";
+
+    /// <summary>
     /// The Start method called by unity.
     /// </summary>
     async void Start()
@@ -77,7 +101,12 @@ public class DialogueController : MonoBehaviour, ISSEHandler
 
         string answer = await PostRequest(mainUrl + startDialogURL, json);
 
-        //TODO: Add error handling for "Not authorized"
+        if (answer == "Not authorized\n")
+        {
+            print("Invalid token!");
+            OnInvalidTokenError?.Invoke(true);
+            return;
+        }
 
         string[] ids = answer.Split(" ");
         sessionId = ids[0];
@@ -91,6 +120,23 @@ public class DialogueController : MonoBehaviour, ISSEHandler
 
         sseClient = new SSEClient(mainUrl + "/webapi/stream?channel=" + sessionId, this);
         sseClient.InitSse();
+    }
+
+    /// <summary>
+    /// The Update method called by Unity every frame.
+    /// </summary>
+    private void Update()
+    {
+        if (loadingChanged) // we need this because you have to invoke actions from a main thread
+        {
+            OnLoadingChanged?.Invoke(loading);
+            loadingChanged = false;
+        }
+        if (responseReceived)
+        {
+            OnResponseReceived?.Invoke(response);
+            responseReceived = false;
+        }
     }
 
     /// <summary>
@@ -111,7 +157,8 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     {
         Debug.Log("SSE Connection Opened");
 
-        OnLoadingChanged?.Invoke(false);
+        loading = false;
+        loadingChanged = true;
     }
 
     /// <summary>
@@ -121,7 +168,8 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     {
         Debug.Log("SSE Connection Closed");
 
-        OnLoadingChanged?.Invoke(true);
+        loading = true;
+        loadingChanged = true;
     }
 
     /// <summary>
@@ -131,7 +179,8 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     {
         Debug.Log($"Event Received: {eventName} => {data}");
 
-        OnResponseReceived?.Invoke(data);
+        response = data;
+        responseReceived = true;
     }
 
     /// <summary>

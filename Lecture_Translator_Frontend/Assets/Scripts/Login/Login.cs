@@ -31,6 +31,9 @@ public static class Login
     public static async Task<bool> SetToken(string newToken)
     {
         token = newToken;
+
+        if (!newToken.Contains("|")) return false;
+
         username = newToken.Split("|")[2];
 
         Debug.Log("Set token to : " + token);

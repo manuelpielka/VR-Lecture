@@ -61,6 +61,11 @@ namespace GUI
         [SerializeField] private GameObject loadingPanel;
 
         /// <summary>
+        /// The Gameobject of the error panel.
+        /// </summary>
+        [SerializeField] private GameObject errorPanel;
+
+        /// <summary>
         /// Whether or not the loading panel is active.
         /// </summary>
         public bool loading = true;
@@ -82,6 +87,7 @@ namespace GUI
         {
             dialogueController.OnLoadingChanged += SetLoading;
             dialogueController.OnResponseReceived += SetLLMAnswer;
+            dialogueController.OnInvalidTokenError += SetErrorPanel;
         }
 
         /// <summary>
@@ -91,6 +97,7 @@ namespace GUI
         {
             dialogueController.OnLoadingChanged -= SetLoading;
             dialogueController.OnResponseReceived -= SetLLMAnswer;
+            dialogueController.OnInvalidTokenError -= SetErrorPanel;
         }
 
         /// <summary>
@@ -178,6 +185,15 @@ namespace GUI
                     userTextBox.text = llmresponse.seq;
                 }
             }
+        }
+
+        /// <summary>
+        /// Sets the error panel to the bool value.
+        /// </summary>
+        /// <param name="value"> The new value. </param>
+        private void SetErrorPanel(bool value)
+        {
+            errorPanel.SetActive(value);
         }
     }
 }

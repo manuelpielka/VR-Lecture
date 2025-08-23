@@ -111,6 +111,12 @@ public class LectureNoteWindow : NoteWindow
         if (notePrefab == null) { Debug.LogError("notePrefab is not assigned in the Inspector!"); return; }
         if (noteContainer == null) { Debug.LogError("notesContainer is not assigned in the Inspector!"); return; }
 
+        if (lecture == null)
+        {
+            Debug.LogWarning("LectureNoteWindow: lecture is null (SetValues not called yet). Skip LoadNotes this time.");
+            return;
+        }
+
         foreach (var noteGUI in Notes)
         {
             if (noteGUI != null && noteGUI.gameObject != null)

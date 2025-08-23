@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-
 using GUI;
 using System.Reflection;
 using UnityEngine.UI;
@@ -43,7 +42,7 @@ public class NoteWindow : Window
     public void EditNote(NoteGUI noteUI)
     {
         string originalTitle = noteUI.titleTextBox.text;
-        Note targetNote = noteManager.LoadNote(originalTitle);
+        Note targetNote = noteManager.LoadGlobalNoteByTitle(originalTitle);
         if (NoteUtils.IsNull(targetNote, "Edit failed: target note is null.")) return;
 
         Window window = WindowManager.OpenWindow(WindowKeys.CreateNoteKey);
@@ -65,11 +64,7 @@ public class NoteWindow : Window
     public void DeleteNote(NoteGUI noteUI)
     {
         string title = noteUI.titleTextBox.text;
-
-        //Note targetNote = noteManager.LoadNote(title);
-        //if (NoteUtils.IsNull(targetNote, "Delete failed: note is null.")) return;
-
-        noteManager.DeleteNoteByTitle(title);
+        noteManager.DeleteGlobalNoteByTitle(title);
 
         Notes.Remove(noteUI);
         Destroy(noteUI.gameObject);
@@ -94,17 +89,9 @@ public class NoteWindow : Window
     /// </summary>
     public void LoadNotes()
     {
-        if (notePrefab == null)
-        {
-            Debug.LogError("notePrefab is not assigned in the Inspector!");
-            return;
-        }
+        if (notePrefab == null) { Debug.LogError("notePrefab is not assigned in the Inspector!"); return; }
+        if (noteContainer == null) { Debug.LogError("notesContainer is not assigned in the Inspector!"); return; }
 
-        if (noteContainer == null)
-        {
-            Debug.LogError("notesContainer is not assigned in the Inspector!");
-            return;
-        }
         foreach (var noteGUI in Notes)
         {
             if (noteGUI != null && noteGUI.gameObject != null)
@@ -114,7 +101,8 @@ public class NoteWindow : Window
         }
         Notes.Clear();
 
-        var notes = noteManager.LoadAllNotes();
+        noteManager.LoadAllNotes();
+        var notes = noteManager.GetGlobalNotes();
 
         foreach (var note in notes)
         {
@@ -170,15 +158,12 @@ public class NoteWindow : Window
     /// <param name="newContent">The updated content.</param>
     public void SaveEditedNote(string originalTitle, string newTitle, string newContent)
     {
-        //Note editedNoteToSave = noteManager.LoadNote(originalTitle);
-        Note editedNoteToSave = noteManager.Notes.Find(n => n.Title == originalTitle);
+        var editedNoteToSave = noteManager.LoadGlobalNoteByTitle(originalTitle);
+
         if (NoteUtils.IsNull(editedNoteToSave, "Save failed: note is null.")) return;
 
         Debug.Log($"Found the note to edit: '{editedNoteToSave.Title}'."); //
 
-        //editedNoteToSave.Title = newTitle;
-        //editedNoteToSave.Content = newContent;
-        //noteManager.SaveNote(editedNoteToSave);
         noteManager.EditNote(editedNoteToSave, newTitle, newContent);
 
         Debug.Log($"The new title of the note to edit is '{newTitle}'."); //

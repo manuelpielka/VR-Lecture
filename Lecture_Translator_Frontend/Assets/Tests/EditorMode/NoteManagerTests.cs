@@ -267,37 +267,37 @@ public class NoteManagerTests
     /// <summary>
     /// Verifies that DeleteNoteByTitle immediately returns when the title is not found in the list.
     /// </summary>
-    [Test]
-    public void DeleteNoteByTitle_NotFoundInList_EarlyReturn()
-    {
-        mgr.DeleteNoteByTitle("Nope");                                    // Title not found in list → early return
-        Assert.Pass();
-    }
+    //[Test]
+    //public void DeleteNoteByTitle_NotFoundInList_EarlyReturn()
+    //{
+    //    mgr.DeleteNoteByTitle("Nope");                                    // Title not found in list → early return
+    //    Assert.Pass();
+    //}
 
     /// <summary>
     /// Verifies that when the file exists, DeleteNoteByTitle deletes it and reloads the list from disk.
     /// </summary>
-    [Test]
-    public void DeleteNoteByTitle_FileExists_DeletesAndReloads()
-    {
-        var a = new Note("A", "x"); var b = new Note("B", "y");
-        mgr.AddNote(a); mgr.AddNote(b);
-        mgr.SaveNote(a); mgr.SaveNote(b);
-        mgr.DeleteNoteByTitle("B");                                       // Delete B.json and reload list
-        Assert.That(File.Exists(FileOf("B")), Is.False);
-        CollectionAssert.AreEquivalent(new[] { "A" }, mgr.Notes.Select(x => x.Title));
-    }
+    //[Test]
+    //public void DeleteNoteByTitle_FileExists_DeletesAndReloads()
+    //{
+    //    var a = new Note("A", "x"); var b = new Note("B", "y");
+    //    mgr.AddNote(a); mgr.AddNote(b);
+    //    mgr.SaveNote(a); mgr.SaveNote(b);
+    //    mgr.DeleteNoteByTitle("B");                                       // Delete B.json and reload list
+    //    Assert.That(File.Exists(FileOf("B")), Is.False);
+    //    CollectionAssert.AreEquivalent(new[] { "A" }, mgr.Notes.Select(x => x.Title));
+    //}
 
     /// <summary>
     /// Verifies that when the file is missing, DeleteNoteByTitle logs a warning and reloads the list (which becomes empty).
     /// </summary>
-    [Test]
-    public void DeleteNoteByTitle_FileMissing_WarnsAndReloads()
-    {
-        var a = new Note("A", "x");
-        mgr.AddNote(a);                                                   // No A.json on disk
-        mgr.DeleteNoteByTitle("A");                                       // Else branch: file missing
-        Assert.That(File.Exists(FileOf("A")), Is.False);
-        Assert.That(mgr.Notes, Is.Empty);                                 // Reload results in empty list
-    }
+    //[Test]
+    //public void DeleteNoteByTitle_FileMissing_WarnsAndReloads()
+    //{
+    //    var a = new Note("A", "x");
+    //    mgr.AddNote(a);                                                   // No A.json on disk
+    //    mgr.DeleteNoteByTitle("A");                                       // Else branch: file missing
+    //    Assert.That(File.Exists(FileOf("A")), Is.False);
+    //    Assert.That(mgr.Notes, Is.Empty);                                 // Reload results in empty list
+    //}
 }

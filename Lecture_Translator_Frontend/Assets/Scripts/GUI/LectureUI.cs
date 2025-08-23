@@ -80,6 +80,7 @@ namespace GUI
 
             deleteButton.gameObject.SetActive(false);
             downloadButton.gameObject.SetActive(true);
+            lecture.SetDownloaded(false);
         }
 
         /// <summary>

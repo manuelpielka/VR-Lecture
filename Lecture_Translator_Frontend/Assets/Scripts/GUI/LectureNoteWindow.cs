@@ -10,6 +10,16 @@ public class LectureNoteWindow : NoteWindow
 
     [SerializeField] private TextMeshProUGUI titleTextbox;
 
+    /// <summary>
+    /// This method runs every time the user opens the Notes window, it reloads and shows the latest saved notes.
+    /// </summary>
+    private void OnEnable()
+    {
+        if (notePrefab == null || noteContainer == null)
+            base.Initialize();
+
+        LoadNotes();
+    }
 
     public void SetValues(Lecture lecture, PlaybackManager playbackManager)
     {
@@ -49,10 +59,10 @@ public class LectureNoteWindow : NoteWindow
     /// Button handler for the edit button of a specific note that opens the CreateLectureNoteWindow to be able to edit the note.
     /// </summary>
     /// <param name="noteUI ">The noteUI element to edit</param>
-    public new void EditNote(NoteGUI noteUI)
+    public override void EditNote(NoteGUI noteUI)
     {
         string originalTitle = noteUI.titleTextBox.text;
-        Note targetNote = noteManager.LoadNote(originalTitle);
+        Note targetNote = noteManager.LoadNoteByTitleInLecture(lecture.GetName(), originalTitle);
         if (NoteUtils.IsNull(targetNote, "Edit failed: target note is null.")) return;
 
         Window window = WindowManager.OpenWindow(WindowKeys.CreateLectureNoteKey);
@@ -67,9 +77,22 @@ public class LectureNoteWindow : NoteWindow
     }
 
     /// <summary>
+    /// Button handler for the delete button of a specific note that deletes that note.
+    /// </summary>
+    /// <param name="noteUI">THe NoteUI element to delete.</param>
+    public override void DeleteNote(NoteGUI noteUI)
+    {
+        string title = noteUI.titleTextBox.text;
+        noteManager.DeleteNoteByTitleInLecture(lecture.GetName(), title);
+
+        Notes.Remove(noteUI);
+        Destroy(noteUI.gameObject);
+    }
+
+    /// <summary>
     /// Button handler for the create note button that opens the CreateNoteWindow.
     /// </summary>
-    public new void CreateNote()
+    public override void CreateNote()
     {
         Window window = WindowManager.OpenWindow(WindowKeys.CreateLectureNoteKey);
         CreateLectureNoteWindow createWindow = window as CreateLectureNoteWindow;
@@ -77,6 +100,46 @@ public class LectureNoteWindow : NoteWindow
         {
             createWindow.noteWindow = this;
             createWindow.Initialize(lecture, playbackManager.GetCurrentTime(), false);
+        }
+    }
+
+    /// <summary>
+    /// This method loads all saved notes, creates NoteGUI elements and adds them to the notes list.
+    /// </summary>
+    public override void LoadNotes()
+    {
+        if (notePrefab == null) { Debug.LogError("notePrefab is not assigned in the Inspector!"); return; }
+        if (noteContainer == null) { Debug.LogError("notesContainer is not assigned in the Inspector!"); return; }
+
+        foreach (var noteGUI in Notes)
+        {
+            if (noteGUI != null && noteGUI.gameObject != null)
+            {
+                Destroy(noteGUI.gameObject);
+            }
+        }
+        Notes.Clear();
+
+        noteManager.LoadAllNotes();
+
+        var notes = noteManager.GetNotesForLecture(lecture.GetName());
+
+        foreach (var note in notes)
+        {
+            GameObject noteGO = Instantiate(notePrefab, noteContainer);
+            NoteGUI noteUI = noteGO.GetComponent<NoteGUI>();
+
+            if (noteUI == null)
+            {
+                Debug.LogError("Instantiated note prefab is missing NoteGUI component.");
+                continue;
+            }
+
+            noteUI.titleTextBox.text = note.Title;
+            noteUI.noteTextBox.text = note.Content;
+            noteUI.Initialize(this);
+
+            Notes.Add(noteUI);
         }
     }
 }

@@ -10,23 +10,17 @@ public class LectureNoteWindow : NoteWindow
 
     [SerializeField] private TextMeshProUGUI titleTextbox;
 
-    /// <summary>
-    /// This method runs every time the user opens the Notes window, it reloads and shows the latest saved notes.
-    /// </summary>
-    private void OnEnable()
-    {
-        if (notePrefab == null || noteContainer == null)
-            base.Initialize();
-
-        LoadNotes();
-    }
-
     public void SetValues(Lecture lecture, PlaybackManager playbackManager)
     {
         this.lecture = lecture;
         this.playbackManager = playbackManager;
 
         titleTextbox.text = "Notes for Lecture: " + lecture.GetName();
+
+        if (notePrefab == null || noteContainer == null)
+            base.Initialize();
+
+        LoadNotes();
     }
 
     public void TimeStampClicked(NoteGUI note)

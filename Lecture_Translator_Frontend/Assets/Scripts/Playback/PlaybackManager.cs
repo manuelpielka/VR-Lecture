@@ -44,7 +44,7 @@ public class PlaybackManager : MonoBehaviour
 
     public double GetCurrentTime()
     {
-        return VideoPlayer.time;
+        return VideoPlayer != null ? VideoPlayer.time: 0;
     }
 
     public double GetVideoLength()

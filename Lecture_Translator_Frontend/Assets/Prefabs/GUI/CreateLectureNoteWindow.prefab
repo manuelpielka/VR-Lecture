@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InputField: {fileID: 7627332863845267159}
-  m_Keyboard: {fileID: 0}
+  m_Keyboard: {fileID: 7467845848725583530}
   m_UseSceneKeyboard: 1
   m_UpdateOnKeyPress: 1
   m_AlwaysObserveKeyboard: 0
@@ -576,7 +576,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.12882996}
+  m_AnchoredPosition: {x: 0, y: 0.22381592}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &650608150028316333
@@ -2080,7 +2080,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1115727508060690755}
   m_HandleRect: {fileID: 5507599077548504771}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 0.99931914
   m_NumberOfSteps: 0
   m_OnValueChanged:

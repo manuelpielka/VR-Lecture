@@ -10,6 +10,12 @@ using System.Linq;
 public class NoteManager : MonoBehaviour
 {
     /// <summary>
+    /// Holds the singleton instance of the <see cref="NoteManager"/>.
+    /// Ensures only one instance exists across scene loads.
+    /// </summary>
+    public static NoteManager Instance { get; private set; }
+
+    /// <summary>
     /// A list of all created notes and is used for viewing, editing, saving and deleting.
     /// </summary>
     public List<Note> Notes { get; set; }
@@ -20,13 +26,13 @@ public class NoteManager : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        // Check if another NoteManager already exists in the scene
-        if (Object.FindObjectsByType<NoteManager>(FindObjectsSortMode.None).Length > 1)
+        if (Instance != null && Instance != this)
         {
             Destroy(this.gameObject);
             return;
         }
-        // Persist this object between scenes
+
+        Instance = this;
         DontDestroyOnLoad(this.gameObject);
 
         if (Notes == null)
@@ -35,6 +41,14 @@ public class NoteManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Clears the singleton reference when this instance is destroyed.
+    /// Prevents stale references between tests or scene switches.
+    /// </summary>
+    private void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
 
     /// <summary>
     /// Adds the new note and stores the note to the list of notes.

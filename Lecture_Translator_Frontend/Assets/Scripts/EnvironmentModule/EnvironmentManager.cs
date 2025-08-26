@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// Class <c>EnvironmentManager</c>manages additive switching between environment scenes.
@@ -130,9 +131,20 @@ public class EnvironmentManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // If app starts in the default environment (index 0), record it so we don't reload it.
         var active = SceneManager.GetActiveScene().name;
-        if (active == defaultEnvironmentScene) currentSceneName = active;
+
+        // Accept either the serialized default name OR whatever is at build index 0
+        string index0Name = null;
+        if (SceneManager.sceneCountInBuildSettings > 0)
+        {
+            var index0Path = SceneUtility.GetScenePathByBuildIndex(0);
+            index0Name = Path.GetFileNameWithoutExtension(index0Path);
+        }
+
+        if (active == defaultEnvironmentScene ||(!string.IsNullOrEmpty(index0Name) && active == index0Name))
+        {
+            currentSceneName = active;
+        }
     }
 
     /// <summary>
@@ -154,17 +166,18 @@ public class EnvironmentManager : MonoBehaviour
 
     // EnvironmentManager.cs (inside the class)
 #if UNITY_EDITOR
+    [ExcludeFromCodeCoverage]
     [ContextMenu("Switch To Room")]
     private void _SwitchToRoom()
     {
         LoadEnvironment("Room");
     }
 
+    [ExcludeFromCodeCoverage]
     [ContextMenu("Switch To Library hall")]
     private void _SwitchToLibraryHall()
     {
-        LoadEnvironment("Library hall"); // 改成你的場景名
+        LoadEnvironment("Library hall");
     }
 #endif
-
 }

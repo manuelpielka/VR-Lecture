@@ -26,14 +26,13 @@ public class Note
     /// <summary>
     /// The timestamp of the lecture when this note was created.
     /// </summary>
-    public double CreatedAtSeconds;
-
+    public double CreatedAtSeconds = 0d;
 
     /// <summary>
     /// Constructor for deserialization of Unity instantiation.
     /// </summary>
     public Note() { }
-
+    
     /// <summary>
     /// Creates a note with title and content.
     /// </summary>

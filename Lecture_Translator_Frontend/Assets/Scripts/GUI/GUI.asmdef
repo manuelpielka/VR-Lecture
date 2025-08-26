@@ -9,10 +9,10 @@
         "Playback",
         "DialogueModule",
         "Unity.InputSystem",
-        "Note",
         "Contract",
         "Settings",
-        "Login"
+        "Login",
+        "NoteModule"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

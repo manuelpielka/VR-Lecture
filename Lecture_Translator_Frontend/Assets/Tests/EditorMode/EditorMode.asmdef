@@ -4,10 +4,10 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Note",
         "Settings",
         "BrowsingModule",
-        "Playback"
+        "Playback",
+        "NoteModule"
     ],
     "includePlatforms": [
         "Editor"

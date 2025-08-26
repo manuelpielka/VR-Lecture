@@ -1,6 +1,5 @@
 using System;
 using NUnit.Framework;
-using UnityEditor.VersionControl;
 using UnityEngine;
 
 /// <summary>
@@ -56,5 +55,41 @@ public class NoteTests
             new Note(invalidTitle, "Content");
         });
     }
+
+    /// <summary>
+    /// Verifies the parameterless constructor exists for Unity deserialization
+    /// and keeps default values.
+    /// </summary>
+    [Test]
+    public void DefaultCtor_ForUnityDeserialization_LeavesDefaults()
+    {
+        var n = new Note(); // cover the empty .ctor
+        Assert.IsNull(n.Title);
+        Assert.IsNull(n.LectureTitle);
+        Assert.AreEqual(0d, n.CreatedAtSeconds); // default (or explicit 0d if you applied step A)
+    }
+
+    /// <summary>
+    /// CreatedAtSeconds participates in (de)serialization so the UI can use it.
+    /// Round-trip through Unity's JsonUtility must preserve the value.
+    /// </summary>
+    [Test]
+    public void Serialization_RoundTrip_Preserves_CreatedAtSeconds()
+    {
+        var ts = 1724679900d; // pretend capture time
+        var note = new Note("1724679900", "Lecture body")
+        {
+            LectureTitle = "My Lecture",
+            CreatedAtSeconds = ts
+        };
+
+        var json = JsonUtility.ToJson(note);
+        var round = JsonUtility.FromJson<Note>(json);
+
+        Assert.AreEqual(ts, round.CreatedAtSeconds);
+        Assert.AreEqual("1724679900", round.Title); // lecture notes use timestamp as title
+        Assert.AreEqual("My Lecture", round.LectureTitle);
+    }
+
 
 }

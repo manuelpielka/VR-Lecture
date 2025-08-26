@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,6 +28,11 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     /// The dev url of the lecture translator.
     /// </summary>
     private const string devUrl = "https://lt2srv-backup.iar.kit.edu";
+
+    /// <summary>
+    /// The url that is being used.
+    /// </summary>
+    private string url = mainUrl;
 
     /// <summary>
     /// The string that represents a "/" in the lecture translator.
@@ -69,9 +75,14 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     public Action<string> OnResponseReceived;
 
     /// <summary>
-    /// Action that is invoked when the sse connection receives data from the api.
+    /// Action that is invoked when the token is invalid.
     /// </summary>
     public Action<bool> OnInvalidTokenError;
+
+    /// <summary>
+    /// Action that is invoked when there is no response from the api.
+    /// </summary>
+    public Action<bool> OnNoResponseError;
 
     /// <summary>
     /// Check if the loading value changed this frame (for multithreading purposes)
@@ -93,13 +104,24 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     private string response = "";
 
     /// <summary>
+    /// Flag if the sendstart was sent to the api.
+    /// </summary>
+    private bool started = false;
+
+    private HttpClient client;
+
+    private IApiClient apiclient;
+
+    /// <summary>
     /// The Start method called by unity.
     /// </summary>
     async void Start()
     {
+        apiclient = apiclient ?? new UnityApiClient(Login.token);
+
         string json = $"\"{{\\\"bot\\\":\\\"bot\\\"}}\"";
 
-        string answer = await PostRequest(mainUrl + startDialogURL, json);
+        string answer = await PostRequest(url + startDialogURL, json);
 
         if (answer == "Not authorized\n")
         {
@@ -108,17 +130,25 @@ public class DialogueController : MonoBehaviour, ISSEHandler
             return;
         }
 
+        if (answer == "")
+        {
+            print("No response!");
+            OnNoResponseError?.Invoke(true);
+            return;
+        }
+
+        print(answer);
         string[] ids = answer.Split(" ");
         sessionId = ids[0];
         streamId = ids[1];
         streamIdText = ids[3];
-        print(answer);
         print(sessionId);
-        print("GRAPH: " + await PostRequest(mainUrl + "/webapi/" + sessionId + "/getgraph", ""));
+        print("GRAPH: " + await PostRequest(url + "/webapi/" + sessionId + "/getgraph", ""));
 
         await SendStart(streamId);
+        started = true;
 
-        sseClient = new SSEClient(mainUrl + "/webapi/stream?channel=" + sessionId, this);
+        sseClient = new SSEClient(url + "/webapi/stream?channel=" + sessionId, this, client);
         sseClient.InitSse();
     }
 
@@ -144,10 +174,15 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     /// </summary>
     private void OnDestroy()
     {
-        sseClient.Disconnect();
-
-        SendEnd(streamId);
-        SendEnd(streamIdText);
+        if (!loading)
+        {
+            sseClient.Disconnect();
+        }
+        if (started)
+        {
+            SendEnd(streamId);
+            SendEnd(streamIdText);
+        }
     }
 
     /// <summary>
@@ -201,7 +236,7 @@ public class DialogueController : MonoBehaviour, ISSEHandler
 
         print("Sending prompt: " + prompt);
 
-        print(await PostRequest(mainUrl + "/webapi/" + sessionId + "/" + streamIdText + "/append", json));
+        print(await PostRequest(url + "/webapi/" + sessionId + "/" + streamIdText + "/append", json));
     }
 
     /// <summary>
@@ -213,7 +248,7 @@ public class DialogueController : MonoBehaviour, ISSEHandler
 
         string json = $"\"{{\\\"controll\\\":\\\"INFORMATION\\\"}}\"";
 
-        print(await PostRequest(mainUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json));
+        print(await PostRequest(url + "/webapi/" + sessionId + "/" + streamId + "/append", json));
     }
 
     /// <summary>
@@ -227,7 +262,7 @@ public class DialogueController : MonoBehaviour, ISSEHandler
 
         string json = $"\"{{\\\"controll\\\":\\\"START\\\", \\\"content_directory\\\":\\\"{contentDirectory}\\\"}}\"";
 
-        await PostRequest(mainUrl + "/webapi/" + sessionId + "/" + stream + "/append", json);
+        await PostRequest(url + "/webapi/" + sessionId + "/" + stream + "/append", json);
     }
 
     /// <summary>
@@ -241,7 +276,7 @@ public class DialogueController : MonoBehaviour, ISSEHandler
 
         string json = "\"{\\\"controll\\\":\\\"END\\\"}\"";
 
-        await PostRequest(mainUrl + "/webapi/" + sessionId + "/" + stream + "/append", json);
+        await PostRequest(url + "/webapi/" + sessionId + "/" + stream + "/append", json);
     }
 
     /// <summary>
@@ -260,7 +295,7 @@ public class DialogueController : MonoBehaviour, ISSEHandler
 
         string json = "\"{\\\"b64_enc_pcm_s16le\\\": \\\"" + utf8String + "\\\", \\\"start\\\": \\\"" + start.ToString() + "\\\",\\\"end\\\":\\\"" + end.ToString() + "\\\"}\"";
 
-        await PostRequest(mainUrl + "/webapi/" + sessionId + "/" + streamId + "/append", json);
+        await PostRequest(url + "/webapi/" + sessionId + "/" + streamId + "/append", json);
     }
 
     /// <summary>
@@ -270,18 +305,7 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     /// <param name="json">The json data to send in the request.</param>
     private async Task<string> PostRequest(string url, string json)
     {
-        UnityWebRequest request = new UnityWebRequest(url, "POST");
-        byte[] byteJson = new UTF8Encoding().GetBytes(json);
-        request.uploadHandler = new UploadHandlerRaw(byteJson);
-        request.downloadHandler = new DownloadHandlerBuffer();
-        request.SetRequestHeader("Content-Type", "application/json");
-        request.SetRequestHeader("Cookie", "_forward_auth=" + Login.token);
-
-        print("Sending request to: " + url);
-
-        await request.SendWebRequest();
-
-        return request.downloadHandler.text;
+        return await apiclient.PostRequest(url, json);
     }
 
     /// <summary>

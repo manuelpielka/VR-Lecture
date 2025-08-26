@@ -4,6 +4,7 @@ using BrowsingModule;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.IO;
 
 public class BrowsingModuleEditorTests
 {
@@ -204,6 +205,8 @@ public class BrowsingModuleEditorTests
 
         root = (FolderElement) field.GetValue(manager);
 
-        Assert.IsTrue(1 == root.GetContents().Count);
+        string [] directories = Directory.GetDirectories("./Data");
+
+        Assert.IsTrue(directories.Length == root.GetContents().Count);
     }
 }

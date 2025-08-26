@@ -10,7 +10,9 @@
         "GUI",
         "Playback",
         "Tutorial",
-        "EnvironmentModule"
+        "EnvironmentModule",
+        "DialogueModule",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -225,6 +225,10 @@ MonoBehaviour:
     m_Localized: "Fehler: Ung\xFCltiger token"
     m_Metadata:
       m_Items: []
+  - m_Id: 6028309661175808
+    m_Localized: 'Fehler: Keine Antwort von der api.'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

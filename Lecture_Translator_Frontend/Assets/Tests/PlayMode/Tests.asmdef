@@ -8,7 +8,8 @@
         "UnityEngine.UI",
         "Contract",
         "GUI",
-        "Playback"
+        "Playback",
+        "Tutorial"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

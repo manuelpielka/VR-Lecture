@@ -12,7 +12,8 @@
         "Tutorial",
         "EnvironmentModule",
         "DialogueModule",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "NoteModule"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -7,7 +7,8 @@
         "Settings",
         "BrowsingModule",
         "Playback",
-        "NoteModule"
+        "NoteModule",
+        "GUI"
     ],
     "includePlatforms": [
         "Editor"

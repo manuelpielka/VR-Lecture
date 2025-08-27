@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Class <c>NoteUtils</c> provides utility methods for note handling.
+/// </summary>
 public class NoteUtils
 {
     /// <summary>

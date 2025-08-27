@@ -64,7 +64,7 @@ public class LectureNoteWindow : NoteWindow
         if (createWindow != null)
         {
             createWindow.noteWindow = this;
-            createWindow.Initialize(lecture, playbackManager.GetCurrentTime(), true);
+            createWindow.Initialize(lecture, targetNote.CreatedAtSeconds, true);
             createWindow.FillFields(targetNote.Title, targetNote.Content);
             createWindow.SetOriginalTitle(targetNote.Title);
         }

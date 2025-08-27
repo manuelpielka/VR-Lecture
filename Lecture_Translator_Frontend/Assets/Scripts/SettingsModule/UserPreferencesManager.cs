@@ -67,16 +67,16 @@ public static class UserPreferencesManager
         return PlayerPrefs.HasKey(LanguageKey) ? PlayerPrefs.GetString(LanguageKey) : null;
     }
 
-    public static void SaveEnvironmentScene(string name)
-    {
-        PlayerPrefs.SetString(EnvKey, name);
-        PlayerPrefs.Save();
-    }
+    //public static void SaveEnvironmentScene(string name)
+    //{
+        //PlayerPrefs.SetString(EnvKey, name);
+        //PlayerPrefs.Save();
+    //}
 
-    public static string LoadEnvironmentSceneOrNull()
-    {
-        return PlayerPrefs.HasKey(EnvKey) ? PlayerPrefs.GetString(EnvKey) : null;
-    }
+    //public static string LoadEnvironmentSceneOrNull()
+    //{
+        //return PlayerPrefs.HasKey(EnvKey) ? PlayerPrefs.GetString(EnvKey) : null;
+    //}
 
     /// <summary>
     /// Applies all saved user preferences to the given playback and display controllers.

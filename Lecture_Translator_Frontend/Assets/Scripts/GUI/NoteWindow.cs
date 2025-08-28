@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-
 using GUI;
 using System.Reflection;
 using UnityEngine.UI;
@@ -14,12 +13,12 @@ public class NoteWindow : Window
     /// <summary>
     /// The list of all existing NoteGUI elements.
     /// </summary>
-    private List<NoteGUI> Notes = new List<NoteGUI>();
+    protected List<NoteGUI> Notes = new List<NoteGUI>();
 
     /// <summary>
     /// Reference to the NoteManager used for saving, loading, editing, and deleting notes.
     /// </summary>
-    [SerializeField] private NoteManager noteManager;
+    [SerializeField] protected NoteManager noteManager; // Protected so that LectureNoteWindow can access...
 
     /// <summary>
     /// A reference to the NoteUtils class for utility functions.
@@ -29,21 +28,21 @@ public class NoteWindow : Window
     /// <summary>
     /// The prefab of a note for creating new NoteGUI elements.
     /// </summary>
-    [SerializeField] private GameObject notePrefab;
+    [SerializeField] protected GameObject notePrefab;
 
     /// <summary>
     /// The parent transform that contains all NoteGUI elements in the UI (e.g., the ScrollView content).
     /// </summary>
-    [SerializeField] private Transform noteContainer;
+    [SerializeField] protected Transform noteContainer;
 
     /// <summary>
     /// Button handler for the edit button of a specific note that opens the CreateNoteWindow to be able to edit the note.
     /// </summary>
     /// <param name="noteUI ">The noteUI element to edit</param>
-    public void EditNote(NoteGUI noteUI)
+    public virtual void EditNote(NoteGUI noteUI)
     {
         string originalTitle = noteUI.titleTextBox.text;
-        Note targetNote = noteManager.LoadNote(originalTitle);
+        Note targetNote = noteManager.LoadGlobalNoteByTitle(originalTitle);
         if (NoteUtils.IsNull(targetNote, "Edit failed: target note is null.")) return;
 
         Window window = WindowManager.OpenWindow(WindowKeys.CreateNoteKey);
@@ -62,14 +61,10 @@ public class NoteWindow : Window
     /// Button handler for the delete button of a specific note that deletes that note.
     /// </summary>
     /// <param name="noteUI">THe NoteUI element to delete.</param>
-    public void DeleteNote(NoteGUI noteUI)
+    public virtual void DeleteNote(NoteGUI noteUI)
     {
         string title = noteUI.titleTextBox.text;
-
-        //Note targetNote = noteManager.LoadNote(title);
-        //if (NoteUtils.IsNull(targetNote, "Delete failed: note is null.")) return;
-
-        noteManager.DeleteNoteByTitle(title);
+        noteManager.DeleteGlobalNoteByTitle(title);
 
         Notes.Remove(noteUI);
         Destroy(noteUI.gameObject);
@@ -78,7 +73,7 @@ public class NoteWindow : Window
     /// <summary>
     /// Button handler for the create note button that opens the CreateNoteWindow.
     /// </summary>
-    public void CreateNote()
+    public virtual void CreateNote()
     {
         Window window = WindowManager.OpenWindow(WindowKeys.CreateNoteKey);
         CreateNoteWindow createWindow = window as CreateNoteWindow;
@@ -92,19 +87,11 @@ public class NoteWindow : Window
     /// <summary>
     /// This method loads all saved notes, creates NoteGUI elements and adds them to the notes list.
     /// </summary>
-    public void LoadNotes()
+    public virtual void LoadNotes()
     {
-        if (notePrefab == null)
-        {
-            Debug.LogError("notePrefab is not assigned in the Inspector!");
-            return;
-        }
+        if (notePrefab == null) { Debug.LogError("notePrefab is not assigned in the Inspector!"); return; }
+        if (noteContainer == null) { Debug.LogError("notesContainer is not assigned in the Inspector!"); return; }
 
-        if (noteContainer == null)
-        {
-            Debug.LogError("notesContainer is not assigned in the Inspector!");
-            return;
-        }
         foreach (var noteGUI in Notes)
         {
             if (noteGUI != null && noteGUI.gameObject != null)
@@ -114,7 +101,8 @@ public class NoteWindow : Window
         }
         Notes.Clear();
 
-        var notes = noteManager.LoadAllNotes();
+        noteManager.LoadAllNotes();
+        var notes = noteManager.GetGlobalNotes();
 
         foreach (var note in notes)
         {
@@ -170,15 +158,12 @@ public class NoteWindow : Window
     /// <param name="newContent">The updated content.</param>
     public void SaveEditedNote(string originalTitle, string newTitle, string newContent)
     {
-        //Note editedNoteToSave = noteManager.LoadNote(originalTitle);
-        Note editedNoteToSave = noteManager.Notes.Find(n => n.Title == originalTitle);
+        var editedNoteToSave = noteManager.LoadGlobalNoteByTitle(originalTitle);
+
         if (NoteUtils.IsNull(editedNoteToSave, "Save failed: note is null.")) return;
 
         Debug.Log($"Found the note to edit: '{editedNoteToSave.Title}'."); //
 
-        //editedNoteToSave.Title = newTitle;
-        //editedNoteToSave.Content = newContent;
-        //noteManager.SaveNote(editedNoteToSave);
         noteManager.EditNote(editedNoteToSave, newTitle, newContent);
 
         Debug.Log($"The new title of the note to edit is '{newTitle}'."); //
@@ -204,7 +189,7 @@ public class NoteWindow : Window
     /// </summary>
     /// <param name="prefab">Optional note prefab to assign.</param>
     /// <param name="container">Optional container transform to assign.</param>
-    private void Initialize(GameObject prefab = null, Transform container = null)
+    protected void Initialize(GameObject prefab = null, Transform container = null)
     {
         this.notePrefab = prefab ?? Resources.Load<GameObject>("NoteUI");
         this.noteContainer = container ?? GameObject.Find("Content")?.transform;

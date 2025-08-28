@@ -58,17 +58,18 @@ namespace BrowsingModule
         /// <summary>
         /// This method is called by unity when this GameObject is enabled.
         /// </summary>
-        private void OnEnable()
+        private async void OnEnable()
         {
             root = new FolderElement(rootPath, "root", new List<GenericElement>());
-            UpdateFolders();
+            await UpdateFolders();
         }
+
 
         /// <summary>
         /// Updates the current folder structure and MetaData and stores it on local drive if internet is availalble.
         /// Reads folder structure from local drive otherwise.
         /// </summary>
-        public async void UpdateFolders()
+        public async Task UpdateFolders()
         {
             await GetDir(rootPath, root);
 
@@ -90,13 +91,15 @@ namespace BrowsingModule
 
             print(result);
 
-            if (result == "")
+            if (result == "" || result == "Not authorized\n")
             {
+                print("[Browsing Manager]: Offline mode");
                 // Offline
                 OnOnlineModeChanged?.Invoke(false);
                 GetDirOffline(dataDirectory, parent);
                 return;
             }
+            OnOnlineModeChanged?.Invoke(true);
 
             List<string> itemnames = GetFolderNames(result);
             itemnames.Sort();
@@ -131,7 +134,15 @@ namespace BrowsingModule
 
             foreach (var session in sessionnames)
             {
+                print(dir + "/" + session);
+
                 Lecture lecture = await LectureDownloader.DownloadMetaData(dir + "/" + session);
+
+                if (File.Exists(dataDirectory + dir.Substring(1) + "/" + session + ".mp4"))
+                {
+                    print("Lecture is already downloaded. No need to redownload.");
+                    lecture.SetDownloaded(true);
+                }
                 LectureElement newSessionElement = new LectureElement(dir + "/" + session, session, lecture);
 
                 parent.AddContents(newSessionElement);
@@ -181,6 +192,8 @@ namespace BrowsingModule
 
                 foreach (string file in files)
                 {
+                    if (!file.EndsWith(".mp4")) continue; // Only load Video files
+
                     string fixedFile = file.Replace("\\", "/");
 
                     string fileName = fixedFile.Substring(fixedFile.LastIndexOf("/") + 1);
@@ -227,6 +240,8 @@ namespace BrowsingModule
         /// <returns> A List of folder names. </returns>
         private List<string> GetFolderNames(string json)
         {
+            if (json == null) return null;
+
             var result = new List<string>();
 
             var matches = Regex.Matches(json, @"\[\s*""([^""]+)""\s*,\s*""([^""]+)""");
@@ -252,6 +267,8 @@ namespace BrowsingModule
         /// <returns> A List of session names. </returns>
         private List<string> GetSessionNames(string json)
         {
+            if (json == null) return null;
+
             var result = new List<string>();
 
             var matches = Regex.Matches(json, @"\[\s*""([^""]+)""\s*,\s*""([^""]+)""");

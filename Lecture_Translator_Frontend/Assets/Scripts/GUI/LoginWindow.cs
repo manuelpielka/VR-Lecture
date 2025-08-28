@@ -7,14 +7,14 @@ using TMPro;
 public class LoginWindow : Window
 {
     /// <summary>
-    /// The text box of the error text.
-    /// </summary>
-    [SerializeField] private TextMeshProUGUI errorTextBox;
-
-    /// <summary>
     /// The input field where the user inputs the token.
     /// </summary>
     [SerializeField] private TMP_InputField inputField;
+
+    /// <summary>
+    /// The gameobject of the error panel.
+    /// </summary>
+    [SerializeField] private GameObject errorPanel;
 
     /// <summary>
     /// Handler for the input field.
@@ -26,12 +26,12 @@ public class LoginWindow : Window
 
         if (validToken)
         {
-            errorTextBox.gameObject.SetActive(false);
+            errorPanel.gameObject.SetActive(false);
             Close();
         }
         else
         {
-            errorTextBox.gameObject.SetActive(true);
+            errorPanel.gameObject.SetActive(true);
         }
     }
 
@@ -41,5 +41,13 @@ public class LoginWindow : Window
     public void PasteFromClipboard()
     {
         inputField.text = GUIUtility.systemCopyBuffer;
+    }
+
+    /// <summary>
+    /// Button handler for the enter button.
+    /// </summary>
+    public void Enter()
+    {
+        OnTokenEntered(inputField.text);
     }
 }

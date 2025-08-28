@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using UnityEngine.Networking;
 using System.Text;
 using UnityEngine.UI;
+using System;
+using System.Collections;
 
 namespace GUI
 {
@@ -49,6 +51,16 @@ namespace GUI
         /// The textbox where the hierarchy of the current folder is displayed.
         /// </summary>
         [SerializeField] private TextMeshProUGUI hierarchyTextBox;
+
+        /// <summary>
+        /// The textbox where the "Browse Online Lectures" text is displayed.
+        /// </summary>
+        [SerializeField] private TextMeshProUGUI onlineTextBox;
+
+        /// <summary>
+        /// The textbox where the "Browse Downloaded Lectures" text is displayed
+        /// </summary>
+        [SerializeField] private TextMeshProUGUI offlineTextBox;
 
         /// <summary>
         /// The prefab of a LectureUI element.
@@ -100,6 +112,57 @@ namespace GUI
         /// </summary>
         private const string THUMBNAIL = "thumb";
 
+        private Queue<(byte[] data, Action<Sprite> onReady)> queue = new Queue<(byte[], Action<Sprite>)>();
+
+        bool processing = false;
+
+        [SerializeField] private DownloadProgressBar progressBar;
+
+        private void Update()
+        {
+            if (!processing && queue.Count > 0)
+                StartCoroutine(ProcessQueue());
+
+            /*while (queue.Count > 0)
+            {
+
+                var (data, onReady) = queue.Dequeue();
+
+                Texture2D texture = new Texture2D(2, 2);
+                texture.LoadImage(data); // This still blocks main thread
+
+                Sprite sprite = Sprite.Create(
+                    texture,
+                    new Rect(0, 0, texture.width, texture.height),
+                    new Vector2(0.5f, 0.5f)
+                );
+
+                onReady?.Invoke(sprite);
+            }*/
+        }
+
+        private IEnumerator ProcessQueue()
+        {
+            processing = true;
+
+            var (data, onReady) = queue.Dequeue();
+
+            Texture2D texture = new Texture2D(2, 2);
+            yield return null;
+            texture.LoadImage(data); // This still blocks main thread
+            yield return null;
+            Sprite sprite = Sprite.Create(
+                texture,
+                new Rect(0, 0, texture.width, texture.height),
+                new Vector2(0.5f, 0.5f)
+            );
+
+            onReady?.Invoke(sprite);
+
+            yield return null; // wait 1 frame before processing next
+            processing = false;
+        }
+
         /// <summary>
         /// Called when this object is enabled.
         /// </summary>
@@ -132,9 +195,14 @@ namespace GUI
         /// Selects a lecture to download.
         /// </summary>
         /// <param name="lecture"> The lecture that should be downloaded.</param>
-        public void DownloadLecture(Lecture lecture)
+        public async Task DownloadLecture(Lecture lecture)
         {
-            LectureDownloader.DownloadLecture(lecture);
+            progressBar.gameObject.SetActive(true);
+            await LectureDownloader.DownloadLecture(lecture, progressBar);
+
+            //TODO: Download transcript
+
+            lecture.SetDownloaded(true);
         }
 
         /// <summary>
@@ -227,7 +295,17 @@ namespace GUI
             //print("PATH:" + element.GetPath());
             JsonMetaData jsonMeta;
 
-            Sprite thumbnail = await ImageDownload(archiveAPI + THUMBNAIL, json);
+            // request the thumbnail, but don't block on it
+            Sprite thumbnail = null;
+            ImageDownload(archiveAPI + THUMBNAIL, json, sprite => 
+            {
+                if (instance != null)
+                {
+                    thumbnail = sprite;
+                    lectureUI.SetThumbnail(thumbnail);
+                }
+            });
+
 
             if (instance == null) return; // Object was deleted before the request was answered
 
@@ -264,6 +342,8 @@ namespace GUI
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
 
+            request.SetRequestHeader("Cookie", "_forward_auth=" + Login.token);
+
             await request.SendWebRequest();
 
             return request.downloadHandler.text;
@@ -275,7 +355,7 @@ namespace GUI
         /// <param name="url"> The url to send the request to. </param>
         /// <param name="json"> The data in json format to send. </param>
         /// <returns> The answer of the request converted to a sprite. </returns>
-        private async Task<Sprite> ImageDownload(string url, string json)
+        private async Task ImageDownload(string url, string json, Action<Sprite> onReady)
         {
             UnityWebRequest request = new UnityWebRequest(url, "POST");
             byte[] byteJson = new UTF8Encoding().GetBytes(json);
@@ -283,17 +363,17 @@ namespace GUI
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
 
-            await request.SendWebRequest();
+            request.SetRequestHeader("Cookie", "_forward_auth=" + Login.token);
+
+            var operation = request.SendWebRequest();
+
+            while (!operation.isDone)
+            {
+                await Task.Yield();
+            }
 
             byte[] imageBytes = request.downloadHandler.data;
-            Texture2D texture = new Texture2D(2, 2);
-            texture.LoadImage(imageBytes);
-
-            return Sprite.Create(
-                texture,
-                new Rect(0, 0, texture.width, texture.height),
-                new Vector2(0.5f, 0.5f)
-            );
+            queue.Enqueue((imageBytes, onReady));
         }
 
         /// <summary>
@@ -368,6 +448,9 @@ namespace GUI
         public void ChangeOnlineMode(bool value)
         {
             onlineMode = value;
+
+            onlineTextBox.gameObject.SetActive(onlineMode);
+            offlineTextBox.gameObject.SetActive(!onlineMode);
         }
     }
 }

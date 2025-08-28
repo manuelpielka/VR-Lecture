@@ -78,3 +78,4 @@ crashlytics-build.properties
 Lecture_Translator_Frontend/.vsconfig
 /Lecture_Translator_Frontend/Data/*
 !/Lecture_Translator_Frontend/Data/Test
+/Lecture_Translator_Frontend/CodeCoverage

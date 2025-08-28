@@ -33,6 +33,11 @@ public class SettingsManager : MonoBehaviour
 
         languageManager = new LanguageManager();
         LoadSettings();
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        // 
+        PlayerPrefs.DeleteKey("env_scene");
+#endif
     }
 
     private async void Start()
@@ -54,11 +59,11 @@ public class SettingsManager : MonoBehaviour
             await languageManager.SetLanguageAsync(savedLanguage);
         }
 
-        string savedEnv = UserPreferencesManager.LoadEnvironmentSceneOrNull();
-        if (!string.IsNullOrEmpty(savedEnv))
-        {
-            EnvironmentManager.Instance.LoadEnvironment(savedEnv);
-        }
+        //string savedEnv = UserPreferencesManager.LoadEnvironmentSceneOrNull();
+        //if (!string.IsNullOrEmpty(savedEnv))
+        //{
+            //EnvironmentManager.Instance.LoadEnvironment(savedEnv);
+        //}
     }
 
     /// <summary>
@@ -163,6 +168,6 @@ public class SettingsManager : MonoBehaviour
         if (sceneName == GetCurrentEnvironment()) return;
 
         EnvironmentManager.Instance.LoadEnvironment(sceneName);
-        UserPreferencesManager.SaveEnvironmentScene(sceneName);
+        //UserPreferencesManager.SaveEnvironmentScene(sceneName);
     }
 }

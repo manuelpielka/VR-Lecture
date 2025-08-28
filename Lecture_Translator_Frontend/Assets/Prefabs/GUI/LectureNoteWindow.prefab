@@ -121,8 +121,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3989794471866222662}
-        m_TargetAssemblyTypeName: Window, Assembly-CSharp
+      - m_Target: {fileID: -1848832239990730554}
+        m_TargetAssemblyTypeName: Window, GUI
         m_MethodName: Close
         m_Mode: 1
         m_Arguments:
@@ -505,7 +505,7 @@ GameObject:
   - component: {fileID: 7224193634869754575}
   - component: {fileID: 8699967983085395573}
   - component: {fileID: 3050041781561319824}
-  - component: {fileID: 3989794471866222662}
+  - component: {fileID: -1848832239990730554}
   m_Layer: 0
   m_Name: LectureNoteWindow
   m_TagString: Untagged
@@ -812,7 +812,7 @@ MonoBehaviour:
   m_MinAngleAllowed: 0.1
   m_MaxAngleAllowed: 5
   m_TimeUntilThresholdReachesMaxAngle: 3
---- !u!114 &3989794471866222662
+--- !u!114 &-1848832239990730554
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -821,12 +821,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4802310246106754626}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f6941a2a3d904bc38a925c3c93dbc59, type: 3}
+  m_Script: {fileID: 11500000, guid: ca0b74ebafb83af4298d14e1de65d0e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   noteManager: {fileID: 0}
   notePrefab: {fileID: 0}
   noteContainer: {fileID: 0}
+  titleTextbox: {fileID: 7175905641730876804}
 --- !u!1 &4892933239685750971
 GameObject:
   m_ObjectHideFlags: 0
@@ -2090,13 +2091,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: -1848832239990730554}
+        m_TargetAssemblyTypeName: LectureNoteWindow, GUI
+        m_MethodName: CreateNote
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

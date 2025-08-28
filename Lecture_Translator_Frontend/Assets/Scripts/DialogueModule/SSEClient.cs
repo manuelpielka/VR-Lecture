@@ -30,14 +30,20 @@ public class SSEClient
     private Task sseTask;
 
     /// <summary>
+    /// The client to run.
+    /// </summary>
+    private HttpClient client;
+
+    /// <summary>
     /// Constructor.
     /// </summary>
     /// <param name="url"> Url of the server. </param>
     /// <param name="sseHandler"> Handler to send events to. </param>
-    public SSEClient(string url, ISSEHandler sseHandler)
+    public SSEClient(string url, ISSEHandler sseHandler, HttpClient httpClient = null)
     {
         this.url = url;
         this.sseHandler = sseHandler;
+        this.client = httpClient ?? new HttpClient();
     }
 
     /// <summary>
@@ -59,7 +65,7 @@ public class SSEClient
         Debug.Log("CONNECTING...");
         try
         {
-            using (var client = new HttpClient())
+            using (client)
             {
                 var request = new HttpRequestMessage(HttpMethod.Get, url);
                 request.Headers.Accept.ParseAdd("text/event-stream");
@@ -94,7 +100,7 @@ public class SSEClient
                                 }
                                 continue;
                             }
-
+                            Debug.Log(line);
                             if (line.StartsWith("event:"))
                             {
                                 eventName = line.Substring("event:".Length).Trim();

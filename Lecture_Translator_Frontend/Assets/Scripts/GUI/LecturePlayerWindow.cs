@@ -145,10 +145,10 @@ public class LecturePlayerWindow : Window
 
     public void NotesBtnPressed()
     {
-        var window = WindowManager.CreateWindow(WindowKeys.CreateLectureNoteKey) as CreateLectureNoteWindow;
+        var window = WindowManager.CreateWindow(WindowKeys.LectureNoteKey) as LectureNoteWindow;
         if (window == null)
         {
-            Debug.LogError("Failed to open CreateLectureNoteWindow.");
+            Debug.LogError("Failed to open LectureNoteWindow.");
             return;
         }
 
@@ -156,13 +156,13 @@ public class LecturePlayerWindow : Window
 
         if (lecture != null)
         {
-            
-            window.Initialize(lecture, now, isEditMode: false);
+
+            window.SetValues(lecture, playbackManager);
         }
         else
         {
-            
-            window.Initialize("(Lecture deleted)", now, isEditMode: false);
+            Debug.LogError("Lecture is null!");
+            //window.SetValues("(Lecture deleted)", playbackManager);
         }
     }
 

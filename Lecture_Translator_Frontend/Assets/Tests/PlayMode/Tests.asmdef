@@ -8,7 +8,15 @@
         "UnityEngine.UI",
         "Contract",
         "GUI",
-        "Playback"
+        "Playback",
+        "Tutorial",
+        "EnvironmentModule",
+        "DialogueModule",
+        "Unity.TextMeshPro",
+        "NoteModule",
+        "Unity.Localization",
+        "Unity.Addressables",
+        "Unity.ResourceManager"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

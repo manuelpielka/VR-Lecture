@@ -25,10 +25,10 @@ public class CreateLectureNoteWindow : CreateNoteWindow
         InitializeInternal(lecture, lecture.GetName(), timeSecondsAtOpen, /*createdAtFromNote*/ 0d, isEditMode);
     }
 
-    public void Initialize(string lectureTitleSnapshot, double createdAtSecondsFromNote, bool isEditMode)
-    {
-        InitializeInternal(/*lecture*/ null, lectureTitleSnapshot, /*timeSecondsAtOpen*/ 0d, createdAtSecondsFromNote, isEditMode);
-    }
+    //public void Initialize(string lectureTitleSnapshot, double createdAtSecondsFromNote, bool isEditMode)
+    //{
+        //InitializeInternal(/*lecture*/ null, lectureTitleSnapshot, /*timeSecondsAtOpen*/ 0d, createdAtSecondsFromNote, isEditMode);
+    //}
 
     private void InitializeInternal(Lecture lecture, string titleSnapshot, double timeSecondsAtOpen, double createdAtFromNote, bool isEditMode)
     {
@@ -44,7 +44,7 @@ public class CreateLectureNoteWindow : CreateNoteWindow
         lectureTitleSnapshot = string.IsNullOrEmpty(titleSnapshot) ? "(Lecture deleted)" : titleSnapshot;
 
         
-        capturedTimeSeconds = timeSecondsAtOpen;
+        capturedTimeSeconds = Math.Max(0d, timeSecondsAtOpen);
         createdAtSecondsForToggle = createdAtFromNote;
 
         
@@ -54,50 +54,48 @@ public class CreateLectureNoteWindow : CreateNoteWindow
        
         if (useTimestampAsTitleToggle != null)
         {
+            useTimestampAsTitleToggle.isOn = true;          // true
+            useTimestampAsTitleToggle.interactable = false;
             useTimestampAsTitleToggle.onValueChanged.RemoveListener(OnUseTimestampToggleChanged);
             useTimestampAsTitleToggle.onValueChanged.AddListener(OnUseTimestampToggleChanged);
-            ApplyUseTimestampToggleToUI(useTimestampAsTitleToggle.isOn);
+            ApplyUseTimestampToggleToUI(true);
         }
     }
 
     public new void FillFields(string title, string content)
     {
-        base.FillFields(title, content);
-        
-        if (useTimestampAsTitleToggle != null)
+        if (titleTextBox != null)
         {
-            ApplyUseTimestampToggleToUI(useTimestampAsTitleToggle.isOn);
+            titleTextBox.text = FormatTimestampForTitle(isEditMode ? createdAtSecondsForToggle : capturedTimeSeconds);
+            titleTextBox.interactable = false; // 
         }
+
+        if (noteTextBox != null) noteTextBox.text = content;
     }
 
     public override void Apply()
     {
-        string title = titleTextBox.text;
+        var enforcedTitle = FormatTimestampForTitle(isEditMode ? createdAtSecondsForToggle : capturedTimeSeconds);
         string content = noteTextBox.text;
-
-        if (string.IsNullOrWhiteSpace(title))
-        {
-            Debug.LogWarning("Note title cannot be empty!");
-            return;
-        }
 
         try
         {
             if (isEditMode)
             {
 
-                var noteToEdit = noteManager?.Notes?.Find(n => n.Title == originalTitle);
+                var noteToEdit = noteManager?.Notes?.Find(n => n.Title == originalTitle && n.LectureTitle == lectureTitleSnapshot);
                 if (noteToEdit == null)
                 {
                     Debug.LogWarning($"Edit failed: note '{originalTitle}' not found in NoteManager list.");
                     return;
                 }
-                noteManager.EditNote(noteToEdit, title, content);
+                noteToEdit.Content = content;
+                noteManager.SaveNote(noteToEdit);
             }
             else
             {
 
-                var newNote = new Note(title, content)
+                var newNote = new Note(enforcedTitle, content)
                 {
                     LectureTitle = lectureTitleSnapshot,          
                     CreatedAtSeconds = capturedTimeSeconds        
@@ -126,25 +124,16 @@ public class CreateLectureNoteWindow : CreateNoteWindow
 
     private void OnUseTimestampToggleChanged(bool isOn)
     {
-        ApplyUseTimestampToggleToUI(isOn);
+        ApplyUseTimestampToggleToUI(true);
     }
 
     private void ApplyUseTimestampToggleToUI(bool useTimestamp)
     {
         if (titleTextBox == null) return;
 
-        if (useTimestamp)
-        {
-
-            double seconds = isEditMode ? createdAtSecondsForToggle : capturedTimeSeconds;
-            titleTextBox.text = FormatTimestampForTitle(seconds);
-            titleTextBox.interactable = false; 
-        }
-        else
-        {
-            titleTextBox.interactable = true;  
-
-        }
+        var secs = isEditMode ? createdAtSecondsForToggle : capturedTimeSeconds;
+        titleTextBox.text = FormatTimestampForTitle(secs);
+        titleTextBox.interactable = false;
     }
 
     private static string FormatTimestampForTitle(double seconds)

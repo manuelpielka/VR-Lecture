@@ -18,16 +18,21 @@ public class Note
     /// </summary>
     public string Content;
 
+    /// <summary>
+    /// The lecture title this note is associated with.
+    /// </summary>
     public string LectureTitle;
 
-    public double CreatedAtSeconds;
-
+    /// <summary>
+    /// The timestamp of the lecture when this note was created.
+    /// </summary>
+    public double CreatedAtSeconds = 0d;
 
     /// <summary>
     /// Constructor for deserialization of Unity instantiation.
     /// </summary>
     public Note() { }
-
+    
     /// <summary>
     /// Creates a note with title and content.
     /// </summary>

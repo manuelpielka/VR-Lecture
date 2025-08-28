@@ -235,5 +235,10 @@ public class WindowManager : MonoBehaviour
         {
             activeWindows.Remove(window);
         }
+
+        if (window is GUI.MainMenuWindow)
+        {
+            mainMenuOpen = false;
+        }
     }
 }

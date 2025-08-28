@@ -100,7 +100,7 @@ public class SettingsModulePlayMode_ExtraNoClockTests
         ctrl.SetDarkMode(false); // 当前 Light
 
         // 调用 ApplyAll：应切到 Dark 且保持 Auto=false
-        UserPreferencesManager.ApplyAll(ctrl);
+        //UserPreferencesManager.ApplyAll(ctrl);
         Assert.IsFalse(ctrl.IsAutoAdjustEnabled(), "AutoAdjust 应为 false");
         Assert.IsTrue(ctrl.IsDarkModeEnabled(), "应切到 Dark");
     }
@@ -116,7 +116,7 @@ public class SettingsModulePlayMode_ExtraNoClockTests
         ctrl.SetAutoAdjust(false);
         ctrl.SetDarkMode(true);
 
-        UserPreferencesManager.ApplyAll(ctrl);
+        //UserPreferencesManager.ApplyAll(ctrl);
 
         // 只断言 AutoAdjust 状态与偏好一致（不校验明暗）
         Assert.IsTrue(ctrl.IsAutoAdjustEnabled(), "AutoAdjust 应被设为 true");

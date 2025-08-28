@@ -202,8 +202,6 @@ namespace GUI
             await LectureDownloader.DownloadVTT(lecture);
             await LectureDownloader.DownloadLecture(lecture, progressBar);
 
-            //TODO: Download transcript
-
             lecture.SetDownloaded(true);
         }
 

@@ -24,7 +24,7 @@ public class DownloadProgressBar : MonoBehaviour
         this.request = request;
     }
 
-    private void CompleteProgress()
+    public void CompleteProgress()
     {
         gameObject.SetActive(false);
     }

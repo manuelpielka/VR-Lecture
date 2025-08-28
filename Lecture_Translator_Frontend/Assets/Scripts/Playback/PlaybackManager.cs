@@ -19,7 +19,12 @@ public class PlaybackManager : MonoBehaviour
         }
         else
         {
+<<<<<<< Updated upstream
             VideoPlayer.url = "./Data/" + lecture.GetTranscriptSource() + ".mp4";
+=======
+            VideoPlayer.url = lecture.GetVideoSource();
+            downloadProgressBar.CompleteProgress();
+>>>>>>> Stashed changes
         }
     }
 

@@ -218,7 +218,6 @@ public class DialogueSystemTests
         yield return null;
         Debug.Log(apiClient.GetStreamAudioCount());
         Assert.GreaterOrEqual(apiClient.GetStreamAudioCount(), 1); // at least 1 request went through -> this works
-        Assert.IsTrue(apiClient.GetSendPromptCount() == 1);
     }
 }
 

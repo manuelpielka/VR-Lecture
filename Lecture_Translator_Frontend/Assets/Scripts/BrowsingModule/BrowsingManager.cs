@@ -144,7 +144,7 @@ namespace BrowsingModule
 
                 if (testingMode)
                 {
-                    LectureElement element = new LectureElement(dir + "/" + session, session, new Lecture("Test", "", "", new List<string>()));
+                    LectureElement element = new LectureElement(dir + "/" + session, session, new Lecture("Test", "./Data/Test/test", "Test/test", new List<string>()));
                     parent.AddContents(element);
                     continue;
                 }

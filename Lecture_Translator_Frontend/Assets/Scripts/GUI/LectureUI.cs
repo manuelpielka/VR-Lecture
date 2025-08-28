@@ -1,4 +1,3 @@
-using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,11 +44,6 @@ namespace GUI
         /// </summary>
         [SerializeField] private Button deleteButton;
 
-        /// <summary>
-        /// Directory of the downloaded lectures.
-        /// </summary>
-        private const string DATA_DIRECTORY = "./Data/";
-
 
         /// <summary>
         /// Button handler for the play button.
@@ -76,9 +70,7 @@ namespace GUI
         /// </summary>
         public void OnDeleteClick()
         {
-            File.Delete(DATA_DIRECTORY + lecture.GetTranscriptSource() + ".mp4");
-            if (Directory.Exists(DATA_DIRECTORY + lecture.GetTranscriptSource()))
-                Directory.Delete(DATA_DIRECTORY + lecture.GetTranscriptSource(), true);
+            lectureBrowserUI.DeleteLecture(lecture);
 
             deleteButton.gameObject.SetActive(false);
             downloadButton.gameObject.SetActive(true);

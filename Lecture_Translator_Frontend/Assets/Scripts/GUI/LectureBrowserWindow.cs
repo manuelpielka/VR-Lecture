@@ -8,6 +8,7 @@ using System.Text;
 using UnityEngine.UI;
 using System;
 using System.Collections;
+using System.IO;
 
 namespace GUI
 {
@@ -118,27 +119,16 @@ namespace GUI
 
         [SerializeField] private DownloadProgressBar progressBar;
 
+        /// <summary>
+        /// Directory of the downloaded lectures.
+        /// </summary>
+        private const string DATA_DIRECTORY = "./Data/";
+
+
         private void Update()
         {
             if (!processing && queue.Count > 0)
                 StartCoroutine(ProcessQueue());
-
-            /*while (queue.Count > 0)
-            {
-
-                var (data, onReady) = queue.Dequeue();
-
-                Texture2D texture = new Texture2D(2, 2);
-                texture.LoadImage(data); // This still blocks main thread
-
-                Sprite sprite = Sprite.Create(
-                    texture,
-                    new Rect(0, 0, texture.width, texture.height),
-                    new Vector2(0.5f, 0.5f)
-                );
-
-                onReady?.Invoke(sprite);
-            }*/
         }
 
         private IEnumerator ProcessQueue()
@@ -203,6 +193,17 @@ namespace GUI
             await LectureDownloader.DownloadLecture(lecture, progressBar);
 
             lecture.SetDownloaded(true);
+        }
+
+        /// <summary>
+        /// Deletes all downloaded files of a lecture.
+        /// </summary>
+        /// <param name="lecture"> The lecture to delete from storage. </param>
+        public void DeleteLecture(Lecture lecture)
+        {
+            File.Delete(DATA_DIRECTORY + lecture.GetTranscriptSource() + ".mp4");
+            if (Directory.Exists(DATA_DIRECTORY + lecture.GetTranscriptSource()))
+                Directory.Delete(DATA_DIRECTORY + lecture.GetTranscriptSource(), true);
         }
 
         /// <summary>

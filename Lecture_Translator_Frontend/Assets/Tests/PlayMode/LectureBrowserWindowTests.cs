@@ -53,9 +53,12 @@ public class LectureBrowserWindowTests
         Assert.IsTrue(browserWindow == null, "Browser window should be closed");
     }
 
-    [UnityTest] // T5.2 Lecture Offline Access | Covers T7.2
+    [UnityTest] // T2.5.2 Lecture Offline Access
     public IEnumerator SelectLecture_Offline_Test()
     {
+        if (Directory.Exists("./Data/other"))
+            Directory.Delete("./Data/other");
+
         var windowManager = GameObject.Find("WindowManager").GetComponent<WindowManager>();
         yield return null;
         var lectureBrowserWindow = windowManager.OpenWindow("LectureBrowserWindow").GetComponent<GUI.LectureBrowserWindow>();
@@ -80,28 +83,49 @@ public class LectureBrowserWindowTests
         Assert.AreEqual(testLecture, field.GetValue(lecturePlayerWindow));
     }
 
-    [UnityTest] // T5.1 Lecture Download | Covers T7.1
-    public IEnumerator DownloadLecture_Test()
+    [UnityTest] // T2.5.1 Lecture Download + Deletion
+    public IEnumerator DownloadDeleteLecture_Test()
     {
-        /*if (Directory.Exists("./Data/other"))
-            Directory.Delete("./Data/other", true);
-
         var windowManager = GameObject.Find("WindowManager").GetComponent<WindowManager>();
         yield return null;
         var lectureBrowserWindow = windowManager.OpenWindow("LectureBrowserWindow").GetComponent<GUI.LectureBrowserWindow>();
-        yield return null;
 
-        Lecture testLecture = new Lecture("Test", "", "other/offline_test", new List<string>());
+        var manager = lectureBrowserWindow.GetComponent<BrowsingManager>();
 
-        lectureBrowserWindow.DownloadLecture(testLecture);
+        var apiClient = new FakeBrowsingApiClient();
 
-        Assert.IsTrue(File.Exists("./Data/other/offline_test.mp4"), "File does not exist.");
-
-        Directory.Delete("./Data/other", true);*/
+        var field = typeof(BrowsingManager).GetField("apiclient", BindingFlags.NonPublic | BindingFlags.Instance);
+        field.SetValue(manager, apiClient);
 
         yield return null;
 
-        // TODO: Fix
+        var folderbutton = lectureBrowserWindow.transform.Find("Canvas/Panel/Lectures/Viewport/-/FolderUI(Clone)").GetComponent<Button>();
+
+        Assert.IsNotNull(folderbutton);
+
+        yield return new WaitForSeconds(1f);
+
+        folderbutton.onClick.Invoke();
+
+        yield return null;
+
+        var lectureUI = lectureBrowserWindow.transform.Find("Canvas/Panel/Lectures/Viewport/--TestFolder/LectureUI(Clone)").GetComponent<GUI.LectureUI>();
+
+        lectureUI.OnDownloadClick();
+
+        yield return null;
+
+        Assert.IsTrue(File.Exists("./Data/Test/test.mp4"), "File does not exist.");
+
+        yield return new WaitForSeconds(3f);
+
+        lectureUI.OnDeleteClick();
+
+        yield return null;
+
+        Assert.IsTrue(!File.Exists("./Data/Test/test.mp4"), "File should be deleted.");
+
+        yield return null;
     }
 
     [UnityTest] // T2.2.1 / T2.2.2

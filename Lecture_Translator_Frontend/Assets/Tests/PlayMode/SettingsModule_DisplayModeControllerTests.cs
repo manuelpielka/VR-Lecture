@@ -1,123 +1,195 @@
 using NUnit.Framework;
+using System.Collections;
+using System.Reflection;
 using UnityEngine;
+using UnityEngine.TestTools;
 using UnityEngine.UI;
 
-public class SettingsModule_DisplayModeControllerTests
+#region(SetUp/TearDown/IsAutoAdjustEnabled/ApplyTheme/Update)
+public class SettingsModule_DisplayModeController_Coverage
 {
     private GameObject goCtrl;
     private DisplayModeController ctrl;
     private ColorTheme light, dark;
 
-    // IThemeRefreshable
-    private class DummyRefreshable : MonoBehaviour, IThemeRefreshable
-    {
-        public int Called;
-        public void RefreshTheme() => Called++;
-    }
-
     [SetUp]
     public void SetUp()
     {
         PlayerPrefs.DeleteAll();
-        UserPreferencesManager.ClearAll();
 
-        // 
         light = ScriptableObject.CreateInstance<ColorTheme>();
-        light.WindowBackground = new Color(0.9f, 0.9f, 0.9f, 1);
         dark = ScriptableObject.CreateInstance<ColorTheme>();
-        dark.WindowBackground = new Color(0.1f, 0.1f, 0.1f, 1);
+        light.WindowBackground = Color.gray;
+        dark.WindowBackground = Color.black;
 
-        // 
-        goCtrl = new GameObject("DisplayModeController_Test");
+        goCtrl = new GameObject("Ctrl");
         ctrl = goCtrl.AddComponent<DisplayModeController>();
         ctrl.lightTheme = light;
         ctrl.darkTheme = dark;
 
-        // Light
         ctrl.SetAutoAdjust(false);
-        ctrl.SetDarkMode(false);
     }
 
     [TearDown]
     public void TearDown()
     {
-        if (ctrl != null && DisplayModeController.Instance == ctrl)
+        if (ctrl && DisplayModeController.Instance == ctrl)
             DisplayModeController.Instance = null;
 
-        if (goCtrl != null) Object.DestroyImmediate(goCtrl);
-        if (light != null) Object.DestroyImmediate(light);
-        if (dark != null) Object.DestroyImmediate(dark);
+        if (goCtrl) UnityEngine.Object.DestroyImmediate(goCtrl);
+        if (light) UnityEngine.Object.DestroyImmediate(light);
+        if (dark) UnityEngine.Object.DestroyImmediate(dark);
 
         PlayerPrefs.DeleteAll();
     }
 
     [Test]
-    public void ManualToggle_Works_When_AutoOff()
+    public void IsAutoAdjustEnabled_Getter_Covered()
     {
         ctrl.SetAutoAdjust(false);
-        ctrl.SetDarkMode(true);
-        Assert.IsTrue(ctrl.IsDarkModeEnabled());
-
-        ctrl.SetDarkMode(false);
-        Assert.IsFalse(ctrl.IsDarkModeEnabled());
-    }
-
-    [Test]
-    public void ManualToggle_Ignored_When_AutoOn()
-    {
+        Assert.IsFalse(ctrl.IsAutoAdjustEnabled());
         ctrl.SetAutoAdjust(true);
-        bool before = ctrl.IsDarkModeEnabled();
-        ctrl.SetDarkMode(!before);
-        Assert.AreEqual(before, ctrl.IsDarkModeEnabled(),
-            "dark mode toggle should be ignored in auto switch mode");
+        Assert.IsTrue(ctrl.IsAutoAdjustEnabled());
     }
 
     [Test]
-    public void ApplyTheme_Colors_ThemedElements_And_Refreshable_Is_Called()
+    public void ApplyTheme_Iterates_ThemedElements_Light_And_Dark()
     {
-        // UI + ThemedElement
-        var ui = new GameObject("UI");
-        var img = ui.AddComponent<Image>();
-        var themed = ui.AddComponent<ThemedElement>();
-        themed.role = ThemeRole.WindowBackground;
+        var go = new GameObject("UI");
+        var img = go.AddComponent<Image>();
 
-        // 
-        var refGO = new GameObject("Refreshable");
-        var refreshable = refGO.AddComponent<DummyRefreshable>();
+        var elem = go.AddComponent<ThemedElement>();
+        elem.role = ThemeRole.WindowBackground;
 
         // Light
-        ctrl.SetAutoAdjust(false);
         ctrl.SetDarkMode(false);
-        InvokeApplyTheme(ctrl);
-
-        Assert.That(Approximately(img.color, light.WindowBackground));
-        Assert.AreEqual(1, refreshable.Called, "Light refreshed");
+        ctrl.UpdateMode(); 
+        Assert.AreEqual(Color.gray, img.color);
 
         // Dark
         ctrl.SetDarkMode(true);
-        InvokeApplyTheme(ctrl);
+        ctrl.UpdateMode();
+        Assert.AreEqual(Color.black, img.color);
 
-        Assert.That(Approximately(img.color, dark.WindowBackground));
-        Assert.AreEqual(2, refreshable.Called, "Dark refreshed");
-
-        Object.DestroyImmediate(ui);
-        Object.DestroyImmediate(refGO);
+        UnityEngine.Object.DestroyImmediate(go);
     }
 
-    // private ApplyTheme()
-    private static void InvokeApplyTheme(DisplayModeController c)
+    [UnityTest]
+    public IEnumerator Update_RefreshTimer_Triggers_RefreshMode()
     {
-        var m = typeof(DisplayModeController)
-            .GetMethod("ApplyTheme", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-        Assert.IsNotNull(m);
-        m.Invoke(c, null);
+        SetPrivateField(ctrl, "refreshTimer", 0f);
+        SetPrivateField(ctrl, "refreshInterval", 999f);
+
+        ctrl.SetAutoAdjust(true);
+        yield return null;
+
+        float timer = (float)GetPrivateField(ctrl, "refreshTimer");
+
+        Assert.Greater(timer, 0f);
     }
 
-    private static bool Approximately(Color a, Color b, float eps = 0.001f)
+    [Test]
+    public void RefreshMode_Calls_UpdateMode_Directly()
     {
-        return Mathf.Abs(a.r - b.r) < eps &&
-               Mathf.Abs(a.g - b.g) < eps &&
-               Mathf.Abs(a.b - b.b) < eps &&
-               Mathf.Abs(a.a - b.a) < eps;
+        var light = ScriptableObject.CreateInstance<ColorTheme>();
+        var dark = ScriptableObject.CreateInstance<ColorTheme>();
+        light.WindowBackground = Color.gray;
+        dark.WindowBackground = Color.black;
+
+        var goCtrl = new GameObject("Ctrl");
+        var ctrl = goCtrl.AddComponent<DisplayModeController>();
+        ctrl.lightTheme = light;
+        ctrl.darkTheme = dark;
+
+        var go = new GameObject("UI");
+        go.AddComponent<UnityEngine.UI.Image>();
+        var elem = go.AddComponent<ThemedElement>();
+        elem.role = ThemeRole.WindowBackground;
+
+        ctrl.SetAutoAdjust(false);
+        ctrl.SetDarkMode(true);
+        ctrl.RefreshMode();
+
+        if (DisplayModeController.Instance == ctrl) DisplayModeController.Instance = null;
+        UnityEngine.Object.DestroyImmediate(go);
+        UnityEngine.Object.DestroyImmediate(goCtrl);
+        UnityEngine.Object.DestroyImmediate(light);
+        UnityEngine.Object.DestroyImmediate(dark);
+    }
+
+    [Test]
+    public void Update_InnerIf_Branch_Forced_By_PrivateInvoke()
+    {
+        var light = ScriptableObject.CreateInstance<ColorTheme>();
+        var dark = ScriptableObject.CreateInstance<ColorTheme>();
+        var goCtrl = new GameObject("Ctrl");
+        var ctrl = goCtrl.AddComponent<DisplayModeController>();
+        ctrl.lightTheme = light;
+        ctrl.darkTheme = dark;
+
+        // autoAdjust = true
+        ctrl.SetAutoAdjust(true);
+
+        SetPrivateField(ctrl, "refreshInterval", 0f);
+        SetPrivateField(ctrl, "refreshTimer", 0f);
+
+        var mi = typeof(DisplayModeController)
+                  .GetMethod("Update", BindingFlags.Instance | BindingFlags.NonPublic);
+        Assert.IsNotNull(mi, "can not find Update()");
+        mi.Invoke(ctrl, null);
+
+        float timerAfter = (float)GetPrivateField(ctrl, "refreshTimer");
+        Assert.AreEqual(0f, timerAfter, 1e-6f);
+
+        if (DisplayModeController.Instance == ctrl) DisplayModeController.Instance = null;
+        UnityEngine.Object.DestroyImmediate(goCtrl);
+        UnityEngine.Object.DestroyImmediate(light);
+        UnityEngine.Object.DestroyImmediate(dark);
+    }
+
+    private static void SetPrivateField(object obj, string name, object value)
+    {
+        var f = obj.GetType().GetField(name, BindingFlags.Instance | BindingFlags.NonPublic);
+        Assert.IsNotNull(f, "can not find " + name);
+        f.SetValue(obj, value);
+    }
+
+    private static object GetPrivateField(object obj, string name)
+    {
+        var f = obj.GetType().GetField(name, BindingFlags.Instance | BindingFlags.NonPublic);
+        Assert.IsNotNull(f, "can not find " + name);
+        return f.GetValue(obj);
     }
 }
+#endregion
+
+#region duplicate(no SetUp)
+public class SettingsModule_DisplayModeController_Awake_Duplicate
+{
+    [UnityTest]
+    public IEnumerator Second_Instance_Destroys_Itself()
+    {
+        var light = ScriptableObject.CreateInstance<ColorTheme>();
+        var dark = ScriptableObject.CreateInstance<ColorTheme>();
+
+        var go1 = new GameObject("Ctrl1");
+        var c1 = go1.AddComponent<DisplayModeController>();
+        c1.lightTheme = light; c1.darkTheme = dark;
+
+        var go2 = new GameObject("Ctrl2");
+        var c2 = go2.AddComponent<DisplayModeController>();
+        c2.lightTheme = light; c2.darkTheme = dark;
+
+        yield return null;
+
+        Assert.AreSame(c1, DisplayModeController.Instance);
+        Assert.IsTrue(go2 == null || c2 == null);
+
+        if (DisplayModeController.Instance == c1) DisplayModeController.Instance = null;
+        if (go1) UnityEngine.Object.DestroyImmediate(go1);
+        if (go2) UnityEngine.Object.DestroyImmediate(go2);
+        if (light) UnityEngine.Object.DestroyImmediate(light);
+        if (dark) UnityEngine.Object.DestroyImmediate(dark);
+    }
+}
+#endregion

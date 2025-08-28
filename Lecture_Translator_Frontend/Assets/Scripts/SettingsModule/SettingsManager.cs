@@ -170,4 +170,9 @@ public class SettingsManager : MonoBehaviour
         EnvironmentManager.Instance.LoadEnvironment(sceneName);
         //UserPreferencesManager.SaveEnvironmentScene(sceneName);
     }
+
+    private void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
 }

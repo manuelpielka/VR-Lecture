@@ -13,7 +13,10 @@
         "EnvironmentModule",
         "DialogueModule",
         "Unity.TextMeshPro",
-        "NoteModule"
+        "NoteModule",
+        "Unity.Localization",
+        "Unity.Addressables",
+        "Unity.ResourceManager"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

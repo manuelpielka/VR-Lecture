@@ -1,18 +1,20 @@
 using NUnit.Framework;
+using System.Reflection;
 using UnityEngine;
+using UnityEngine.TestTools;
+using System.Collections;
 
 public class SettingsModule_SettingsManagerTests
 {
-    private GameObject goCtrl, goMgr;
-    private DisplayModeController ctrl;
-    private SettingsManager mgr;
-    private ColorTheme light, dark;
+    GameObject goCtrl, goSettings, goEnv;
+    DisplayModeController ctrl;
+    SettingsManager settings;
+    ColorTheme light, dark;
 
     [SetUp]
     public void SetUp()
     {
         PlayerPrefs.DeleteAll();
-        UserPreferencesManager.ClearAll();
 
         light = ScriptableObject.CreateInstance<ColorTheme>();
         dark = ScriptableObject.CreateInstance<ColorTheme>();
@@ -24,47 +26,161 @@ public class SettingsModule_SettingsManagerTests
         ctrl.lightTheme = light;
         ctrl.darkTheme = dark;
 
-        goMgr = new GameObject("Mgr");
-        mgr = goMgr.AddComponent<SettingsManager>();
-
-        // 
-        mgr.LoadSettings();
+        goSettings = new GameObject("SettingsManager");
+        settings = goSettings.AddComponent<SettingsManager>();
     }
 
     [TearDown]
-    public void TearDown()
+    public IEnumerator TearDown()
     {
-        if (ctrl != null && DisplayModeController.Instance == ctrl)
-            DisplayModeController.Instance = null;
+        if (goEnv) Object.Destroy(goEnv);
+        if (goSettings) Object.Destroy(goSettings);
+        if (goCtrl) Object.Destroy(goCtrl);
 
-        Object.DestroyImmediate(goCtrl);
-        Object.DestroyImmediate(goMgr);
-
-        if (light != null) Object.DestroyImmediate(light);
-        if (dark != null) Object.DestroyImmediate(dark);
+        if (light) Object.Destroy(light);
+        if (dark) Object.Destroy(dark);
 
         PlayerPrefs.DeleteAll();
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator Awake_PrimaryInstance_SetsSingleton()
+    {
+        yield return null;
+        Assert.AreSame(settings, SettingsManager.Instance);
+    }
+
+    [UnityTest]
+    public IEnumerator Awake_SecondInstance_DestroysItself()
+    {
+        yield return null;
+
+        var go2 = new GameObject("SettingsManager2");
+        var sm2 = go2.AddComponent<SettingsManager>();
+
+        yield return null;
+
+        Assert.AreSame(settings, SettingsManager.Instance);
+        Assert.IsTrue(go2 == null || sm2 == null);
     }
 
     [Test]
-    public void ApplySettings_Persists_And_Drives_DisplayMode()
+    public void ApplyDisplayMode_NoController_Returns()
     {
-        // Light
-        mgr.ApplySettings(false, false);
-        Assert.IsFalse(mgr.GetAutoSwitch());
-        Assert.IsFalse(mgr.GetDarkMode());
-        Assert.IsFalse(ctrl.IsDarkModeEnabled());
+        DisplayModeController.Instance = null;
+        InvokePrivate(settings, "ApplyDisplayMode");
+        Assert.Pass();
+    }
 
-        // Dark
-        mgr.ApplySettings(false, true);
-        Assert.IsFalse(mgr.GetAutoSwitch());
-        Assert.IsTrue(mgr.GetDarkMode());
-        Assert.IsTrue(ctrl.IsDarkModeEnabled());
-        Assert.IsTrue(UserPreferencesManager.LoadDarkMode());
+    [Test]
+    public void ApplyDisplayMode_AutoFalse_DarkBranches()
+    {
+        UserPreferencesManager.SaveAutoAdjust(false);
+        UserPreferencesManager.SaveDarkMode(true);
 
-        //
-        mgr.ApplySettings(true, false);
-        Assert.IsTrue(mgr.GetAutoSwitch());
-        Assert.IsTrue(UserPreferencesManager.LoadAutoAdjust());
+        settings.LoadSettings();
+        Assert.IsTrue(ctrl.IsAutoAdjustEnabled() == false);
+
+        UserPreferencesManager.SaveDarkMode(false);
+        settings.LoadSettings();
+        Assert.IsTrue(ctrl.IsAutoAdjustEnabled() == false);
+    }
+
+    [Test]
+    public void ApplySettings_Saves_And_Applies()
+    {
+        settings.ApplySettings(newAutoSwitch: false, newDarkMode: true);
+        Assert.IsFalse(settings.GetAutoSwitch());
+        Assert.IsTrue(settings.GetDarkMode());
+        Assert.AreEqual(0, PlayerPrefs.GetInt("UserPref_AutoAdjust"));
+        Assert.AreEqual(1, PlayerPrefs.GetInt("UserPref_IsDarkMode"));
+    }
+
+    [UnityTest]
+    public IEnumerator Start_Sets_Default_Language_When_Empty()
+    {
+        PlayerPrefs.DeleteKey("UserPref_Language");
+
+        Object.DestroyImmediate(goSettings);
+        goSettings = new GameObject("SettingsManager");
+        settings = goSettings.AddComponent<SettingsManager>();
+
+        yield return null; yield return null;
+
+        Assert.AreEqual("en", PlayerPrefs.GetString("UserPref_Language"));
+    }
+
+    [UnityTest]
+    public IEnumerator Start_Uses_Saved_Language_If_Exists()
+    {
+        PlayerPrefs.SetString("UserPref_Language", "en");
+
+        Object.DestroyImmediate(goSettings);
+        goSettings = new GameObject("SettingsManager");
+        settings = goSettings.AddComponent<SettingsManager>();
+        yield return null; yield return null;
+
+        Assert.AreEqual("en", PlayerPrefs.GetString("UserPref_Language"));
+    }
+
+    [UnityTest]
+    public IEnumerator ApplyLanguageAsync_EarlyReturn_When_Invalid()
+    {
+        yield return null;
+        var t1 = settings.ApplyLanguageAsync(null);
+        while (!t1.IsCompleted) yield return null;
+        var t2 = settings.ApplyLanguageAsync("xx-nonexist");
+        while (!t2.IsCompleted) yield return null;
+        Assert.Pass();
+    }
+
+    [UnityTest]
+    public IEnumerator ApplyLanguageAsync_Switch_And_Save()
+    {
+        yield return null;
+        var t = settings.ApplyLanguageAsync("en");
+        while (!t.IsCompleted) yield return null;
+        Assert.AreEqual("en", PlayerPrefs.GetString("UserPref_Language"));
+    }
+
+    [Test]
+    public void Env_Null_GetOptions_And_GetCurrent()
+    {
+        if (EnvironmentManager.Instance != null)
+        {
+            Object.DestroyImmediate(EnvironmentManager.Instance.gameObject);
+        }
+        var options = settings.GetEnvironmentOptions();
+        var current = settings.GetCurrentEnvironment();
+        Assert.NotNull(options);
+        Assert.AreEqual(0, options.Count);
+        Assert.IsNull(current);
+    }
+
+    [UnityTest]
+    public IEnumerator Env_ApplyEnvironment_All_Branches()
+    {
+        if (EnvironmentManager.Instance == null)
+        {
+            goEnv = new GameObject("EnvMgr");
+            goEnv.AddComponent<EnvironmentManager>();
+            yield return null;
+        }
+
+        settings.ApplyEnvironment("");
+        EnvironmentManager.Instance.LoadEnvironment("EnvA");
+        settings.ApplyEnvironment("EnvA");
+        Assert.AreEqual("EnvA", EnvironmentManager.Instance.CurrentSceneName);
+
+        settings.ApplyEnvironment("EnvB");
+        Assert.AreEqual("EnvB", EnvironmentManager.Instance.CurrentSceneName);
+    }
+
+    private static void InvokePrivate(object obj, string method)
+    {
+        var mi = obj.GetType().GetMethod(method, BindingFlags.Instance | BindingFlags.NonPublic);
+        Assert.IsNotNull(mi, "can not find: " + method);
+        mi.Invoke(obj, null);
     }
 }

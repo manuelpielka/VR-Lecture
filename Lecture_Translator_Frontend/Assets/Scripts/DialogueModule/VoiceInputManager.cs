@@ -43,6 +43,11 @@ public class VoiceInputManager : MonoBehaviour
     private bool isRecording = false;
 
     /// <summary>
+    /// Is the microphone currently recording?
+    /// </summary>
+    private bool isStreamingData = false;
+
+    /// <summary>
     /// The chunk size of the recorded audio.
     /// </summary>
     private const int chunkSize = 1600; // 100ms at 16kHz
@@ -66,6 +71,22 @@ public class VoiceInputManager : MonoBehaviour
     /// The polling rate of the audio stream.
     /// </summary>
     private float pollingRate = 0.05f;
+
+    /// <summary>
+    /// Called by unity when the GameObject is enabled.
+    /// </summary>
+    private void OnEnable()
+    {
+        dialogueController.OnResponseReceived += ResponseReceived;
+    }
+
+    /// <summary>
+    /// Called by unity when the GameObject is disabled.
+    /// </summary>
+    private void OnDisable()
+    {
+        dialogueController.OnResponseReceived -= ResponseReceived;
+    }
 
     /// <summary>
     /// The start method called by unity.
@@ -114,6 +135,8 @@ public class VoiceInputManager : MonoBehaviour
 
             isRecording = true;
 
+            isStreamingData = true;
+
             StartCoroutine(StreamMicrophone());
         }
         else
@@ -134,7 +157,7 @@ public class VoiceInputManager : MonoBehaviour
     {
         time = 0f;
 
-        while (isRecording)
+        while (isStreamingData)
         {
             int currentPosition = Microphone.GetPosition(micDevice);
             int samplesAvailable = currentPosition - lastSamplePosition;
@@ -173,4 +196,37 @@ public class VoiceInputManager : MonoBehaviour
         }
         return pcm;
     }
+
+    /// <summary>
+    /// Called when the api returns a response.
+    /// </summary>
+    /// <param name="response"> The response of the api. </param>
+    private void ResponseReceived(string response)
+    {
+        JsonLLMResponse llmresponse = JsonUtility.FromJson<JsonLLMResponse>(response);
+
+        if (llmresponse.sender.Contains("bot"))
+        {
+            if (llmresponse != null && llmresponse.seq != "")
+            {
+                isStreamingData = false;
+            }
+        }
+    }
+}
+
+/// <summary>
+/// This is the json format the LLM response is sent in.
+/// </summary>
+[System.Serializable]
+public class JsonLLMResponse
+{
+    public string seq;
+    public string user;
+    public string image_des;
+    public string session;
+    public string sender;
+    public string message_id;
+    public string context;
+    public string num_subscribers;
 }

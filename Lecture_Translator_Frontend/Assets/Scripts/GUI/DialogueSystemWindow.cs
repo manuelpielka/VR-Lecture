@@ -153,6 +153,7 @@ namespace GUI
             if (text == "") return;
             dialogueController.SendPrompt(text);
             userTextBox.text = text;
+            aiTextBox.text = "";
         }
 
         /// <summary>
@@ -190,6 +191,7 @@ namespace GUI
                 if (llmresponse != null && llmresponse.seq != "" && llmresponse.seq != aiTextBox.text)
                 {
                     userTextBox.text = llmresponse.seq;
+                    aiTextBox.text = "";
                 }
             }
         }

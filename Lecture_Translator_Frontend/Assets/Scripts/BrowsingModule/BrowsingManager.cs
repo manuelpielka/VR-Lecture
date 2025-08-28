@@ -210,7 +210,17 @@ namespace BrowsingModule
 
                     string fileName = fixedFile.Substring(fixedFile.LastIndexOf("/") + 1);
 
-                    Lecture lecture = new Lecture(fileName, fixedFile, "", null);
+                    string transcriptPath = file.Replace(".mp4", "");
+
+                    List<string> transcriptLanguages = new List<string>();
+
+                    foreach (string transcript in Directory.GetFiles(transcriptPath))
+                    {
+                        string[] splitString = transcript.Replace("\\", "/").Split("/");
+                        transcriptLanguages.Add(splitString[splitString.Length - 1].Replace(".vtt", ""));
+                    }
+
+                    Lecture lecture = new Lecture(fileName, fixedFile, transcriptPath.Replace("./Data", ""), transcriptLanguages);
                     lecture.SetDownloaded(true);
                     LectureElement newSessionElement = new LectureElement(fixedFile, fileName, lecture);
 

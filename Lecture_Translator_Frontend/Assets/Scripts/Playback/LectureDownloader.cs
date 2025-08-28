@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
 using UnityEngine.UIElements;
+using System.IO;
 
 public static class LectureDownloader
 {
@@ -72,17 +73,15 @@ public static class LectureDownloader
     public static async Task DownloadVTT(Lecture lecture)
     {
         string source = lecture.GetTranscriptSource();
-        List<Task> DownloadTasks = new List<Task>();
+        List<Task<string>> DownloadTasks = new List<Task<string>>();
 
         foreach (string language in lecture.GetTranscriptLanguages())
         {
             string jsonBody = $"\"{{\\\"directory\\\":\\\"{source}\\\",\\\"language\\\":\\\"{language}\\\"}}\"";
-            DownloadTasks.Add(PostRequestFile(SERVER_URL + VTT, jsonBody, DATA_DIRECTORY + lecture.GetTranscriptSource() + "/" + language + ".vtt"));
-        }
+            string json = await PostRequestWithJson(SERVER_URL + VTT, jsonBody);
 
-        foreach (Task task in DownloadTasks)
-        {
-            await task;
+            Directory.CreateDirectory(DATA_DIRECTORY + lecture.GetTranscriptSource());
+            File.WriteAllText(DATA_DIRECTORY + lecture.GetTranscriptSource() + "/" + language + ".vtt", json);
         }
 
     }

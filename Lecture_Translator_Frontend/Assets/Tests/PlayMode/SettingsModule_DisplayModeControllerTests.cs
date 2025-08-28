@@ -33,14 +33,39 @@ public class SettingsModule_DisplayModeController_Coverage
     [TearDown]
     public void TearDown()
     {
-        if (ctrl && DisplayModeController.Instance == ctrl)
+        if (goCtrl) UnityEngine.Object.DestroyImmediate(goCtrl);
+        if (DisplayModeController.Instance != null)
             DisplayModeController.Instance = null;
 
-        if (goCtrl) UnityEngine.Object.DestroyImmediate(goCtrl);
         if (light) UnityEngine.Object.DestroyImmediate(light);
         if (dark) UnityEngine.Object.DestroyImmediate(dark);
 
         PlayerPrefs.DeleteAll();
+    }
+
+    [Test]
+    public void OnDestroy_Clears_Instance_When_Self()
+    {
+        if (DisplayModeController.Instance != null)
+            Object.DestroyImmediate(DisplayModeController.Instance.gameObject);
+
+        foreach (var x in Object.FindObjectsByType<DisplayModeController>(FindObjectsSortMode.None))
+            Object.DestroyImmediate(x.gameObject);
+
+        var light = ScriptableObject.CreateInstance<ColorTheme>();
+        var dark = ScriptableObject.CreateInstance<ColorTheme>();
+
+        var go = new GameObject("Ctrl_OnDestroy");
+        var c = go.AddComponent<DisplayModeController>();
+        c.lightTheme = light; c.darkTheme = dark;
+
+        Assert.AreSame(c, DisplayModeController.Instance);
+
+        Object.DestroyImmediate(go);
+        Assert.IsNull(DisplayModeController.Instance);
+
+        Object.DestroyImmediate(light);
+        Object.DestroyImmediate(dark);
     }
 
     [Test]
@@ -169,6 +194,12 @@ public class SettingsModule_DisplayModeController_Awake_Duplicate
     [UnityTest]
     public IEnumerator Second_Instance_Destroys_Itself()
     {
+        if (DisplayModeController.Instance != null)
+            Object.DestroyImmediate(DisplayModeController.Instance.gameObject);
+        foreach (var x in Object.FindObjectsByType<DisplayModeController>(FindObjectsSortMode.None))
+            Object.DestroyImmediate(x.gameObject);
+        yield return null;
+
         var light = ScriptableObject.CreateInstance<ColorTheme>();
         var dark = ScriptableObject.CreateInstance<ColorTheme>();
 
@@ -186,10 +217,10 @@ public class SettingsModule_DisplayModeController_Awake_Duplicate
         Assert.IsTrue(go2 == null || c2 == null);
 
         if (DisplayModeController.Instance == c1) DisplayModeController.Instance = null;
-        if (go1) UnityEngine.Object.DestroyImmediate(go1);
-        if (go2) UnityEngine.Object.DestroyImmediate(go2);
-        if (light) UnityEngine.Object.DestroyImmediate(light);
-        if (dark) UnityEngine.Object.DestroyImmediate(dark);
+        if (go1) Object.DestroyImmediate(go1);
+        if (go2) Object.DestroyImmediate(go2);
+        Object.DestroyImmediate(light);
+        Object.DestroyImmediate(dark);
     }
 }
 #endregion

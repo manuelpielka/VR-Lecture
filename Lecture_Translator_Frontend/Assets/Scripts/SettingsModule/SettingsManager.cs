@@ -58,12 +58,6 @@ public class SettingsManager : MonoBehaviour
         {
             await languageManager.SetLanguageAsync(savedLanguage);
         }
-
-        //string savedEnv = UserPreferencesManager.LoadEnvironmentSceneOrNull();
-        //if (!string.IsNullOrEmpty(savedEnv))
-        //{
-            //EnvironmentManager.Instance.LoadEnvironment(savedEnv);
-        //}
     }
 
     /// <summary>
@@ -118,12 +112,6 @@ public class SettingsManager : MonoBehaviour
         ApplyDisplayMode();
     }
 
-    public void SetEnvironmentById(string sceneId)
-    {
-        //environmentManager?.LoadEnvironment(sceneId);
-        //UserPreferencesManager.SaveBackgroundSceneId(sceneId);
-    }
-
     public bool GetAutoSwitch() => autoSwitch;
     public bool GetDarkMode() => darkMode;
 
@@ -168,7 +156,6 @@ public class SettingsManager : MonoBehaviour
         if (sceneName == GetCurrentEnvironment()) return;
 
         EnvironmentManager.Instance.LoadEnvironment(sceneName);
-        //UserPreferencesManager.SaveEnvironmentScene(sceneName);
     }
 
     private void OnDestroy()

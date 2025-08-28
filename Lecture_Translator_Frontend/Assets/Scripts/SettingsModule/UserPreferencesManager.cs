@@ -81,18 +81,18 @@ public static class UserPreferencesManager
     /// <summary>
     /// Applies all saved user preferences to the given playback and display controllers.
     /// </summary>
-    public static void ApplyAll(DisplayModeController display)
-    {
-        try
-        {
-            display.SetDarkMode(LoadDarkMode());
-            display.SetAutoAdjust(LoadAutoAdjust());
-        }
-        catch (System.Exception ex)
-        {
-            Debug.LogError($"Error applying preferences: {ex.Message}");
-        }
-    }
+    //public static void ApplyAll(DisplayModeController display)
+    //{
+        //try
+        //{
+            //display.SetDarkMode(LoadDarkMode());
+            //display.SetAutoAdjust(LoadAutoAdjust());
+        //}
+        //catch (System.Exception ex)
+        //{
+            //Debug.LogError($"Error applying preferences: {ex.Message}");
+        //}
+    //}
 
     /// <summary>
     /// Saves all user preferences from the current playback and display state.

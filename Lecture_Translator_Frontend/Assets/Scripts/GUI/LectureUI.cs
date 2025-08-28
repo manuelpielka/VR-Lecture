@@ -77,6 +77,8 @@ namespace GUI
         public void OnDeleteClick()
         {
             File.Delete(DATA_DIRECTORY + lecture.GetTranscriptSource() + ".mp4");
+            if (Directory.Exists(DATA_DIRECTORY + lecture.GetTranscriptSource()))
+                Directory.Delete(DATA_DIRECTORY + lecture.GetTranscriptSource(), true);
 
             deleteButton.gameObject.SetActive(false);
             downloadButton.gameObject.SetActive(true);

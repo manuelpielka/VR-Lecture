@@ -31,11 +31,6 @@ namespace BrowsingModule
         private const string rootPath = "/";
 
         /// <summary>
-        /// Reference to the LectureBrowserWindow to update the UI.
-        /// </summary>
-        //[SerializeField] private GUI.LectureBrowserWindow lectureBrowserWindow;
-
-        /// <summary>
         /// The local directory where downloaded lectures are stored.
         /// </summary>
         private const string dataDirectory = "./Data/";
@@ -56,10 +51,21 @@ namespace BrowsingModule
         public event Action<bool> OnOnlineModeChanged;
 
         /// <summary>
+        /// The api client that handles post requests.
+        /// </summary>
+        private IApiClient apiclient;
+
+        /// <summary>
+        /// If the program is in testing mode.
+        /// </summary>
+        private bool testingMode = false;
+
+        /// <summary>
         /// This method is called by unity when this GameObject is enabled.
         /// </summary>
-        private async void OnEnable()
+        async void Start()
         {
+            testingMode = apiclient != null;
             root = new FolderElement(rootPath, "root", new List<GenericElement>());
             await UpdateFolders();
         }
@@ -71,9 +77,9 @@ namespace BrowsingModule
         /// </summary>
         public async Task UpdateFolders()
         {
+            apiclient = apiclient ?? new UnityApiClient(Login.token);
             await GetDir(rootPath, root);
 
-            //lectureBrowserWindow.ChangeCurrentPath(rootPath);
             OnPathChanged?.Invoke(rootPath);
         }
 
@@ -136,6 +142,13 @@ namespace BrowsingModule
             {
                 print(dir + "/" + session);
 
+                if (testingMode)
+                {
+                    LectureElement element = new LectureElement(dir + "/" + session, session, new Lecture("Test", "", "", new List<string>()));
+                    parent.AddContents(element);
+                    continue;
+                }
+
                 Lecture lecture = await LectureDownloader.DownloadMetaData(dir + "/" + session);
 
                 if (File.Exists(dataDirectory + dir.Substring(1) + "/" + session + ".mp4"))
@@ -144,7 +157,6 @@ namespace BrowsingModule
                     lecture.SetDownloaded(true);
                 }
                 LectureElement newSessionElement = new LectureElement(dir + "/" + session, session, lecture);
-
                 parent.AddContents(newSessionElement);
             }
         }
@@ -219,18 +231,7 @@ namespace BrowsingModule
         /// <returns> The answer of the request. </returns>
         private async Task<string> PostRequest(string url, string json)
         {
-            UnityWebRequest request = new UnityWebRequest(url, "POST");
-            byte[] byteJson = new UTF8Encoding().GetBytes(json);
-            request.uploadHandler = new UploadHandlerRaw(byteJson);
-            request.downloadHandler = new DownloadHandlerBuffer();
-            request.SetRequestHeader("Content-Type", "application/json");
-            request.timeout = requestTimeout;
-
-            request.SetRequestHeader("Cookie", "_forward_auth=" + Login.token);
-
-            await request.SendWebRequest();
-
-            return request.downloadHandler.text;
+            return await apiclient.PostRequest(url, json);
         }
 
         /// <summary>

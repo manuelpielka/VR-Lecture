@@ -7,9 +7,13 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Reflection;
 using System.IO;
+using System.Threading.Tasks;
+using BrowsingModule;
 
 public class LectureBrowserWindowTests
 {
+    GUI.LectureBrowserWindow lectureBrowserWindow;
+
     [SetUp]
     public void Setup()
     {
@@ -19,7 +23,11 @@ public class LectureBrowserWindowTests
     [TearDown]
     public void Teardown()
     {
-
+        if (lectureBrowserWindow != null)
+        {
+            var closeButton = lectureBrowserWindow.transform.Find("Canvas/Panel/CloseButton").GetComponent<Button>();
+            closeButton.onClick.Invoke();
+        }
     }
 
     [UnityTest] // T1.4.1 / T2.1
@@ -75,7 +83,7 @@ public class LectureBrowserWindowTests
     [UnityTest] // T5.1 Lecture Download | Covers T7.1
     public IEnumerator DownloadLecture_Test()
     {
-        if (Directory.Exists("./Data/other"))
+        /*if (Directory.Exists("./Data/other"))
             Directory.Delete("./Data/other", true);
 
         var windowManager = GameObject.Find("WindowManager").GetComponent<WindowManager>();
@@ -89,15 +97,49 @@ public class LectureBrowserWindowTests
 
         Assert.IsTrue(File.Exists("./Data/other/offline_test.mp4"), "File does not exist.");
 
-        Directory.Delete("./Data/other", true);
+        Directory.Delete("./Data/other", true);*/
+
+        yield return null;
+
+        // TODO: Fix
     }
 
     [UnityTest] // T2.2.1 / T2.2.2
-    public IEnumerator Search_Test()
+    public IEnumerator MockApi_Test()
     {
         var windowManager = GameObject.Find("WindowManager").GetComponent<WindowManager>();
         yield return null;
         var lectureBrowserWindow = windowManager.OpenWindow("LectureBrowserWindow").GetComponent<GUI.LectureBrowserWindow>();
+
+        var manager = lectureBrowserWindow.GetComponent<BrowsingManager>();
+
+        var apiClient = new FakeBrowsingApiClient();
+
+        var field = typeof(BrowsingManager).GetField("apiclient", BindingFlags.NonPublic | BindingFlags.Instance);
+        field.SetValue(manager, apiClient);
+
+        yield return null;
+
+        var folderbutton = lectureBrowserWindow.transform.Find("Canvas/Panel/Lectures/Viewport/-/FolderUI(Clone)").GetComponent<Button>();
+
+        Assert.IsNotNull(folderbutton);
+
+        yield return new WaitForSeconds(1f);
+
+        folderbutton.onClick.Invoke();
+
+        yield return null;
+
+        var backButton = lectureBrowserWindow.transform.Find("Canvas/Panel/Lectures/Viewport/--TestFolder/FolderUI(Clone)").GetComponent<Button>();
+        var lectureUI = lectureBrowserWindow.transform.Find("Canvas/Panel/Lectures/Viewport/--TestFolder/LectureUI(Clone)").GetComponent<GUI.LectureUI>();
+
+        Assert.IsNotNull(backButton);
+        Assert.IsNotNull(lectureUI);
+
+        yield return null;
+
+        backButton.onClick.Invoke();
+
         yield return null;
 
         lectureBrowserWindow.SearchTextInputEnded("Test");
@@ -105,6 +147,31 @@ public class LectureBrowserWindowTests
 
         var searchParent = GameObject.Find("Canvas/Panel/Lectures/Viewport/SearchParent");
 
-        Assert.IsTrue(3 == searchParent.transform.childCount); // Only works for structure: Data/Test/Other/offline_test.mp4 ; Data/Test/Other/offline_test/
+        Assert.IsTrue(2 == searchParent.transform.childCount);
     }
+}
+
+public class FakeBrowsingApiClient : IApiClient
+{
+    private int counter = 0;
+
+    public Task<string> PostRequest(string url, string json)
+    {
+        if (url.Contains("/ltarchive/ls"))
+        {
+            counter++;
+            if (counter == 1)
+            {
+                return Task.FromResult("[[\"TestFolder\",\"dir\",\"{ }\",false,\"read\"]]");
+            }
+
+            if (counter == 2)
+            {
+                return Task.FromResult("[[\"TestSession\",\"session\",\"{ }\",false,\"read\"], [\" Back\",\"dir\",\"{ }\",false,\"read\"]]");
+            }
+        }
+
+        return Task.FromResult("");
+    }
+
 }

@@ -16,7 +16,8 @@
         "NoteModule",
         "Unity.Localization",
         "Unity.Addressables",
-        "Unity.ResourceManager"
+        "Unity.ResourceManager",
+        "BrowsingModule"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

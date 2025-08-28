@@ -198,6 +198,8 @@ namespace GUI
         public async Task DownloadLecture(Lecture lecture)
         {
             progressBar.gameObject.SetActive(true);
+
+            await LectureDownloader.DownloadVTT(lecture);
             await LectureDownloader.DownloadLecture(lecture, progressBar);
 
             //TODO: Download transcript

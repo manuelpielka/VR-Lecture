@@ -19,7 +19,7 @@ public class PlaybackManager : MonoBehaviour
         }
         else
         {
-            VideoPlayer.url = lecture.GetVideoSource();
+            VideoPlayer.url = "./Data/" + lecture.GetTranscriptSource() + ".mp4";
         }
     }
 

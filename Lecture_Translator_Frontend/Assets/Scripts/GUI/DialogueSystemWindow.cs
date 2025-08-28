@@ -141,7 +141,7 @@ namespace GUI
         {
             isRecording = !isRecording;
             voiceInputManager.ToggleVoiceRecording();
-            if (!isRecording) dialogueController.SendPrompt(userTextBox.text);
+            //if (!isRecording) dialogueController.SendPrompt(userTextBox.text);
         }
 
         /// <summary>

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -26,13 +28,11 @@ public class Transcript
             //turn upper limit string to seconds as float
             string value = match.Value;
             value = Regex.Replace(value, REGEX_FIRST_PART, "");
-            value = value.Replace(".", ",");
             string[] times = value.Split(":");
-            float result = float.Parse(times[0]) * 3600 + float.Parse(times[1]) * 60 + float.Parse(times[2]);
+            float result = float.Parse(times[0]) * 3600 + float.Parse(times[1]) * 60 + float.Parse(times[2], CultureInfo.InvariantCulture);
 
             timestamps.Add(result);
         }
-
 
         for (int i = 0; i < timestamps.Count; i++)
         {
@@ -46,7 +46,6 @@ public class Transcript
             subtitleLines.Add(Mathf.Infinity, "Unavailable");
             this.fullText = "Unavailable";
         }
-        
     }
 
     public string getFullText()

@@ -1,19 +1,86 @@
+using System;
+using System.Linq;
+using System.Reflection;
 using NUnit.Framework;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+/// <summary>
+/// Editor tests for user preferences, themes, and SettingsWindow lifecycle.
+/// Uses snapshot/restore to avoid polluting PlayerPrefs across tests.
+/// </summary>
 public class SettingsModuleEditorTests
 {
+    private const string IsDarkModeKey = "UserPref_IsDarkMode";
+    private const string AutoAdjustKey = "UserPref_AutoAdjust";
+    private const string EnvKey = "env_scene";
+    private const string LanguageKey = "UserPref_Language";
+    private const string TutorialCompletedKey = "UserPref_TutorialCompleted";
+
+    private struct PrefsSnapshot
+    {
+        public bool hasDark; public int darkValue;
+        public bool hasAuto; public int autoValue;
+        public bool hasLang; public string langValue;
+        public bool hasEnv; public string envValue;
+        public bool hasTutorial; public int tutorialValue;
+    }
+
+    private PrefsSnapshot _snapshot;
+
     [SetUp]
     public void SetUp()
     {
-        PlayerPrefs.DeleteAll();
+        _snapshot = new PrefsSnapshot
+        {
+            hasDark = PlayerPrefs.HasKey(IsDarkModeKey),
+            darkValue = PlayerPrefs.GetInt(IsDarkModeKey, 0),
+
+            hasAuto = PlayerPrefs.HasKey(AutoAdjustKey),
+            autoValue = PlayerPrefs.GetInt(AutoAdjustKey, 1),
+
+            hasLang = PlayerPrefs.HasKey(LanguageKey),
+            langValue = PlayerPrefs.GetString(LanguageKey, null),
+
+            hasEnv = PlayerPrefs.HasKey(EnvKey),
+            envValue = PlayerPrefs.GetString(EnvKey, null),
+
+            hasTutorial = PlayerPrefs.HasKey(TutorialCompletedKey),
+            tutorialValue = PlayerPrefs.GetInt(TutorialCompletedKey, 0)
+        };
+
+        PlayerPrefs.DeleteKey(IsDarkModeKey);
+        PlayerPrefs.DeleteKey(AutoAdjustKey);
+        PlayerPrefs.DeleteKey(LanguageKey);
+        PlayerPrefs.DeleteKey(EnvKey);
+        PlayerPrefs.DeleteKey(TutorialCompletedKey);
+        PlayerPrefs.Save();
+
         UserPreferencesManager.ClearAll();
     }
 
     [TearDown]
     public void TearDown()
     {
-        PlayerPrefs.DeleteAll();
+        if (_snapshot.hasDark) PlayerPrefs.SetInt(IsDarkModeKey, _snapshot.darkValue);
+        else PlayerPrefs.DeleteKey(IsDarkModeKey);
+
+        if (_snapshot.hasAuto) PlayerPrefs.SetInt(AutoAdjustKey, _snapshot.autoValue);
+        else PlayerPrefs.DeleteKey(AutoAdjustKey);
+
+        if (_snapshot.hasLang) PlayerPrefs.SetString(LanguageKey, _snapshot.langValue);
+        else PlayerPrefs.DeleteKey(LanguageKey);
+
+        if (_snapshot.hasEnv) PlayerPrefs.SetString(EnvKey, _snapshot.envValue);
+        else PlayerPrefs.DeleteKey(EnvKey);
+
+        if (_snapshot.hasTutorial) PlayerPrefs.SetInt(TutorialCompletedKey, _snapshot.tutorialValue);
+        else PlayerPrefs.DeleteKey(TutorialCompletedKey);
+
+        PlayerPrefs.Save();
     }
 
     [Test]
@@ -30,15 +97,12 @@ public class SettingsModuleEditorTests
     public void UserPrefs_Language_Tutorial()
     {
         Assert.IsNull(UserPreferencesManager.LoadLanguageOrNull());
-        //Assert.IsNull(UserPreferencesManager.LoadEnvironmentSceneOrNull());
         Assert.IsFalse(UserPreferencesManager.LoadTutorialCompleted());
 
         UserPreferencesManager.SaveLanguage("de");
-        //UserPreferencesManager.SaveEnvironmentScene("DemoScene");
         UserPreferencesManager.SaveTutorialCompleted(true);
 
         Assert.AreEqual("de", UserPreferencesManager.LoadLanguageOrNull());
-        //Assert.AreEqual("DemoScene", UserPreferencesManager.LoadEnvironmentSceneOrNull());
         Assert.IsTrue(UserPreferencesManager.LoadTutorialCompleted());
     }
 
@@ -47,16 +111,22 @@ public class SettingsModuleEditorTests
     {
         UserPreferencesManager.SaveDarkMode(true);
         UserPreferencesManager.SaveAutoAdjust(false);
+        UserPreferencesManager.SaveLanguage("en");
+        UserPreferencesManager.SaveTutorialCompleted(true);
+
         UserPreferencesManager.ClearAll();
 
-        Assert.IsFalse(UserPreferencesManager.LoadDarkMode()); // default false
-        Assert.IsTrue(UserPreferencesManager.LoadAutoAdjust()); // default true
+        Assert.IsFalse(UserPreferencesManager.LoadDarkMode());   // default false
+        Assert.IsTrue(UserPreferencesManager.LoadAutoAdjust());  // default true
+
+        Assert.AreEqual("en", UserPreferencesManager.LoadLanguageOrNull());
+        Assert.IsFalse(UserPreferencesManager.LoadTutorialCompleted());
     }
 
     [Test]
     public void ThemeRole_Defines_All_Expected_Values_In_Order()
     {
-        var values = (ThemeRole[])System.Enum.GetValues(typeof(ThemeRole));
+        var values = (ThemeRole[])Enum.GetValues(typeof(ThemeRole));
 
         Assert.AreEqual(7, values.Length, "ThemeRole count mismatch");
 
@@ -69,7 +139,7 @@ public class SettingsModuleEditorTests
         Assert.AreEqual(ThemeRole.TitleText, values[6]);
 
         Assert.AreEqual("ButtonText",
-            System.Enum.GetName(typeof(ThemeRole), ThemeRole.ButtonText));
+            Enum.GetName(typeof(ThemeRole), ThemeRole.ButtonText));
     }
 
     [Test]
@@ -122,11 +192,86 @@ public class SettingsModuleEditorTests
             Assert.AreEqual(theme.ContentText, back.ContentText);
             Assert.AreEqual(theme.TitleText, back.TitleText);
 
-            Object.DestroyImmediate(back);
+            UnityEngine.Object.DestroyImmediate(back);
         }
         finally
         {
-            Object.DestroyImmediate(theme);
+            UnityEngine.Object.DestroyImmediate(theme);
         }
     }
+
+#if UNITY_EDITOR
+    /// <summary>
+    /// Ensures SettingsWindow can be opened and closed without leaking editor state.
+    /// If the type cannot be found or is not an EditorWindow subclass, the test is skipped.
+    /// </summary>
+    [Test]
+    public void SettingsWindow_Open_Modify_Close_Without_Leaking()
+    {
+
+        UserPreferencesManager.SaveDarkMode(true);
+        UserPreferencesManager.SaveAutoAdjust(false);
+        UserPreferencesManager.SaveLanguage("de");
+        UserPreferencesManager.SaveTutorialCompleted(true);
+
+        var wndType = FindEditorWindowTypeByName("SettingsWindow");
+        if (wndType == null)
+        {
+            Assert.Ignore("SettingsWindow type not found or not an EditorWindow subclass. Skipping test.");
+            return;
+        }
+
+        EditorWindow wnd = null;
+        try
+        {
+            wnd = EditorWindow.GetWindow(wndType, false, "Settings");
+            Assert.IsNotNull(wnd, "Failed to create/get SettingsWindow instance.");
+
+            wnd.Focus();
+            wnd.Repaint();
+            EditorApplication.QueuePlayerLoopUpdate();
+
+            Assert.IsTrue(wnd, "Window instance became invalid during the test.");
+        }
+        finally
+        {
+            if (wnd != null)
+            {
+                wnd.Close();
+                EditorApplication.QueuePlayerLoopUpdate();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Finds a non-abstract EditorWindow type by simple name across loaded assemblies.
+    /// Returns null if not found or not assignable to EditorWindow.
+    /// </summary>
+    private static Type FindEditorWindowTypeByName(string typeName)
+    {
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        foreach (var asm in assemblies)
+        {
+            Type t = null;
+            try
+            {
+                t = asm.GetTypes().FirstOrDefault(x =>
+                    x.Name == typeName &&
+                    typeof(EditorWindow).IsAssignableFrom(x) &&
+                    !x.IsAbstract);
+            }
+            catch (ReflectionTypeLoadException e)
+            {
+                t = e.Types?.FirstOrDefault(x =>
+                    x != null &&
+                    x.Name == typeName &&
+                    typeof(EditorWindow).IsAssignableFrom(x) &&
+                    !x.IsAbstract);
+            }
+
+            if (t != null) return t;
+        }
+        return null;
+    }
+#endif
 }

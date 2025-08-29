@@ -18,6 +18,9 @@ public class LectureBrowserWindowTests
     public void Setup()
     {
         SceneManager.LoadScene("Library Hall");
+
+        if (Directory.Exists("./Data/other"))
+            Directory.Delete("./Data/other");
     }
 
     [TearDown]
@@ -28,6 +31,9 @@ public class LectureBrowserWindowTests
             var closeButton = lectureBrowserWindow.transform.Find("Canvas/Panel/CloseButton").GetComponent<Button>();
             closeButton.onClick.Invoke();
         }
+
+        if (Directory.Exists("./Data/other"))
+            Directory.Delete("./Data/other");
     }
 
     [UnityTest] // T1.4.1 / T2.1
@@ -56,9 +62,6 @@ public class LectureBrowserWindowTests
     [UnityTest] // T2.5.2 Lecture Offline Access
     public IEnumerator SelectLecture_Offline_Test()
     {
-        if (Directory.Exists("./Data/other"))
-            Directory.Delete("./Data/other");
-
         var windowManager = GameObject.Find("WindowManager").GetComponent<WindowManager>();
         yield return null;
         var lectureBrowserWindow = windowManager.OpenWindow("LectureBrowserWindow").GetComponent<GUI.LectureBrowserWindow>();
@@ -67,7 +70,8 @@ public class LectureBrowserWindowTests
         List<string> transcriptList = new List<string>();
         transcriptList.Add("English");
 
-        Lecture testLecture = new Lecture("offline_test", "./Data/other/offline_test.mp4", "other/offline_test", transcriptList);
+        Lecture testLecture = new Lecture("offline_test", "./Data/Test/other/offline_test.mp4", "Test/other/offline_test", transcriptList);
+        testLecture.SetDownloaded(true);
 
         lectureBrowserWindow.SelectLecture(testLecture);
 
@@ -79,8 +83,11 @@ public class LectureBrowserWindowTests
 
         var field = typeof(LecturePlayerWindow).GetField("lecture", BindingFlags.NonPublic | BindingFlags.Instance);
         
-
         Assert.AreEqual(testLecture, field.GetValue(lecturePlayerWindow));
+
+        yield return null;
+
+        lecturePlayerWindow.Close();
     }
 
     [UnityTest] // T2.5.1 Lecture Download + Deletion
@@ -110,6 +117,8 @@ public class LectureBrowserWindowTests
         yield return null;
 
         var lectureUI = lectureBrowserWindow.transform.Find("Canvas/Panel/Lectures/Viewport/--TestFolder/LectureUI(Clone)").GetComponent<GUI.LectureUI>();
+
+        yield return null;
 
         lectureUI.OnDownloadClick();
 

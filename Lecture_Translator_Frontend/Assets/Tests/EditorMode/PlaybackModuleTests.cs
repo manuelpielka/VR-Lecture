@@ -40,7 +40,7 @@ public class PlaybackModuleTests
     private Lecture SetUpExampleLecture()
     {
         List<string> example_languages = new List<string> { "Multilingual", "Chinese", "English", "German", "Spanish" };
-        Lecture example = new Lecture("offline_test", "Data/Test/Other/offline_test.mp4", "Data/Test/Other/offline_test", example_languages);
+        Lecture example = new Lecture("offline_test", "Data/Test/Other/offline_test.mp4", "Test/Other/offline_test", example_languages);
         example.SetDownloaded(true);
         return example;
     }

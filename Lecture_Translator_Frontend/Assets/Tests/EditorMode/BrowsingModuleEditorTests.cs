@@ -205,8 +205,8 @@ public class BrowsingModuleEditorTests
 
         root = (FolderElement) field.GetValue(manager);
 
-        string [] directories = Directory.GetDirectories("./Data");
+        string [] directories = Directory.GetDirectories("./Data/");
 
-        Assert.IsTrue(directories.Length == root.GetContents().Count);
+        Assert.That(root.GetContents().Count, Is.EqualTo(directories.Length));
     }
 }

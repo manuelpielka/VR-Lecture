@@ -48,31 +48,6 @@ public class Window : MonoBehaviour, IThemeRefreshable
         
     }
 
-
-    /// <summary>
-    /// Changes the position of the attached Transform Component.
-    /// </summary>
-    public void Move(Vector3 newPosition)
-    {
-        transform.position = newPosition;
-    }
-
-
-    /// <summary>
-    /// Changes the size of the attached Transform Component.
-    /// </summary>
-    public void Resize(Vector2 newSize)
-    {
-        RectTransform rectTransform = GetComponent<RectTransform>();
-
-        if (rectTransform == null)
-        {
-            return;
-        }
-
-        rectTransform.sizeDelta = newSize;
-    }
-
     public void RefreshTheme()
     {
         if (DisplayModeController.Instance != null)

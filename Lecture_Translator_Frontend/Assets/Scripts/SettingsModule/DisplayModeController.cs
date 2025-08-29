@@ -2,11 +2,27 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// A class that handles automatic and manual switching between light and dark display modes
-/// based on the system time and user preferences.
+/// A singleton controller responsible for managing the application's display mode 
+/// (light or dark theme).
+///
+/// It supports two operation modes:
+/// <list type="bullet">
+/// <item><description><b>Auto mode</b>: automatically switches between light and dark mode 
+/// based on the system time (dark mode between 18:00¨C06:00).</description></item>
+/// <item><description><b>Manual mode</b>: allows the user to explicitly enable or disable 
+/// dark mode, overriding auto adjustment.</description></item>
+/// </list>
+///
+/// Themes are applied by propagating colors from <see cref="ColorTheme"/> to all 
+/// <see cref="ThemedElement"/> objects in the scene, and by refreshing any 
+/// <see cref="IThemeRefreshable"/> windows.
 /// </summary>
 public class DisplayModeController : MonoBehaviour
 {
+    /// <summary>
+    /// Global singleton instance of <see cref="DisplayModeController"/>.
+    /// Ensures only one controller exists across scenes.
+    /// </summary>
     public static DisplayModeController Instance;
 
     [Header("Theme Settings")]
@@ -23,7 +39,8 @@ public class DisplayModeController : MonoBehaviour
     private float refreshInterval = 60f; // Refresh every 60 seconds
 
     /// <summary>
-    /// Called before Start(). Loads saved preferences for mode and auto adjust.
+    /// Ensures singleton initialization.
+    /// Destroys duplicate instances and persists the controller across scene loads.
     /// </summary>
     private void Awake()
     {
@@ -37,7 +54,8 @@ public class DisplayModeController : MonoBehaviour
     }
 
     /// <summary>
-    /// Called on the first frame. Applies initial mode based on loaded preferences.
+    /// Called on the first frame.
+    /// Applies the initial mode according to current settings and system time.
     /// </summary>
     private void Start()
     {
@@ -45,7 +63,9 @@ public class DisplayModeController : MonoBehaviour
     }
 
     /// <summary>
-    /// Called every frame. If auto adjust is on, refresh display mode every minute.
+    /// Called every frame.
+    /// In auto adjust mode, refreshes the display mode at regular intervals 
+    /// (defined by <see cref="refreshInterval"/>).
     /// </summary>
     private void Update()
     {
@@ -61,7 +81,7 @@ public class DisplayModeController : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns true if the current display mode is dark mode, otherwise returns false.
+    /// Returns whether dark mode is currently active.
     /// </summary>
     public bool IsDarkModeEnabled()
     {
@@ -70,8 +90,7 @@ public class DisplayModeController : MonoBehaviour
 
     /// <summary>
     /// Enables or disables dark mode manually.
-    /// Only effective when autoAdjust is false.
-    /// Also saves the user's preference.
+    /// Has no effect if auto adjust is enabled.
     /// </summary>
     /// <param name="enabled">True to enable dark mode, false for light mode.</param>
     public void SetDarkMode(bool enabled)
@@ -84,21 +103,10 @@ public class DisplayModeController : MonoBehaviour
     }
 
     /// <summary>
-    /// Toggles dark mode manually. Only works when autoAdjust is false.
-    /// </summary>
-    //public void ToggleMode()
-    //{
-        //if (!autoAdjust)
-        //{
-            //isDarkModeEnabled = !isDarkModeEnabled;
-            //UserPreferencesManager.SaveDarkMode(isDarkModeEnabled);
-            //ApplyTheme();
-        //}
-    //}
-
-    /// <summary>
-    /// Updates the display mode based on the current system time.
-    /// Only works when autoAdjust is enabled.
+    /// Updates the display mode according to the system time 
+    /// (dark mode active between 18:00¨C06:00).
+    /// Only executes when auto adjust is enabled.
+    /// Always reapplies the theme after checking.
     /// </summary>
     public void UpdateMode()
     {
@@ -110,9 +118,10 @@ public class DisplayModeController : MonoBehaviour
 
         ApplyTheme();
     }
-    
+
     /// <summary>
-    /// Manually triggers a mode refresh (used by UI buttons if needed).
+    /// Manually triggers a mode refresh.
+    /// Useful for forcing a re-check from UI or tests.
     /// </summary>
     public void RefreshMode()
     {
@@ -120,9 +129,11 @@ public class DisplayModeController : MonoBehaviour
     }
 
     /// <summary>
-    /// Enables or disables automatic mode adjustment based on system time.
+    /// Enables or disables automatic adjustment of the theme 
+    /// based on the system time.
+    /// Re-applies the mode immediately after switching.
     /// </summary>
-    /// <param name="enabled">True to enable auto adjust; false to disable.</param>
+    /// <param name="enabled">True to enable auto adjust, false to disable.</param>
     public void SetAutoAdjust(bool enabled)
     {
         autoAdjust = enabled;
@@ -130,7 +141,7 @@ public class DisplayModeController : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns true if automatic adjustment is enabled; otherwise false.
+    /// Returns whether automatic time-based adjustment is currently enabled.
     /// </summary>
     public bool IsAutoAdjustEnabled()
     {
@@ -138,7 +149,10 @@ public class DisplayModeController : MonoBehaviour
     }
 
     /// <summary>
-    /// Applies the current display mode visually (background and text colors).
+    /// Applies the currently active theme (light or dark) 
+    /// to all <see cref="ThemedElement"/> objects in the scene 
+    /// and refreshes any <see cref="IThemeRefreshable"/> windows.
+    /// Logs the applied mode for debugging.
     /// </summary>
     private void ApplyTheme()
     {
@@ -157,6 +171,9 @@ public class DisplayModeController : MonoBehaviour
         Debug.Log($"[Theme] Mode applied: {(isDarkModeEnabled ? "Dark" : "Light")}");
     }
 
+    /// <summary>
+    /// Cleans up the singleton reference when this controller is destroyed.
+    /// </summary>
     private void OnDestroy()
     {
         if (Instance == this)

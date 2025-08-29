@@ -157,7 +157,7 @@ public class SettingsManager : MonoBehaviour
     public bool GetDarkMode() => darkMode;
 
     /// <summary>
-    /// Returns a dictionary of available languages (code ¡ú display name).
+    /// Returns a dictionary of available languages (code to display name).
     /// </summary>
     public IReadOnlyDictionary<string, string> GetLanguages()
     {

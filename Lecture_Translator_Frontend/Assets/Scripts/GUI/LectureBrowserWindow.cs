@@ -113,10 +113,19 @@ namespace GUI
         /// </summary>
         private const string THUMBNAIL = "thumb";
 
+        /// <summary>
+        /// The Queue for downloading images to not download all of them at once.
+        /// </summary>
         private Queue<(byte[] data, Action<Sprite> onReady)> queue = new Queue<(byte[], Action<Sprite>)>();
 
+        /// <summary>
+        /// If the system is currently processing an image.
+        /// </summary>
         bool processing = false;
 
+        /// <summary>
+        /// Progress bar for showing how much of a lecture is downloaded.
+        /// </summary>
         [SerializeField] private DownloadProgressBar progressBar;
 
         /// <summary>
@@ -124,13 +133,18 @@ namespace GUI
         /// </summary>
         private const string DATA_DIRECTORY = "./Data/";
 
-
+        /// <summary>
+        /// Unitys update method that is called once per frame.
+        /// </summary>
         private void Update()
         {
             if (!processing && queue.Count > 0)
                 StartCoroutine(ProcessQueue());
         }
 
+        /// <summary>
+        /// Processes the elements in the queue.
+        /// </summary>
         private IEnumerator ProcessQueue()
         {
             processing = true;

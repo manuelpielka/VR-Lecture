@@ -2,14 +2,31 @@ using System;
 using UnityEngine;
 using TMPro;
 
+/// <summary>
+/// This class represents a lecture specific note window.
+/// </summary>
 public class LectureNoteWindow : NoteWindow
 {
+    /// <summary>
+    /// The lecture linked to this note window.
+    /// </summary>
     private Lecture lecture;
 
+    /// <summary>
+    /// Reference to the playbackmanager.
+    /// </summary>
     private PlaybackManager playbackManager;
 
+    /// <summary>
+    /// The text box of the title.
+    /// </summary>
     [SerializeField] private TextMeshProUGUI titleTextbox;
 
+    /// <summary>
+    /// Initialises the window and sets its values.
+    /// </summary>
+    /// <param name="lecture"> The lecture linked to this note window. </param>
+    /// <param name="playbackManager"> Reference to the playbackmanager. </param>
     public void SetValues(Lecture lecture, PlaybackManager playbackManager)
     {
         this.lecture = lecture;
@@ -23,6 +40,10 @@ public class LectureNoteWindow : NoteWindow
         LoadNotes();
     }
 
+    /// <summary>
+    /// Button handler for the timestamp title.
+    /// </summary>
+    /// <param name="note"></param>
     public void TimeStampClicked(NoteGUI note)
     {
         string timestampString = note.titleTextBox.text;

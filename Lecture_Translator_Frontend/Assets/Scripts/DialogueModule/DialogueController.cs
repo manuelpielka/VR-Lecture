@@ -108,8 +108,14 @@ public class DialogueController : MonoBehaviour, ISSEHandler
     /// </summary>
     private bool started = false;
 
+    /// <summary>
+    /// The client for connecting to sse.
+    /// </summary>
     private HttpClient client;
 
+    /// <summary>
+    /// The client for connecting to the api.
+    /// </summary>
     private IApiClient apiclient;
 
     /// <summary>

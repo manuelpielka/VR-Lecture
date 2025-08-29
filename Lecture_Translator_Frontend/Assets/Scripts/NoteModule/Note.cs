@@ -9,6 +9,16 @@ using System.Text.RegularExpressions;
 public class Note
 {
     /// <summary>
+    /// Default timestamp (in seconds) when no lecture time is provided.
+    /// </summary>
+    private const double DEFAULT_TIMESTAMP = 0d;
+
+    /// <summary>
+    /// Regex allowing letters, digits, hyphen and underscore.
+    /// </summary>
+    private const string TITLE_PATTERN = @"^[A-Za-z0-9\-_]+$";
+
+    /// <summary>
     /// The title of the note.
     /// </summary>
     public string Title;
@@ -26,7 +36,7 @@ public class Note
     /// <summary>
     /// The timestamp of the lecture when this note was created.
     /// </summary>
-    public double CreatedAtSeconds = 0d;
+    public double CreatedAtSeconds = DEFAULT_TIMESTAMP;
 
     /// <summary>
     /// Constructor for deserialization of Unity instantiation.
@@ -60,6 +70,6 @@ public class Note
     /// <returns>True if the title contains only allowed characters; Otherwise return false.</returns>
     private bool IsValidTitle(string title)
     {
-        return Regex.IsMatch(title, @"^[A-Za-z0-9\-_]+$");
+        return Regex.IsMatch(title, TITLE_PATTERN);
     }
 }

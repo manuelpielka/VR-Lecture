@@ -8,6 +8,11 @@ using UnityEngine;
 public class CreateNoteWindow : Window
 {
     /// <summary>
+    /// Fallback empty string for resetting input fields.
+    /// </summary>
+    private const string EMPTY_STRING = "";
+
+    /// <summary>
     /// The text box of the title of the note.
     /// </summary>
     [SerializeField]
@@ -51,15 +56,11 @@ public class CreateNoteWindow : Window
 
         if (isEditMode)
         {
-            Debug.Log($"The original title of the note is '{originalTitle}'."); //
-            Debug.Log($"The new title of the note is '{title}'."); //
             noteWindow.SaveEditedNote(originalTitle, title, content);
         }
         else
         {
             noteWindow.SaveNewNote(title, content);
-            Debug.Log($"The new title of the note to save is: '{title}'."); //
-            Debug.Log($"The new content of the note to save is: '{content}'."); //
         }
 
         noteWindow.LoadNotes();
@@ -85,8 +86,8 @@ public class CreateNoteWindow : Window
 
         if (!isEditMode)
         {
-            titleTextBox.text = "";
-            noteTextBox.text = "";
+            titleTextBox.text = EMPTY_STRING;
+            noteTextBox.text = EMPTY_STRING;
         }
     }
 

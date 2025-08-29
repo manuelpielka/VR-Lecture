@@ -43,7 +43,7 @@ public class LanguageManager
 
     /// <summary>
     /// Returns all loaded languages as a read-only dictionary mapping 
-    /// language code ¡ú language name.
+    /// language code to language name.
     /// </summary>
     public IReadOnlyDictionary<string, string> GetLanguages()
     {

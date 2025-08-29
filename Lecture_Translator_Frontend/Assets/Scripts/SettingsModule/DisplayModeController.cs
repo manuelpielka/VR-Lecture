@@ -8,7 +8,7 @@ using UnityEngine;
 /// It supports two operation modes:
 /// <list type="bullet">
 /// <item><description><b>Auto mode</b>: automatically switches between light and dark mode 
-/// based on the system time (dark mode between 18:00¨C06:00).</description></item>
+/// based on the system time (dark mode between 18:00 to 06:00).</description></item>
 /// <item><description><b>Manual mode</b>: allows the user to explicitly enable or disable 
 /// dark mode, overriding auto adjustment.</description></item>
 /// </list>
@@ -104,7 +104,7 @@ public class DisplayModeController : MonoBehaviour
 
     /// <summary>
     /// Updates the display mode according to the system time 
-    /// (dark mode active between 18:00¨C06:00).
+    /// (dark mode active between 18:00 to 06:00).
     /// Only executes when auto adjust is enabled.
     /// Always reapplies the theme after checking.
     /// </summary>

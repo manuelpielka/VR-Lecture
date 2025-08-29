@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 using TMPro;
 using UnityEngine;
@@ -13,20 +14,94 @@ public class CreateLectureNoteWindow_PlayModeTests
     private GameObject _root;
     private CreateLectureNoteWindow _win;
 
-
     private TextMeshProUGUI _windowTitle;
     private Toggle _toggle;
     private TMP_InputField _titleInput;
     private TMP_InputField _contentInput;
 
     private GameObject _mgrGO;
-    private NoteManager _noteManager;  
+    private NoteManager _noteManager;
     private GameObject _noteWndGO;
+    private GameObject _noteUIPrefab;
+
+    private static TMP_InputField CreateTMPInputField(string name)
+    {
+        var go = new GameObject(name);
+        var input = go.AddComponent<TMP_InputField>();
+
+        var viewport = new GameObject("Viewport").AddComponent<RectTransform>();
+        viewport.SetParent(go.transform, false);
+        input.textViewport = viewport;
+
+        var textGO = new GameObject("Text").AddComponent<TextMeshProUGUI>();
+        textGO.rectTransform.SetParent(viewport, false);
+        input.textComponent = textGO;
+
+        return input;
+    }
+
+    private static TextMeshProUGUI CreateTMPLabel(string name)
+    {
+        var go = new GameObject(name);
+        var tmp = go.AddComponent<TextMeshProUGUI>();
+        tmp.text = "";
+        return tmp;
+    }
+
+    private void MakeNoteManagerInScene()
+    {
+        foreach (var x in UnityEngine.Object.FindObjectsByType<NoteManager>(FindObjectsSortMode.None))
+            UnityEngine.Object.DestroyImmediate(x.gameObject);
+
+        _mgrGO = new GameObject("NoteManager");
+        _noteManager = _mgrGO.AddComponent<NoteManager>();
+        if (_noteManager.Notes == null) _noteManager.Notes = new List<Note>();
+    }
+
+    private void MakeNoteWindowInScene()
+    {
+        if (_noteManager == null) MakeNoteManagerInScene();
+
+        _noteWndGO = new GameObject("NoteWindow");
+        _noteWndGO.SetActive(false); 
+        var wnd = _noteWndGO.AddComponent<NoteWindow>();
+
+        var containerGO = new GameObject("Content");
+        containerGO.transform.SetParent(_noteWndGO.transform, false);
+
+        _noteUIPrefab = new GameObject("NoteUIPrefab");
+        var noteGui = _noteUIPrefab.AddComponent<NoteGUI>();
+        var title = CreateTMPLabel("TitleText");
+        var body = CreateTMPLabel("BodyText");
+        title.transform.SetParent(_noteUIPrefab.transform, false);
+        body.transform.SetParent(_noteUIPrefab.transform, false);
+
+        SetField(noteGui, "titleTextBox", title);
+        SetField(noteGui, "noteTextBox", body);
+
+        SetField(wnd, "noteContainer", containerGO.transform);
+        SetField(wnd, "notePrefab", _noteUIPrefab);
+
+        var mi = typeof(NoteWindow).GetMethod(
+            "Initialize",
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+            null, new[] { typeof(GameObject), typeof(Transform) }, null
+        );
+        mi?.Invoke(wnd, new object[] { _noteUIPrefab, containerGO.transform });
+
+        _noteWndGO.SetActive(true);
+    }
+
+    private static void SetField(object o, string name, object val)
+    {
+        var f = o.GetType().GetField(name, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+        Assert.IsNotNull(f, "Field not found: " + name);
+        f.SetValue(o, val);
+    }
 
     [UnitySetUp]
     public IEnumerator SetUp()
     {
-
         foreach (var x in UnityEngine.Object.FindObjectsByType<CreateLectureNoteWindow>(FindObjectsSortMode.None))
             UnityEngine.Object.DestroyImmediate(x.gameObject);
         foreach (var x in UnityEngine.Object.FindObjectsByType<NoteManager>(FindObjectsSortMode.None))
@@ -39,12 +114,11 @@ public class CreateLectureNoteWindow_PlayModeTests
 
         _windowTitle = new GameObject("WindowTitle").AddComponent<TextMeshProUGUI>();
         _toggle = new GameObject("UseTimestampToggle").AddComponent<Toggle>();
-        _titleInput = new GameObject("TitleInput").AddComponent<TMP_InputField>();
-        _contentInput = new GameObject("ContentInput").AddComponent<TMP_InputField>();
+        _titleInput = CreateTMPInputField("TitleInput");
+        _contentInput = CreateTMPInputField("ContentInput");
 
         SetField(_win, "windowTitleText", _windowTitle);
         SetField(_win, "useTimestampAsTitleToggle", _toggle);
-
         SetField(_win, "titleTextBox", _titleInput);
         SetField(_win, "noteTextBox", _contentInput);
 
@@ -55,15 +129,25 @@ public class CreateLectureNoteWindow_PlayModeTests
     public IEnumerator TearDown()
     {
         if (_noteWndGO) UnityEngine.Object.DestroyImmediate(_noteWndGO);
+        if (_noteUIPrefab) UnityEngine.Object.DestroyImmediate(_noteUIPrefab);
         if (_mgrGO) UnityEngine.Object.DestroyImmediate(_mgrGO);
         if (_root) UnityEngine.Object.DestroyImmediate(_root);
 
+        foreach (var x in UnityEngine.Object.FindObjectsByType<NoteManager>(FindObjectsSortMode.None))
+            UnityEngine.Object.DestroyImmediate(x.gameObject);
+        foreach (var x in UnityEngine.Object.FindObjectsByType<CreateLectureNoteWindow>(FindObjectsSortMode.None))
+            UnityEngine.Object.DestroyImmediate(x.gameObject);
+        foreach (var x in UnityEngine.Object.FindObjectsByType<NoteWindow>(FindObjectsSortMode.None))
+            UnityEngine.Object.DestroyImmediate(x.gameObject);
+
+        LogAssert.ignoreFailingMessages = false;
         yield return null;
     }
 
     [UnityTest]
     public IEnumerator Initialize_LectureNull_SetsDeletedTitle_And_ConfigToggle()
     {
+        MakeNoteManagerInScene();
         _win.Initialize(null, /*timeAtOpen*/ 3661.9, /*isEdit*/ false);
         _win.FillFields("any", "hello");
 
@@ -76,12 +160,14 @@ public class CreateLectureNoteWindow_PlayModeTests
         _toggle.onValueChanged.Invoke(false);
         Assert.AreEqual("01-01-01", _titleInput.text);
 
+        LogAssert.NoUnexpectedReceived();
         yield return null;
     }
 
     [UnityTest]
     public IEnumerator Initialize_TitleSnapshot_By_Internal()
     {
+        MakeNoteManagerInScene(); 
         var mi = typeof(CreateLectureNoteWindow).GetMethod("InitializeInternal",
             BindingFlags.Instance | BindingFlags.NonPublic);
         Assert.IsNotNull(mi);
@@ -89,21 +175,75 @@ public class CreateLectureNoteWindow_PlayModeTests
         mi.Invoke(_win, new object[] { null, "MyLecture", 2.5, 0.0, false });
 
         Assert.AreEqual("MyLecture", _windowTitle.text);
+        LogAssert.NoUnexpectedReceived();
         yield return null;
     }
 
     [UnityTest]
-    public IEnumerator Apply_Create_AddsNote_SavesNote_LoadsWindow_And_Closes()
+    public IEnumerator Initialize_With_Lecture_Covers_GetName_Branch()
     {
         MakeNoteManagerInScene();
-        MakeNoteWindowInScene(); 
+
+        var lecture = new Lecture(
+           name: "UnitTestLecture",
+           videoSource: "v.mp4",
+           transcriptSource: "t.json",
+           transcriptLanguages: new List<string> { "en" }
+        );
+
+        _win.Initialize(lecture, /*timeSecondsAtOpen*/ 7.5, /*isEditMode*/ false);
+        _win.FillFields("", "content");
+
+        Assert.AreEqual("UnitTestLecture", _windowTitle.text);
+        Assert.IsTrue(_toggle.isOn);
+        Assert.IsFalse(_toggle.interactable);
+
+        LogAssert.NoUnexpectedReceived();
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator Apply_Create_AddsNote_SavesNote_And_Closes()
+    {
+        MakeNoteManagerInScene();
 
         _win.Initialize(null, 10.0, false);
         _win.FillFields("", "content-body");
 
+        LogAssert.Expect(LogType.Log, new Regex(@"JSON content being saved:"));
+        LogAssert.Expect(LogType.Log, new Regex(@"Note '00-00-10' saved at"));
+
         _win.Apply();
 
         Assert.IsTrue(_noteManager.Notes.Exists(n => n.Title == "00-00-10" && n.Content == "content-body"));
+        LogAssert.NoUnexpectedReceived();
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator Apply_Create_LoadsWindow_When_Present()
+    {
+        MakeNoteManagerInScene();
+        MakeNoteWindowInScene();
+
+        _win.Initialize(null, 5.0, false);
+        _win.FillFields("", "x");
+
+        LogAssert.Expect(LogType.Log, new Regex(@"JSON content being saved:"));
+        LogAssert.Expect(LogType.Log, new Regex(@"Note '00-00-05' saved at"));
+
+        var prev = LogAssert.ignoreFailingMessages;
+        LogAssert.ignoreFailingMessages = true;
+        try
+        {
+            _win.Apply();
+        }
+        finally
+        {
+            LogAssert.ignoreFailingMessages = prev;
+        }
+
+        Assert.IsTrue(_noteManager.Notes.Exists(n => n.Title == "00-00-05"));
         yield return null;
     }
 
@@ -121,9 +261,13 @@ public class CreateLectureNoteWindow_PlayModeTests
         _win.Initialize(null, /*openTime*/ 123, /*edit*/ true);
         _win.FillFields("", "NEW-CONTENT");
 
+        LogAssert.Expect(LogType.Log, new Regex(@"JSON content being saved:"));
+        LogAssert.Expect(LogType.Log, new Regex(@"Note '00-00-00' saved at"));
+
         _win.Apply();
 
         Assert.AreEqual("NEW-CONTENT", note.Content);
+        LogAssert.NoUnexpectedReceived();
         yield return null;
     }
 
@@ -137,27 +281,34 @@ public class CreateLectureNoteWindow_PlayModeTests
 
         _win.Initialize(null, 0, true);
         _win.FillFields("", "x");
-        LogAssert.ignoreFailingMessages = true; 
-        _win.Apply(); 
-        LogAssert.ignoreFailingMessages = false;
+
+        LogAssert.Expect(LogType.Warning, new Regex(@"Edit failed: note 'NO-SUCH-TITLE' not found"));
+
+        _win.Apply();
+
+        LogAssert.NoUnexpectedReceived();
         yield return null;
     }
 
     [UnityTest]
     public IEnumerator Apply_Create_When_NoNoteManager_Throws_And_Catches()
     {
+        LogAssert.Expect(LogType.Error, new Regex(@"NoteManager not found"));
         _win.Initialize(null, 1, false);
         _win.FillFields("", "c");
-        LogAssert.ignoreFailingMessages = true; 
+
+        LogAssert.Expect(LogType.Error, new Regex(@"Apply failed"));
         _win.Apply();
-        LogAssert.ignoreFailingMessages = false;
+
+        LogAssert.NoUnexpectedReceived();
         yield return null;
     }
 
     [UnityTest]
     public IEnumerator Discard_Just_Calls_Close()
     {
-        _win.Discard(); 
+        _win.Discard();
+        LogAssert.NoUnexpectedReceived();
         yield return null;
     }
 
@@ -168,26 +319,5 @@ public class CreateLectureNoteWindow_PlayModeTests
             .GetMethod("FormatTimestampForTitle", BindingFlags.Static | BindingFlags.NonPublic);
         Assert.AreEqual("00-00-00", mi.Invoke(null, new object[] { -5.0 }));
         Assert.AreEqual("01-01-01", mi.Invoke(null, new object[] { 3661.0 }));
-    }
-
-
-    private void MakeNoteManagerInScene()
-    {
-        _mgrGO = new GameObject("NoteManager");
-        _noteManager = _mgrGO.AddComponent<NoteManager>(); 
-        if (_noteManager.Notes == null) _noteManager.Notes = new List<Note>();
-    }
-
-    private void MakeNoteWindowInScene()
-    {
-        _noteWndGO = new GameObject("NoteWindow");
-        _noteWndGO.AddComponent<NoteWindow>(); 
-    }
-
-    private static void SetField(object o, string name, object val)
-    {
-        var f = o.GetType().GetField(name, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-        Assert.IsNotNull(f, "Field not found: " + name);
-        f.SetValue(o, val);
     }
 }

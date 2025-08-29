@@ -195,61 +195,73 @@ public class WindowManagerTests
     {
         using var s = new Scope();
 
-        // Main camera for positioning/orientation
+        // Make a camera in a known place
         var cam = s.Make<Camera>("Main Camera");
-        cam.tag = "MainCamera";
         cam.transform.position = new Vector3(1f, 1.7f, -3f);
-        cam.transform.rotation = Quaternion.Euler(0f, 30f, 0f); // arbitrary facing
+        cam.transform.rotation = Quaternion.Euler(0f, 30f, 0f);
 
-        // Valid InputActionReference
-        var asset = ScriptableObject.CreateInstance<InputActionAsset>();
-        var map = new InputActionMap("UI");
-        var action = map.AddAction("OpenMainMenu", InputActionType.Button);
-        asset.AddActionMap(map);
-        var iaRef = InputActionReference.Create(action);
+        try
+        {
+            // Ensure THIS is the only Camera.main
+            CameraTagIsolation.MakeThisTheOnlyMain(cam);
 
-        // One key + matching prefab
-        var all = WindowKeys.AllKeys;
-        Assert.IsNotNull(all);
-        Assert.Greater(all.Count, 0);
-        var key = all[0];
-        var prefab = s.MakePrefab(key);
+            // Build a valid InputActionReference
+            var asset = ScriptableObject.CreateInstance<InputActionAsset>();
+            var map = new InputActionMap("UI");
+            var action = map.AddAction("OpenMainMenu", InputActionType.Button);
+            asset.AddActionMap(map);
+            var iaRef = InputActionReference.Create(action);
 
-        // Manager (init suppressed), inject, then init dictionary
-        var go = new GameObject("WindowManager");
-        go.SetActive(false);
-        var wm = go.AddComponent<TestWindowManager>();
-        SetPriv(wm, "openMainMenu", iaRef);
-        SetPriv(wm, "windowPrefabsList", new List<GameObject> { prefab });
-        typeof(WindowManager).GetField("instance", BindingFlags.Public | BindingFlags.Static)?.SetValue(null, wm);
-        CallPriv(wm, "LoadWindowPrefabs");
-        go.SetActive(true);
+            // One key + matching prefab
+            var all = WindowKeys.AllKeys;
+            Assert.IsNotNull(all);
+            Assert.Greater(all.Count, 0);
+            var key = all[0];
+            var prefab = s.MakePrefab(key);
 
-        // Act
-        var w = wm.CreateWindow(key);
-        Assert.IsNotNull(w);
+            // Manager (init suppressed), inject, then init dictionary
+            var go = new GameObject("WindowManager");
+            go.SetActive(false);
+            var wm = go.AddComponent<TestWindowManager>();
+            SetPriv(wm, "openMainMenu", iaRef);
+            SetPriv(wm, "windowPrefabsList", new List<GameObject> { prefab });
+            typeof(WindowManager).GetField("instance", BindingFlags.Public | BindingFlags.Static)?.SetValue(null, wm);
+            CallPriv(wm, "LoadWindowPrefabs");
+            go.SetActive(true);
 
-        // Assert: active
-        Assert.IsTrue(w.gameObject.activeSelf, "Created window should be active.");
+            // Act
+            var w = wm.CreateWindow(key);
+            Assert.IsNotNull(w);
 
-        // Assert: parented to manager
-        Assert.AreSame(wm.transform, w.transform.parent, "Window should be parented to WindowManager.");
+            // Assert: active
+            Assert.IsTrue(w.gameObject.activeSelf, "Created window should be active.");
 
-        // Assert: fields assigned
-        Assert.AreSame(wm, w.WindowManager, "WindowManager field not set.");
-        Assert.AreSame(prefab, w.Prefab, "Prefab field not set.");
-        Assert.AreEqual(key, w.Key, "Key field not set.");
+            // Assert: parented to manager
+            Assert.AreSame(wm.transform, w.transform.parent, "Window should be parented to WindowManager.");
 
-        // Assert: positioned ~2m in front of camera with -0.3f Y offset
-        var expectedPos = cam.transform.position + cam.transform.forward * 2f;
-        expectedPos.y -= 0.3f;
-        var dist = Vector3.Distance(expectedPos, w.transform.position);
-        Assert.LessOrEqual(dist, 0.25f, $"Position should be ~2m in front; off by {dist:0.###}m.");
+            // Assert: fields assigned
+            Assert.AreSame(wm, w.WindowManager, "WindowManager field not set.");
+            Assert.AreSame(prefab, w.Prefab, "Prefab field not set.");
+            Assert.AreEqual(key, w.Key, "Key field not set.");
 
-        // Assert: facing camera direction
-        var angle = Vector3.Angle(cam.transform.forward, w.transform.forward);
-        Assert.LessOrEqual(angle, 2f, $"Window forward should face camera forward; angle = {angle:0.###}°.");
+            // Assert: positioned ~2m in front of camera with -0.3f Y offset
+            var expectedPos = cam.transform.position + cam.transform.forward * 2f;
+            expectedPos.y -= 0.3f;
+            var dist = Vector3.Distance(expectedPos, w.transform.position);
+            Assert.LessOrEqual(dist, 0.25f, $"Position should be ~2m in front; off by {dist:0.###}m.");
+
+            // Assert: facing camera direction
+            var angle = Vector3.Angle(cam.transform.forward, w.transform.forward);
+            Assert.LessOrEqual(angle, 2f, $"Window forward should face camera forward; angle = {angle:0.###}°.");
+        }
+        finally
+        {
+            CameraTagIsolation.Restore();
+        }
     }
+
+
+
 
     [Test]
     public void OpenMainMenu_Toggles_Correctly()
@@ -314,46 +326,59 @@ public class WindowManagerTests
     {
         using var s = new Scope();
 
-        // No camera created on purpose
+        try
+        {
+            // Guarantee no camera is tagged MainCamera
+            CameraTagIsolation.ClearAllMainCameras();
 
-        // Valid InputActionReference
-        var asset = ScriptableObject.CreateInstance<InputActionAsset>();
-        var map = new InputActionMap("UI");
-        var action = map.AddAction("OpenMainMenu", InputActionType.Button);
-        asset.AddActionMap(map);
-        var iaRef = InputActionReference.Create(action);
+            // Valid InputActionReference
+            var asset = ScriptableObject.CreateInstance<InputActionAsset>();
+            var map = new InputActionMap("UI");
+            var action = map.AddAction("OpenMainMenu", InputActionType.Button);
+            asset.AddActionMap(map);
+            var iaRef = InputActionReference.Create(action);
 
-        // One key + matching prefab
-        var all = WindowKeys.AllKeys;
-        Assert.IsNotNull(all);
-        Assert.Greater(all.Count, 0);
-        var key = all[0];
-        var prefab = s.MakePrefab(key);
+            // One key + matching prefab
+            var all = WindowKeys.AllKeys;
+            Assert.IsNotNull(all);
+            Assert.Greater(all.Count, 0);
+            var key = all[0];
+            var prefab = s.MakePrefab(key);
 
-        // Manager (init suppressed), inject, then init dictionary
-        var go = new GameObject("WindowManager");
-        go.SetActive(false);
-        var wm = go.AddComponent<TestWindowManager>();
-        SetPriv(wm, "openMainMenu", iaRef);
-        SetPriv(wm, "windowPrefabsList", new List<GameObject> { prefab });
-        typeof(WindowManager).GetField("instance", BindingFlags.Public | BindingFlags.Static)?.SetValue(null, wm);
-        CallPriv(wm, "LoadWindowPrefabs");
-        go.SetActive(true);
+            // Manager (init suppressed), inject, then init dictionary
+            var go = new GameObject("WindowManager");
+            go.SetActive(false);
+            var wm = go.AddComponent<TestWindowManager>();
+            SetPriv(wm, "openMainMenu", iaRef);
+            SetPriv(wm, "windowPrefabsList", new List<GameObject> { prefab });
+            typeof(WindowManager).GetField("instance", BindingFlags.Public | BindingFlags.Static)?.SetValue(null, wm);
+            CallPriv(wm, "LoadWindowPrefabs");
+            go.SetActive(true);
 
-        // Expect the warning (match the exact message from your code)
-        UnityEngine.TestTools.LogAssert.Expect(LogType.Warning, "No main camera found. Window positing issues may occur.");
+            // Expect the warning (make sure this EXACT string matches your implementation)
+            UnityEngine.TestTools.LogAssert.Expect(
+                LogType.Warning,
+                "No main camera found. Window positing issues may occur."
+            );
 
-        // Act
-        var w = wm.CreateWindow(key);
+            // Act
+            var w = wm.CreateWindow(key);
 
-        // Assert: created and assigned even without camera
-        Assert.IsNotNull(w);
-        Assert.IsTrue(w.gameObject.activeSelf, "Window should be active.");
-        Assert.AreSame(wm.transform, w.transform.parent, "Window should be parented to WindowManager.");
-        Assert.AreSame(wm, w.WindowManager);
-        Assert.AreSame(prefab, w.Prefab);
-        Assert.AreEqual(key, w.Key);
+            // Assert: created and assigned even without camera
+            Assert.IsNotNull(w);
+            Assert.IsTrue(w.gameObject.activeSelf, "Window should be active.");
+            Assert.AreSame(wm.transform, w.transform.parent, "Window should be parented to WindowManager.");
+            Assert.AreSame(wm, w.WindowManager);
+            Assert.AreSame(prefab, w.Prefab);
+            Assert.AreEqual(key, w.Key);
+        }
+        finally
+        {
+            CameraTagIsolation.Restore();
+        }
     }
+
+
 
     [Test]
     public void CloseWindow_Removes_FromActive_And_Resets_MainMenu()
@@ -412,6 +437,48 @@ public class WindowManagerTests
         Assert.AreEqual(0, ActiveCount(), "MainMenu should be removed after CloseWindow.");
         Assert.IsFalse((bool)mainMenuField.GetValue(wm), "mainMenuOpen should be reset to false after closing MainMenu.");
     }
+
+    static class CameraTagIsolation
+    {
+        private static readonly List<(Camera cam, string tag)> _retag = new();
+
+        public static void MakeThisTheOnlyMain(Camera preferred)
+        {
+            _retag.Clear();
+            foreach (var cam in UnityEngine.Object.FindObjectsOfType<Camera>(true))
+            {
+                if (cam == preferred) continue;
+                if (cam.CompareTag("MainCamera"))
+                {
+                    _retag.Add((cam, cam.tag));
+                    cam.tag = "Untagged";
+                }
+            }
+            if (preferred != null) preferred.tag = "MainCamera";
+        }
+
+        public static void ClearAllMainCameras()
+        {
+            _retag.Clear();
+            foreach (var cam in UnityEngine.Object.FindObjectsOfType<Camera>(true))
+            {
+                if (cam.CompareTag("MainCamera"))
+                {
+                    _retag.Add((cam, cam.tag));
+                    cam.tag = "Untagged";
+                }
+            }
+        }
+
+        public static void Restore()
+        {
+            foreach (var (cam, tag) in _retag)
+                if (cam) cam.tag = tag;
+            _retag.Clear();
+        }
+    }
+
+
 
     private static void SetPriv(object target, string field, object value)
     {

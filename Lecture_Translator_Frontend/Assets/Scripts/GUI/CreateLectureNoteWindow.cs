@@ -67,7 +67,7 @@ public class CreateLectureNoteWindow : CreateNoteWindow
         if (titleTextBox != null)
         {
             titleTextBox.text = title;
-            titleTextBox.interactable = false; // 
+            titleTextBox.interactable = false;
         }
 
         if (noteTextBox != null) noteTextBox.text = content;
@@ -139,7 +139,6 @@ public class CreateLectureNoteWindow : CreateNoteWindow
         }
         else
         {
-            titleTextBox.text = "";
             titleTextBox.interactable = true;
         }
     }

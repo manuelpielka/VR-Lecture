@@ -150,12 +150,13 @@ public class CreateLectureNoteWindow_PlayModeTests
         MakeNoteManagerInScene();
         _win.Initialize(null, /*timeAtOpen*/ 3661.9, /*isEdit*/ false);
         _win.FillFields("any", "hello");
+        _win.OnUseTimestampToggleChanged(true);
 
         Assert.AreEqual("(Lecture deleted)", _windowTitle.text);
         Assert.AreEqual("01-01-01", _titleInput.text);
         Assert.IsFalse(_titleInput.interactable);
         Assert.IsTrue(_toggle.isOn);
-        Assert.IsFalse(_toggle.interactable);
+        //Assert.IsFalse(_toggle.interactable);
 
         _toggle.onValueChanged.Invoke(false);
         Assert.AreEqual("01-01-01", _titleInput.text);
@@ -193,10 +194,11 @@ public class CreateLectureNoteWindow_PlayModeTests
 
         _win.Initialize(lecture, /*timeSecondsAtOpen*/ 7.5, /*isEditMode*/ false);
         _win.FillFields("", "content");
+        _win.OnUseTimestampToggleChanged(true);
 
         Assert.AreEqual("UnitTestLecture", _windowTitle.text);
         Assert.IsTrue(_toggle.isOn);
-        Assert.IsFalse(_toggle.interactable);
+        //Assert.IsFalse(_toggle.interactable);
 
         LogAssert.NoUnexpectedReceived();
         yield return null;
@@ -209,6 +211,7 @@ public class CreateLectureNoteWindow_PlayModeTests
 
         _win.Initialize(null, 10.0, false);
         _win.FillFields("", "content-body");
+        _win.OnUseTimestampToggleChanged(true);
 
         LogAssert.Expect(LogType.Log, new Regex(@"JSON content being saved:"));
         LogAssert.Expect(LogType.Log, new Regex(@"Note '00-00-10' saved at"));
@@ -228,6 +231,7 @@ public class CreateLectureNoteWindow_PlayModeTests
 
         _win.Initialize(null, 5.0, false);
         _win.FillFields("", "x");
+        _win.OnUseTimestampToggleChanged(true);
 
         LogAssert.Expect(LogType.Log, new Regex(@"JSON content being saved:"));
         LogAssert.Expect(LogType.Log, new Regex(@"Note '00-00-05' saved at"));

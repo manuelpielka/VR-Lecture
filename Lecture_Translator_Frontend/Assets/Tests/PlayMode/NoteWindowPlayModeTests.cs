@@ -269,7 +269,7 @@ public class NoteWindowPlayModeTests
         // Create a dummy note and populate UI
         var noteWin = FindWindowOfType<NoteWindow>();
         Assert.IsNotNull(noteWin);
-        noteWin.SaveNewNote("DeleteMe", "Body");
+        noteWin.SaveNewNote("Test_DeleteMe", "Body");
         noteWin.LoadNotes();
 
         // Allow list to spawn NoteGUI
@@ -280,7 +280,7 @@ public class NoteWindowPlayModeTests
         Assert.NotNull(content, "Content not found.");
         NoteGUI target = null;
         foreach (var gui in content.GetComponentsInChildren<NoteGUI>(true))
-            if (gui.titleTextBox != null && gui.titleTextBox.text == "DeleteMe") { target = gui; break; }
+            if (gui.titleTextBox != null && gui.titleTextBox.text == "Test_DeleteMe") { target = gui; break; }
         Assert.NotNull(target, "No NoteGUI with title 'DeleteMe' found.");
 
         noteWin.DeleteNote(target);
@@ -288,7 +288,7 @@ public class NoteWindowPlayModeTests
 
         var mgr = Object.FindFirstObjectByType<NoteManager>();
         mgr.LoadAllNotes();
-        Assert.IsFalse(mgr.Notes.Exists(n => n.Title == "DeleteMe"));
+        Assert.IsFalse(mgr.Notes.Exists(n => n.Title == "Test_DeleteMe"));
         yield break;
     }
 

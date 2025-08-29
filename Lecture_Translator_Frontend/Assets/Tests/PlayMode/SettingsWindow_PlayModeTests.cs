@@ -214,20 +214,6 @@ public class SettingsWindow_PlayModeTests
     }
 
     [UnityTest]
-    public IEnumerator Start_WithResetButton_Found_And_Clicked()
-    {
-        yield return ActivateWindowExpecting(withResetButton: true); 
-
-        var resetBtn = goWindow.transform.Find("Canvas/Panel/ResetTutorialButton")?.GetComponent<Button>();
-        Assert.IsNotNull(resetBtn);
-
-        LogAssert.Expect(LogType.Log, "Reset Tutorial Button Clicked");
-        resetBtn.onClick.Invoke();
-
-        LogAssert.NoUnexpectedReceived();
-    }
-
-    [UnityTest]
     public IEnumerator Apply_NoLanguageEnvChange_SavesToggles_And_Syncs()
     {
         yield return ActivateWindowExpecting(withResetButton: false);

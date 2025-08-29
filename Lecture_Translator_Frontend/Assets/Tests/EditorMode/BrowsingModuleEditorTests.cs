@@ -207,6 +207,6 @@ public class BrowsingModuleEditorTests
 
         string [] directories = Directory.GetDirectories("./Data/");
 
-        Assert.That(root.GetContents().Count, Is.EqualTo(directories.Length));
+        Assert.That(root.GetContents().Count, Is.EqualTo(directories.Length), "Make sure your /Data/ folder only has the Data/Test/other/offline_test folders!");
     }
 }

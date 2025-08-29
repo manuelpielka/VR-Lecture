@@ -55,7 +55,7 @@ public class CreateLectureNoteWindow : CreateNoteWindow
         if (useTimestampAsTitleToggle != null)
         {
             useTimestampAsTitleToggle.isOn = true;          // true
-            useTimestampAsTitleToggle.interactable = false;
+            useTimestampAsTitleToggle.interactable = true;
             useTimestampAsTitleToggle.onValueChanged.RemoveListener(OnUseTimestampToggleChanged);
             useTimestampAsTitleToggle.onValueChanged.AddListener(OnUseTimestampToggleChanged);
             ApplyUseTimestampToggleToUI(true);
@@ -66,7 +66,7 @@ public class CreateLectureNoteWindow : CreateNoteWindow
     {
         if (titleTextBox != null)
         {
-            titleTextBox.text = FormatTimestampForTitle(isEditMode ? createdAtSecondsForToggle : capturedTimeSeconds);
+            titleTextBox.text = title;
             titleTextBox.interactable = false; // 
         }
 
@@ -75,7 +75,7 @@ public class CreateLectureNoteWindow : CreateNoteWindow
 
     public override void Apply()
     {
-        var enforcedTitle = FormatTimestampForTitle(isEditMode ? createdAtSecondsForToggle : capturedTimeSeconds);
+        //var enforcedTitle = FormatTimestampForTitle(isEditMode ? createdAtSecondsForToggle : capturedTimeSeconds);
         string content = noteTextBox.text;
 
         try
@@ -95,7 +95,7 @@ public class CreateLectureNoteWindow : CreateNoteWindow
             else
             {
 
-                var newNote = new Note(enforcedTitle, content)
+                var newNote = new Note(titleTextBox.text, content)
                 {
                     LectureTitle = lectureTitleSnapshot,          
                     CreatedAtSeconds = capturedTimeSeconds        
@@ -122,18 +122,26 @@ public class CreateLectureNoteWindow : CreateNoteWindow
         Close();
     }
 
-    private void OnUseTimestampToggleChanged(bool isOn)
+    public void OnUseTimestampToggleChanged(bool isOn)
     {
-        ApplyUseTimestampToggleToUI(true);
+        ApplyUseTimestampToggleToUI(isOn);
     }
 
     private void ApplyUseTimestampToggleToUI(bool useTimestamp)
     {
         if (titleTextBox == null) return;
 
-        var secs = isEditMode ? createdAtSecondsForToggle : capturedTimeSeconds;
-        titleTextBox.text = FormatTimestampForTitle(secs);
-        titleTextBox.interactable = false;
+        if (useTimestamp)
+        {
+            var secs = isEditMode ? createdAtSecondsForToggle : capturedTimeSeconds;
+            titleTextBox.text = FormatTimestampForTitle(secs);
+            titleTextBox.interactable = false;
+        }
+        else
+        {
+            titleTextBox.text = "";
+            titleTextBox.interactable = true;
+        }
     }
 
     private static string FormatTimestampForTitle(double seconds)

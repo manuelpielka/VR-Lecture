@@ -426,7 +426,7 @@ public class NoteManager : MonoBehaviour
         }
         Notes.Remove(note);
 
-        string folder = Path.Combine(Application.persistentDataPath, NOTES_FOLDER, GLOBAL_FOLDER, Slug(lectureTitle));
+        string folder = Path.Combine(Application.persistentDataPath, NOTES_FOLDER, LECTURES_FOLDER, Slug(lectureTitle));
         string path = Path.Combine(folder, $"{title}.json");
         if (File.Exists(path)) File.Delete(path);
         else Debug.LogWarning($"Lecture note removed from list, but file not found at {path}");

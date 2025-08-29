@@ -4,6 +4,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// A specialized note creation window that is bound to a <see cref="Lecture"/>.
+/// 
+/// This class extends <see cref="CreateNoteWindow"/> and provides functionality
+/// for creating and editing lecture-specific notes. The title can either be
+/// auto-generated from the playback timestamp or manually edited, depending
+/// on the toggle state.
+/// </summary>
 public class CreateLectureNoteWindow : CreateNoteWindow
 {
     [SerializeField] private TextMeshProUGUI windowTitleText;
@@ -15,6 +23,12 @@ public class CreateLectureNoteWindow : CreateNoteWindow
     private double createdAtSecondsForToggle;
     private NoteManager noteManager;
 
+    /// <summary>
+    /// Initializes this window for a lecture note.
+    /// </summary>
+    /// <param name="lecture">The lecture associated with the note. If null, "(Lecture deleted)" will be shown.</param>
+    /// <param name="timeSecondsAtOpen">The timestamp (in seconds) at which the window was opened.</param>
+    /// <param name="isEditMode">True if editing an existing note; false if creating a new one.</param>
     public void Initialize(Lecture lecture, double timeSecondsAtOpen, bool isEditMode)
     {
         if (lecture == null)
@@ -25,11 +39,10 @@ public class CreateLectureNoteWindow : CreateNoteWindow
         InitializeInternal(lecture, lecture.GetName(), timeSecondsAtOpen, /*createdAtFromNote*/ 0d, isEditMode);
     }
 
-    //public void Initialize(string lectureTitleSnapshot, double createdAtSecondsFromNote, bool isEditMode)
-    //{
-        //InitializeInternal(/*lecture*/ null, lectureTitleSnapshot, /*timeSecondsAtOpen*/ 0d, createdAtSecondsFromNote, isEditMode);
-    //}
-
+    /// <summary>
+    /// Internal helper for initialization logic, sets up the lecture binding, 
+    /// timestamps, UI state, and connects toggle listeners.
+    /// </summary>
     private void InitializeInternal(Lecture lecture, string titleSnapshot, double timeSecondsAtOpen, double createdAtFromNote, bool isEditMode)
     {
         base.Initialize(isEditMode);
@@ -62,6 +75,10 @@ public class CreateLectureNoteWindow : CreateNoteWindow
         }
     }
 
+    /// <summary>
+    /// Fills the UI fields with a given note title and content.
+    /// Used when editing or displaying an existing note.
+    /// </summary>
     public new void FillFields(string title, string content)
     {
         if (titleTextBox != null)
@@ -73,6 +90,10 @@ public class CreateLectureNoteWindow : CreateNoteWindow
         if (noteTextBox != null) noteTextBox.text = content;
     }
 
+    /// <summary>
+    /// Applies the current note by either creating a new note 
+    /// or updating an existing one via <see cref="NoteManager"/>.
+    /// </summary>
     public override void Apply()
     {
         //var enforcedTitle = FormatTimestampForTitle(isEditMode ? createdAtSecondsForToggle : capturedTimeSeconds);
@@ -117,16 +138,27 @@ public class CreateLectureNoteWindow : CreateNoteWindow
         Close();
     }
 
+    /// <summary>
+    /// Discards the note (ignores changes) and closes the window.
+    /// </summary>
+
     public override void Discard()
     {
         Close();
     }
 
+    /// <summary>
+    /// Callback for the "use timestamp as title" toggle.
+    /// When enabled, automatically sets the title to the playback timestamp.
+    /// </summary>
     public void OnUseTimestampToggleChanged(bool isOn)
     {
         ApplyUseTimestampToggleToUI(isOn);
     }
 
+    /// <summary>
+    /// Updates the title input field based on whether the timestamp should be used.
+    /// </summary>
     private void ApplyUseTimestampToggleToUI(bool useTimestamp)
     {
         if (titleTextBox == null) return;
@@ -143,6 +175,10 @@ public class CreateLectureNoteWindow : CreateNoteWindow
         }
     }
 
+    /// <summary>
+    /// Converts a number of seconds into an HH-MM-SS formatted string.
+    /// Used for generating human-readable timestamps as note titles.
+    /// </summary>
     private static string FormatTimestampForTitle(double seconds)
     {
         if (seconds < 0) seconds = 0;

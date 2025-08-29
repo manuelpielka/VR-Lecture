@@ -14,7 +14,7 @@ public class SettingsWindow : Window
     public Toggle darkModeToggle;
     public TMP_Dropdown languageDropdown;
 
-    public Button resetTutorialButton;
+    [SerializeField] private Button resetTutorialButton;
     public Button applyButton;
     public Button discardButton;
 
@@ -50,7 +50,8 @@ public class SettingsWindow : Window
         BuildEnvironmentDropdown();
         BindListeners();
 
-        resetTutorialButton = transform.Find("Canvas/Panel/ResetTutorialButton")?.GetComponent<Button>();
+        if (resetTutorialButton == null)
+            resetTutorialButton = GetComponentInChildren<Button>(includeInactive: true);
 
         if (resetTutorialButton != null)
         {
@@ -60,15 +61,14 @@ public class SettingsWindow : Window
         else
         {
             Debug.LogWarning("Reset Tutorial Button not found in SettingsWindow.");
-        }    
-       
+        }
+
     }
 
     private void OnResetTutorialClicked()
     {
         Debug.Log("Reset Tutorial Button Clicked");
         Signals.TutorialResetRequested?.Invoke();
-       
     }
 
     private void LoadInitialSettings()

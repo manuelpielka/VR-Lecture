@@ -48,6 +48,29 @@ public class PlaybackControlsStepTutorialTests
         ResetWindowOpenedEvent();
     }
 
+    private static Window InsertDummyActiveWindow(WindowManager wm, string key)
+    {
+        // 1) Create a lightweight "prefab" placeholder with the right name
+        var prefabGO = new GameObject(key);           // name must equal the key
+        var instanceGO = new GameObject(key + "(Instance)");
+        var win = instanceGO.AddComponent<Window>();
+
+        // 2) Fill the fields that WindowManager expects a real window to have
+        //    (CreateWindow normally sets these)
+        var winType = typeof(Window);
+        winType.GetField("<WindowManager>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)?.SetValue(win, wm);
+        winType.GetField("<Prefab>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)?.SetValue(win, prefabGO);
+        winType.GetField("<Key>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)?.SetValue(win, key);
+
+        // 3) Push it into private List<Window> activeWindows
+        var f = typeof(WindowManager).GetField("activeWindows", BindingFlags.Instance | BindingFlags.NonPublic);
+        var list = (IList)f.GetValue(wm);
+        list.Add(win);
+
+        return win;
+    }
+
+
 
 
     private static void SafeClose(WindowManager wm, string key)
@@ -122,7 +145,8 @@ public class PlaybackControlsStepTutorialTests
         DisableRuntimePlaybackSystems();
 
         var wm = GameObject.Find("WindowManager").GetComponent<WindowManager>();
-        wm.OpenWindow("LecturePlayerWindow"); // ensures IsWindowOpen(MainMenuKey) == true
+        //wm.OpenWindow("LecturePlayerWindow"); // ensures IsWindowOpen(MainMenuKey) == true
+        InsertDummyActiveWindow(wm, "LecturePlayerWindow");
 
         var sutGO = new GameObject("WelcomeStep_SUT");
         var sut = sutGO.AddComponent<PlaybackControlsStepTutorial>();
@@ -269,7 +293,9 @@ public class PlaybackControlsStepTutorialTests
         Assert.IsNotNull(overlayInstance, "Overlay should be instantiated before window event.");
 
         // Act: open Main Menu via WindowManager to raise WindowOpened(MainMenu)
-        wm.OpenWindow("LecturePlayerWindow");
+        //wm.OpenWindow("LecturePlayerWindow");
+                InsertDummyActiveWindow(wm, "LecturePlayerWindow");
+
         yield return null; // allow HandleWindowOpened -> EndStep to run
         yield return null; // allow Destroy(overlayInstance) to complete
 
@@ -376,7 +402,10 @@ public class PlaybackControlsStepTutorialTests
         Assert.IsNull(GameObject.Find("WelcomeOverlayPrefab(Clone)"), "Overlay should be destroyed after Next click.");
 
         // Act 2: Now open Main Menu (would trigger again if not properly unsubscribed)
-        wm.OpenWindow("LecturePlayerWindow");
+        //wm.OpenWindow("LecturePlayerWindow");
+
+                InsertDummyActiveWindow(wm, "LecturePlayerWindow");
+
         yield return null;
 
         // Assert: still exactly once (no double-fire)

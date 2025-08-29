@@ -18,7 +18,8 @@
         "Unity.Addressables",
         "Unity.ResourceManager",
         "BrowsingModule",
-        "Login"
+        "Login",
+        "Unity.InputSystem"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

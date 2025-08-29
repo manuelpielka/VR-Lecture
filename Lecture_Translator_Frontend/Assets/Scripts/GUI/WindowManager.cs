@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 using System;
 using Vector3 = UnityEngine.Vector3;
 using Quaternion = UnityEngine.Quaternion;
-using NUnit.Framework;
 
 /// <summary>
 /// This class controls all Window object’s prefabs and currently opened Window objects after instantiating them.
@@ -236,7 +235,7 @@ public class WindowManager : MonoBehaviour
             activeWindows.Remove(window);
         }
 
-        if (window is GUI.MainMenuWindow)
+        if (window.Key == WindowKeys.MainMenuKey)
         {
             mainMenuOpen = false;
         }

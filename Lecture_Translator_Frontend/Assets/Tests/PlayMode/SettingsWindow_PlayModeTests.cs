@@ -271,11 +271,18 @@ public class SettingsWindow_PlayModeTests
         var envOptsField = typeof(SettingsWindow).GetField("envOptions",
             BindingFlags.NonPublic | BindingFlags.Instance);
         envOptsField.SetValue(window, new List<string> { "EnvA", "EnvB" });
-        backgroundDropdown.onValueChanged.Invoke(1); 
+        backgroundDropdown.onValueChanged.Invoke(1);
 
-        LogAssert.Expect(LogType.Log, new Regex(@"Saving Auto Adjust"));
-        LogAssert.Expect(LogType.Log, new Regex(@"Saving Dark Mode"));
-        LogAssert.Expect(LogType.Log, new Regex(@"Saving Language: de"));
+        LogAssert.Expect(LogType.Log, new Regex(@"Saving Auto Adjust"));                    
+        LogAssert.Expect(LogType.Log, new Regex(@"Saving Dark Mode"));                       
+        LogAssert.Expect(LogType.Log, "Applying Display Mode");                              
+        LogAssert.Expect(LogType.Log, new Regex(@"\[Theme\] Mode applied: (Light|Dark)"));   
+        LogAssert.Expect(LogType.Log, new Regex(@"Saving Language: de"));                   
+        LogAssert.Expect(LogType.Log, new Regex(@"\[Lang\] ApplyLanguageAsync target=de")); 
+        LogAssert.Expect(LogType.Log, new Regex(@"\[Lang\] SelectedLocale = de"));           
+        LogAssert.Expect(LogType.Warning, new Regex(@"EnvironmentManager: Scene 'EnvB' is not in Build Settings\."));
+        LogAssert.Expect(LogType.Log, new Regex(@"\[SettingsWindow\] Apply pressed: saved & applied\."));
+        LogAssert.Expect(LogType.Log, new Regex(@"\[Lang\] current=.* pending=.*"));
 
         applyButton.onClick.Invoke();
         yield return null;
@@ -286,6 +293,35 @@ public class SettingsWindow_PlayModeTests
         var pendField = typeof(SettingsWindow).GetField("pendingEnv",
             BindingFlags.NonPublic | BindingFlags.Instance);
         Assert.IsNull(pendField.GetValue(window));
+
+        LogAssert.NoUnexpectedReceived();
+    }
+
+    [UnityTest]
+    public IEnumerator BindListeners_Background_OnValueChanged_Sets_PendingEnv_When_Index_Valid()
+    {
+        yield return ActivateWindowExpecting(withResetButton: false);
+
+        var envOptsField = typeof(SettingsWindow).GetField("envOptions",
+            BindingFlags.NonPublic | BindingFlags.Instance);
+        envOptsField.SetValue(window, new List<string> { "EnvA", "EnvB" });
+
+        backgroundDropdown.ClearOptions();
+        backgroundDropdown.AddOptions(new List<string> { "EnvA", "EnvB" });
+
+        var bindMi = typeof(SettingsWindow).GetMethod("BindListeners",
+            BindingFlags.NonPublic | BindingFlags.Instance);
+        Assert.IsNotNull(bindMi, "BindListeners not found via reflection");
+        bindMi.Invoke(window, null);
+
+        var pendEnvField = typeof(SettingsWindow).GetField("pendingEnv",
+            BindingFlags.NonPublic | BindingFlags.Instance);
+        pendEnvField.SetValue(window, "KEEP");
+        backgroundDropdown.onValueChanged.Invoke(99);
+        Assert.AreEqual("KEEP", pendEnvField.GetValue(window), "out-of-range should not change pendingEnv");
+
+        backgroundDropdown.onValueChanged.Invoke(1);
+        Assert.AreEqual("EnvB", pendEnvField.GetValue(window));
 
         LogAssert.NoUnexpectedReceived();
     }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
+using Shared;
 
 /// <summary>
 /// This class manages the tutorial steps and controls the flow of the tutorial.
@@ -185,6 +186,19 @@ public class TutorialManager : MonoBehaviour
     }
 
 
+    private void OnEnable()
+    {
+        Signals.TutorialResetRequested += OnTutorialResetRequested;
+    }
 
+    private void OnDisable()
+    {
+        Signals.TutorialResetRequested -= OnTutorialResetRequested;
+    }
+
+    private void OnTutorialResetRequested()
+    {
+        ResetTutorial();
+    }
 
 }

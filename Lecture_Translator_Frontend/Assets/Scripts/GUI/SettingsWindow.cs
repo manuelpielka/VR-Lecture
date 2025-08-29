@@ -5,7 +5,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-补充或者修改合适的英文doc注释
 public class SettingsWindow : Window
 {
     
@@ -30,15 +29,22 @@ public class SettingsWindow : Window
     private List<string> envOptions = new List<string>();
     private string pendingEnv = null;
 
-    /// <summary>
-    /// Unity lifecycle method. Initializes the window, loads preferences,
-    /// builds dropdown options, and binds UI listeners.
-    /// Also ensures the Reset Tutorial button is correctly wired.
-    /// </summary>
+
     void Start()
     {
         Debug.Log("SettingsWindow Started");
 
+        //if (settingsManager == null)
+        //{
+           // settingsManager = FindFirstObjectByType<SettingsManager>();
+           // if (settingsManager == null)
+           // {
+               // Debug.LogError("SettingsManager not assigned in the scene.");
+               // return;
+           //}
+        //}
+
+        //InitDropdowns();
         LoadInitialSettings();
         BuildLanguageDropdown();
         BuildEnvironmentDropdown();
@@ -59,40 +65,31 @@ public class SettingsWindow : Window
 
     }
 
-    /// <summary>
-    /// Event handler for the "Reset Tutorial" button.
-    /// Fires a global signal so the tutorial system can reset its state.
-    /// </summary>
     private void OnResetTutorialClicked()
     {
         Debug.Log("Reset Tutorial Button Clicked");
         Signals.TutorialResetRequested?.Invoke();
     }
 
-    /// <summary>
-    /// Loads saved settings (auto adjust, dark mode, etc.)
-    /// from <see cref="SettingsManager"/> into the window state.
-    /// </summary>
-
     private void LoadInitialSettings()
     {
 
         tempAutoAdjust = SettingsManager.Instance.GetAutoSwitch();
         tempDarkMode = SettingsManager.Instance.GetDarkMode();
-
+        //tempBackgroundIndex = GetBackgroundIndex(UserPreferencesManager.LoadBackgroundSceneId());
+        //tempLanguageIndex = GetLanguageIndex(UserPreferencesManager.LoadLanguage());
 
         modeAutoSwitchToggle.isOn = tempAutoAdjust;
         darkModeToggle.isOn = tempDarkMode;
 
+        //backgroundDropdown.value = tempBackgroundIndex;
+        //languageDropdown.value = tempLanguageIndex;
         UpdateToggleInteractableStates();
     }
 
-    /// <summary>
-    /// Builds the language dropdown based on <see cref="SettingsManager"/> data.
-    /// </summary>
     private void BuildLanguageDropdown()
     {
-        var dict = SettingsManager.Instance.GetLanguages();
+        var dict = SettingsManager.Instance.GetLanguages(); // code -> display
         languageCodes = dict.Keys.OrderBy(k => dict[k]).ToList();
         languageNames = languageCodes.Select(code => dict[code]).ToList();
 
@@ -103,9 +100,6 @@ public class SettingsWindow : Window
         pendingLanguageCode = null;
     }
 
-    /// <summary>
-    /// Syncs the language dropdown value to the current language code.
-    /// </summary>
     private void SyncLanguageDropdownToCurrent()
     {
         string current = SettingsManager.Instance.GetCurrentLanguageCode();
@@ -114,9 +108,6 @@ public class SettingsWindow : Window
         languageDropdown.RefreshShownValue();
     }
 
-    /// <summary>
-    /// Builds the environment dropdown based on <see cref="SettingsManager"/> data.
-    /// </summary>
     private void BuildEnvironmentDropdown()
     {
         envOptions = SettingsManager.Instance.GetEnvironmentOptions();
@@ -128,10 +119,6 @@ public class SettingsWindow : Window
         pendingEnv = null;
     }
 
-    /// <summary>
-    /// Syncs the environment dropdown to the currently active environment.
-    /// </summary>
-
     private void SyncEnvironmentDropdownToCurrent()
     {
         string current = SettingsManager.Instance.GetCurrentEnvironment();
@@ -140,10 +127,6 @@ public class SettingsWindow : Window
         backgroundDropdown.RefreshShownValue();
     }
 
-    /// <summary>
-    /// Binds listeners to UI elements (toggles, buttons, dropdowns).
-    /// Ensures user interaction updates temporary state before Apply.
-    /// </summary>
     private void BindListeners()
     {
         modeAutoSwitchToggle.onValueChanged.AddListener(OnAutoSwitchToggleChanged);
@@ -165,10 +148,6 @@ public class SettingsWindow : Window
         });
     }
 
-    /// <summary>
-    /// Handles auto-switch toggle changes and updates state.
-    /// </summary>
-
     private void OnAutoSwitchToggleChanged(bool isOn)
     {
         tempAutoAdjust = isOn;
@@ -176,9 +155,6 @@ public class SettingsWindow : Window
         UpdateToggleStates();
     }
 
-    /// <summary>
-    /// Handles dark mode toggle changes and updates state.
-    /// </summary>
     private void OnDarkModeToggleChanged(bool isOn)
     {
         tempDarkMode = isOn;
@@ -186,9 +162,6 @@ public class SettingsWindow : Window
         UpdateToggleStates();
     }
 
-    /// <summary>
-    /// Applies temporary toggle states to the actual UI elements.
-    /// </summary>
     private void UpdateToggleStates()
     {
         modeAutoSwitchToggle.isOn = tempAutoAdjust;
@@ -197,19 +170,13 @@ public class SettingsWindow : Window
         UpdateToggleInteractableStates();
     }
 
-    /// <summary>
-    /// Updates toggle interactable states to enforce mutual exclusivity.
-    /// </summary>
+
     private void UpdateToggleInteractableStates()
     {
         modeAutoSwitchToggle.interactable = !tempDarkMode;
         darkModeToggle.interactable = !tempAutoAdjust;
     }
 
-    /// <summary>
-    /// Event handler for the Apply button.
-    /// Commits pending values to <see cref="SettingsManager"/> and applies changes.
-    /// </summary>
     public async void OnApplyButtonClicked()
     {
         SettingsManager.Instance.ApplySettings(tempAutoAdjust, tempDarkMode);
@@ -236,10 +203,6 @@ public class SettingsWindow : Window
         Debug.Log($"[Lang] current={SettingsManager.Instance.GetCurrentLanguageCode()} pending={pendingLanguageCode}");
     }
 
-    /// <summary>
-    /// Event handler for the Discard button.
-    /// Reverts all unsaved changes and reloads settings from <see cref="SettingsManager"/>.
-    /// </summary>
     public void OnDiscardButtonClicked()
     {
         LoadInitialSettings();

@@ -293,8 +293,7 @@ public class PlaybackControlsStepTutorialTests
         Assert.IsNotNull(overlayInstance, "Overlay should be instantiated before window event.");
 
         // Act: open Main Menu via WindowManager to raise WindowOpened(MainMenu)
-        //wm.OpenWindow("LecturePlayerWindow");
-                InsertDummyActiveWindow(wm, "LecturePlayerWindow");
+        FireWindowOpened("LecturePlayerWindow");
 
         yield return null; // allow HandleWindowOpened -> EndStep to run
         yield return null; // allow Destroy(overlayInstance) to complete
@@ -402,9 +401,7 @@ public class PlaybackControlsStepTutorialTests
         Assert.IsNull(GameObject.Find("WelcomeOverlayPrefab(Clone)"), "Overlay should be destroyed after Next click.");
 
         // Act 2: Now open Main Menu (would trigger again if not properly unsubscribed)
-        //wm.OpenWindow("LecturePlayerWindow");
-
-                InsertDummyActiveWindow(wm, "LecturePlayerWindow");
+        FireWindowOpened("LecturePlayerWindow");
 
         yield return null;
 
@@ -495,6 +492,17 @@ public class PlaybackControlsStepTutorialTests
         // Sanity: overlay exists and remains
         var overlayInstance = GameObject.Find("WelcomeOverlayPrefab(Clone)");
         Assert.IsNotNull(overlayInstance, "Overlay should exist after StartStep() when not skipping.");
+    }
+
+    private static void FireWindowOpened(string key)
+    {
+        // WindowOpened is a static event Action<string>
+        var evt = typeof(WindowManager).GetField(
+            "WindowOpened",
+            BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public
+        );
+        var del = (System.Action<string>)evt?.GetValue(null);
+        del?.Invoke(key);
     }
 
 

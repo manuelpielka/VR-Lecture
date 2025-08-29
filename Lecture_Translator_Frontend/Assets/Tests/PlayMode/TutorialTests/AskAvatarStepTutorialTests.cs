@@ -125,11 +125,17 @@ public class AskAvatarStepTutorialTests
         DisableRuntimePlaybackSystems();
 
         var wm = GameObject.Find("WindowManager").GetComponent<WindowManager>();
-        yield return null;
-        wm.OpenWindow("DialogueWindow"); // ensures IsWindowOpen(MainMenuKey) == true
+        
+        InsertDummyActiveWindow(wm, "DialogueWindow");
 
         var sutGO = new GameObject("WelcomeStep_SUT");
         var sut = sutGO.AddComponent<AskAvatarStepTutorial>();
+
+        var overlayPrefab = new GameObject("WelcomeOverlayPrefab");
+        typeof(AskAvatarStepTutorial)
+        .GetField("OverlayPrefab", BindingFlags.Instance | BindingFlags.NonPublic)
+        .SetValue(sut, overlayPrefab);
+
 
         int completedCount = 0;
         sut.StepCompleted += () => completedCount++;
@@ -145,6 +151,9 @@ public class AskAvatarStepTutorialTests
     {
         yield return null; // let scene load
         DisableRuntimePlaybackSystems();
+
+        var wm = GameObject.Find("WindowManager").GetComponent<WindowManager>();
+        EnsureWindowClosed(wm, "DialogueWindow");
 
         // Ensure Main Menu is NOT open (fresh scene should be fine)
         var sutGO = new GameObject("WelcomeStep_SUT");
@@ -188,6 +197,9 @@ public class AskAvatarStepTutorialTests
     {
         yield return null; // let scene load
         DisableRuntimePlaybackSystems();
+
+        var wm = GameObject.Find("WindowManager").GetComponent<WindowManager>();
+        EnsureWindowClosed(wm, "DialogueWindow");
 
         // SUT
         var sutGO = new GameObject("WelcomeStep_SUT");
@@ -241,6 +253,7 @@ public class AskAvatarStepTutorialTests
         DisableRuntimePlaybackSystems();
 
         var wm = GameObject.Find("WindowManager").GetComponent<WindowManager>();
+        EnsureWindowClosed(wm, "DialogueWindow");
         // Ensure main menu is NOT open initially so StartStep doesn't auto-skip
         // (fresh scene is assumed closed; if not, close it via your API here)
 
@@ -292,6 +305,7 @@ public class AskAvatarStepTutorialTests
         DisableRuntimePlaybackSystems();
 
         var wm = GameObject.Find("WindowManager").GetComponent<WindowManager>();
+        EnsureWindowClosed(wm, "DialogueWindow");
 
         // SUT
         var sutGO = new GameObject("WelcomeStep_SUT");
@@ -322,7 +336,7 @@ public class AskAvatarStepTutorialTests
 
         // Act: open a different window (NOT MainMenu)
         // Use a key that exists in your project, e.g., "SettingsWindow"
-        wm.OpenWindow("SettingsWindow");
+        FireWindowOpened("SettingsWindow");
         yield return null; // allow any handlers to run
 
         // Assert: no completion, overlay still present
@@ -393,6 +407,9 @@ public class AskAvatarStepTutorialTests
         yield return null; // let scene load
         DisableRuntimePlaybackSystems();
 
+        var wm = GameObject.Find("WindowManager").GetComponent<WindowManager>();
+        EnsureWindowClosed(wm, "DialogueWindow");
+
         // SUT
         var sutGO = new GameObject("WelcomeStep_SUT");
         var sut = sutGO.AddComponent<AskAvatarStepTutorial>();
@@ -434,7 +451,7 @@ public class AskAvatarStepTutorialTests
         Assert.AreEqual(0, completedCount, "EndStep() must not invoke StepCompleted.");
     }
 
-     [UnityTest]
+    [UnityTest]
     public IEnumerator StartStep_DoesNot_Complete_Without_UserAction_Or_Dialouge()
     {
         yield return null; // let scene load
@@ -471,6 +488,59 @@ public class AskAvatarStepTutorialTests
         var overlayInstance = GameObject.Find("WelcomeOverlayPrefab(Clone)");
         Assert.IsNotNull(overlayInstance, "Overlay should exist after StartStep() when not skipping.");
     }
+
+    private static void FireWindowOpened(string key)
+    {
+        var f = typeof(WindowManager).GetField(
+            "WindowOpened",
+            BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+        var del = (System.Action<string>)f?.GetValue(null);
+        del?.Invoke(key);
+    }
+
+    private static Window InsertDummyActiveWindow(WindowManager wm, string key)
+    {
+        var prefabGO = new GameObject(key);
+        var instanceGO = new GameObject(key + "(Instance)");
+        var win = instanceGO.AddComponent<Window>();
+
+        var wt = typeof(Window);
+        wt.GetField("<WindowManager>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)?.SetValue(win, wm);
+        wt.GetField("<Prefab>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)?.SetValue(win, prefabGO);
+        wt.GetField("<Key>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)?.SetValue(win, key);
+
+        var listField = typeof(WindowManager).GetField("activeWindows", BindingFlags.Instance | BindingFlags.NonPublic);
+        var list = (IList)listField.GetValue(wm);
+        list.Add(win);
+        return win;
+    }
+    private static void EnsureWindowClosed(WindowManager wm, string key)
+    {
+        // 1) Remove matching live Window components in the scene
+        foreach (var w in Resources.FindObjectsOfTypeAll<Window>())
+        {
+            if (!w || !w.gameObject.scene.IsValid()) continue;
+            if (w.name == key || w.name.Contains(key))
+                Object.DestroyImmediate(w.gameObject);
+        }
+
+        // 2) Purge from WindowManager.activeWindows
+        var listField = typeof(WindowManager).GetField("activeWindows", BindingFlags.Instance | BindingFlags.NonPublic);
+        var list = (IList)listField.GetValue(wm);
+        var toRemove = new System.Collections.Generic.List<object>();
+        foreach (var item in list)
+        {
+            var w = item as Window;
+            if (w == null) continue;
+            var keyField = typeof(Window).GetField("<Key>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
+            var k = (string)keyField.GetValue(w);
+            if (k == key) toRemove.Add(item);
+        }
+        foreach (var item in toRemove) list.Remove(item);
+    }
+
+
+
 
     
 }

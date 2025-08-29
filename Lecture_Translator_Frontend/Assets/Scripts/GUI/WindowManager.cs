@@ -221,7 +221,7 @@ public class WindowManager : MonoBehaviour
     /// <param name="windowKey">The key for the associated prefab.</param>
     public bool IsWindowOpen(string windowKey)
     {
-        return activeWindows.Exists(w => w.Prefab.name == windowKey);
+        return activeWindows.Exists(w => w.Key == windowKey);
     }
 
     /// <summary>

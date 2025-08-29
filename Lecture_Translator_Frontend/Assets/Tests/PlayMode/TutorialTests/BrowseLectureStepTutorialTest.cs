@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class BrowseLectureStepTutorialTests
 {
-    
+
     [SetUp]
     public void Setup()
     {
@@ -122,16 +122,25 @@ public class BrowseLectureStepTutorialTests
     [UnityTest]
     public IEnumerator StartStep_Skips_When_LectureBrowser_Already_Open()
     {
-
         yield return null; // let scene load
 
         DisableRuntimePlaybackSystems();
 
-        var wm = GameObject.Find("WindowManager").GetComponent<WindowManager>();
-        wm.OpenWindow("LectureBrowserWindow"); // ensures IsWindowOpen(MainMenuKey) == true
 
-        var sutGO = new GameObject("WelcomeStep_SUT");
+        var wm = GameObject.Find("WindowManager").GetComponent<WindowManager>();
+
+        // Mark LectureBrowser as already open (no side effects, no real prefabs)
+        InsertDummyActiveWindow(wm, "LectureBrowserWindow");
+
+        // SUT
+        var sutGO = new GameObject("BrowseLectureStep_SUT");
         var sut = sutGO.AddComponent<BrowseLectureStepTutorial>();
+
+        // Inject a harmless overlay to avoid Instantiate(null) if prod code instantiates before skip check
+        var overlayPrefab = new GameObject("WelcomeOverlayPrefab");
+        typeof(BrowseLectureStepTutorial)
+            .GetField("OverlayPrefab", BindingFlags.Instance | BindingFlags.NonPublic)
+            .SetValue(sut, overlayPrefab);
 
         int completedCount = 0;
         sut.StepCompleted += () => completedCount++;
@@ -141,6 +150,32 @@ public class BrowseLectureStepTutorialTests
 
         Assert.AreEqual(1, completedCount, "StepCompleted should fire once when skipping.");
     }
+    private static Window InsertDummyActiveWindow(WindowManager wm, string key)
+    {
+        // Create a fake "prefab" with the same name as the window key
+        var prefabGO = new GameObject(key);
+
+        // Create a runtime instance and attach a Window component
+        var instanceGO = new GameObject(key + "(Instance)");
+        var win = instanceGO.AddComponent<Window>();
+
+        // Fill the fields that a real created Window would have
+        var winType = typeof(Window);
+        winType.GetField("<WindowManager>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)
+               ?.SetValue(win, wm);
+        winType.GetField("<Prefab>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)
+               ?.SetValue(win, prefabGO);
+        winType.GetField("<Key>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic)
+               ?.SetValue(win, key);
+
+        // Push it into private List<Window> activeWindows
+        var f = typeof(WindowManager).GetField("activeWindows", BindingFlags.Instance | BindingFlags.NonPublic);
+        var list = (IList)f.GetValue(wm);
+        list.Add(win);
+
+        return win;
+    }
+
 
     [UnityTest]
     public IEnumerator StartStep_CreatesOverlay_And_PositionsIt()
@@ -276,7 +311,7 @@ public class BrowseLectureStepTutorialTests
         Assert.IsNotNull(overlayInstance, "Overlay should be instantiated before window event.");
 
         // Act: open Main Menu via WindowManager to raise WindowOpened(MainMenu)
-        wm.OpenWindow("LectureBrowserWindow");
+        FireWindowOpened("LectureBrowserWindow");
         yield return null; // allow HandleWindowOpened -> EndStep to run
         yield return null; // allow Destroy(overlayInstance) to complete
 
@@ -383,7 +418,7 @@ public class BrowseLectureStepTutorialTests
         Assert.IsNull(GameObject.Find("WelcomeOverlayPrefab(Clone)"), "Overlay should be destroyed after Next click.");
 
         // Act 2: Now open LectureBrowserWindow (would trigger again if not properly unsubscribed)
-        wm.OpenWindow("LectureBrowserWindow");
+        FireWindowOpened("LectureBrowserWindow");
         yield return null;
 
         // Assert: still exactly once (no double-fire)
@@ -437,7 +472,7 @@ public class BrowseLectureStepTutorialTests
         Assert.AreEqual(0, completedCount, "EndStep() must not invoke StepCompleted.");
     }
 
-     [UnityTest]
+    [UnityTest]
     public IEnumerator StartStep_DoesNot_Complete_Without_UserAction_Or_LectureBrowser()
     {
         yield return null; // let scene load
@@ -473,6 +508,16 @@ public class BrowseLectureStepTutorialTests
         // Sanity: overlay exists and remains
         var overlayInstance = GameObject.Find("WelcomeOverlayPrefab(Clone)");
         Assert.IsNotNull(overlayInstance, "Overlay should exist after StartStep() when not skipping.");
+    }
+
+    private static void FireWindowOpened(string key)
+    {
+        var evt = typeof(WindowManager).GetField(
+            "WindowOpened",
+            BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public
+        );
+        var del = (System.Action<string>)evt?.GetValue(null);
+        del?.Invoke(key);
     }
 
 

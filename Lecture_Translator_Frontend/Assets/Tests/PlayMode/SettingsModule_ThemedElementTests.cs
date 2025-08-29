@@ -1,20 +1,19 @@
 using NUnit.Framework;
 using System;
+using System.Reflection;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
+using UnityEngine.TestTools;
 using UnityEngine.UI;
 
 public class SettingsModule_ThemedElementTests
 {
-    private DisplayModeController ctrl;
-    private GameObject goCtrl;
     private ColorTheme light, dark;
 
     [SetUp]
     public void SetUp()
     {
-        PlayerPrefs.DeleteAll();
-
         light = ScriptableObject.CreateInstance<ColorTheme>();
         light.WindowBackground = new Color(0.90f, 0.90f, 0.90f, 1);
         light.PanelOnWindowBackground = new Color(0.80f, 0.80f, 0.80f, 1);
@@ -32,29 +31,18 @@ public class SettingsModule_ThemedElementTests
         dark.ButtonText = new Color(0.90f, 0.90f, 0.90f, 1);
         dark.ContentText = new Color(0.80f, 0.80f, 0.80f, 1);
         dark.TitleText = new Color(0.70f, 0.70f, 0.70f, 1);
-
-        goCtrl = new GameObject("Ctrl");
-        ctrl = goCtrl.AddComponent<DisplayModeController>();
-        ctrl.lightTheme = light;
-        ctrl.darkTheme = dark;
-        ctrl.SetAutoAdjust(false);
     }
 
     [TearDown]
     public void TearDown()
     {
-        if (ctrl != null && DisplayModeController.Instance == ctrl)
-            DisplayModeController.Instance = null;
-        if (goCtrl != null) UnityEngine.Object.DestroyImmediate(goCtrl);
-        if (light != null) UnityEngine.Object.DestroyImmediate(light);
-        if (dark != null) UnityEngine.Object.DestroyImmediate(dark);
-        PlayerPrefs.DeleteAll();
+        if (light) UnityEngine.Object.DestroyImmediate(light);
+        if (dark) UnityEngine.Object.DestroyImmediate(dark);
     }
 
     [Test]
     public void ThemedElement_Maps_All_Roles_Across_All_Common_UI_Components()
     {
-        // cover TextMeshProUGUI / Text / Image / RawImage
         TestOneComponent<TextMeshProUGUI>();
         TestOneComponent<Text>();
         TestOneComponent<Image>();
@@ -71,15 +59,11 @@ public class SettingsModule_ThemedElementTests
             var themed = go.AddComponent<ThemedElement>();
             themed.role = role;
 
-            // Light
-            ctrl.SetDarkMode(false);
-            InvokeApplyTheme(ctrl);
+            themed.ApplyTheme(light, isDarkMode: false);
             Assert.That(ColorEquals(ReadColor<T>(go), Get(light, role)),
                 $"{typeof(T).Name} Light: {role}");
 
-            // Dark
-            ctrl.SetDarkMode(true);
-            InvokeApplyTheme(ctrl);
+            themed.ApplyTheme(dark, isDarkMode: true);
             Assert.That(ColorEquals(ReadColor<T>(go), Get(dark, role)),
                 $"{typeof(T).Name} Dark: {role}");
 
@@ -115,13 +99,6 @@ public class SettingsModule_ThemedElementTests
         return default;
     }
 
-    private static void InvokeApplyTheme(DisplayModeController c)
-    {
-        var m = typeof(DisplayModeController)
-            .GetMethod("ApplyTheme", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-        m.Invoke(c, null);
-    }
-
     private static bool ColorEquals(Color a, Color b, float eps = 0.001f)
     {
         return Mathf.Abs(a.r - b.r) < eps &&
@@ -142,7 +119,6 @@ public class SettingsModule_ThemedElementTests
         elem.role = (ThemeRole)999;
 
         elem.ApplyTheme(theme, isDarkMode: false);
-
         Assert.AreEqual(Color.magenta, img.color);
 
         UnityEngine.Object.DestroyImmediate(go);

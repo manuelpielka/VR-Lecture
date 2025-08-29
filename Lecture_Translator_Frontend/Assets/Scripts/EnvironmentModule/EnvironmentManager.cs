@@ -11,6 +11,26 @@ using System.Diagnostics.CodeAnalysis;
 public class EnvironmentManager : MonoBehaviour
 {
     /// <summary>
+    /// Default scene name for the library environment.
+    /// </summary>
+    private const string LIBRARY_HALL = "Library hall";
+
+    /// <summary>
+    /// Scene name for the room environment.
+    /// </summary>
+    private const string ROOM = "Room";
+
+    /// <summary>
+    /// Progress value (0.9f) Unity reaches before a scene is ready to activate.
+    /// </summary>
+    private const float SCENE_LOAD_THRESHOLD = 0.9f;
+
+    /// <summary>
+    /// Index of the first scene in Build Settings (avoid magic number 0).
+    /// </summary>
+    private const int FIRST_BUILD_INDEX = 0;
+
+    /// <summary>
     /// Global access to the only instance.
     /// </summary>
     public static EnvironmentManager Instance { get; private set; }
@@ -21,7 +41,7 @@ public class EnvironmentManager : MonoBehaviour
     /// </summary>
     [Header("Startup")]
     [Tooltip("Scene that should be treated as the default environment.")]
-    [SerializeField] private string defaultEnvironmentScene = "Library hall";
+    [SerializeField] private string defaultEnvironmentScene = LIBRARY_HALL;
 
     /// <summary>
     /// Tracks the currently active environment scene name.
@@ -42,7 +62,7 @@ public class EnvironmentManager : MonoBehaviour
     {
         var names = new List<string>();
         int count = SceneManager.sceneCountInBuildSettings;
-        for (int i = 0; i < count; i++)
+        for (int i = FIRST_BUILD_INDEX; i < count; i++)
         {
             string path = SceneUtility.GetScenePathByBuildIndex(i);
             string name = Path.GetFileNameWithoutExtension(path);
@@ -86,7 +106,7 @@ public class EnvironmentManager : MonoBehaviour
         load.allowSceneActivation = false;
 
         // Wait until the scene data is fully loaded (progress reaches 0.9)
-        while (load.progress < 0.9f)
+        while (load.progress < SCENE_LOAD_THRESHOLD)
         {
             yield return null;
         }
@@ -135,9 +155,9 @@ public class EnvironmentManager : MonoBehaviour
 
         // Accept either the serialized default name OR whatever is at build index 0
         string index0Name = null;
-        if (SceneManager.sceneCountInBuildSettings > 0)
+        if (SceneManager.sceneCountInBuildSettings > FIRST_BUILD_INDEX)
         {
-            var index0Path = SceneUtility.GetScenePathByBuildIndex(0);
+            var index0Path = SceneUtility.GetScenePathByBuildIndex(FIRST_BUILD_INDEX);
             index0Name = Path.GetFileNameWithoutExtension(index0Path);
         }
 
@@ -155,7 +175,7 @@ public class EnvironmentManager : MonoBehaviour
     private bool IsSceneInBuildSettings(string sceneName)
     {
         int count = SceneManager.sceneCountInBuildSettings;
-        for (int i = 0; i < count; i++)
+        for (int i = FIRST_BUILD_INDEX; i < count; i++)
         {
             string path = SceneUtility.GetScenePathByBuildIndex(i);
             string name = Path.GetFileNameWithoutExtension(path);
@@ -170,14 +190,14 @@ public class EnvironmentManager : MonoBehaviour
     [ContextMenu("Switch To Room")]
     private void _SwitchToRoom()
     {
-        LoadEnvironment("Room");
+        LoadEnvironment(ROOM);
     }
 
     [ExcludeFromCodeCoverage]
     [ContextMenu("Switch To Library hall")]
     private void _SwitchToLibraryHall()
     {
-        LoadEnvironment("Library hall");
+        LoadEnvironment(LIBRARY_HALL);
     }
 #endif
 }

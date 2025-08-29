@@ -10,6 +10,77 @@ using System.Linq;
 public class NoteManager : MonoBehaviour
 {
     /// <summary>
+    /// Top-level notes folder under Application.persistentDataPath.
+    /// </summary>
+    private const string NOTES_FOLDER = "notes";
+
+    /// <summary>
+    /// Folder name for global (non-lecture) notes.
+    /// </summary>
+    private const string GLOBAL_FOLDER = "global";
+
+    /// <summary>
+    /// Folder name for lecture-specific notes.
+    /// </summary>
+    private const string LECTURES_FOLDER = "lectures";
+
+    /// <summary>
+    /// File extension used for note files.
+    /// </summary>
+    private const string FILE_EXTENSION = ".json";
+
+    /// <summary>
+    /// Fallback slug used when input string yields an empty slug.
+    /// </summary>
+    private const string UNTITLED_SLUG = "untitled";
+
+    /// <summary>
+    /// Search pattern used to enumerate note files.
+    /// </summary>
+    private const string FILE_SEARCH_PATTERN = "*.json";
+
+    /// <summary>
+    /// Array index representing the first element (avoid magic number 0).
+    /// </summary>
+    private const int FIRST_INDEX = 0;
+
+    /// <summary>
+    /// Length check constant when no files match a query.
+    /// </summary>
+    private const int NO_MATCHES = 0;
+
+    /// <summary>
+    /// Length threshold above which multiple matches are considered.
+    /// </summary>
+    private const int MULTIPLE_MATCHES_THRESHOLD = 1;
+
+    /// <summary>
+    /// Regex for non-alphanumeric characters to be replaced with '-'.
+    /// </summary>
+    private const string NON_ALNUM_PATTERN = "[^A-Za-z0-9]+";
+
+    /// <summary>
+    /// Regex for collapsing repeated dashes to a single dash.
+    /// </summary>
+    private const string DUPLICATE_DASH_PATTERN = "-{2,}";
+
+    /// <summary>
+    /// Fallback string when input is null.
+    /// </summary>
+    private const string EMPTY_FALLBACK = "";
+
+    /// <summary>
+    /// Character used as a separator when slugifying strings.
+    /// </summary>
+    private const string SLUG_SEPARATOR_STRING = "-";
+
+    /// <summary>
+    /// Character used as a separator when slugifying strings.
+    /// </summary>
+    private const char SLUG_SEPARATOR_CHAR = '-';
+
+
+    /// <summary>
     /// Holds the singleton instance of the <see cref="NoteManager"/>.
     /// Ensures only one instance exists across scene loads.
     /// </summary>
@@ -189,7 +260,7 @@ public class NoteManager : MonoBehaviour
             return null;
         }
 
-        string baseDirectory = Path.Combine(Application.persistentDataPath, "notes");
+        string baseDirectory = Path.Combine(Application.persistentDataPath, NOTES_FOLDER);
         if (!Directory.Exists(baseDirectory))
         {
             Debug.LogWarning("Load failed: notes base directory not found.");
@@ -197,19 +268,19 @@ public class NoteManager : MonoBehaviour
         }
 
         var matches = Directory.GetFiles(baseDirectory, $"{title}.json", SearchOption.AllDirectories);
-        if (matches.Length == 0)
+        if (matches.Length == NO_MATCHES)
         {
             Debug.LogWarning($"Load failed: '{title}.json' not found under {baseDirectory}");
             return null;
         }
-        if (matches.Length > 1)
+        if (matches.Length > MULTIPLE_MATCHES_THRESHOLD)
         {
             Debug.LogWarning($"Load warning: multiple files named '{title}.json' found in different folders; returning the first.");
         }
 
         try
         {
-            string json = File.ReadAllText(matches[0]);
+            string json = File.ReadAllText(matches[FIRST_INDEX]);
             return JsonUtility.FromJson<Note>(json);
         }
         catch (System.Exception ex)
@@ -227,7 +298,7 @@ public class NoteManager : MonoBehaviour
     public List<Note> LoadAllNotes()
     {
         List<Note> allNotes = new List<Note>();
-        string folder = Path.Combine(Application.persistentDataPath, "notes");
+        string folder = Path.Combine(Application.persistentDataPath, NOTES_FOLDER);
 
         if (!Directory.Exists(folder))
         {
@@ -235,7 +306,7 @@ public class NoteManager : MonoBehaviour
             return allNotes;
         }
 
-        foreach (var file in Directory.GetFiles(folder, "*.json", SearchOption.AllDirectories))
+        foreach (var file in Directory.GetFiles(folder, FILE_SEARCH_PATTERN, SearchOption.AllDirectories))
         {
             try
             {
@@ -275,7 +346,7 @@ public class NoteManager : MonoBehaviour
     /// <returns>Returns the loaded <c>Note</c>; otherwise null.</returns>
     public Note LoadGlobalNoteByTitle(string title)
     {
-        string folder = Path.Combine(Application.persistentDataPath, "notes", "global");
+        string folder = Path.Combine(Application.persistentDataPath, NOTES_FOLDER, GLOBAL_FOLDER);
         string path = Path.Combine(folder, $"{title}.json");
         if (!File.Exists(path))
         {
@@ -302,7 +373,7 @@ public class NoteManager : MonoBehaviour
     /// <returns>Returns the loaded <c>Note</c>; otherwise null.</returns>
     public Note LoadNoteByTitleInLecture(string lectureTitle, string title)
     {
-        string folder = Path.Combine(Application.persistentDataPath, "notes", "lectures", Slug(lectureTitle));
+        string folder = Path.Combine(Application.persistentDataPath, NOTES_FOLDER, LECTURES_FOLDER, Slug(lectureTitle));
         string path = Path.Combine(folder, $"{title}.json");
         if (!File.Exists(path))
         {
@@ -331,7 +402,7 @@ public class NoteManager : MonoBehaviour
 
         Notes.Remove(note);
 
-        string path = Path.Combine(Application.persistentDataPath, "notes", "global", $"{title}.json");
+        string path = Path.Combine(Application.persistentDataPath, NOTES_FOLDER, GLOBAL_FOLDER, $"{title}.json");
 
         if (File.Exists(path)) File.Delete(path);
         else Debug.LogWarning($"Global note removed from list, but file not found at {path}");
@@ -355,7 +426,7 @@ public class NoteManager : MonoBehaviour
         }
         Notes.Remove(note);
 
-        string folder = Path.Combine(Application.persistentDataPath, "notes", "lectures", Slug(lectureTitle));
+        string folder = Path.Combine(Application.persistentDataPath, NOTES_FOLDER, GLOBAL_FOLDER, Slug(lectureTitle));
         string path = Path.Combine(folder, $"{title}.json");
         if (File.Exists(path)) File.Delete(path);
         else Debug.LogWarning($"Lecture note removed from list, but file not found at {path}");
@@ -390,10 +461,10 @@ public class NoteManager : MonoBehaviour
     /// <returns>Returns a slugged, lowercase string (or "untitled" if empty).</returns>
     private static string Slug(string s)
     {
-        var t = Regex.Replace(s ?? "", "[^A-Za-z0-9]+", "-");
-        t = Regex.Replace(t, "-{2,}", "-").Trim('-');
+        var t = Regex.Replace(s ?? EMPTY_FALLBACK, NON_ALNUM_PATTERN, SLUG_SEPARATOR_STRING);
+        t = Regex.Replace(t, DUPLICATE_DASH_PATTERN, SLUG_SEPARATOR_STRING).Trim(SLUG_SEPARATOR_CHAR);
 
-        return string.IsNullOrEmpty(t) ? "untitled" : t.ToLowerInvariant();
+        return string.IsNullOrEmpty(t) ? UNTITLED_SLUG : t.ToLowerInvariant();
     }
     
     /// <summary>
@@ -404,11 +475,11 @@ public class NoteManager : MonoBehaviour
     /// <returns>Returns the absolute folder path for the note.</returns>
     private string GetFolder(Note n)
     {
-        string baseDirectory = Path.Combine(Application.persistentDataPath, "notes");
+        string baseDirectory = Path.Combine(Application.persistentDataPath, NOTES_FOLDER);
         if (string.IsNullOrEmpty(n.LectureTitle))
-            return Path.Combine(baseDirectory, "global");
+            return Path.Combine(baseDirectory, GLOBAL_FOLDER);
 
-        return Path.Combine(baseDirectory, "lectures", Slug(n.LectureTitle));
+        return Path.Combine(baseDirectory, LECTURES_FOLDER, Slug(n.LectureTitle));
     }
 
     /// <summary>

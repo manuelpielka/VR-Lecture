@@ -11,6 +11,16 @@ using UnityEngine.UI;
 public class NoteWindow : Window
 {
     /// <summary>
+    /// Resource path for the NoteUI prefab.
+    /// </summary>
+    private const string NOTE_PREFAB_PATH = "NoteUI";
+
+    /// <summary>
+    /// Name of the content GameObject used as notes container.
+    /// </summary>
+    private const string NOTE_CONTAINER_NAME = "Content";
+
+    /// <summary>
     /// The list of all existing NoteGUI elements.
     /// </summary>
     protected List<NoteGUI> Notes = new List<NoteGUI>();
@@ -142,11 +152,7 @@ public class NoteWindow : Window
     public void SaveNewNote(string title, string content)
     {
         Note newNote = new Note(title, content);
-        Debug.Log($"The new note has been created: '{newNote.Title}'."); //
-
         noteManager.AddNote(newNote);
-        Debug.Log($"The new created note has been added into the note list: '{newNote.Title}'."); //
-
         noteManager.SaveNote(newNote);
     }
 
@@ -161,12 +167,7 @@ public class NoteWindow : Window
         var editedNoteToSave = noteManager.LoadGlobalNoteByTitle(originalTitle);
 
         if (NoteUtils.IsNull(editedNoteToSave, "Save failed: note is null.")) return;
-
-        Debug.Log($"Found the note to edit: '{editedNoteToSave.Title}'."); //
-
         noteManager.EditNote(editedNoteToSave, newTitle, newContent);
-
-        Debug.Log($"The new title of the note to edit is '{newTitle}'."); //
     }
 
     /// <summary>
@@ -191,8 +192,8 @@ public class NoteWindow : Window
     /// <param name="container">Optional container transform to assign.</param>
     protected void Initialize(GameObject prefab = null, Transform container = null)
     {
-        this.notePrefab = prefab ?? Resources.Load<GameObject>("NoteUI");
-        this.noteContainer = container ?? GameObject.Find("Content")?.transform;
+        this.notePrefab = prefab ?? Resources.Load<GameObject>(NOTE_PREFAB_PATH);
+        this.noteContainer = container ?? GameObject.Find(NOTE_CONTAINER_NAME)?.transform;
 
         if (notePrefab == null) Debug.LogError("NotePrefab not found!");
         if (noteContainer == null) Debug.LogError("NotesContainer not found!");

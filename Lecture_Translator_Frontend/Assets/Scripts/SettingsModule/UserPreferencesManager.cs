@@ -1,9 +1,11 @@
 using UnityEngine;
 
 /// <summary>
-/// A centralized manager for saving and loading user preferences such as 
-/// playback speed, subtitle font size, and display mode.
-/// Wraps Unity's PlayerPrefs for cleaner usage.
+/// Centralized utility for saving and loading persistent user preferences 
+/// such as dark mode, auto-adjust mode, environment, language, and tutorial progress.
+/// 
+/// Internally wraps <see cref="PlayerPrefs"/> for convenient typed access,
+/// ensuring consistency across the application.
 /// </summary>
 public static class UserPreferencesManager
 {
@@ -16,8 +18,9 @@ public static class UserPreferencesManager
     private const string TutorialcompletedKey = "UserPref_TutorialCompleted";
 
     /// <summary>
-    /// Saves whether the app should be in dark mode.
+    /// Persists the dark mode preference.
     /// </summary>
+    /// <param name="isDark">True for dark mode; False for light mode.</param>
     public static void SaveDarkMode(bool isDark)
     {
         Debug.Log($"Saving Dark Mode: {isDark}");
@@ -26,8 +29,12 @@ public static class UserPreferencesManager
     }
 
     /// <summary>
-    /// Loads the dark mode setting or returns false by default.
+    /// Loads the dark mode preference.
     /// </summary>
+    /// <returns>
+    /// True if dark mode is enabled; False if disabled.  
+    /// Defaults to <c>false</c> when no preference has been saved.
+    /// </returns>
     public static bool LoadDarkMode()
     {
         bool isDark = PlayerPrefs.GetInt(IsDarkModeKey, 0) == 1;
@@ -36,8 +43,9 @@ public static class UserPreferencesManager
     }
 
     /// <summary>
-    /// Saves whether automatic mode switching is enabled.
+    /// Persists whether automatic mode switching (light/dark) is enabled.
     /// </summary>
+    /// <param name="enabled">True to enable auto-switch; False to disable.</param>
     public static void SaveAutoAdjust(bool enabled)
     {
         Debug.Log($"Saving Auto Adjust: {enabled}");
@@ -46,8 +54,12 @@ public static class UserPreferencesManager
     }
 
     /// <summary>
-    /// Loads whether automatic mode switching is enabled, default is true.
+    /// Loads the auto-adjust mode preference.
     /// </summary>
+    /// <returns>
+    /// True if auto-switch is enabled; False otherwise.  
+    /// Defaults to <c>true</c> when no preference has been saved.
+    /// </returns>
     public static bool LoadAutoAdjust()
     {
         bool autoAdjust = PlayerPrefs.GetInt(AutoAdjustKey, 1) == 1;
@@ -55,6 +67,10 @@ public static class UserPreferencesManager
         return autoAdjust;
     }
 
+    /// <summary>
+    /// Persists the preferred language code (e.g., "en", "de").
+    /// </summary>
+    /// <param name="code">Language code to save.</param>
     public static void SaveLanguage(string code)
     {
         Debug.Log($"Saving Language: {code}");
@@ -62,57 +78,21 @@ public static class UserPreferencesManager
         PlayerPrefs.Save();
     }
 
+    /// <summary>
+    /// Loads the saved language code if available.
+    /// </summary>
+    /// <returns>
+    /// The saved language code (e.g., "en"),  
+    /// or <c>null</c> if no language preference exists.
+    /// </returns>
     public static string LoadLanguageOrNull()
     {
         return PlayerPrefs.HasKey(LanguageKey) ? PlayerPrefs.GetString(LanguageKey) : null;
     }
 
-    //public static void SaveEnvironmentScene(string name)
-    //{
-        //PlayerPrefs.SetString(EnvKey, name);
-        //PlayerPrefs.Save();
-    //}
-
-    //public static string LoadEnvironmentSceneOrNull()
-    //{
-        //return PlayerPrefs.HasKey(EnvKey) ? PlayerPrefs.GetString(EnvKey) : null;
-    //}
-
     /// <summary>
-    /// Applies all saved user preferences to the given playback and display controllers.
-    /// </summary>
-    //public static void ApplyAll(DisplayModeController display)
-    //{
-        //try
-        //{
-            //display.SetDarkMode(LoadDarkMode());
-            //display.SetAutoAdjust(LoadAutoAdjust());
-        //}
-        //catch (System.Exception ex)
-        //{
-            //Debug.LogError($"Error applying preferences: {ex.Message}");
-        //}
-    //}
-
-    /// <summary>
-    /// Saves all user preferences from the current playback and display state.
-    /// </summary>
-    //public static void SaveAll(DisplayModeController display)
-    //{
-        //try
-        //{
-            //SaveDarkMode(display.IsDarkModeEnabled());
-            //SaveAutoAdjust(display.IsAutoAdjustEnabled());
-            //PlayerPrefs.Save();
-        //}
-        //catch (System.Exception ex)
-        //{
-            //Debug.LogError($"Error saving preferences: {ex.Message}");
-        //}
-    //}
-
-    /// <summary>
-    /// Clears all user preferences (useful for testing or reset button).
+    /// Clears all stored user preferences.  
+    /// Useful for testing or when resetting the app to factory defaults.
     /// </summary>
     public static void ClearAll()
     {
@@ -123,8 +103,9 @@ public static class UserPreferencesManager
     }
 
     /// <summary>
-    /// Saves whether the tutorial was completed.
+    /// Persists the tutorial completion state.
     /// </summary>
+    /// <param name="completed">True if tutorial was completed; False otherwise.</param>
     public static void SaveTutorialCompleted(bool completed)
     {
         PlayerPrefs.SetInt(TutorialcompletedKey, completed ? 1 : 0);
@@ -132,8 +113,12 @@ public static class UserPreferencesManager
     }
 
     /// <summary>
-    /// Loads the tutorial completion state.
+    /// Loads whether the tutorial has been completed.
     /// </summary>
+    /// <returns>
+    /// True if the tutorial was previously marked as completed;  
+    /// False if not completed or no state saved.
+    /// </returns>
     public static bool LoadTutorialCompleted()
     {
         return PlayerPrefs.GetInt(TutorialcompletedKey, 0) == 1;

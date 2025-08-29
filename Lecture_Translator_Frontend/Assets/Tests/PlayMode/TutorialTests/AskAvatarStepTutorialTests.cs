@@ -125,6 +125,7 @@ public class AskAvatarStepTutorialTests
         DisableRuntimePlaybackSystems();
 
         var wm = GameObject.Find("WindowManager").GetComponent<WindowManager>();
+        yield return null;
         wm.OpenWindow("DialogueWindow"); // ensures IsWindowOpen(MainMenuKey) == true
 
         var sutGO = new GameObject("WelcomeStep_SUT");

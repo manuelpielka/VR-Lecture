@@ -9,6 +9,12 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
 
+/// <summary>
+/// PlayMode tests for CreateLectureNoteWindow. These tests avoid cross-test
+/// pollution by temporarily deactivating any pre-existing NoteManager, NoteWindow,
+/// or CreateLectureNoteWindow instances, and restoring them after each test.
+/// All test-owned objects are created under a dedicated root and cleaned up.
+/// </summary>
 public class CreateLectureNoteWindow_PlayModeTests
 {
     private GameObject _root;
@@ -24,18 +30,29 @@ public class CreateLectureNoteWindow_PlayModeTests
     private GameObject _noteWndGO;
     private GameObject _noteUIPrefab;
 
+    private readonly List<GameObject> _preExistingNoteManagers = new List<GameObject>();
+    private readonly List<bool> _preExistingNoteManagersActive = new List<bool>();
+
+    private readonly List<GameObject> _preExistingNoteWindows = new List<GameObject>();
+    private readonly List<bool> _preExistingNoteWindowsActive = new List<bool>();
+
+    private readonly List<GameObject> _preExistingCreateLectureNoteWindows = new List<GameObject>();
+    private readonly List<bool> _preExistingCreateLectureNoteWindowsActive = new List<bool>();
+
     private static TMP_InputField CreateTMPInputField(string name)
     {
         var go = new GameObject(name);
         var input = go.AddComponent<TMP_InputField>();
 
-        var viewport = new GameObject("Viewport").AddComponent<RectTransform>();
+        var viewportGO = new GameObject("Viewport");
+        var viewport = viewportGO.AddComponent<RectTransform>();
         viewport.SetParent(go.transform, false);
         input.textViewport = viewport;
 
-        var textGO = new GameObject("Text").AddComponent<TextMeshProUGUI>();
-        textGO.rectTransform.SetParent(viewport, false);
-        input.textComponent = textGO;
+        var textGO = new GameObject("Text");
+        var text = textGO.AddComponent<TextMeshProUGUI>();
+        text.rectTransform.SetParent(viewport, false);
+        input.textComponent = text;
 
         return input;
     }
@@ -48,12 +65,53 @@ public class CreateLectureNoteWindow_PlayModeTests
         return tmp;
     }
 
+    /// <summary>
+    /// Record and temporarily deactivate any pre-existing objects of the given type.
+    /// </summary>
+    private static void CaptureAndDeactivatePreExisting<T>(
+        List<GameObject> storeObjects,
+        List<bool> storeActiveStates
+    ) where T : UnityEngine.Object
+    {
+        // FindObjectsByType is cross-scene; we must not destroy them.
+        var comps = UnityEngine.Object.FindObjectsByType<T>(FindObjectsSortMode.None);
+        foreach (var c in comps)
+        {
+            if (c is Component comp)
+            {
+                var go = comp.gameObject;
+                storeObjects.Add(go);
+                storeActiveStates.Add(go.activeSelf);
+                go.SetActive(false);
+            }
+            else if (c is GameObject go)
+            {
+                storeObjects.Add(go);
+                storeActiveStates.Add(go.activeSelf);
+                go.SetActive(false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Restore previously deactivated objects to their original activeSelf state.
+    /// </summary>
+    private static void RestorePreExisting(List<GameObject> objs, List<bool> actives)
+    {
+        for (int i = 0; i < objs.Count; i++)
+        {
+            if (objs[i] != null) objs[i].SetActive(actives[i]);
+        }
+        objs.Clear();
+        actives.Clear();
+    }
+
+
+
     private void MakeNoteManagerInScene()
     {
-        foreach (var x in UnityEngine.Object.FindObjectsByType<NoteManager>(FindObjectsSortMode.None))
-            UnityEngine.Object.DestroyImmediate(x.gameObject);
-
-        _mgrGO = new GameObject("NoteManager");
+        // Create a test-owned NoteManager that the window can discover.
+        _mgrGO = new GameObject("NoteManager(TestOwned)");
         _noteManager = _mgrGO.AddComponent<NoteManager>();
         if (_noteManager.Notes == null) _noteManager.Notes = new List<Note>();
     }
@@ -62,14 +120,15 @@ public class CreateLectureNoteWindow_PlayModeTests
     {
         if (_noteManager == null) MakeNoteManagerInScene();
 
-        _noteWndGO = new GameObject("NoteWindow");
-        _noteWndGO.SetActive(false); 
+        _noteWndGO = new GameObject("NoteWindow(TestOwned)");
+        _noteWndGO.SetActive(false);
         var wnd = _noteWndGO.AddComponent<NoteWindow>();
 
+        // Provide a container and a note prefab with minimal required fields.
         var containerGO = new GameObject("Content");
         containerGO.transform.SetParent(_noteWndGO.transform, false);
 
-        _noteUIPrefab = new GameObject("NoteUIPrefab");
+        _noteUIPrefab = new GameObject("NoteUIPrefab(TestOwned)");
         var noteGui = _noteUIPrefab.AddComponent<NoteGUI>();
         var title = CreateTMPLabel("TitleText");
         var body = CreateTMPLabel("BodyText");
@@ -82,6 +141,7 @@ public class CreateLectureNoteWindow_PlayModeTests
         SetField(wnd, "noteContainer", containerGO.transform);
         SetField(wnd, "notePrefab", _noteUIPrefab);
 
+        // Initialize the NoteWindow if it has an Initialize method.
         var mi = typeof(NoteWindow).GetMethod(
             "Initialize",
             BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
@@ -102,14 +162,13 @@ public class CreateLectureNoteWindow_PlayModeTests
     [UnitySetUp]
     public IEnumerator SetUp()
     {
-        foreach (var x in UnityEngine.Object.FindObjectsByType<CreateLectureNoteWindow>(FindObjectsSortMode.None))
-            UnityEngine.Object.DestroyImmediate(x.gameObject);
-        foreach (var x in UnityEngine.Object.FindObjectsByType<NoteManager>(FindObjectsSortMode.None))
-            UnityEngine.Object.DestroyImmediate(x.gameObject);
-        foreach (var x in UnityEngine.Object.FindObjectsByType<NoteWindow>(FindObjectsSortMode.None))
-            UnityEngine.Object.DestroyImmediate(x.gameObject);
+        // Capture and temporarily deactivate any pre-existing instances (no destruction).
+        CaptureAndDeactivatePreExisting<NoteManager>(_preExistingNoteManagers, _preExistingNoteManagersActive);
+        CaptureAndDeactivatePreExisting<NoteWindow>(_preExistingNoteWindows, _preExistingNoteWindowsActive);
+        CaptureAndDeactivatePreExisting<CreateLectureNoteWindow>(_preExistingCreateLectureNoteWindows, _preExistingCreateLectureNoteWindowsActive);
 
-        _root = new GameObject("CreateLectureNoteWindowRoot");
+        // Build test-owned UI hierarchy and window under a dedicated root.
+        _root = new GameObject("CreateLectureNoteWindowRoot(TestOwned)");
         _win = _root.AddComponent<CreateLectureNoteWindow>();
 
         _windowTitle = new GameObject("WindowTitle").AddComponent<TextMeshProUGUI>();
@@ -122,32 +181,36 @@ public class CreateLectureNoteWindow_PlayModeTests
         SetField(_win, "titleTextBox", _titleInput);
         SetField(_win, "noteTextBox", _contentInput);
 
+        // Ensure logs are not ignored unless explicitly toggled in a test.
+        LogAssert.ignoreFailingMessages = false;
+
         yield return null;
     }
 
     [UnityTearDown]
     public IEnumerator TearDown()
     {
+        // Clean up test-owned objects.
         if (_noteWndGO) UnityEngine.Object.DestroyImmediate(_noteWndGO);
         if (_noteUIPrefab) UnityEngine.Object.DestroyImmediate(_noteUIPrefab);
         if (_mgrGO) UnityEngine.Object.DestroyImmediate(_mgrGO);
         if (_root) UnityEngine.Object.DestroyImmediate(_root);
 
-        foreach (var x in UnityEngine.Object.FindObjectsByType<NoteManager>(FindObjectsSortMode.None))
-            UnityEngine.Object.DestroyImmediate(x.gameObject);
-        foreach (var x in UnityEngine.Object.FindObjectsByType<CreateLectureNoteWindow>(FindObjectsSortMode.None))
-            UnityEngine.Object.DestroyImmediate(x.gameObject);
-        foreach (var x in UnityEngine.Object.FindObjectsByType<NoteWindow>(FindObjectsSortMode.None))
-            UnityEngine.Object.DestroyImmediate(x.gameObject);
+        // Restore any pre-existing objects to their original active state.
+        RestorePreExisting(_preExistingNoteManagers, _preExistingNoteManagersActive);
+        RestorePreExisting(_preExistingNoteWindows, _preExistingNoteWindowsActive);
+        RestorePreExisting(_preExistingCreateLectureNoteWindows, _preExistingCreateLectureNoteWindowsActive);
 
+        // Reset LogAssert to a safe default after each test.
         LogAssert.ignoreFailingMessages = false;
+
         yield return null;
     }
-
     [UnityTest]
     public IEnumerator Initialize_LectureNull_SetsDeletedTitle_And_ConfigToggle()
     {
         MakeNoteManagerInScene();
+
         _win.Initialize(null, /*timeAtOpen*/ 3661.9, /*isEdit*/ false);
         _win.FillFields("any", "hello");
         _win.OnUseTimestampToggleChanged(true);
@@ -156,7 +219,6 @@ public class CreateLectureNoteWindow_PlayModeTests
         Assert.AreEqual("01-01-01", _titleInput.text);
         Assert.IsFalse(_titleInput.interactable);
         Assert.IsTrue(_toggle.isOn);
-        //Assert.IsFalse(_toggle.interactable);
 
         _toggle.onValueChanged.Invoke(false);
         Assert.AreEqual("01-01-01", _titleInput.text);
@@ -168,10 +230,11 @@ public class CreateLectureNoteWindow_PlayModeTests
     [UnityTest]
     public IEnumerator Initialize_TitleSnapshot_By_Internal()
     {
-        MakeNoteManagerInScene(); 
+        MakeNoteManagerInScene();
+
         var mi = typeof(CreateLectureNoteWindow).GetMethod("InitializeInternal",
             BindingFlags.Instance | BindingFlags.NonPublic);
-        Assert.IsNotNull(mi);
+        Assert.IsNotNull(mi, "InitializeInternal not found (non-public).");
 
         mi.Invoke(_win, new object[] { null, "MyLecture", 2.5, 0.0, false });
 
@@ -198,7 +261,6 @@ public class CreateLectureNoteWindow_PlayModeTests
 
         Assert.AreEqual("UnitTestLecture", _windowTitle.text);
         Assert.IsTrue(_toggle.isOn);
-        //Assert.IsFalse(_toggle.interactable);
 
         LogAssert.NoUnexpectedReceived();
         yield return null;
@@ -213,6 +275,7 @@ public class CreateLectureNoteWindow_PlayModeTests
         _win.FillFields("", "content-body");
         _win.OnUseTimestampToggleChanged(true);
 
+        // Expect logs from NoteManager saving
         LogAssert.Expect(LogType.Log, new Regex(@"JSON content being saved:"));
         LogAssert.Expect(LogType.Log, new Regex(@"Note '00-00-10' saved at"));
 
@@ -314,6 +377,7 @@ public class CreateLectureNoteWindow_PlayModeTests
         _win.Discard();
         LogAssert.NoUnexpectedReceived();
         yield return null;
+        // Window is test-owned and destroyed in TearDown to avoid leaks.
     }
 
     [Test]
@@ -321,6 +385,8 @@ public class CreateLectureNoteWindow_PlayModeTests
     {
         var mi = typeof(CreateLectureNoteWindow)
             .GetMethod("FormatTimestampForTitle", BindingFlags.Static | BindingFlags.NonPublic);
+        Assert.IsNotNull(mi, "FormatTimestampForTitle not found (private static).");
+
         Assert.AreEqual("00-00-00", mi.Invoke(null, new object[] { -5.0 }));
         Assert.AreEqual("01-01-01", mi.Invoke(null, new object[] { 3661.0 }));
     }

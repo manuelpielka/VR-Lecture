@@ -185,17 +185,30 @@ public class TutorialManager : MonoBehaviour
         return forward;
     }
 
-
+    /// <summary>
+    /// Unity lifecycle method called when the component is enabled.
+    /// Subscribes to the <see cref="Signals.TutorialResetRequested"/> event so that
+    /// this object is notified whenever a tutorial reset is requested globally.
+    /// </summary>
     private void OnEnable()
     {
         Signals.TutorialResetRequested += OnTutorialResetRequested;
     }
 
+    /// <summary>
+    /// Unity lifecycle method called when the component is disabled.
+    /// Unsubscribes from the <see cref="Signals.TutorialResetRequested"/> event
+    /// to prevent memory leaks or unintended callbacks when the object is inactive or destroyed.
+    /// </summary>
     private void OnDisable()
     {
         Signals.TutorialResetRequested -= OnTutorialResetRequested;
     }
 
+    /// <summary>
+    /// Event handler invoked when <see cref="Signals.TutorialResetRequested"/> is raised.
+    /// Calls <see cref="ResetTutorial"/> to reset tutorial progress for the user.
+    /// </summary>
     private void OnTutorialResetRequested()
     {
         ResetTutorial();

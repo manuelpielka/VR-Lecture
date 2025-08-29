@@ -206,5 +206,4 @@ public class FakeBrowsingApiClient : IApiClient
 
         return Task.FromResult("");
     }
-
 }

@@ -17,7 +17,8 @@
         "Unity.Localization",
         "Unity.Addressables",
         "Unity.ResourceManager",
-        "BrowsingModule"
+        "BrowsingModule",
+        "Login"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

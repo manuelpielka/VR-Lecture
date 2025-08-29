@@ -9,10 +9,25 @@ using System.Text;
 /// </summary>
 public static class Login
 {
-    private const string REQUEST_TOKEN_URL = "https://lecture-translator.kit.edu/ltarchive/ls";
+    /// <summary>
+    /// The url of the post request.
+    /// </summary>
+    private const string URL = "https://lecture-translator.kit.edu/ltarchive/ls";
 
+    /// <summary>
+    /// The token inputted by the user.
+    /// </summary>
     public static string token = "";
+
+    /// <summary>
+    /// The username at the end of the token.
+    /// </summary>
     public static string username = "";
+
+    /// <summary>
+    /// The client which handles post requests.
+    /// </summary>
+    public static IApiClient apiclient;
 
     /// <summary>
     /// Sets the token.
@@ -30,7 +45,9 @@ public static class Login
         Debug.Log("Set token to : " + token);
         Debug.Log("Set username to: " + username);
 
-        string response = await PostRequest(REQUEST_TOKEN_URL);
+        apiclient = apiclient ?? new UnityApiClient(token);
+
+        string response = await PostRequest(URL, "");
 
         Debug.Log(response);
 
@@ -42,23 +59,8 @@ public static class Login
     /// </summary>
     /// <param name="url"> Url of the request. </param>
     /// <returns> Text data from the api. </returns>
-    private static async Task<string> PostRequest(string url)
+    private static async Task<string> PostRequest(string url, string json)
     {
-        string jsonBody = $"\"{{\\\"directory\\\":\\\"/\\\",\\\"groups\\\":[\\\"admin\\\",\\\"kitemployee\\\",\\\"kitall\\\",\\\"all\\\",\\\"basic\\\",\\\"presenter\\\",\\\"collector\\\"]}}\"";
-        UnityWebRequest request = new UnityWebRequest(url, "POST");
-        byte[] byteJson = new UTF8Encoding().GetBytes(jsonBody);
-        request.uploadHandler = new UploadHandlerRaw(byteJson);
-        request.downloadHandler = new DownloadHandlerBuffer();
-        request.SetRequestHeader("Content-Type", "application/json");
-        request.SetRequestHeader("Cookie", "_forward_auth=" + token);
-        await request.SendWebRequest();
-
-        Dictionary<string, string> headers = request.GetResponseHeaders();
-        foreach (string headercode in headers.Keys)
-        {
-            Debug.Log(headercode + ": " + headers[headercode]);
-        }
-
-        return request.downloadHandler.text;
+        return await apiclient.PostRequest(url, json);
     }
 }

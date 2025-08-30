@@ -70,14 +70,14 @@ public class TutorialManager : MonoBehaviour
     /// </summary>
     void Start()
     {
-        InitializeSteps();
         
         if (UserPreferencesManager.LoadTutorialCompleted())
         {
             Debug.Log("Tutorial already completed. Skipping tutorial.");
             return;
         }
-
+        
+        InitializeSteps();
         StartTutorial();
 
     }

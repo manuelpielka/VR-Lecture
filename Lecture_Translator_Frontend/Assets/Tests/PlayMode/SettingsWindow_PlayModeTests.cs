@@ -74,6 +74,53 @@ public class SettingsWindow_PlayModeTests
     private Button applyButton;
     private Button discardButton;
 
+    private readonly List<AudioListener> _preAudio = new();
+    private readonly List<bool> _preAudioEnabled = new();
+    private readonly List<bool> _preAudioGOActive = new();
+    private GameObject _testCamGO;
+
+    private void CaptureAndFixAudioListeners()
+    {
+        foreach (var al in UnityEngine.Object.FindObjectsByType<AudioListener>(FindObjectsSortMode.None))
+        {
+            _preAudio.Add(al);
+            _preAudioEnabled.Add(al.enabled);
+            _preAudioGOActive.Add(al.gameObject.activeSelf);
+        }
+
+        if (_preAudio.Count == 0)
+        {
+            _testCamGO = new GameObject("TestCamera (SettingsWindowTests)");
+            _testCamGO.AddComponent<Camera>();
+            _testCamGO.AddComponent<AudioListener>();
+            return;
+        }
+
+        for (int i = 1; i < _preAudio.Count; i++)
+            if (_preAudio[i] != null) _preAudio[i].enabled = false;
+
+        _preAudio[0].gameObject.SetActive(true);
+        _preAudio[0].enabled = true;
+    }
+
+    private void RestoreAudioListeners()
+    {
+        if (_testCamGO) UnityEngine.Object.DestroyImmediate(_testCamGO);
+
+        for (int i = 0; i < _preAudio.Count; i++)
+        {
+            var al = _preAudio[i];
+            if (al == null) continue;
+            al.enabled = _preAudioEnabled[i];
+            if (al.gameObject) al.gameObject.SetActive(_preAudioGOActive[i]);
+        }
+        _preAudio.Clear();
+        _preAudioEnabled.Clear();
+        _preAudioGOActive.Clear();
+    }
+
+
+
     private class FakeEnvironmentManager : EnvironmentManager
     {
         private static readonly FieldInfo s_CurrentSceneField =
@@ -295,6 +342,8 @@ public class SettingsWindow_PlayModeTests
         _prevTutorialResetHandlers = SnapshotTutorialResetHandlers();
         ClearTutorialResetHandlers();
 
+        CaptureAndFixAudioListeners();
+
         // 5) Create test-owned managers.
         var prevIgnore = LogAssert.ignoreFailingMessages;
         LogAssert.ignoreFailingMessages = true;
@@ -380,6 +429,8 @@ public class SettingsWindow_PlayModeTests
 
         // 6) Restore PlayerPrefs we touched.
         RestorePlayerPrefs();
+
+        RestoreAudioListeners();
 
         // 7) Reset LogAssert behavior.
         LogAssert.ignoreFailingMessages = false;
@@ -475,7 +526,6 @@ public class SettingsWindow_PlayModeTests
     {
         yield return ActivateWindowExpecting(withResetButton: false);
 
-        // Prepare languages in the current SettingsManager instance (via reflection).
         var lmField = typeof(SettingsManager).GetField("languageManager",
             BindingFlags.NonPublic | BindingFlags.Instance);
         var languageManager = lmField.GetValue(SettingsManager.Instance);
@@ -484,10 +534,8 @@ public class SettingsWindow_PlayModeTests
         var dict = (System.Collections.IDictionary)dictField.GetValue(languageManager);
         dict.Clear(); dict["en"] = "English"; dict["de"] = "Deutsch";
 
-        // Prepare env state
         SetCurrentEnvSceneName(EnvironmentManager.Instance, "EnvA");
 
-        // Simulate a pending language selection and env selection through dropdown change
         var pendLangFieldInfo = typeof(SettingsWindow).GetField("pendingLanguageCode",
             BindingFlags.NonPublic | BindingFlags.Instance);
         pendLangFieldInfo.SetValue(window, "de");
@@ -495,24 +543,27 @@ public class SettingsWindow_PlayModeTests
         var envOptsField = typeof(SettingsWindow).GetField("envOptions",
             BindingFlags.NonPublic | BindingFlags.Instance);
         envOptsField.SetValue(window, new List<string> { "EnvA", "EnvB" });
-        backgroundDropdown.onValueChanged.Invoke(1); // select "EnvB"
+        backgroundDropdown.onValueChanged.Invoke(1); 
 
-        // Expect logs for settings apply + env warning + final summary.
         LogAssert.Expect(LogType.Log, new Regex(@"Saving Auto Adjust"));
         LogAssert.Expect(LogType.Log, new Regex(@"Saving Dark Mode"));
         LogAssert.Expect(LogType.Log, "Applying Display Mode");
         LogAssert.Expect(LogType.Log, new Regex(@"\[Theme\] Mode applied: (Light|Dark)"));
+
+        LogAssert.Expect(LogType.Log, new Regex(@"^Saving Language: de$"));
+        LogAssert.Expect(LogType.Log, new Regex(@"\[Lang\] ApplyLanguageAsync target=de"));
+        LogAssert.Expect(LogType.Log, new Regex(@"\[Lang\] SelectedLocale = de"));
+
         LogAssert.Expect(LogType.Warning, new Regex(@"EnvironmentManager: Scene 'EnvB' is not in Build Settings\."));
+
         LogAssert.Expect(LogType.Log, new Regex(@"\[SettingsWindow\] Apply pressed: saved & applied\."));
         LogAssert.Expect(LogType.Log, new Regex(@"\[Lang\] current=.* pending=.*"));
 
         applyButton.onClick.Invoke();
         yield return null;
 
-        // Verify final state instead of brittle logs.
         Assert.AreEqual("de", SettingsManager.Instance.GetCurrentLanguageCode(), "Language should be applied to 'de'.");
 
-        // Simulate that EnvB eventually becomes current (after async load warning path).
         SetCurrentEnvSceneName(EnvironmentManager.Instance, "EnvB");
         Assert.AreEqual("EnvB", EnvironmentManager.Instance.CurrentSceneName);
 

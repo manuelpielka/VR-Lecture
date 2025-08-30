@@ -39,6 +39,50 @@ public class CreateLectureNoteWindow_PlayModeTests
     private readonly List<GameObject> _preExistingCreateLectureNoteWindows = new List<GameObject>();
     private readonly List<bool> _preExistingCreateLectureNoteWindowsActive = new List<bool>();
 
+    private readonly List<AudioListener> _preAudio = new();
+    private readonly List<bool> _preAudioEnabled = new();
+    private readonly List<bool> _preAudioGOActive = new();
+    private GameObject _testCamGO;
+
+    private void CaptureAndFixAudioListeners()
+    {
+        foreach (var al in UnityEngine.Object.FindObjectsByType<AudioListener>(FindObjectsSortMode.None))
+        {
+            _preAudio.Add(al);
+            _preAudioEnabled.Add(al.enabled);
+            _preAudioGOActive.Add(al.gameObject.activeSelf);
+        }
+
+        if (_preAudio.Count == 0)
+        {
+            _testCamGO = new GameObject("TestCamera (CreateLectureNoteWindowTests)");
+            _testCamGO.AddComponent<Camera>();
+            _testCamGO.AddComponent<AudioListener>();
+            return;
+        }
+
+        _preAudio[0].gameObject.SetActive(true);
+        _preAudio[0].enabled = true;
+        for (int i = 1; i < _preAudio.Count; i++)
+            if (_preAudio[i] != null) _preAudio[i].enabled = false;
+    }
+
+    private void RestoreAudioListeners()
+    {
+        if (_testCamGO) UnityEngine.Object.DestroyImmediate(_testCamGO);
+
+        for (int i = 0; i < _preAudio.Count; i++)
+        {
+            var al = _preAudio[i];
+            if (al == null) continue;
+            al.enabled = _preAudioEnabled[i];
+            if (al.gameObject) al.gameObject.SetActive(_preAudioGOActive[i]);
+        }
+        _preAudio.Clear();
+        _preAudioEnabled.Clear();
+        _preAudioGOActive.Clear();
+    }
+
     private static TMP_InputField CreateTMPInputField(string name)
     {
         var go = new GameObject(name);
@@ -162,6 +206,8 @@ public class CreateLectureNoteWindow_PlayModeTests
     [UnitySetUp]
     public IEnumerator SetUp()
     {
+        CaptureAndFixAudioListeners();
+
         // Capture and temporarily deactivate any pre-existing instances (no destruction).
         CaptureAndDeactivatePreExisting<NoteManager>(_preExistingNoteManagers, _preExistingNoteManagersActive);
         CaptureAndDeactivatePreExisting<NoteWindow>(_preExistingNoteWindows, _preExistingNoteWindowsActive);
@@ -200,6 +246,8 @@ public class CreateLectureNoteWindow_PlayModeTests
         RestorePreExisting(_preExistingNoteManagers, _preExistingNoteManagersActive);
         RestorePreExisting(_preExistingNoteWindows, _preExistingNoteWindowsActive);
         RestorePreExisting(_preExistingCreateLectureNoteWindows, _preExistingCreateLectureNoteWindowsActive);
+
+        RestoreAudioListeners();
 
         // Reset LogAssert to a safe default after each test.
         LogAssert.ignoreFailingMessages = false;

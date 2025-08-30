@@ -16,7 +16,6 @@ public class EndStepTutorialTests
     [TearDown]
     public void Teardown()
     {
-        // 1) Close common windows if the WindowManager exists
         var wmGO = GameObject.Find("WindowManager");
         if (wmGO)
         {
@@ -34,14 +33,12 @@ public class EndStepTutorialTests
 
         }
 
-        // 2) Force-unsubscribe anyone still listening & destroy all step instances
         foreach (var step in Object.FindObjectsByType<EndStepTutorial>(FindObjectsSortMode.None))
         {
-            try { step.EndStep(); } catch { /* ignore */ }
+            try { step.EndStep(); } catch { }
             Object.DestroyImmediate(step.gameObject);
         }
 
-        // 3) Kill any overlay clones left behind (in case a test bailed early)
         foreach (var go in Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None))
         {
             if (go && go.name.Contains("WelcomeOverlayPrefab"))
@@ -50,13 +47,203 @@ public class EndStepTutorialTests
         ResetWindowOpenedEvent();
     }
 
+
+
+    [UnityTest]
+    public IEnumerator StartStep_CreatesOverlay_And_PositionsIt()
+    {
+        yield return null;
+        DisableRuntimePlaybackSystems();
+
+        var sutGO = new GameObject("WelcomeStep_SUT");
+        var sut = sutGO.AddComponent<EndStepTutorial>();
+
+        var overlayPrefab = new GameObject("WelcomeOverlayPrefab");
+        var buttonGO = new GameObject("NextButton");
+        buttonGO.transform.SetParent(overlayPrefab.transform, false);
+        buttonGO.AddComponent<RectTransform>();
+        buttonGO.AddComponent<Image>();
+        buttonGO.AddComponent<Button>();
+
+        typeof(EndStepTutorial)
+            .GetField("OverlayPrefab", BindingFlags.Instance | BindingFlags.NonPublic)
+            .SetValue(sut, overlayPrefab);
+
+        Vector3 expectedPos = TutorialManager.GetStepPosition();
+        Vector3 expectedForward = TutorialManager.GetStepForward();
+
+        sut.StartStep();
+        yield return null;
+
+        var overlayInstance = GameObject.Find("WelcomeOverlayPrefab(Clone)");
+        Assert.IsNotNull(overlayInstance, "Overlay should be instantiated from OverlayPrefab.");
+
+        float posDelta = Vector3.Distance(expectedPos, overlayInstance.transform.position);
+        Assert.LessOrEqual(posDelta, 0.01f, $"Overlay position should match TutorialManager.GetStepPosition(). Δ={posDelta}");
+
+        float angleDelta = Vector3.Angle(expectedForward, overlayInstance.transform.forward);
+        Assert.LessOrEqual(angleDelta, 1.0f, $"Overlay forward should align with TutorialManager.GetStepForward(). Δ°={angleDelta}");
+    }
+
+    [UnityTest]
+    public IEnumerator NextButton_Click_Completes_And_CleansUp()
+    {
+        yield return null;
+        DisableRuntimePlaybackSystems();
+
+        var sutGO = new GameObject("WelcomeStep_SUT");
+        var sut = sutGO.AddComponent<EndStepTutorial>();
+
+        var overlayPrefab = new GameObject("WelcomeOverlayPrefab");
+        var btnGO = new GameObject("NextButton");
+        btnGO.transform.SetParent(overlayPrefab.transform, false);
+        btnGO.AddComponent<RectTransform>();
+        btnGO.AddComponent<Image>();
+        var button = btnGO.AddComponent<Button>();
+
+        typeof(EndStepTutorial)
+            .GetField("OverlayPrefab", BindingFlags.Instance | BindingFlags.NonPublic)
+            .SetValue(sut, overlayPrefab);
+
+        int completedCount = 0;
+        sut.StepCompleted += () => completedCount++;
+
+        sut.StartStep();
+        yield return null;
+
+        var overlayInstance = GameObject.Find("WelcomeOverlayPrefab(Clone)");
+        Assert.IsNotNull(overlayInstance, "Overlay should be instantiated before clicking Next.");
+
+        var runtimeButton = overlayInstance.GetComponentInChildren<Button>(true);
+        Assert.IsNotNull(runtimeButton, "Overlay should contain a Button to proceed.");
+
+        runtimeButton.onClick.Invoke();
+        yield return null;
+        yield return null;
+
+        Assert.AreEqual(1, completedCount, "StepCompleted should fire exactly once on Next click.");
+
+        var stillThere = GameObject.Find("WelcomeOverlayPrefab(Clone)");
+        Assert.IsNull(stillThere, "Overlay should be destroyed after completion.");
+    }
+
+    [UnityTest]
+    public IEnumerator WindowOpened_OtherWindow_DoesNothing()
+    {
+        yield return null;
+        DisableRuntimePlaybackSystems();
+
+        var wm = GameObject.Find("WindowManager").GetComponent<WindowManager>();
+
+        var sutGO = new GameObject("WelcomeStep_SUT");
+        var sut = sutGO.AddComponent<EndStepTutorial>();
+
+        var overlayPrefab = new GameObject("WelcomeOverlayPrefab");
+        var btnGO = new GameObject("NextButton");
+        btnGO.transform.SetParent(overlayPrefab.transform, false);
+        btnGO.AddComponent<RectTransform>();
+        btnGO.AddComponent<Image>();
+        btnGO.AddComponent<Button>();
+
+        typeof(EndStepTutorial)
+            .GetField("OverlayPrefab", BindingFlags.Instance | BindingFlags.NonPublic)
+            .SetValue(sut, overlayPrefab);
+
+        int completedCount = 0;
+        sut.StepCompleted += () => completedCount++;
+
+        sut.StartStep();
+        yield return null;
+
+        var overlayInstance = GameObject.Find("WelcomeOverlayPrefab(Clone)");
+        Assert.IsNotNull(overlayInstance, "Overlay should exist before opening another window.");
+
+        wm.OpenWindow("SettingsWindow");
+        yield return null;
+
+        Assert.AreEqual(0, completedCount, "StepCompleted should NOT fire when a non-main-menu window opens.");
+
+        var stillThere = GameObject.Find("WelcomeOverlayPrefab(Clone)");
+        Assert.IsNotNull(stillThere, "Overlay should remain when a non-main-menu window opens.");
+    }
+
+    [UnityTest]
+    public IEnumerator EndStep_Is_Idempotent()
+    {
+        yield return null;
+        DisableRuntimePlaybackSystems();
+
+        var sutGO = new GameObject("WelcomeStep_SUT");
+        var sut = sutGO.AddComponent<EndStepTutorial>();
+
+        var overlayPrefab = new GameObject("WelcomeOverlayPrefab");
+        var btnGO = new GameObject("NextButton");
+        btnGO.transform.SetParent(overlayPrefab.transform, false);
+        btnGO.AddComponent<RectTransform>();
+        btnGO.AddComponent<Image>();
+        btnGO.AddComponent<Button>();
+
+        typeof(EndStepTutorial)
+            .GetField("OverlayPrefab", BindingFlags.Instance | BindingFlags.NonPublic)
+            .SetValue(sut, overlayPrefab);
+
+        int completedCount = 0;
+        sut.StepCompleted += () => completedCount++;
+
+        sut.StartStep();
+        yield return null;
+
+        Assert.IsNotNull(GameObject.Find("WelcomeOverlayPrefab(Clone)"), "Overlay should exist after StartStep().");
+
+        sut.EndStep();
+        yield return null;
+        sut.EndStep();
+        yield return null;
+
+        Assert.IsNull(GameObject.Find("WelcomeOverlayPrefab(Clone)"), "Overlay should be destroyed after EndStep() and not recreated by a second call.");
+        Assert.AreEqual(0, completedCount, "EndStep() must not invoke StepCompleted.");
+    }
+
+    [UnityTest]
+    public IEnumerator StartStep_DoesNot_Complete_Without_UserAction()
+    {
+        yield return null;
+        DisableRuntimePlaybackSystems();
+
+        var sutGO = new GameObject("WelcomeStep_SUT");
+        var sut = sutGO.AddComponent<EndStepTutorial>();
+
+        var overlayPrefab = new GameObject("WelcomeOverlayPrefab");
+        var btnGO = new GameObject("NextButton");
+        btnGO.transform.SetParent(overlayPrefab.transform, false);
+        btnGO.AddComponent<RectTransform>();
+        btnGO.AddComponent<Image>();
+        btnGO.AddComponent<Button>();
+
+        typeof(EndStepTutorial)
+            .GetField("OverlayPrefab", BindingFlags.Instance | BindingFlags.NonPublic)
+            .SetValue(sut, overlayPrefab);
+
+        int completedCount = 0;
+        sut.StepCompleted += () => completedCount++;
+
+        sut.StartStep();
+        yield return null;
+
+        Assert.AreEqual(0, completedCount, "StepCompleted must not fire on StartStep() alone.");
+
+        var overlayInstance = GameObject.Find("WelcomeOverlayPrefab(Clone)");
+        Assert.IsNotNull(overlayInstance, "Overlay should exist after StartStep() when not skipping.");
+    }
+
+
+
     private static void SafeClose(WindowManager wm, string key)
     {
         if (wm == null || string.IsNullOrEmpty(key)) return;
 
         try
         {
-            // 1) Close by direct scene object name
             var go = GameObject.Find(key);
             if (go)
             {
@@ -64,10 +251,9 @@ public class EndStepTutorialTests
                 if (win) { wm.CloseWindow(win); return; }
             }
 
-            // 2) Close any live Window components whose names match (handle "(Clone)")
             foreach (var w in Resources.FindObjectsOfTypeAll<Window>())
             {
-                if (!w || !w.gameObject.scene.IsValid()) continue; // skip assets/prefabs
+                if (!w || !w.gameObject.scene.IsValid()) continue;
                 if (w.name == key || w.name.Contains(key))
                 {
                     if (!w.gameObject.activeInHierarchy) w.gameObject.SetActive(true);
@@ -76,9 +262,8 @@ public class EndStepTutorialTests
                 }
             }
 
-            // IMPORTANT: do NOT open anything here. If it’s not present, we’re done.
         }
-        catch { /* swallow teardown errors */ }
+        catch { }
     }
 
     private static void DisableRuntimePlaybackSystems()
@@ -93,14 +278,11 @@ public class EndStepTutorialTests
             tm.enabled = false;
     }
 
-
     private static void ResetWindowOpenedEvent()
     {
-        // Try instance field first
         var wmGo = GameObject.Find("WindowManager");
         var wm = wmGo ? wmGo.GetComponent<WindowManager>() : null;
 
-        // Instance event backing field
         if (wm != null)
         {
             var f = typeof(WindowManager).GetField("WindowOpened",
@@ -108,240 +290,9 @@ public class EndStepTutorialTests
             if (f != null) { try { f.SetValue(wm, null); } catch { } }
         }
 
-        // Static event backing field (if defined that way in your codebase)
         var fs = typeof(WindowManager).GetField("WindowOpened",
             BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
         if (fs != null) { try { fs.SetValue(null, null); } catch { } }
-    }
-
-
-    [UnityTest]
-    public IEnumerator StartStep_CreatesOverlay_And_PositionsIt()
-    {
-        yield return null; // let scene load
-        DisableRuntimePlaybackSystems();
-
-        // Ensure Main Menu is NOT open (fresh scene should be fine)
-        var sutGO = new GameObject("WelcomeStep_SUT");
-        var sut = sutGO.AddComponent<EndStepTutorial>();
-
-        // Build a minimal prefab with a Button child so StartStep can wire it (no click in this test).
-        var overlayPrefab = new GameObject("WelcomeOverlayPrefab");
-        var buttonGO = new GameObject("NextButton");
-        buttonGO.transform.SetParent(overlayPrefab.transform, false);
-        buttonGO.AddComponent<RectTransform>();
-        buttonGO.AddComponent<Image>();  // Button requires a target graphic
-        buttonGO.AddComponent<Button>();
-
-        // Inject the private [SerializeField] OverlayPrefab via reflection
-        typeof(EndStepTutorial)
-            .GetField("OverlayPrefab", BindingFlags.Instance | BindingFlags.NonPublic)
-            .SetValue(sut, overlayPrefab);
-
-        // Expected from TutorialManager static getters
-        Vector3 expectedPos = TutorialManager.GetStepPosition();
-        Vector3 expectedForward = TutorialManager.GetStepForward();
-
-        // Act
-        sut.StartStep();
-        yield return null;
-
-        // Find the instantiated overlay (Unity names it "<prefab name>(Clone)")
-        var overlayInstance = GameObject.Find("WelcomeOverlayPrefab(Clone)");
-        Assert.IsNotNull(overlayInstance, "Overlay should be instantiated from OverlayPrefab.");
-
-        // Assert position (with small tolerance) and orientation (match forward direction)
-        float posDelta = Vector3.Distance(expectedPos, overlayInstance.transform.position);
-        Assert.LessOrEqual(posDelta, 0.01f, $"Overlay position should match TutorialManager.GetStepPosition(). Δ={posDelta}");
-
-        float angleDelta = Vector3.Angle(expectedForward, overlayInstance.transform.forward);
-        Assert.LessOrEqual(angleDelta, 1.0f, $"Overlay forward should align with TutorialManager.GetStepForward(). Δ°={angleDelta}");
-    }
-
-    [UnityTest]
-    public IEnumerator NextButton_Click_Completes_And_CleansUp()
-    {
-        yield return null; // let scene load
-        DisableRuntimePlaybackSystems();
-
-        // SUT
-        var sutGO = new GameObject("WelcomeStep_SUT");
-        var sut = sutGO.AddComponent<EndStepTutorial>();
-
-        // Minimal overlay prefab with a Button child
-        var overlayPrefab = new GameObject("WelcomeOverlayPrefab");
-        var btnGO = new GameObject("NextButton");
-        btnGO.transform.SetParent(overlayPrefab.transform, false);
-        btnGO.AddComponent<RectTransform>();
-        btnGO.AddComponent<Image>();
-        var button = btnGO.AddComponent<Button>();
-
-        // Inject private OverlayPrefab via reflection
-        typeof(EndStepTutorial)
-            .GetField("OverlayPrefab", BindingFlags.Instance | BindingFlags.NonPublic)
-            .SetValue(sut, overlayPrefab);
-
-        // Track completion
-        int completedCount = 0;
-        sut.StepCompleted += () => completedCount++;
-
-        // Start step -> overlay should appear
-        sut.StartStep();
-        yield return null;
-
-        // Grab the instantiated overlay and its button
-        var overlayInstance = GameObject.Find("WelcomeOverlayPrefab(Clone)");
-        Assert.IsNotNull(overlayInstance, "Overlay should be instantiated before clicking Next.");
-
-        var runtimeButton = overlayInstance.GetComponentInChildren<Button>(true);
-        Assert.IsNotNull(runtimeButton, "Overlay should contain a Button to proceed.");
-
-        // Click Next
-        runtimeButton.onClick.Invoke();
-        yield return null;      // allow EndStep() to run
-        yield return null;      // allow Destroy(overlayInstance) to complete
-
-        // Assert: StepCompleted fired exactly once
-        Assert.AreEqual(1, completedCount, "StepCompleted should fire exactly once on Next click.");
-
-        // Assert: overlay destroyed (should not be found anymore)
-        var stillThere = GameObject.Find("WelcomeOverlayPrefab(Clone)");
-        Assert.IsNull(stillThere, "Overlay should be destroyed after completion.");
-    }
-
-    
-
-    [UnityTest]
-    public IEnumerator WindowOpened_OtherWindow_DoesNothing()
-    {
-        yield return null; // let scene load
-        DisableRuntimePlaybackSystems();
-
-        var wm = GameObject.Find("WindowManager").GetComponent<WindowManager>();
-
-        // SUT
-        var sutGO = new GameObject("WelcomeStep_SUT");
-        var sut = sutGO.AddComponent<EndStepTutorial>();
-
-        // Minimal overlay prefab with a Button child
-        var overlayPrefab = new GameObject("WelcomeOverlayPrefab");
-        var btnGO = new GameObject("NextButton");
-        btnGO.transform.SetParent(overlayPrefab.transform, false);
-        btnGO.AddComponent<RectTransform>();
-        btnGO.AddComponent<Image>();
-        btnGO.AddComponent<Button>();
-
-        // Inject private OverlayPrefab
-        typeof(EndStepTutorial)
-            .GetField("OverlayPrefab", BindingFlags.Instance | BindingFlags.NonPublic)
-            .SetValue(sut, overlayPrefab);
-
-        int completedCount = 0;
-        sut.StepCompleted += () => completedCount++;
-
-        // Start step (should instantiate overlay and subscribe listener)
-        sut.StartStep();
-        yield return null;
-
-        var overlayInstance = GameObject.Find("WelcomeOverlayPrefab(Clone)");
-        Assert.IsNotNull(overlayInstance, "Overlay should exist before opening another window.");
-
-        // Act: open a different window (NOT MainMenu)
-        // Use a key that exists in your project, e.g., "SettingsWindow"
-        wm.OpenWindow("SettingsWindow");
-        yield return null; // allow any handlers to run
-
-        // Assert: no completion, overlay still present
-        Assert.AreEqual(0, completedCount, "StepCompleted should NOT fire when a non-main-menu window opens.");
-
-        var stillThere = GameObject.Find("WelcomeOverlayPrefab(Clone)");
-        Assert.IsNotNull(stillThere, "Overlay should remain when a non-main-menu window opens.");
-    }
-
-
-    [UnityTest]
-    public IEnumerator EndStep_Is_Idempotent()
-    {
-        yield return null; // let scene load
-        DisableRuntimePlaybackSystems();
-
-        // SUT
-        var sutGO = new GameObject("WelcomeStep_SUT");
-        var sut = sutGO.AddComponent<EndStepTutorial>();
-
-        // Minimal overlay prefab with a Button child
-        var overlayPrefab = new GameObject("WelcomeOverlayPrefab");
-        var btnGO = new GameObject("NextButton");
-        btnGO.transform.SetParent(overlayPrefab.transform, false);
-        btnGO.AddComponent<RectTransform>();
-        btnGO.AddComponent<Image>();
-        btnGO.AddComponent<Button>();
-
-        // Inject private OverlayPrefab
-        typeof(EndStepTutorial)
-            .GetField("OverlayPrefab", BindingFlags.Instance | BindingFlags.NonPublic)
-            .SetValue(sut, overlayPrefab);
-
-        // Track completion to ensure EndStep() itself does not raise it
-        int completedCount = 0;
-        sut.StepCompleted += () => completedCount++;
-
-        // Start step -> overlay should appear
-        sut.StartStep();
-        yield return null;
-
-        // Sanity: overlay exists
-        Assert.IsNotNull(GameObject.Find("WelcomeOverlayPrefab(Clone)"), "Overlay should exist after StartStep().");
-
-        // Act: call EndStep() twice
-        sut.EndStep();  // first call should destroy overlay and unsubscribe
-        yield return null;
-        sut.EndStep();  // second call should be a no-op
-        yield return null;
-
-        // Assert: overlay destroyed and not recreated
-        Assert.IsNull(GameObject.Find("WelcomeOverlayPrefab(Clone)"), "Overlay should be destroyed after EndStep() and not recreated by a second call.");
-
-        // Assert: no completion fired by EndStep()
-        Assert.AreEqual(0, completedCount, "EndStep() must not invoke StepCompleted.");
-    }
-
-     [UnityTest]
-    public IEnumerator StartStep_DoesNot_Complete_Without_UserAction()
-    {
-        yield return null; // let scene load
-        DisableRuntimePlaybackSystems();
-
-        // SUT
-        var sutGO = new GameObject("WelcomeStep_SUT");
-        var sut = sutGO.AddComponent<EndStepTutorial>();
-
-        // Minimal overlay prefab with a Button child (we won't click it in this test)
-        var overlayPrefab = new GameObject("WelcomeOverlayPrefab");
-        var btnGO = new GameObject("NextButton");
-        btnGO.transform.SetParent(overlayPrefab.transform, false);
-        btnGO.AddComponent<RectTransform>();
-        btnGO.AddComponent<Image>();
-        btnGO.AddComponent<Button>();
-
-        // Inject private OverlayPrefab
-        typeof(EndStepTutorial)
-            .GetField("OverlayPrefab", BindingFlags.Instance | BindingFlags.NonPublic)
-            .SetValue(sut, overlayPrefab);
-
-        int completedCount = 0;
-        sut.StepCompleted += () => completedCount++;
-
-        // Act: Start normally (Main Menu is not open, and we won't click Next)
-        sut.StartStep();
-        yield return null;
-
-        // Assert: no completion yet
-        Assert.AreEqual(0, completedCount, "StepCompleted must not fire on StartStep() alone.");
-
-        // Sanity: overlay exists and remains
-        var overlayInstance = GameObject.Find("WelcomeOverlayPrefab(Clone)");
-        Assert.IsNotNull(overlayInstance, "Overlay should exist after StartStep() when not skipping.");
     }
 
 }
